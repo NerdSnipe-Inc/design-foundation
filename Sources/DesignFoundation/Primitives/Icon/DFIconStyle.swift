@@ -2,14 +2,14 @@ import SwiftUI
 
 // MARK: - Source
 
-public enum DFIconSource {
+public enum DFIconSource: Sendable {
     case symbol(String)    // SF Symbol name
     case image(Image)      // Custom image
 }
 
 // MARK: - Configuration
 
-public struct DFIconStyleConfiguration {
+public struct DFIconStyleConfiguration: Sendable {
     public let source: DFIconSource
     public let size: CGFloat
     public let isDisabled: Bool
@@ -35,7 +35,7 @@ public protocol DFIconStyle {
 public struct AnyDFIconStyle: DFIconStyle, @unchecked Sendable {
     private let _makeBody: (DFIconStyleConfiguration) -> AnyView
 
-    public init<S: DFIconStyle>(_ style: S) {
+    public init<S: DFIconStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
@@ -58,7 +58,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfIconStyle<S: DFIconStyle>(_ style: S) -> some View {
+    func dfIconStyle<S: DFIconStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfIconStyle, AnyDFIconStyle(style))
     }
 }
@@ -86,6 +86,7 @@ private func resolveImage(source: DFIconSource, size: CGFloat) -> some View {
                 .scaledToFit()
                 .frame(width: size, height: size)
         case .image(let image):
+            // Caller is responsible for providing a resizable Image; non-resizable assets will not scale correctly
             image
                 .resizable()
                 .scaledToFit()
@@ -96,7 +97,7 @@ private func resolveImage(source: DFIconSource, size: CGFloat) -> some View {
 
 // MARK: - Built-in: Standard (default)
 
-public struct DFStandardIconStyle: DFIconStyle {
+public struct DFStandardIconStyle: DFIconStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFIconStyleConfiguration) -> some View {
@@ -112,7 +113,7 @@ public struct DFStandardIconStyle: DFIconStyle {
 
 // MARK: - Built-in: Tinted
 
-public struct DFTintedIconStyle: DFIconStyle {
+public struct DFTintedIconStyle: DFIconStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFIconStyleConfiguration) -> some View {
@@ -128,7 +129,7 @@ public struct DFTintedIconStyle: DFIconStyle {
 
 // MARK: - Built-in: Secondary
 
-public struct DFSecondaryIconStyle: DFIconStyle {
+public struct DFSecondaryIconStyle: DFIconStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFIconStyleConfiguration) -> some View {
