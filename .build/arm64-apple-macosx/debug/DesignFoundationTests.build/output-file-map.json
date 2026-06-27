@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/primary.swiftdeps"
+  },
+  "/Users/nerdsnipe/Projects/DesignFoundation/Tests/DesignFoundationTests/Core/DFEnvironmentTests.swift": {
+    "dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFEnvironmentTests.d",
+    "object": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFEnvironmentTests.swift.o",
+    "swiftmodule": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFEnvironmentTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFEnvironmentTests.swiftdeps",
+    "diagnostics": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFEnvironmentTests.dia"
+  },
+  "/Users/nerdsnipe/Projects/DesignFoundation/Tests/DesignFoundationTests/Core/DFPlatformContextTests.swift": {
+    "dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFPlatformContextTests.d",
+    "object": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFPlatformContextTests.swift.o",
+    "swiftmodule": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFPlatformContextTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFPlatformContextTests.swiftdeps",
+    "diagnostics": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFPlatformContextTests.dia"
+  },
+  "/Users/nerdsnipe/Projects/DesignFoundation/Tests/DesignFoundationTests/Core/DFThemeTests.swift": {
+    "dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFThemeTests.d",
+    "object": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFThemeTests.swift.o",
+    "swiftmodule": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFThemeTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFThemeTests.swiftdeps",
+    "diagnostics": "/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationTests.build/DFThemeTests.dia"
+  }
+}

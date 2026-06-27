@@ -39,7 +39,12 @@ public struct DFPlatformContext: Sendable {
     #endif
 
     /// Returns a DFPlatformContext resolved for the current process environment.
-    /// Use this when injecting via environment modifier.
+    ///
+    /// **Note:** `horizontalSizeClass` is hardcoded to `.regular` in this static context,
+    /// as a static property cannot read SwiftUI environment values. For accurate, dynamic
+    /// size class resolution within view hierarchies, use the `.dfTheme()` view modifier,
+    /// which reads `horizontalSizeClass` from the environment and injects the correct
+    /// DFPlatformContext.
     @MainActor
     public static var current: DFPlatformContext {
         #if os(iOS) || os(visionOS)
