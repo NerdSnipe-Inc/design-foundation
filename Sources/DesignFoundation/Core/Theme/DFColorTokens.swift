@@ -40,62 +40,91 @@ public struct DFColorTokens: Sendable {
     /// Setting to false locks components to the token values regardless of dark/light mode.
     public var respectsColorScheme: Bool
 
+#if os(iOS) || os(tvOS)
     public init(
-        primary: Color? = nil,
-        secondary: Color? = nil,
-        accent: Color? = nil,
-        background: Color? = nil,
-        surface: Color? = nil,
-        surfaceElevated: Color? = nil,
-        textPrimary: Color? = nil,
-        textSecondary: Color? = nil,
-        textDisabled: Color? = nil,
-        border: Color? = nil,
-        interactiveFill: Color? = nil,
-        interactiveHover: Color? = nil,
-        interactivePressed: Color? = nil,
-        interactiveDisabled: Color? = nil,
-        destructive: Color? = nil,
-        success: Color? = nil,
-        warning: Color? = nil,
-        info: Color? = nil,
+        primary: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        secondary: Color = Color(white: 0.55),
+        accent: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        background: Color = Color(UIColor.systemBackground),
+        surface: Color = Color(UIColor.secondarySystemBackground),
+        surfaceElevated: Color = Color(UIColor.tertiarySystemBackground),
+        textPrimary: Color = Color(UIColor.label),
+        textSecondary: Color = Color(UIColor.secondaryLabel),
+        textDisabled: Color = Color(UIColor.tertiaryLabel),
+        border: Color = Color(UIColor.separator),
+        interactiveFill: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        interactiveHover: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.85),
+        interactivePressed: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.7),
+        interactiveDisabled: Color = Color(UIColor.systemFill),
+        destructive: Color = Color(UIColor.systemRed),
+        success: Color = Color(UIColor.systemGreen),
+        warning: Color = Color(UIColor.systemOrange),
+        info: Color = Color(UIColor.systemBlue),
         respectsColorScheme: Bool = true
     ) {
-        self.primary = primary ?? Color(red: 0.0, green: 0.478, blue: 1.0)
-        self.secondary = secondary ?? Color(white: 0.55)
-        self.accent = accent ?? Color(red: 0.0, green: 0.478, blue: 1.0)
-#if os(iOS) || os(tvOS)
-        self.background = background ?? Color(UIColor.systemBackground)
-        self.surface = surface ?? Color(UIColor.secondarySystemBackground)
-        self.surfaceElevated = surfaceElevated ?? Color(UIColor.tertiarySystemBackground)
-        self.textPrimary = textPrimary ?? Color(UIColor.label)
-        self.textSecondary = textSecondary ?? Color(UIColor.secondaryLabel)
-        self.textDisabled = textDisabled ?? Color(UIColor.tertiaryLabel)
-        self.border = border ?? Color(UIColor.separator)
-        self.interactiveDisabled = interactiveDisabled ?? Color(UIColor.systemFill)
-        self.destructive = destructive ?? Color(UIColor.systemRed)
-        self.success = success ?? Color(UIColor.systemGreen)
-        self.warning = warning ?? Color(UIColor.systemOrange)
-        self.info = info ?? Color(UIColor.systemBlue)
-#else
-        self.background = background ?? Color(NSColor.windowBackgroundColor)
-        self.surface = surface ?? Color(NSColor.controlBackgroundColor)
-        self.surfaceElevated = surfaceElevated ?? Color(NSColor.controlColor)
-        self.textPrimary = textPrimary ?? Color(NSColor.textColor)
-        self.textSecondary = textSecondary ?? Color(NSColor.secondaryLabelColor)
-        self.textDisabled = textDisabled ?? Color(NSColor.tertiaryLabelColor)
-        self.border = border ?? Color(NSColor.separatorColor)
-        self.interactiveDisabled = interactiveDisabled ?? Color(NSColor.disabledControlTextColor)
-        self.destructive = destructive ?? Color(NSColor.systemRed)
-        self.success = success ?? Color(NSColor.systemGreen)
-        self.warning = warning ?? Color(NSColor.systemOrange)
-        self.info = info ?? Color(NSColor.systemBlue)
-#endif
-        self.interactiveFill = interactiveFill ?? Color(red: 0.0, green: 0.478, blue: 1.0)
-        self.interactiveHover = interactiveHover ?? Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.85)
-        self.interactivePressed = interactivePressed ?? Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.7)
+        self.primary = primary
+        self.secondary = secondary
+        self.accent = accent
+        self.background = background
+        self.surface = surface
+        self.surfaceElevated = surfaceElevated
+        self.textPrimary = textPrimary
+        self.textSecondary = textSecondary
+        self.textDisabled = textDisabled
+        self.border = border
+        self.interactiveFill = interactiveFill
+        self.interactiveHover = interactiveHover
+        self.interactivePressed = interactivePressed
+        self.interactiveDisabled = interactiveDisabled
+        self.destructive = destructive
+        self.success = success
+        self.warning = warning
+        self.info = info
         self.respectsColorScheme = respectsColorScheme
     }
+#else
+    public init(
+        primary: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        secondary: Color = Color(white: 0.55),
+        accent: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        background: Color = Color(NSColor.windowBackgroundColor),
+        surface: Color = Color(NSColor.controlBackgroundColor),
+        surfaceElevated: Color = Color(NSColor.controlColor),
+        textPrimary: Color = Color(NSColor.textColor),
+        textSecondary: Color = Color(NSColor.secondaryLabelColor),
+        textDisabled: Color = Color(NSColor.tertiaryLabelColor),
+        border: Color = Color(NSColor.separatorColor),
+        interactiveFill: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
+        interactiveHover: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.85),
+        interactivePressed: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.7),
+        interactiveDisabled: Color = Color(NSColor.disabledControlTextColor),
+        destructive: Color = Color(NSColor.systemRed),
+        success: Color = Color(NSColor.systemGreen),
+        warning: Color = Color(NSColor.systemOrange),
+        info: Color = Color(NSColor.systemBlue),
+        respectsColorScheme: Bool = true
+    ) {
+        self.primary = primary
+        self.secondary = secondary
+        self.accent = accent
+        self.background = background
+        self.surface = surface
+        self.surfaceElevated = surfaceElevated
+        self.textPrimary = textPrimary
+        self.textSecondary = textSecondary
+        self.textDisabled = textDisabled
+        self.border = border
+        self.interactiveFill = interactiveFill
+        self.interactiveHover = interactiveHover
+        self.interactivePressed = interactivePressed
+        self.interactiveDisabled = interactiveDisabled
+        self.destructive = destructive
+        self.success = success
+        self.warning = warning
+        self.info = info
+        self.respectsColorScheme = respectsColorScheme
+    }
+#endif
 
     public static let `default` = DFColorTokens()
 }

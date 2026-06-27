@@ -2,3 +2,4 @@
 *.xcodeproj/
 *.xcworkspace/
 .DS_Store
+.swiftpm/xcode/xcuserdata/

@@ -82,15 +82,16 @@ public struct DFPlatformContext: Sendable {
 // MARK: - Environment
 
 private struct DFPlatformContextKey: EnvironmentKey {
-    // Use a non-@MainActor static property for EnvironmentKey conformance
     static let defaultValue: DFPlatformContext = {
+        // This sentinel is only used before .dfTheme() is applied.
+        // DFThemeModifier always overwrites this with the accurate runtime value.
         #if os(iOS) || os(visionOS)
-        let idiom = UIDevice.current.userInterfaceIdiom
+        let idiom = UIUserInterfaceIdiom.phone  // safe compile-time constant, no @MainActor
         #elseif os(macOS)
         #if canImport(UIKit)
         let idiom = UIUserInterfaceIdiom.mac
         #else
-        let idiom = 5 as Int
+        let idiom = 5 as Int  // mac idiom raw value
         #endif
         #else
         #if canImport(UIKit)
@@ -104,11 +105,7 @@ private struct DFPlatformContextKey: EnvironmentKey {
             idiom: idiom,
             horizontalSizeClass: .regular,
             isLiquidGlassAvailable: {
-                if #available(iOS 26, macOS 26, *) {
-                    return true
-                } else {
-                    return false
-                }
+                if #available(iOS 26, macOS 26, *) { return true } else { return false }
             }()
         )
     }()
