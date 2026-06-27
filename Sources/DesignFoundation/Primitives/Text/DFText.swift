@@ -20,8 +20,7 @@ public struct DFText: View {
             isDisabled: !isEnabled,
             theme: theme
         )
-        AnyView(style.makeBody(configuration: config))
-            .accessibilityElement()
+        style.makeBody(configuration: config)
             .accessibilityLabel(content)
     }
 }

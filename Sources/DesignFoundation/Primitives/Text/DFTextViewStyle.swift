@@ -19,7 +19,7 @@ public enum DFTextScale: String, Sendable, CaseIterable {
 
 // MARK: - Configuration
 
-public struct DFTextViewStyleConfiguration {
+public struct DFTextViewStyleConfiguration: Sendable {
     public let content: String
     public let scale: DFTextScale
     public let isDisabled: Bool
