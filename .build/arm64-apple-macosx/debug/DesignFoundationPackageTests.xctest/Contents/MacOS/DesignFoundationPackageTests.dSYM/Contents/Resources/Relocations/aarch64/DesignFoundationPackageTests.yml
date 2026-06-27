@@ -1,5 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/nerdsnipe/Projects/DesignFoundation/.build/arm64-apple-macosx/debug/DesignFoundationPackageTests.xctest/Contents/MacOS/DesignFoundationPackageTests'
-relocations:     []
-...
