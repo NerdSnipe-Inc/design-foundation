@@ -131,3 +131,30 @@ struct DFComponentTokensTests {
         #expect(tokens.card.padding == 16)
     }
 }
+
+@Suite("DFTheme")
+struct DFThemeTests {
+
+    @Test("default theme has default color tokens")
+    func defaultThemeColors() {
+        let theme = DFTheme.default
+        #expect(theme.colors.respectsColorScheme == true)
+    }
+
+    @Test("theme mutation is independent (value semantics)")
+    func themeValueSemantics() {
+        var theme1 = DFTheme.default
+        let theme2 = DFTheme.default
+        theme1.colors.primary = .red
+        // theme2 must be unaffected
+        #expect(theme2.colors.primary != .red)
+    }
+
+    @Test("custom initialiser composes correctly")
+    func customInit() {
+        let theme = DFTheme(colors: DFColorTokens(primary: .green))
+        #expect(theme.colors.primary == .green)
+        // Unspecified tokens still use defaults
+        #expect(theme.spacing.md == DFSpacingTokens.default.md)
+    }
+}
