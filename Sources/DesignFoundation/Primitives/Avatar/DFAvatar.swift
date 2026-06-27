@@ -40,7 +40,7 @@ public struct DFAvatar: View {
             presence: presence,
             theme: theme
         )
-        AnyView(style.makeBody(configuration: config))
+        style.makeBody(configuration: config)
             .accessibilityElement()
             .accessibilityLabel(accessibilityName ?? "Avatar")
             .accessibilityAddTraits(.isImage)
