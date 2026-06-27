@@ -9,7 +9,7 @@ public enum DFDividerOrientation: String, Sendable, CaseIterable {
 
 // MARK: - Configuration
 
-public struct DFDividerStyleConfiguration {
+public struct DFDividerStyleConfiguration: Sendable {
     public let orientation: DFDividerOrientation
     public let label: String?
     public let theme: DFTheme
