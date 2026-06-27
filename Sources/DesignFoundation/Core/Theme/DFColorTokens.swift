@@ -1,4 +1,9 @@
 import SwiftUI
+#if os(iOS) || os(tvOS)
+import UIKit
+#else
+import AppKit
+#endif
 
 public struct DFColorTokens: Sendable {
 
@@ -59,21 +64,36 @@ public struct DFColorTokens: Sendable {
         self.primary = primary ?? Color(red: 0.0, green: 0.478, blue: 1.0)
         self.secondary = secondary ?? Color(white: 0.55)
         self.accent = accent ?? Color(red: 0.0, green: 0.478, blue: 1.0)
-        self.background = background ?? Color(white: 0.95)
-        self.surface = surface ?? Color(white: 0.9)
-        self.surfaceElevated = surfaceElevated ?? Color(white: 0.85)
-        self.textPrimary = textPrimary ?? Color(white: 0.1)
-        self.textSecondary = textSecondary ?? Color(white: 0.4)
-        self.textDisabled = textDisabled ?? Color(white: 0.6)
-        self.border = border ?? Color(white: 0.7)
+#if os(iOS) || os(tvOS)
+        self.background = background ?? Color(UIColor.systemBackground)
+        self.surface = surface ?? Color(UIColor.secondarySystemBackground)
+        self.surfaceElevated = surfaceElevated ?? Color(UIColor.tertiarySystemBackground)
+        self.textPrimary = textPrimary ?? Color(UIColor.label)
+        self.textSecondary = textSecondary ?? Color(UIColor.secondaryLabel)
+        self.textDisabled = textDisabled ?? Color(UIColor.tertiaryLabel)
+        self.border = border ?? Color(UIColor.separator)
+        self.interactiveDisabled = interactiveDisabled ?? Color(UIColor.systemFill)
+        self.destructive = destructive ?? Color(UIColor.systemRed)
+        self.success = success ?? Color(UIColor.systemGreen)
+        self.warning = warning ?? Color(UIColor.systemOrange)
+        self.info = info ?? Color(UIColor.systemBlue)
+#else
+        self.background = background ?? Color(NSColor.windowBackgroundColor)
+        self.surface = surface ?? Color(NSColor.controlBackgroundColor)
+        self.surfaceElevated = surfaceElevated ?? Color(NSColor.controlColor)
+        self.textPrimary = textPrimary ?? Color(NSColor.textColor)
+        self.textSecondary = textSecondary ?? Color(NSColor.secondaryLabelColor)
+        self.textDisabled = textDisabled ?? Color(NSColor.tertiaryLabelColor)
+        self.border = border ?? Color(NSColor.separatorColor)
+        self.interactiveDisabled = interactiveDisabled ?? Color(NSColor.disabledControlTextColor)
+        self.destructive = destructive ?? Color(NSColor.systemRed)
+        self.success = success ?? Color(NSColor.systemGreen)
+        self.warning = warning ?? Color(NSColor.systemOrange)
+        self.info = info ?? Color(NSColor.systemBlue)
+#endif
         self.interactiveFill = interactiveFill ?? Color(red: 0.0, green: 0.478, blue: 1.0)
         self.interactiveHover = interactiveHover ?? Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.85)
         self.interactivePressed = interactivePressed ?? Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.7)
-        self.interactiveDisabled = interactiveDisabled ?? Color(white: 0.8)
-        self.destructive = destructive ?? Color(red: 1.0, green: 0.231, blue: 0.188)
-        self.success = success ?? Color(red: 0.204, green: 0.78, blue: 0.349)
-        self.warning = warning ?? Color(red: 1.0, green: 0.584, blue: 0.0)
-        self.info = info ?? Color(red: 0.0, green: 0.478, blue: 1.0)
         self.respectsColorScheme = respectsColorScheme
     }
 
