@@ -100,7 +100,6 @@ public struct DFFilledBadgeStyle: DFBadgeStyle, Sendable {
 
     public func makeBody(configuration: DFBadgeStyleConfiguration) -> some View {
         let theme = configuration.theme
-        let radius = theme.components.badge.cornerRadius ?? theme.radius.full
         let hPad = theme.components.badge.horizontalPadding ?? theme.spacing.xs
         let vPad = theme.components.badge.verticalPadding ?? 2
 
@@ -122,7 +121,6 @@ public struct DFFilledBadgeStyle: DFBadgeStyle, Sendable {
                 .background(
                     Capsule().fill(theme.colors.destructive)
                 )
-                .clipShape(RoundedRectangle(cornerRadius: radius))
         )
     }
 }

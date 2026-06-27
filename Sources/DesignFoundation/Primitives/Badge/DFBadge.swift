@@ -22,7 +22,7 @@ public struct DFBadge: View {
 
     public var body: some View {
         let config = DFBadgeStyleConfiguration(variant: variant, theme: theme)
-        AnyView(style.makeBody(configuration: config))
+        style.makeBody(configuration: config)
             .accessibilityElement()
             .accessibilityLabel(accessibilityLabel)
             .accessibilityAddTraits(.isStaticText)
