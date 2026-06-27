@@ -42,7 +42,7 @@ public protocol DFButtonStyle {
 
 // MARK: - Type Erasure
 
-public struct AnyDFButtonStyle: DFButtonStyle {
+public struct AnyDFButtonStyle: DFButtonStyle, @unchecked Sendable {
     private let _makeBody: (DFButtonStyleConfiguration) -> AnyView
 
     public init<S: DFButtonStyle>(_ style: S) {
@@ -57,7 +57,7 @@ public struct AnyDFButtonStyle: DFButtonStyle {
 // MARK: - Environment
 
 private struct DFButtonStyleKey: EnvironmentKey {
-    nonisolated(unsafe) static let defaultValue: AnyDFButtonStyle = AnyDFButtonStyle(DFFilledButtonStyle())
+    static let defaultValue: AnyDFButtonStyle = AnyDFButtonStyle(DFFilledButtonStyle())
 }
 
 public extension EnvironmentValues {
@@ -166,7 +166,7 @@ public struct DFGhostButtonStyle: DFButtonStyle {
             .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : color)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
-            .opacity(configuration.isPressed ? 0.6 : (configuration.isDisabled ? 0.4 : 1.0))
+            .opacity(configuration.isPressed ? 0.6 : (configuration.isDisabled ? 0.5 : 1.0))
             .animation(theme.animation.fast, value: configuration.isPressed)
     }
 }

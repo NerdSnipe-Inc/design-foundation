@@ -30,19 +30,18 @@ public struct DFButton: View {
             role: role,
             theme: theme
         )
-        AnyView(style.makeBody(configuration: config))
-            .gesture(
+        style.makeBody(configuration: config)
+            .onTapGesture {
+                if isEnabled { action() }
+            }
+            .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in isPressed = true }
-                    .onEnded { _ in
-                        isPressed = false
-                        if isEnabled { action() }
-                    }
+                    .onEnded { _ in isPressed = false }
             )
             .accessibilityElement()
             .accessibilityLabel(label)
             .accessibilityAddTraits(.isButton)
-            .accessibilityAddTraits(role == .destructive ? [.isButton] : [])
-            .accessibilityRemoveTraits(isEnabled ? [] : .isButton)
+            .accessibilityHint(role == .destructive ? "Destructive action" : "")
     }
 }
