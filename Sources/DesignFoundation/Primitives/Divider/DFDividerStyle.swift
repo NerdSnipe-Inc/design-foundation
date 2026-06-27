@@ -33,7 +33,7 @@ public protocol DFDividerStyle {
 public struct AnyDFDividerStyle: DFDividerStyle, @unchecked Sendable {
     private let _makeBody: (DFDividerStyleConfiguration) -> AnyView
 
-    public init<S: DFDividerStyle>(_ style: S) {
+    public init<S: DFDividerStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
@@ -56,7 +56,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfDividerStyle<S: DFDividerStyle>(_ style: S) -> some View {
+    func dfDividerStyle<S: DFDividerStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfDividerStyle, AnyDFDividerStyle(style))
     }
 }
@@ -87,7 +87,7 @@ private func dividerLine(color: Color, lineWidth: CGFloat, orientation: DFDivide
 
 // MARK: - Built-in: Standard
 
-public struct DFStandardDividerStyle: DFDividerStyle {
+public struct DFStandardDividerStyle: DFDividerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDividerStyleConfiguration) -> some View {
@@ -109,7 +109,7 @@ public struct DFStandardDividerStyle: DFDividerStyle {
 
 // MARK: - Built-in: Thick
 
-public struct DFThickDividerStyle: DFDividerStyle {
+public struct DFThickDividerStyle: DFDividerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDividerStyleConfiguration) -> some View {
@@ -123,7 +123,7 @@ public struct DFThickDividerStyle: DFDividerStyle {
 
 // MARK: - Built-in: Subtle
 
-public struct DFSubtleDividerStyle: DFDividerStyle {
+public struct DFSubtleDividerStyle: DFDividerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDividerStyleConfiguration) -> some View {

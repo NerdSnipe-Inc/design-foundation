@@ -5,7 +5,7 @@ import SwiftUI
 public enum DFTextScale: String, Sendable, CaseIterable {
     case display, title, headline, body, caption, label
 
-    func style(from theme: DFTheme) -> DFTextStyle {
+    public func style(from theme: DFTheme) -> DFTextStyle {
         switch self {
         case .display:  return theme.typography.display
         case .title:    return theme.typography.title
@@ -45,7 +45,7 @@ public protocol DFTextViewStyle: Sendable {
 public struct AnyDFTextViewStyle: DFTextViewStyle {
     private let _makeBody: @Sendable (DFTextViewStyleConfiguration) -> AnyView
 
-    public init<S: DFTextViewStyle>(_ style: S) {
+    public init<S: DFTextViewStyle & Sendable>(_ style: S) {
         _makeBody = { @Sendable config in AnyView(style.makeBody(configuration: config)) }
     }
 
@@ -68,7 +68,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfTextViewStyle<S: DFTextViewStyle>(_ style: S) -> some View {
+    func dfTextViewStyle<S: DFTextViewStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfTextViewStyle, AnyDFTextViewStyle(style))
     }
 }
@@ -87,7 +87,7 @@ public extension DFTextViewStyle where Self == DFMutedTextViewStyle {
 
 // MARK: - Built-in: Standard (default)
 
-public struct DFStandardTextViewStyle: DFTextViewStyle {
+public struct DFStandardTextViewStyle: DFTextViewStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFTextViewStyleConfiguration) -> some View {
@@ -106,7 +106,7 @@ public struct DFStandardTextViewStyle: DFTextViewStyle {
 
 // MARK: - Built-in: Secondary
 
-public struct DFSecondaryTextViewStyle: DFTextViewStyle {
+public struct DFSecondaryTextViewStyle: DFTextViewStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFTextViewStyleConfiguration) -> some View {
@@ -125,7 +125,7 @@ public struct DFSecondaryTextViewStyle: DFTextViewStyle {
 
 // MARK: - Built-in: Muted
 
-public struct DFMutedTextViewStyle: DFTextViewStyle {
+public struct DFMutedTextViewStyle: DFTextViewStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFTextViewStyleConfiguration) -> some View {

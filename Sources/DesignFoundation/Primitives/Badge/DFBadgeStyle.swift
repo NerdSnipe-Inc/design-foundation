@@ -43,7 +43,7 @@ public protocol DFBadgeStyle {
 public struct AnyDFBadgeStyle: DFBadgeStyle, @unchecked Sendable {
     private let _makeBody: (DFBadgeStyleConfiguration) -> AnyView
 
-    public init<S: DFBadgeStyle>(_ style: S) {
+    public init<S: DFBadgeStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
@@ -66,7 +66,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfBadgeStyle<S: DFBadgeStyle>(_ style: S) -> some View {
+    func dfBadgeStyle<S: DFBadgeStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfBadgeStyle, AnyDFBadgeStyle(style))
     }
 }

@@ -45,7 +45,7 @@ public protocol DFButtonStyle {
 public struct AnyDFButtonStyle: DFButtonStyle, @unchecked Sendable {
     private let _makeBody: (DFButtonStyleConfiguration) -> AnyView
 
-    public init<S: DFButtonStyle>(_ style: S) {
+    public init<S: DFButtonStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
@@ -68,7 +68,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfButtonStyle<S: DFButtonStyle>(_ style: S) -> some View {
+    func dfButtonStyle<S: DFButtonStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfButtonStyle, AnyDFButtonStyle(style))
     }
 }
@@ -90,7 +90,7 @@ public extension DFButtonStyle where Self == DFTintedButtonStyle {
 
 // MARK: - Built-in: Filled (default)
 
-public struct DFFilledButtonStyle: DFButtonStyle {
+public struct DFFilledButtonStyle: DFButtonStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFButtonStyleConfiguration) -> some View {
@@ -121,7 +121,7 @@ public struct DFFilledButtonStyle: DFButtonStyle {
 
 // MARK: - Built-in: Outlined
 
-public struct DFOutlinedButtonStyle: DFButtonStyle {
+public struct DFOutlinedButtonStyle: DFButtonStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFButtonStyleConfiguration) -> some View {
@@ -150,7 +150,7 @@ public struct DFOutlinedButtonStyle: DFButtonStyle {
 
 // MARK: - Built-in: Ghost
 
-public struct DFGhostButtonStyle: DFButtonStyle {
+public struct DFGhostButtonStyle: DFButtonStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFButtonStyleConfiguration) -> some View {
@@ -173,7 +173,7 @@ public struct DFGhostButtonStyle: DFButtonStyle {
 
 // MARK: - Built-in: Tinted
 
-public struct DFTintedButtonStyle: DFButtonStyle {
+public struct DFTintedButtonStyle: DFButtonStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFButtonStyleConfiguration) -> some View {

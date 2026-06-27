@@ -49,7 +49,7 @@ public protocol DFAvatarStyle {
 public struct AnyDFAvatarStyle: DFAvatarStyle, @unchecked Sendable {
     private let _makeBody: (DFAvatarStyleConfiguration) -> AnyView
 
-    public init<S: DFAvatarStyle>(_ style: S) {
+    public init<S: DFAvatarStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
@@ -72,7 +72,7 @@ public extension EnvironmentValues {
 }
 
 public extension View {
-    func dfAvatarStyle<S: DFAvatarStyle>(_ style: S) -> some View {
+    func dfAvatarStyle<S: DFAvatarStyle & Sendable>(_ style: S) -> some View {
         environment(\.dfAvatarStyle, AnyDFAvatarStyle(style))
     }
 }
