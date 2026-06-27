@@ -67,3 +67,67 @@ struct DFAnimationTokensTests {
         let _ = a.slow
     }
 }
+
+@Suite("DFComponentTokens")
+struct DFComponentTokensTests {
+    @Test("button tokens default to nil (inherits from global)")
+    func buttonTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.button.cornerRadius == nil)
+        #expect(tokens.button.horizontalPadding == nil)
+        #expect(tokens.button.verticalPadding == nil)
+        #expect(tokens.button.labelStyle == nil)
+    }
+
+    @Test("non-nil component token overrides are preserved")
+    func buttonTokenOverride() {
+        var tokens = DFComponentTokens.default
+        tokens.button.cornerRadius = 20
+        #expect(tokens.button.cornerRadius == 20)
+    }
+
+    @Test("textfield tokens default to nil")
+    func textFieldTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.textField.cornerRadius == nil)
+        #expect(tokens.textField.horizontalPadding == nil)
+        #expect(tokens.textField.verticalPadding == nil)
+        #expect(tokens.textField.inputStyle == nil)
+        #expect(tokens.textField.labelStyle == nil)
+    }
+
+    @Test("card tokens default to nil")
+    func cardTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.card.cornerRadius == nil)
+        #expect(tokens.card.padding == nil)
+    }
+
+    @Test("avatar tokens default to nil")
+    func avatarTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.avatar.defaultSize == nil)
+        #expect(tokens.avatar.borderWidth == nil)
+    }
+
+    @Test("badge tokens default to nil")
+    func badgeTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.badge.cornerRadius == nil)
+        #expect(tokens.badge.horizontalPadding == nil)
+        #expect(tokens.badge.verticalPadding == nil)
+    }
+
+    @Test("icon tokens default to nil")
+    func iconTokensDefaultNil() {
+        let tokens = DFComponentTokens.default
+        #expect(tokens.icon.defaultSize == nil)
+    }
+
+    @Test("component tokens are mutable")
+    func componentTokensAreMutable() {
+        var tokens = DFComponentTokens.default
+        tokens.card.padding = 16
+        #expect(tokens.card.padding == 16)
+    }
+}
