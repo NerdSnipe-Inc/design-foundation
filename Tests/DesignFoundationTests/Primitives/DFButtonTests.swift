@@ -51,3 +51,14 @@ struct DFButtonEnvironmentTests {
         let _ = values.dfButtonStyle
     }
 }
+
+@Suite("DFGlassButtonStyle")
+struct DFGlassButtonStyleTests {
+    @Test("glass style is instantiatable")
+    func glassStyleInstantiates() {
+        if #available(iOS 26, macOS 26, *) {
+            let _ = DFGlassButtonStyle()
+        }
+        // On earlier OS, this test passes trivially — glass is unavailable
+    }
+}

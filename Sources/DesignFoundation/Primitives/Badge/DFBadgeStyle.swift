@@ -185,3 +185,42 @@ public struct DFOutlinedBadgeStyle: DFBadgeStyle, Sendable {
         )
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFBadgeStyle where Self == DFGlassBadgeStyle {
+    static var glass: DFGlassBadgeStyle { DFGlassBadgeStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassBadgeStyle: DFBadgeStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFBadgeStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        let hPad = theme.components.badge.horizontalPadding ?? theme.spacing.xs
+        let vPad = theme.components.badge.verticalPadding ?? 2
+
+        if case .dot = configuration.variant {
+            return AnyView(
+                Circle()
+                    .fill(.ultraThinMaterial)
+                    .frame(width: 8, height: 8)
+            )
+        }
+
+        let text = badgeLabel(configuration.variant, theme: theme) ?? ""
+        return AnyView(
+            Text(text)
+                .font(theme.typography.label.font)
+                .foregroundStyle(theme.colors.textPrimary)
+                .padding(.horizontal, hPad)
+                .padding(.vertical, vPad)
+                .background(Capsule().fill(.ultraThinMaterial))
+                .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+        )
+    }
+}

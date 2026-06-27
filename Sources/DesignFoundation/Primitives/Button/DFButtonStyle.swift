@@ -199,3 +199,43 @@ public struct DFTintedButtonStyle: DFButtonStyle {
             .animation(theme.animation.fast, value: configuration.isPressed)
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFButtonStyle where Self == DFGlassButtonStyle {
+    static var glass: DFGlassButtonStyle { DFGlassButtonStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassButtonStyle: DFButtonStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFButtonStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        let radius = theme.components.button.cornerRadius ?? theme.radius.md
+        let hPad = theme.components.button.horizontalPadding ?? theme.spacing.lg
+        let vPad = theme.components.button.verticalPadding ?? theme.spacing.md
+
+        configuration.label
+            .font((theme.components.button.labelStyle ?? theme.typography.label).font)
+            .foregroundStyle(
+                configuration.isDisabled
+                    ? theme.colors.textDisabled
+                    : theme.colors.textPrimary
+            )
+            .padding(.horizontal, hPad)
+            .padding(.vertical, vPad)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: radius))
+            .overlay(
+                RoundedRectangle(cornerRadius: radius)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+            )
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(theme.animation.fast, value: configuration.isPressed)
+            .opacity(configuration.isDisabled ? 0.5 : 1.0)
+    }
+}

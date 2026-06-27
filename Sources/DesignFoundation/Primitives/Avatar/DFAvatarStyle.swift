@@ -180,3 +180,30 @@ public struct DFRingAvatarStyle: DFAvatarStyle, Sendable {
             .frame(width: size, height: size)
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFAvatarStyle where Self == DFGlassAvatarStyle {
+    static var glass: DFGlassAvatarStyle { DFGlassAvatarStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassAvatarStyle: DFAvatarStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFAvatarStyleConfiguration) -> some View {
+        let size = configuration.theme.components.avatar.defaultSize ?? configuration.size
+        ZStack {
+            Circle()
+                .fill(.ultraThinMaterial)
+                .frame(width: size, height: size)
+            avatarContent(source: configuration.source, size: size - 4, theme: configuration.theme)
+                .clipShape(Circle())
+        }
+        .overlay(Circle().stroke(Color.white.opacity(0.25), lineWidth: 0.5))
+        .frame(width: size, height: size)
+    }
+}
