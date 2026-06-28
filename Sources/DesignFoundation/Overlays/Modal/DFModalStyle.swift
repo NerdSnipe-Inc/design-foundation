@@ -75,5 +75,8 @@ public struct DFGlassModalStyle: DFModalStyle, Sendable {
 
     public func makeBody(configuration: DFModalStyleConfiguration) -> some View {
         configuration.content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.regularMaterial)
+            .ignoresSafeArea()
     }
 }

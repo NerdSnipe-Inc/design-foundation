@@ -106,6 +106,11 @@ public struct DFGlassPopoverStyle: DFPopoverStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFPopoverStyleConfiguration) -> some View {
+        let theme = configuration.theme
         configuration.content
+            .padding(theme.spacing.md)
+            .frame(minWidth: 180)
+            .background(.regularMaterial)
+            .overlay(RoundedRectangle(cornerRadius: theme.radius.md).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
     }
 }

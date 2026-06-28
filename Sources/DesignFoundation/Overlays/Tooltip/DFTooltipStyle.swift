@@ -98,6 +98,15 @@ public struct DFGlassTooltipStyle: DFTooltipStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFTooltipStyleConfiguration) -> some View {
+        let theme = configuration.theme
         Text(configuration.text)
+            .font(theme.typography.caption.font)
+            .foregroundStyle(theme.colors.textPrimary)
+            .padding(.horizontal, theme.spacing.sm)
+            .padding(.vertical, theme.spacing.xs)
+            .fixedSize()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radius.sm))
+            .overlay(RoundedRectangle(cornerRadius: theme.radius.sm).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
     }
 }

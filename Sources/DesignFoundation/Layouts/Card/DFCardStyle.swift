@@ -167,6 +167,16 @@ public struct DFGlassCardStyle: DFCardStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFCardStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        let radius = theme.components.card.cornerRadius ?? theme.radius.lg
+        let padding = theme.components.card.padding ?? theme.spacing.lg
         configuration.content
+            .padding(padding)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: radius))
+            .overlay(RoundedRectangle(cornerRadius: radius).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+            .scaleEffect(configuration.isInteractive && configuration.isPressed ? 0.98 : 1.0)
+            .animation(theme.animation.fast, value: configuration.isPressed)
+            .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }

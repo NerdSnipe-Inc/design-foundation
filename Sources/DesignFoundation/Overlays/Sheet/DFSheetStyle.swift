@@ -104,5 +104,7 @@ public struct DFGlassSheetStyle: DFSheetStyle, Sendable {
 
     public func makeBody(configuration: DFSheetStyleConfiguration) -> some View {
         configuration.content
+            .presentationDetents([.medium, .large])
+            .presentationBackground(.regularMaterial)
     }
 }
