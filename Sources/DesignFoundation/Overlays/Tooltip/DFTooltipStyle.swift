@@ -91,7 +91,14 @@ public struct DFBubbleTooltipStyle: DFTooltipStyle, Sendable {
     }
 }
 
-// MARK: - Built-in: Glass (stub for Task 6)
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFTooltipStyle where Self == DFGlassTooltipStyle {
+    static var glass: DFGlassTooltipStyle { DFGlassTooltipStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
 
 @available(iOS 26, macOS 26, *)
 public struct DFGlassTooltipStyle: DFTooltipStyle, Sendable {
