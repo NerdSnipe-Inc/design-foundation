@@ -85,6 +85,7 @@ public struct DFTable<Row: Identifiable & Sendable>: View {
                             Image(systemName: sortAscending ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(theme.colors.primary)
+                                .accessibilityLabel("\(col.title), sorted \(sortAscending ? "ascending" : "descending")")
                         }
                     }
                     .padding(.horizontal, theme.spacing.md)
