@@ -69,7 +69,6 @@ public struct DFTable<Row: Identifiable & Sendable>: View {
         HStack(spacing: 0) {
             ForEach(columns) { col in
                 Button {
-                    guard col.sortable else { return }
                     if sortColumnID == col.id {
                         sortAscending.toggle()
                     } else {
