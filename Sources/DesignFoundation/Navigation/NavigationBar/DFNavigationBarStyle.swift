@@ -3,7 +3,7 @@ import SwiftUI
 // MARK: - Display mode
 
 /// Controls whether the navigation bar uses a large title, inline title, or system default.
-public enum DFNavigationBarDisplayMode: Sendable {
+public enum DFNavigationBarDisplayMode: Sendable, Equatable {
     case automatic
     case large
     case inline

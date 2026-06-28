@@ -53,6 +53,9 @@ extension DFNavigationBarDisplayMode {
 
 public extension View {
     /// Applies a DF-styled navigation bar with the given title. No extra toolbar items.
+    /// - Note: On macOS, `EmptyView` toolbar items are still emitted into the window toolbar
+    ///   layout. This is a SwiftUI limitation — there is no way to conditionally omit a
+    ///   `ToolbarItem` at the type level without overloading the modifier.
     func dfNavigationBar(
         title: String,
         displayMode: DFNavigationBarDisplayMode = .automatic
