@@ -118,3 +118,34 @@ public struct DFWheelPickerStyle: DFPickerStyle, Sendable {
 #endif
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFPickerStyle where Self == DFGlassPickerStyle {
+    static var glass: DFGlassPickerStyle { DFGlassPickerStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassPickerStyle: DFPickerStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFPickerStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        configuration.content
+            .pickerStyle(.menu)
+            .tint(.white)
+            .disabled(configuration.isDisabled)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radius.md)
+                    .stroke(.white.opacity(0.2), lineWidth: 0.5)
+            )
+            .opacity(configuration.isDisabled ? 0.5 : 1.0)
+    }
+}

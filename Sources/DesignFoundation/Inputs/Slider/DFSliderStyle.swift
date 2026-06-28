@@ -151,3 +151,42 @@ public struct DFLabeledSliderStyle: DFSliderStyle, Sendable {
         .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFSliderStyle where Self == DFGlassSliderStyle {
+    static var glass: DFGlassSliderStyle { DFGlassSliderStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassSliderStyle: DFSliderStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFSliderStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        VStack(alignment: .leading, spacing: theme.spacing.xs) {
+            if let label = configuration.label {
+                HStack {
+                    Text(label)
+                        .font(theme.typography.caption.font)
+                        .foregroundStyle(.white.opacity(0.7))
+                    Spacer()
+                    Text(String(format: "%.0f", configuration.value.wrappedValue))
+                        .font(theme.typography.caption.font)
+                        .foregroundStyle(.white.opacity(0.9))
+                        .monospacedDigit()
+                }
+            }
+            nativeSlider(value: configuration.value, range: configuration.range, step: configuration.step)
+                .tint(.white.opacity(0.9))
+                .disabled(configuration.isDisabled)
+        }
+        .padding(theme.spacing.md)
+        .background(.regularMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
+        .opacity(configuration.isDisabled ? 0.5 : 1.0)
+    }
+}

@@ -135,3 +135,52 @@ public struct DFCheckboxToggleStyle: DFToggleStyle, Sendable {
         .animation(theme.animation.fast, value: configuration.isOn.wrappedValue)
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFToggleStyle where Self == DFGlassToggleStyle {
+    static var glass: DFGlassToggleStyle { DFGlassToggleStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+// Note: switch variant uses native Toggle which automatically receives Liquid Glass treatment
+// on iOS 26; this style adds glass background to a custom checkbox rendering.
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassToggleStyle: DFToggleStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFToggleStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        Button {
+            if !configuration.isDisabled {
+                configuration.isOn.wrappedValue.toggle()
+            }
+        } label: {
+            HStack(spacing: theme.spacing.sm) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: theme.radius.sm)
+                        .fill(.regularMaterial)
+                        .frame(width: 22, height: 22)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: theme.radius.sm)
+                                .stroke(.white.opacity(0.3), lineWidth: 1)
+                        )
+                    if configuration.isOn.wrappedValue {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(.white)
+                    }
+                }
+                Text(configuration.label)
+                    .font(theme.typography.body.font)
+                    .foregroundStyle(configuration.isDisabled ? .white.opacity(0.4) : .white)
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(configuration.isDisabled)
+        .opacity(configuration.isDisabled ? 0.5 : 1.0)
+        .animation(theme.animation.fast, value: configuration.isOn.wrappedValue)
+    }
+}

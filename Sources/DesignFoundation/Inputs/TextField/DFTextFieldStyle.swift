@@ -203,3 +203,63 @@ public struct DFFilledTextFieldStyle: DFTextFieldStyle, Sendable {
         .animation(theme.animation.fast, value: configuration.isFocused)
     }
 }
+
+// MARK: - Convenience static var for glass
+
+@available(iOS 26, macOS 26, *)
+public extension DFTextFieldStyle where Self == DFGlassTextFieldStyle {
+    static var glass: DFGlassTextFieldStyle { DFGlassTextFieldStyle() }
+}
+
+// MARK: - Built-in: Glass (iOS/macOS 26+)
+
+@available(iOS 26, macOS 26, *)
+public struct DFGlassTextFieldStyle: DFTextFieldStyle, Sendable {
+    public init() {}
+
+    public func makeBody(configuration: DFTextFieldStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        let strokeColor: Color = {
+            if configuration.isDisabled { return .white.opacity(0.1) }
+            switch configuration.validationState {
+            case .error: return theme.colors.destructive.opacity(0.8)
+            case .valid: return theme.colors.success.opacity(0.8)
+            case .none: return configuration.isFocused ? .white.opacity(0.5) : .white.opacity(0.2)
+            }
+        }()
+
+        VStack(alignment: .leading, spacing: theme.spacing.xs) {
+            if !configuration.label.isEmpty {
+                Text(configuration.label)
+                    .font(theme.typography.caption.font)
+                    .foregroundStyle(.white.opacity(0.7))
+            }
+            HStack(spacing: theme.spacing.sm) {
+                if let leading = configuration.leadingContent {
+                    leading.foregroundStyle(.white.opacity(0.6))
+                }
+                configuration.fieldContent
+                    .font(theme.typography.body.font)
+                    .foregroundStyle(configuration.isDisabled ? .white.opacity(0.4) : .white)
+                if let trailing = configuration.trailingContent {
+                    trailing.foregroundStyle(.white.opacity(0.6))
+                }
+            }
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radius.md)
+                    .stroke(strokeColor, lineWidth: configuration.isFocused ? 2 : 1)
+            )
+            if case .error(let message) = configuration.validationState {
+                Text(message)
+                    .font(theme.typography.caption.font)
+                    .foregroundStyle(theme.colors.destructive)
+            }
+        }
+        .opacity(configuration.isDisabled ? 0.5 : 1.0)
+        .animation(theme.animation.fast, value: configuration.isFocused)
+    }
+}
