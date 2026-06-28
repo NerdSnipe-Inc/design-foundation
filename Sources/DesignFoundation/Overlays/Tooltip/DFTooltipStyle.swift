@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Placement
 
-public enum DFTooltipPlacement: Sendable, Equatable {
+public enum DFTooltipPlacement: Sendable, Equatable, Hashable {
     case top
     case bottom
     case leading
