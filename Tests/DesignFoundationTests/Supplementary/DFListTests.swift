@@ -28,3 +28,38 @@ struct DFListRowTests {
         )
     }
 }
+
+// ---- Append below DFListRowTests ----
+
+private struct SampleItem: Identifiable {
+    let id: Int
+    let name: String
+}
+
+@Suite("DFList")
+struct DFListTests {
+    @Test("compiles with basic data")
+    func basicInit() {
+        let items = [SampleItem(id: 1, name: "A"), SampleItem(id: 2, name: "B")]
+        let _ = DFList(items) { item in
+            Text(item.name)
+        }
+    }
+
+    @Test("compiles with onDelete callback")
+    func withDelete() {
+        let items = [SampleItem(id: 1, name: "A")]
+        let _ = DFList(items, onDelete: { _ in }) { item in
+            Text(item.name)
+        }
+    }
+
+    @Test("compiles with selection binding")
+    func withSelection() {
+        var selection: Set<Int>? = []
+        let items = [SampleItem(id: 1, name: "A")]
+        let _ = DFList(items, selection: Binding(get: { selection }, set: { selection = $0 })) { item in
+            Text(item.name)
+        }
+    }
+}
