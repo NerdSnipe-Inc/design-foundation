@@ -50,7 +50,10 @@ public protocol DFTabBarStyle {
 
 // MARK: - Type Erasure
 
-public struct AnyDFTabBarStyle: DFTabBarStyle, Sendable {
+/// Type-erased container for DFTabBarStyle. Uses @unchecked Sendable because
+/// _makeBody is a non-Sendable closure (holds MainActor-isolated state).
+/// Sendable conformance is safe: only called from @MainActor contexts.
+public struct AnyDFTabBarStyle: DFTabBarStyle, @unchecked Sendable {
     private let _makeBody: @MainActor (DFTabBarStyleConfiguration) -> AnyView
 
     nonisolated public init<S: DFTabBarStyle & Sendable>(_ style: S) {
@@ -173,41 +176,6 @@ private struct DFTabBadgeOverlay: View {
     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
 }
 
-@available(iOS 26, macOS 26, *)
-private struct DFTabBarGlassButton: View {
-    let item: DFTabItem
-    let isSelected: Bool
-    let theme: DFTheme
-    let onSelect: @MainActor (String) -> Void
-
-    var body: some View {
-        Button {
-            onSelect(item.id)
-        } label: {
-            VStack(spacing: 2) {
-                ZStack(alignment: .topTrailing) {
-                    Image(systemName: item.icon)
-                        .font(.system(size: 22))
-                        .foregroundStyle(
-                            isSelected ? theme.colors.primary : theme.colors.textSecondary
-                        )
-                    DFTabBadgeOverlay(item: item, destructiveColor: theme.colors.destructive)
-                }
-                Text(item.label)
-                    .font(theme.typography.caption.font)
-                    .foregroundStyle(
-                        isSelected ? theme.colors.primary : theme.colors.textSecondary
-                    )
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, theme.spacing.sm)
-        }
-        .buttonStyle(PlainButtonStyle())
-        .accessibilityLabel(item.label)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
-    }
-}
-
 // MARK: - Built-in: Standard (default)
 
 /// Tab bar with icons and labels. Displays badge counts and dot badges.
@@ -270,46 +238,6 @@ public struct DFMinimalTabBarStyle: DFTabBarStyle, Sendable {
     }
 }
 
-// MARK: - Glass button builder (iOS 26+)
-
-@MainActor private func makeGlassTabBarButton(
-    item: DFTabItem,
-    isSelected: Bool,
-    theme: DFTheme,
-    onSelect: @escaping @MainActor (String) -> Void
-) -> AnyView {
-    if #available(iOS 26, macOS 26, *) {
-        return AnyView(
-            Button {
-                onSelect(item.id)
-            } label: {
-                VStack(spacing: 2) {
-                    ZStack(alignment: .topTrailing) {
-                        Image(systemName: item.icon)
-                            .font(.system(size: 22))
-                            .foregroundStyle(
-                                isSelected ? theme.colors.primary : theme.colors.textSecondary
-                            )
-                        DFTabBadgeOverlay(item: item, destructiveColor: theme.colors.destructive)
-                    }
-                    Text(item.label)
-                        .font(theme.typography.caption.font)
-                        .foregroundStyle(
-                            isSelected ? theme.colors.primary : theme.colors.textSecondary
-                        )
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, theme.spacing.sm)
-            }
-            .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(item.label)
-            .accessibilityAddTraits(isSelected ? [.isSelected] : [])
-        )
-    } else {
-        return AnyView(EmptyView())
-    }
-}
-
 // MARK: - Convenience static var for glass
 
 @available(iOS 26, macOS 26, *)
@@ -334,12 +262,30 @@ public struct DFGlassTabBarStyle: DFTabBarStyle, Sendable {
             HStack(spacing: 0) {
                 ForEach(items) { item in
                     let isSelected = item.id == selectedID
-                    makeGlassTabBarButton(
-                        item: item,
-                        isSelected: isSelected,
-                        theme: theme,
-                        onSelect: onSelect
-                    )
+                    Button {
+                        onSelect(item.id)
+                    } label: {
+                        VStack(spacing: 2) {
+                            ZStack(alignment: .topTrailing) {
+                                Image(systemName: item.icon)
+                                    .font(.system(size: 22))
+                                    .foregroundStyle(
+                                        isSelected ? theme.colors.primary : theme.colors.textSecondary
+                                    )
+                                DFTabBadgeOverlay(item: item, destructiveColor: theme.colors.destructive)
+                            }
+                            Text(item.label)
+                                .font(theme.typography.caption.font)
+                                .foregroundStyle(
+                                    isSelected ? theme.colors.primary : theme.colors.textSecondary
+                                )
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, theme.spacing.sm)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .accessibilityLabel(item.label)
+                    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                 }
             }
             .background(.regularMaterial)
