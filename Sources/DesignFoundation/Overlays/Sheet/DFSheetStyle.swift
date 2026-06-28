@@ -5,8 +5,7 @@ import SwiftUI
 /// Configuration for sheet styles. Passed to style.makeBody() to produce styled content.
 ///
 /// Styles should transform the content View and return it styled. Presentation modifiers
-/// (detents, drag indicator, background) are applied by the DFSheetModifier wrapper
-/// at the sheet boundary, NOT inside styles.
+/// (detents, background) are applied by the individual styles in their makeBody methods.
 ///
 /// Not Sendable: holds AnyView (main-thread only).
 public struct DFSheetStyleConfiguration {
@@ -72,6 +71,8 @@ public struct DFStandardSheetStyle: DFSheetStyle, Sendable {
 
     public func makeBody(configuration: DFSheetStyleConfiguration) -> some View {
         configuration.content
+            .presentationDetents([.medium, .large])
+            .presentationBackground(configuration.theme.colors.background)
     }
 }
 
@@ -83,6 +84,8 @@ public struct DFCompactSheetStyle: DFSheetStyle, Sendable {
 
     public func makeBody(configuration: DFSheetStyleConfiguration) -> some View {
         configuration.content
+            .presentationDetents([.medium])
+            .presentationBackground(configuration.theme.colors.background)
     }
 }
 
