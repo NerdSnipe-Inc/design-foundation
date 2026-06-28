@@ -24,3 +24,28 @@ import SwiftUI
         .dfTheme(.default)
     }
 }
+
+#Preview("DFNavigationBar — Glass (iOS 26+)") {
+    if #available(iOS 26, macOS 26, *) {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [.blue.opacity(0.2), .purple.opacity(0.2)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                List(1...20, id: \.self) { i in
+                    Text("Item \(i)")
+                }
+            }
+            .dfNavigationBar(title: "Glass Bar") {
+                Button("Done") {}
+            }
+            .dfNavigationBarStyle(.glass)
+            .dfTheme(.default)
+        }
+    } else {
+        Text("Requires iOS 26+")
+    }
+}
