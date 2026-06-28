@@ -150,6 +150,7 @@ public struct DFFilledTextFieldStyle: DFTextFieldStyle, Sendable {
     public func makeBody(configuration: DFTextFieldStyleConfiguration) -> some View {
         let theme = configuration.theme
         let strokeColor: Color = {
+            if configuration.isDisabled { return .clear }
             switch configuration.validationState {
             case .error: return theme.colors.destructive
             case .valid: return theme.colors.success

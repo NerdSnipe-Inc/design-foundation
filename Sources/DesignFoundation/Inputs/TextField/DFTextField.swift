@@ -45,6 +45,38 @@ public struct DFTextField: View {
         self.trailing = AnyView(trailing())
     }
 
+    /// Text field with a leading accessory view only.
+    public init<Leading: View>(
+        _ label: String,
+        text: Binding<String>,
+        placeholder: String = "",
+        validationState: DFValidationState = .none,
+        @ViewBuilder leading: () -> Leading
+    ) {
+        self.label = label
+        self._text = text
+        self.placeholder = placeholder
+        self.validationState = validationState
+        self.leading = AnyView(leading())
+        self.trailing = nil
+    }
+
+    /// Text field with a trailing accessory view only.
+    public init<Trailing: View>(
+        _ label: String,
+        text: Binding<String>,
+        placeholder: String = "",
+        validationState: DFValidationState = .none,
+        @ViewBuilder trailing: () -> Trailing
+    ) {
+        self.label = label
+        self._text = text
+        self.placeholder = placeholder
+        self.validationState = validationState
+        self.leading = nil
+        self.trailing = AnyView(trailing())
+    }
+
     public var body: some View {
         let config = DFTextFieldStyleConfiguration(
             label: label,
