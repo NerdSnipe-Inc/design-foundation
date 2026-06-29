@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DesignFoundationBlocks — UI Blocks for SwiftUI</title>
-  <meta name="description" content="10 production-ready SwiftUI UI blocks built on DesignFoundation. Drop-in auth screens, dashboards, settings, and more — fully themeable, Swift 6 safe." />
+  <meta name="description" content="29 production-ready SwiftUI UI blocks built on DesignFoundation. Drop-in auth screens, dashboards, settings, forms, and more — fully themeable, Swift 6 safe." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,10 +28,8 @@
       min-height: 100vh;
     }
 
-    /* ── Layout ── */
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── Nav ── */
     nav {
       border-bottom: 1px solid var(--border);
       padding: 18px 0;
@@ -49,7 +47,6 @@
     }
     .nav-link:hover { border-color: var(--primary); color: var(--text); }
 
-    /* ── Hero ── */
     .hero {
       padding: 88px 0 72px;
       text-align: center;
@@ -83,7 +80,6 @@
       border: 1px solid var(--border);
     }
 
-    /* ── Blocks grid ── */
     .section { padding: 64px 0; }
     .section-label {
       font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
@@ -91,6 +87,13 @@
     }
     h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
     .section-sub { color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; }
+
+    /* Category groups */
+    .category { margin-bottom: 40px; }
+    .category-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-secondary); margin-bottom: 12px; padding-left: 2px;
+    }
 
     .grid {
       display: grid;
@@ -111,7 +114,6 @@
     .block-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
     .block-desc { font-size: 13px; color: var(--text-secondary); }
 
-    /* ── Contract ── */
     .contract {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -129,7 +131,6 @@
       flex-shrink: 0; margin-top: 1px;
     }
 
-    /* ── Code block ── */
     pre {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -146,7 +147,6 @@
     .fn { color: #82aaff; }
     .type { color: #ffcb6b; }
 
-    /* ── Pricing ── */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -164,7 +164,6 @@
     .price-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
     .price-note { font-size: 12px; color: var(--text-secondary); }
 
-    /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 0;
@@ -193,8 +192,8 @@
     <div class="badge">Commercial Add-on</div>
     <h1>UI Blocks for SwiftUI.<br>Ship screens in minutes.</h1>
     <p class="hero-sub">
-      10 production-ready blocks built on DesignFoundation — auth screens, dashboards,
-      settings lists, and more. Fully themeable. Swift 6 safe. iOS 18+.
+      29 production-ready blocks built on DesignFoundation — auth, onboarding, dashboards,
+      forms, settings, and more. Fully themeable. Swift 6 safe. iOS 18+.
     </p>
     <div class="cta-row">
       <a class="btn btn-primary" href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationBlocks%20License">Get Access</a>
@@ -207,61 +206,231 @@
   <!-- Blocks -->
   <section class="section">
     <p class="section-label">What's included</p>
-    <h2>10 drop-in blocks</h2>
+    <h2>29 drop-in blocks</h2>
     <p class="section-sub">Each block accepts a typed Configuration struct and respects your active DFTheme automatically.</p>
 
-    <div class="grid">
-      <div class="block-card">
-        <div class="block-icon">🔐</div>
-        <div class="block-name">DFSignInBlock</div>
-        <div class="block-desc">Email + password + social auth buttons with an optional sign-up prompt</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">📝</div>
-        <div class="block-name">DFSignUpBlock</div>
-        <div class="block-desc">Name, email, password fields with social providers and terms prompt</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">🔑</div>
-        <div class="block-name">DFForgotPasswordBlock</div>
-        <div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">📊</div>
-        <div class="block-name">DFStatCardBlock</div>
-        <div class="block-desc">KPI with value, trend direction, icon, and tap handler</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">📰</div>
-        <div class="block-name">DFActivityFeedRow</div>
-        <div class="block-desc">Avatar, title, message, timestamp, unread indicator</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">👤</div>
-        <div class="block-name">DFContactRow</div>
-        <div class="block-desc">Avatar, name, subtitle, optional badge, disclosure chevron</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">🪪</div>
-        <div class="block-name">DFProfileHeaderBlock</div>
-        <div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">⚙️</div>
-        <div class="block-name">DFSettingsSectionBlock</div>
-        <div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">🔔</div>
-        <div class="block-name">DFNotificationCell</div>
-        <div class="block-desc">Icon, title, body, timestamp, unread dot, and optional dismiss</div>
-      </div>
-      <div class="block-card">
-        <div class="block-icon">📭</div>
-        <div class="block-name">DFEmptyStateBlock</div>
-        <div class="block-desc">Icon, headline, optional message, optional CTA button</div>
+    <!-- Auth -->
+    <div class="category">
+      <div class="category-label">Auth</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">🔐</div>
+          <div class="block-name">DFWelcomeBlock</div>
+          <div class="block-desc">Logo, headline, tagline, and primary + social sign-in entry point</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔑</div>
+          <div class="block-name">DFSignInBlock</div>
+          <div class="block-desc">Email + password + social auth buttons with optional sign-up prompt</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">📝</div>
+          <div class="block-name">DFSignUpBlock</div>
+          <div class="block-desc">Name, email, password fields with social providers and terms prompt</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔓</div>
+          <div class="block-name">DFForgotPasswordBlock</div>
+          <div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔢</div>
+          <div class="block-name">DFOTPBlock</div>
+          <div class="block-desc">N-digit code entry with auto-advance, paste support, and resend timer</div>
+        </div>
       </div>
     </div>
+
+    <!-- Onboarding -->
+    <div class="category">
+      <div class="category-label">Onboarding</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">✨</div>
+          <div class="block-name">DFFeatureCarouselBlock</div>
+          <div class="block-desc">Paginated feature highlights with icon, title, body, and skip/continue controls</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔔</div>
+          <div class="block-name">DFPermissionRequestBlock</div>
+          <div class="block-desc">System permission prompt with icon, explanation, allow/skip actions</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">💳</div>
+          <div class="block-name">DFPlanSelectionBlock</div>
+          <div class="block-desc">Pricing plan cards with feature lists, highlighted recommended plan</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🎉</div>
+          <div class="block-name">DFSuccessBlock</div>
+          <div class="block-desc">Completion screen with icon, headline, message, and primary CTA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="category">
+      <div class="category-label">Dashboard</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">📊</div>
+          <div class="block-name">DFStatCardBlock</div>
+          <div class="block-desc">KPI with value, trend direction, icon, and tap handler</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔢</div>
+          <div class="block-name">DFMetricGridBlock</div>
+          <div class="block-desc">2- or 3-column grid of labeled metric values with optional icons</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🍩</div>
+          <div class="block-name">DFProgressRingBlock</div>
+          <div class="block-desc">Circular progress ring with center label, legend, and animated fill</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">📈</div>
+          <div class="block-name">DFChartPlaceholderBlock</div>
+          <div class="block-desc">Styled chart placeholder with title and Swift Charts drop-in zone</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="category">
+      <div class="category-label">Feed</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">📰</div>
+          <div class="block-name">DFActivityFeedBlock</div>
+          <div class="block-desc">Full scrollable activity feed with section headers and empty state</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">📋</div>
+          <div class="block-name">DFActivityFeedRow</div>
+          <div class="block-desc">Single feed row — avatar, title, message, timestamp, unread indicator</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- People -->
+    <div class="category">
+      <div class="category-label">People</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">👤</div>
+          <div class="block-name">DFContactRow</div>
+          <div class="block-desc">Avatar, name, subtitle, optional badge, disclosure chevron</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🪪</div>
+          <div class="block-name">DFProfileHeaderBlock</div>
+          <div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forms -->
+    <div class="category">
+      <div class="category-label">Forms</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">🏷️</div>
+          <div class="block-name">DFTagPickerBlock</div>
+          <div class="block-desc">Multi-select pill picker with optional max selection and custom tags</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">📅</div>
+          <div class="block-name">DFDateRangeBlock</div>
+          <div class="block-desc">Start + end date pickers with validation and range constraint support</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🏠</div>
+          <div class="block-name">DFAddressBlock</div>
+          <div class="block-desc">Street, city, state, zip, country fields with keyboard-aware layout</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">📋</div>
+          <div class="block-name">DFMultiStepFormBlock</div>
+          <div class="block-desc">Stepped form container with progress bar, back/next nav, and completion callback</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lists & Search -->
+    <div class="category">
+      <div class="category-label">Lists &amp; Search</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">🔍</div>
+          <div class="block-name">DFSearchResultsBlock</div>
+          <div class="block-desc">Search results list with section grouping, badges, and empty/loading states</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="category">
+      <div class="category-label">Notifications</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">🔔</div>
+          <div class="block-name">DFNotificationCell</div>
+          <div class="block-desc">Icon, title, body, timestamp, unread dot, and optional dismiss</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="category">
+      <div class="category-label">Settings</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">⚙️</div>
+          <div class="block-name">DFSettingsSectionBlock</div>
+          <div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">👤</div>
+          <div class="block-name">DFAccountBlock</div>
+          <div class="block-desc">Avatar, display name, email, edit action, and optional membership badge</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">🔕</div>
+          <div class="block-name">DFNotificationPreferencesBlock</div>
+          <div class="block-desc">Per-channel notification toggles with section grouping</div>
+        </div>
+        <div class="block-card">
+          <div class="block-icon">⚠️</div>
+          <div class="block-name">DFDangerZoneBlock</div>
+          <div class="block-desc">Destructive actions list with confirmation prompt and red styling</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="category">
+      <div class="category-label">Loading</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">👻</div>
+          <div class="block-name">DFBlockSkeletonBlock</div>
+          <div class="block-desc">Animated skeleton placeholder matching any block's layout</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="category">
+      <div class="category-label">Empty State</div>
+      <div class="grid">
+        <div class="block-card">
+          <div class="block-icon">📭</div>
+          <div class="block-name">DFEmptyStateBlock</div>
+          <div class="block-desc">Icon, headline, optional message, optional CTA button</div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <hr class="divider" />
