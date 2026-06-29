@@ -24,19 +24,32 @@ public struct DFSidebarItemStyleConfiguration: Sendable {
 public protocol DFSidebarStyle {
     associatedtype Body: View
     @ViewBuilder func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> Body
+    func sidebarBackground(theme: DFTheme) -> AnyView
+}
+
+public extension DFSidebarStyle {
+    func sidebarBackground(theme: DFTheme) -> AnyView {
+        AnyView(theme.colors.surface)
+    }
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFSidebarStyle: DFSidebarStyle, @unchecked Sendable {
     private let _makeItemBody: (DFSidebarItemStyleConfiguration) -> AnyView
+    private let _sidebarBackground: (DFTheme) -> AnyView
 
     public init<S: DFSidebarStyle & Sendable>(_ style: S) {
         _makeItemBody = { AnyView(style.makeItemBody(configuration: $0)) }
+        _sidebarBackground = { style.sidebarBackground(theme: $0) }
     }
 
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         _makeItemBody(configuration)
+    }
+
+    public func sidebarBackground(theme: DFTheme) -> AnyView {
+        _sidebarBackground(theme)
     }
 }
 
@@ -147,6 +160,10 @@ public extension DFSidebarStyle where Self == DFGlassSidebarStyle {
 @available(iOS 26, macOS 26, *)
 public struct DFGlassSidebarStyle: DFSidebarStyle, Sendable {
     public init() {}
+
+    public func sidebarBackground(theme: DFTheme) -> AnyView {
+        AnyView(Color.clear)
+    }
 
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         let theme = configuration.theme

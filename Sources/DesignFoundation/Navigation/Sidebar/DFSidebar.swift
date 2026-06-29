@@ -60,7 +60,7 @@ public struct DFSidebar: View {
             .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
         }
-        .background(theme.colors.surface)
+        .background(style.sidebarBackground(theme: theme))
     }
 
     @ViewBuilder

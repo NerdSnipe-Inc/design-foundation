@@ -1,5 +1,14 @@
 import SwiftUI
 
+// MARK: - Severity
+
+public enum DFToastSeverity: Sendable {
+    case info
+    case success
+    case warning
+    case error
+}
+
 // MARK: - Message
 
 public struct DFToastMessage: Identifiable, Sendable {
@@ -7,12 +16,19 @@ public struct DFToastMessage: Identifiable, Sendable {
     public let text: String
     public let icon: String?
     public let duration: TimeInterval
+    public let severity: DFToastSeverity
 
-    public init(text: String, icon: String? = nil, duration: TimeInterval = 3.0) {
+    public init(
+        text: String,
+        icon: String? = nil,
+        duration: TimeInterval = 3.0,
+        severity: DFToastSeverity = .info
+    ) {
         self.id = UUID()
         self.text = text
         self.icon = icon
         self.duration = duration
+        self.severity = severity
     }
 }
 
@@ -84,11 +100,12 @@ public struct DFDefaultToastStyle: DFToastStyle, Sendable {
     public func makeBody(configuration: DFToastStyleConfiguration) -> some View {
         let theme = configuration.theme
         let message = configuration.message
+        let iconColor = Self.iconColor(for: message.severity, theme: theme)
         HStack(spacing: theme.spacing.sm) {
             if let icon = message.icon {
                 Image(systemName: icon)
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(theme.colors.textPrimary)
+                    .foregroundStyle(iconColor)
             }
             Text(message.text)
                 .font(theme.typography.body.font)
@@ -107,5 +124,14 @@ public struct DFDefaultToastStyle: DFToastStyle, Sendable {
                     y: theme.shadows.sm.y
                 )
         )
+    }
+
+    private static func iconColor(for severity: DFToastSeverity, theme: DFTheme) -> Color {
+        switch severity {
+        case .info:    return theme.colors.info
+        case .success: return theme.colors.success
+        case .warning: return theme.colors.warning
+        case .error:   return theme.colors.destructive
+        }
     }
 }

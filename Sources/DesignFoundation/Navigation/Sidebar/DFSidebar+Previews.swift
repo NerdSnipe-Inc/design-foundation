@@ -51,9 +51,13 @@ import SwiftUI
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            DFSidebar(selection: $selection, sections: sections)
-                .dfSidebarStyle(.glass)
-                .frame(width: 260)
+            HStack(spacing: 0) {
+                DFSidebar(selection: $selection, sections: sections)
+                    .dfSidebarStyle(.glass)
+                    .frame(width: 260)
+                    .background(.ultraThinMaterial)
+                Spacer()
+            }
         }
         .dfTheme(.default)
     }
