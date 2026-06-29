@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesignFoundation — Docs</title>
+  <meta name="description" content="DesignFoundation: production-grade SwiftUI design system. Token-based theming, style-swappable components, Liquid Glass support, Swift 6 safe." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25);
+      --text: #f0f0f5;
+      --text-secondary: #9090a8;
+      --radius: 12px;
+      --sidebar-w: 220px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1080px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-brand span { color: var(--primary); }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-link {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 13px; transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.highlight { background: var(--primary); color: #fff; border-color: transparent; }
+    .nav-link.highlight:hover { opacity: 0.85; }
+
+    /* ── Layout ── */
+    .page { display: flex; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Sidebar ── */
+    aside {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      padding: 40px 24px 40px 0;
+      position: sticky;
+      top: 57px;
+      height: calc(100vh - 57px);
+      overflow-y: auto;
+    }
+    .sidebar-group { margin-bottom: 28px; }
+    .sidebar-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary); margin-bottom: 8px; padding-left: 2px;
+    }
+    .sidebar-link {
+      display: block; font-size: 13px; color: var(--text-secondary);
+      padding: 4px 8px; border-radius: 6px; margin-bottom: 2px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar-link:hover { background: var(--surface2); color: var(--text); text-decoration: none; }
+    .sidebar-link.active { color: var(--primary); background: var(--primary-glow); }
+
+    /* ── Content ── */
+    main {
+      flex: 1;
+      min-width: 0;
+      padding: 48px 0 80px 40px;
+      border-left: 1px solid var(--border);
+    }
+
+    /* ── Sections ── */
+    .doc-section { margin-bottom: 64px; scroll-margin-top: 80px; }
+
+    h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+    h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; margin-top: 24px; }
+    p { color: var(--text-secondary); margin-bottom: 16px; font-size: 15px; }
+    p strong { color: var(--text); }
+
+    .lead { font-size: 18px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.55; }
+
+    /* ── Badges ── */
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .pill {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary);
+    }
+    .pill.accent { background: var(--primary-glow); border-color: rgba(99,102,241,0.3); color: var(--primary); }
+
+    /* ── Code ── */
+    pre, code {
+      font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
+    }
+    code {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 6px; font-size: 13px; color: #c3e88d;
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    pre code { background: none; border: none; padding: 0; font-size: inherit; color: inherit; }
+    .kw { color: #c792ea; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .fn { color: #82aaff; }
+    .type { color: #ffcb6b; }
+    .num { color: #f78c6c; }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-secondary);
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); vertical-align: top; }
+    td:first-child { color: var(--text); font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .callout strong { color: var(--text); }
+
+    /* ── Blocks CTA ── */
+    .blocks-cta {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.04));
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .blocks-cta-text h3 { margin-top: 0; font-size: 18px; }
+    .blocks-cta-text p { margin-bottom: 0; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;
+      font-size: 14px; font-weight: 500; text-decoration: none;
+      border-radius: 9px; padding: 10px 20px; transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0 0 64px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+
+    @media (max-width: 720px) {
+      aside { display: none; }
+      main { padding-left: 0; border-left: none; }
+      .page { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="/docs/">Design<span>Foundation</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+      <a class="nav-link highlight" href="/docs/blocks/">Blocks →</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Getting Started</div>
+      <a class="sidebar-link" href="#overview">Overview</a>
+      <a class="sidebar-link" href="#installation">Installation</a>
+      <a class="sidebar-link" href="#quickstart">Quick Start</a>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Theme System</div>
+      <a class="sidebar-link" href="#theming">DFTheme</a>
+      <a class="sidebar-link" href="#tokens">Tokens</a>
+      <a class="sidebar-link" href="#styles">Style System</a>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Components</div>
+      <a class="sidebar-link" href="#primitives">Primitives</a>
+      <a class="sidebar-link" href="#inputs">Inputs</a>
+      <a class="sidebar-link" href="#layout">Layout</a>
+      <a class="sidebar-link" href="#overlays">Overlays</a>
+      <a class="sidebar-link" href="#navigation">Navigation</a>
+      <a class="sidebar-link" href="#supplementary">Supplementary</a>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Add-ons</div>
+      <a class="sidebar-link" href="#blocks">DF Blocks</a>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Reference</div>
+      <a class="sidebar-link" href="#platforms">Platforms</a>
+      <a class="sidebar-link" href="#license">License</a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main>
+
+    <!-- Overview -->
+    <section class="doc-section" id="overview">
+      <div class="badges">
+        <span class="pill accent">Swift 6.0</span>
+        <span class="pill">iOS 18+</span>
+        <span class="pill">macOS 15+</span>
+        <span class="pill">visionOS 2+</span>
+        <span class="pill">MIT</span>
+        <span class="pill">SPM</span>
+      </div>
+      <h1>DesignFoundation</h1>
+      <p class="lead">
+        A production-grade SwiftUI design system. Token-based theming, protocol-driven style swapping,
+        first-class Liquid Glass support, and a full component library — one dependency, instantly consistent across every screen.
+      </p>
+      <p>
+        DesignFoundation mirrors SwiftUI's own <code>ButtonStyle</code> pattern across every component.
+        Inject a <code>DFTheme</code> once at the app root; every component reads its colors, typography,
+        spacing, and radius from the nearest theme in the environment. Override any subtree. Write custom styles
+        by implementing one function. Zero hardcoded values anywhere.
+      </p>
+    </section>
+
+    <!-- Installation -->
+    <section class="doc-section" id="installation">
+      <h2>Installation</h2>
+      <h3>Xcode</h3>
+      <p><strong>File → Add Package Dependencies</strong>, paste the URL below, and choose <em>Up to Next Major</em> from version <code>1.0.0</code>.</p>
+      <pre>https://github.com/NerdSnipe-Inc/design-foundation</pre>
+
+      <h3>Package.swift</h3>
+      <pre><span class="cm">// Package.swift</span>
+<span class="kw">dependencies</span>: [
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>)
+],
+<span class="kw">targets</span>: [
+    .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [<span class="str">"DesignFoundation"</span>])
+]</pre>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="doc-section" id="quickstart">
+      <h2>Quick Start</h2>
+      <pre><span class="kw">import</span> <span class="type">DesignFoundation</span>
+
+<span class="kw">@main</span>
+<span class="kw">struct</span> <span class="type">MyApp</span>: <span class="type">App</span> {
+    <span class="kw">var</span> body: <span class="kw">some</span> <span class="type">Scene</span> {
+        <span class="type">WindowGroup</span> {
+            <span class="type">ContentView</span>()
+                .<span class="fn">dfTheme</span>(<span class="type">DFTheme</span>(colors: <span class="type">DFColorTokens</span>(primary: .indigo)))
+        }
+    }
+}
+
+<span class="cm">// In any view:</span>
+<span class="type">DFButton</span>(<span class="str">"Get Started"</span>) { <span class="cm">/* action */</span> }
+
+<span class="type">DFTextField</span>(<span class="str">"Email"</span>, text: $email)
+    .<span class="fn">dfTextFieldStyle</span>(.outlined)
+
+<span class="type">DFCard</span> {
+    <span class="type">DFText</span>(<span class="str">"Hello"</span>, style: .headline)
+}</pre>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Theming -->
+    <section class="doc-section" id="theming">
+      <h2>DFTheme</h2>
+      <p>
+        A single <code>DFTheme</code> struct propagates through SwiftUI's environment.
+        Inject it once at the root and every component responds automatically. Override at any subtree depth.
+      </p>
+      <pre><span class="type">ContentView</span>()
+    .<span class="fn">dfTheme</span>(<span class="type">DFTheme</span>(
+        colors: <span class="type">DFColorTokens</span>(
+            primary: .indigo,
+            surface: <span class="type">Color</span>(.systemBackground)
+        ),
+        spacing: <span class="type">DFSpacingTokens</span>(md: <span class="num">20</span>),
+        radius: <span class="type">DFRadiusTokens</span>(md: <span class="num">12</span>)
+    ))</pre>
+      <div class="callout">
+        <strong>Subtree overrides</strong> — wrap any view in <code>.dfTheme(...)</code> to apply a different palette to just that section (e.g. a dark hero banner inside a light screen).
+      </div>
+    </section>
+
+    <!-- Tokens -->
+    <section class="doc-section" id="tokens">
+      <h2>Tokens</h2>
+      <p>Every component reads exclusively from these token namespaces — no hardcoded values anywhere in the library.</p>
+
+      <h3>Colors — <code>theme.colors</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>.primary</td><td>Brand / interactive accent</td></tr>
+            <tr><td>.surface</td><td>Card and panel backgrounds</td></tr>
+            <tr><td>.surfaceElevated</td><td>Raised overlays, popovers</td></tr>
+            <tr><td>.textPrimary</td><td>Body and heading text</td></tr>
+            <tr><td>.textSecondary</td><td>Labels, placeholders, captions</td></tr>
+            <tr><td>.textDisabled</td><td>Disabled control labels</td></tr>
+            <tr><td>.border</td><td>Strokes, dividers</td></tr>
+            <tr><td>.interactiveFill</td><td>Input field backgrounds</td></tr>
+            <tr><td>.destructive</td><td>Delete, danger actions</td></tr>
+            <tr><td>.success / .warning / .info</td><td>Semantic status colors</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Spacing — <code>theme.spacing</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>.xs</td><td>4 pt</td></tr>
+            <tr><td>.sm</td><td>8 pt</td></tr>
+            <tr><td>.md</td><td>12 pt</td></tr>
+            <tr><td>.lg</td><td>16 pt</td></tr>
+            <tr><td>.xl</td><td>24 pt</td></tr>
+            <tr><td>.xxl</td><td>32 pt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Radius — <code>theme.radius</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>.none</td><td>0</td></tr>
+            <tr><td>.sm</td><td>4 pt</td></tr>
+            <tr><td>.md</td><td>8 pt</td></tr>
+            <tr><td>.lg</td><td>12 pt</td></tr>
+            <tr><td>.full</td><td>9999 pt (pill)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Typography — <code>theme.typography</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td>.display.font</td><td>Hero headlines</td></tr>
+            <tr><td>.title.font</td><td>Screen titles</td></tr>
+            <tr><td>.headline.font</td><td>Section headers</td></tr>
+            <tr><td>.body.font</td><td>Body text</td></tr>
+            <tr><td>.caption.font</td><td>Labels, helper text</td></tr>
+            <tr><td>.label.font</td><td>Small UI labels</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Style System -->
+    <section class="doc-section" id="styles">
+      <h2>Style System</h2>
+      <p>
+        Every component exposes a style protocol with a single <code>makeBody(configuration:)</code> method —
+        the same pattern as SwiftUI's <code>ButtonStyle</code>. Styles propagate through the environment,
+        compose with each other, and apply hierarchically.
+      </p>
+      <pre><span class="cm">// Apply a style to an entire section</span>
+<span class="type">VStack</span> { ... }
+    .<span class="fn">dfButtonStyle</span>(.outlined)
+    .<span class="fn">dfCardStyle</span>(.glass)
+
+<span class="cm">// Override for a single component</span>
+<span class="type">DFButton</span>(<span class="str">"Delete"</span>, role: .destructive) { }
+    .<span class="fn">dfButtonStyle</span>(.ghost)
+
+<span class="cm">// Liquid Glass across your whole UI (iOS/macOS 26+)</span>
+<span class="type">ContentView</span>()
+    .<span class="fn">dfButtonStyle</span>(.glass)
+    .<span class="fn">dfCardStyle</span>(.glass)
+    .<span class="fn">dfTooltipStyle</span>(.glass)</pre>
+
+      <p>Writing a custom style means implementing one function. All protocols are open; built-in styles are concrete structs you can copy and fork.</p>
+
+      <pre><span class="kw">struct</span> <span class="type">MyButtonStyle</span>: <span class="type">DFButtonStyle</span> {
+    <span class="kw">func</span> <span class="fn">makeBody</span>(configuration: <span class="type">DFButtonStyleConfiguration</span>) -> <span class="kw">some</span> <span class="type">View</span> {
+        configuration.label
+            .<span class="fn">padding</span>(.horizontal, configuration.theme.spacing.lg)
+            .<span class="fn">background</span>(configuration.theme.colors.primary)
+            .<span class="fn">clipShape</span>(<span class="type">Capsule</span>())
+            .<span class="fn">opacity</span>(configuration.isPressed ? <span class="num">0.7</span> : <span class="num">1</span>)
+    }
+}</pre>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Primitives -->
+    <section class="doc-section" id="primitives">
+      <h2>Primitives</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
+          <tbody>
+            <tr><td>DFButton</td><td><code>.filled</code> <code>.outlined</code> <code>.ghost</code> <code>.tinted</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFText</td><td>display, title, headline, body, caption, label</td></tr>
+            <tr><td>DFIcon</td><td>SF Symbol wrapper with token-driven size and color</td></tr>
+            <tr><td>DFBadge</td><td><code>.default</code> <code>.subtle</code> <code>.outlined</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFAvatar</td><td><code>.circle</code> <code>.rounded</code> <code>.ring</code> <code>.glass</code>¹ — image or initials, presence indicators</td></tr>
+            <tr><td>DFDivider</td><td><code>.solid</code> <code>.dashed</code> <code>.gradient</code> — horizontal/vertical, labeled variant</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="doc-section" id="inputs">
+      <h2>Inputs</h2>
+      <p>All input components share <code>DFValidationState</code> (<code>.idle / .valid / .error(String)</code>) for consistent error display.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Built-in Styles / Notes</th></tr></thead>
+          <tbody>
+            <tr><td>DFTextField</td><td><code>.outlined</code> <code>.filled</code></td></tr>
+            <tr><td>DFSecureField</td><td><code>.outlined</code> <code>.filled</code> — reveal toggle built in</td></tr>
+            <tr><td>DFToggle</td><td><code>.switch</code> <code>.checkbox</code></td></tr>
+            <tr><td>DFSlider</td><td><code>.standard</code> <code>.labeled</code></td></tr>
+            <tr><td>DFPicker</td><td><code>.segmented</code> <code>.menu</code> <code>.wheel</code></td></tr>
+            <tr><td>DFDatePicker</td><td><code>.compact</code> <code>.graphical</code> <code>.wheel</code></td></tr>
+            <tr><td>DFCheckbox</td><td><code>.default</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Layout -->
+    <section class="doc-section" id="layout">
+      <h2>Layout</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
+          <tbody>
+            <tr><td>DFCard</td><td><code>.elevated</code> <code>.outlined</code> <code>.filled</code> <code>.glass</code>¹</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Overlays -->
+    <section class="doc-section" id="overlays">
+      <h2>Overlays</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
+          <tbody>
+            <tr><td>DFModal</td><td><code>.standard</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFSheet</td><td><code>.standard</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFPopover</td><td><code>.arrow</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFTooltip</td><td><code>.bubble</code> <code>.glass</code>¹</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="doc-section" id="navigation">
+      <h2>Navigation</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
+          <tbody>
+            <tr><td>DFTabBar</td><td><code>.standard</code> <code>.minimal</code></td></tr>
+            <tr><td>DFNavigationBar</td><td><code>.standard</code> <code>.transparent</code></td></tr>
+            <tr><td>DFSidebar</td><td><code>.standard</code> <code>.plain</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Supplementary -->
+    <section class="doc-section" id="supplementary">
+      <h2>Supplementary</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>DFAlert</td><td>Convenience wrapper over native SwiftUI alert</td></tr>
+            <tr><td>DFToast</td><td>Queue management and auto-dismiss</td></tr>
+            <tr><td>DFSkeleton</td><td>Shimmer animation placeholder</td></tr>
+            <tr><td>DFProgressBar</td><td>Linear, circular, and indeterminate variants</td></tr>
+            <tr><td>DFListRow</td><td>Leading/trailing slots and disclosure indicator</td></tr>
+            <tr><td>DFList</td><td>Swipe-delete, reorder, and multi-select</td></tr>
+            <tr><td>DFTable</td><td>Sortable columns</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>¹ <code>.glass</code> styles require iOS 26+ / macOS 26+.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Blocks -->
+    <section class="doc-section" id="blocks">
+      <h2>DesignFoundationBlocks</h2>
+      <p>
+        A commercial add-on package that sits on top of DesignFoundation — 29 production-ready,
+        fully themed screen blocks for the most common patterns in real apps.
+        Same theming engine, same style system, zero additional dependencies.
+      </p>
+      <div class="blocks-cta">
+        <div class="blocks-cta-text">
+          <h3>29 drop-in blocks</h3>
+          <p>Auth flows, onboarding, dashboards, forms, settings, and more. One configuration struct per block. Respects your active DFTheme automatically.</p>
+        </div>
+        <a class="btn btn-primary" href="/docs/blocks/">Browse all blocks →</a>
+      </div>
+
+      <h3>Installation</h3>
+      <p>DesignFoundationBlocks is a separate private package. Add it alongside DesignFoundation after purchase:</p>
+      <pre><span class="cm">// Package.swift</span>
+<span class="kw">dependencies</span>: [
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>),
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-blocks"</span>, from: <span class="str">"1.0.0"</span>),
+]</pre>
+
+      <h3>Usage</h3>
+      <pre><span class="kw">import</span> <span class="type">DesignFoundationBlocks</span>
+
+<span class="type">DFSignInBlock</span>(
+    configuration: .<span class="fn">init</span>(
+        onSubmit: { email, password <span class="kw">in</span>
+            <span class="cm">// your auth logic</span>
+        },
+        providers: [.<span class="fn">apple</span> { }, .<span class="fn">google</span> { }],
+        onSignUp: { <span class="cm">/* push sign-up */</span> }
+    )
+)</pre>
+      <p>
+        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationBlocks%20License">Get access →</a>
+      </p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Platforms -->
+    <section class="doc-section" id="platforms">
+      <h2>Platforms</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Platform</th><th>Minimum Version</th></tr></thead>
+          <tbody>
+            <tr><td>iOS</td><td>18.0</td></tr>
+            <tr><td>macOS</td><td>15.0</td></tr>
+            <tr><td>visionOS</td><td>2.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>.glass</code> styles require iOS 26+ / macOS 26+. All other styles work on the minimum versions above.</p>
+    </section>
+
+    <!-- License -->
+    <section class="doc-section" id="license">
+      <h2>License</h2>
+      <p>MIT © 2026 NerdSnipe Inc. DesignFoundation is free and open-source. <a href="https://github.com/NerdSnipe-Inc/design-foundation/blob/master/LICENSE">View LICENSE →</a></p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a> ·
+    MIT licensed · Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  // Highlight active sidebar link on scroll
+  const sections = document.querySelectorAll('.doc-section');
+  const links = document.querySelectorAll('.sidebar-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.sidebar-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
