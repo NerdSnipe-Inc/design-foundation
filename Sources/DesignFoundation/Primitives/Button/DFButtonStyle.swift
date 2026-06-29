@@ -104,7 +104,7 @@ public struct DFFilledButtonStyle: DFButtonStyle, Sendable {
 
         return configuration.label
             .font((theme.components.button.labelStyle ?? theme.typography.label).font)
-            .foregroundStyle(.white)
+            .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : .white)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
             .background(
