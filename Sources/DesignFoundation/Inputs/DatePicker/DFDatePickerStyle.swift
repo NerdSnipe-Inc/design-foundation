@@ -78,10 +78,13 @@ public struct DFCompactDatePickerStyle: DFDatePickerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
+        let theme = configuration.theme
         configuration.content
             .datePickerStyle(.compact)
-            .tint(configuration.theme.colors.primary)
+            .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
@@ -92,10 +95,13 @@ public struct DFGraphicalDatePickerStyle: DFDatePickerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
+        let theme = configuration.theme
         configuration.content
             .datePickerStyle(.graphical)
-            .tint(configuration.theme.colors.primary)
+            .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
@@ -106,17 +112,22 @@ public struct DFWheelDatePickerStyle: DFDatePickerStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
+        let theme = configuration.theme
 #if os(iOS) || os(visionOS)
         configuration.content
             .datePickerStyle(.wheel)
-            .tint(configuration.theme.colors.primary)
+            .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
 #else
         configuration.content
             .datePickerStyle(.graphical)
-            .tint(configuration.theme.colors.primary)
+            .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
+            .padding(.horizontal, theme.spacing.md)
+            .padding(.vertical, theme.spacing.sm)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
 #endif
     }
