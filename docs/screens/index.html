@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesignFoundationScreens — Complete App Screens for SwiftUI</title>
+  <meta name="description" content="Production-ready SwiftUI screen verticals built on DesignFoundation. E-commerce, CRM, project management, and more — fully themed, Swift 6 safe." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25);
+      --text: #f0f0f5;
+      --text-secondary: #9090a8;
+      --radius: 12px;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(12px);
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-brand span { color: var(--primary); }
+    .nav-link {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 13px; transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.active { border-color: rgba(99,102,241,0.5); color: var(--text); }
+
+    .hero {
+      padding: 88px 0 72px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--primary); background: var(--primary-glow);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 100px; padding: 4px 14px; margin-bottom: 28px;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-secondary); max-width: 580px; margin: 0 auto 40px;
+    }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 500; text-decoration: none;
+      border-radius: 10px; padding: 12px 24px; transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary {
+      background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    .section { padding: 72px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 12px;
+    }
+    h2 { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; }
+
+    /* Vertical cards */
+    .vertical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .vertical-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .vertical-card.available { border-color: rgba(99,102,241,0.25); }
+    .vertical-card.coming-soon { opacity: 0.55; }
+    .vertical-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .vertical-name { font-size: 16px; font-weight: 600; color: var(--text); }
+    .vertical-pill {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: 100px; padding: 2px 10px;
+    }
+    .pill-available { background: rgba(16,185,129,0.15); color: var(--success); }
+    .pill-soon { background: rgba(245,158,11,0.12); color: var(--warning); }
+    .vertical-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .screen-list { list-style: none; }
+    .screen-list li {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 5px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .screen-list li:last-child { border-bottom: none; }
+    .screen-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .screen-list li.soon::before { background: var(--text-secondary); }
+    code {
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 0.875em;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: var(--primary);
+    }
+
+    /* Contract */
+    .contract {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 32px;
+    }
+    .contract-list { list-style: none; }
+    .contract-list li {
+      font-size: 15px; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .contract-list li:last-child { border-bottom: none; }
+    .contract-list li::before { content: "✓"; color: var(--success); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* Code block */
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 20px 0;
+    }
+    .kw { color: #c678dd; }
+    .type { color: #e5c07b; }
+    .fn { color: #61afef; }
+    .str { color: #98c379; }
+    .cm { color: #5c6370; font-style: italic; }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+    }
+    .price-card.featured { border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06); }
+    .price-tier { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 8px; }
+    .price-amount { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; color: var(--text); margin-bottom: 4px; }
+    .price-note { font-size: 13px; color: var(--text-secondary); }
+
+    /* Tier comparison */
+    .tier-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+    .tier-table th, .tier-table td {
+      padding: 12px 16px; text-align: left; font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tier-table th { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+    .tier-table td:first-child { font-weight: 500; color: var(--text); }
+    .tier-table td { color: var(--text-secondary); }
+    .check { color: var(--success); font-weight: 700; }
+    .dash { color: var(--border); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="/docs/">Design<span>Foundation</span></a>
+    <div style="display:flex;gap:8px">
+      <a class="nav-link" href="/docs/">Primitives</a>
+      <a class="nav-link" href="/docs/pro/">Pro</a>
+      <a class="nav-link active" href="/docs/screens/">Screens</a>
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Commercial Add-on</div>
+    <h1>Complete app screens.<br>Wire up. Ship.</h1>
+    <p class="hero-sub">
+      Production-ready SwiftUI screen verticals built on DesignFoundation —
+      e-commerce, CRM, project management, and more. Pass a configuration struct,
+      connect your data layer, done.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationScreens%20License">Get Access</a>
+      <a class="btn btn-secondary" href="/docs/pro/">View Blocks →</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Verticals -->
+  <section class="section">
+    <p class="section-label">What's included</p>
+    <h2>Screen verticals</h2>
+    <p class="section-sub">
+      Each vertical is a self-contained set of screens that covers a full feature domain.
+      All screens accept typed <code>Configuration</code> structs and read every visual token
+      from your active <code>DFTheme</code>.
+    </p>
+
+    <div class="vertical-grid">
+
+      <!-- E-commerce -->
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">E-commerce</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Order management, product catalog, and revenue analytics for storefront apps.</div>
+        <ul class="screen-list">
+          <li>DFEcommerceOrdersScreen</li>
+          <li>DFEcommerceOrderDetailScreen</li>
+          <li>DFEcommerceProductsScreen</li>
+          <li>DFEcommerceRevenueScreen</li>
+        </ul>
+      </div>
+
+      <!-- CRM -->
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">CRM</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Contact management, deal pipeline, and sales analytics for relationship-driven apps.</div>
+        <ul class="screen-list">
+          <li>DFCRMHomeScreen</li>
+          <li>DFCRMContactsScreen</li>
+          <li>DFCRMContactDetailScreen</li>
+          <li>DFCRMPipelineScreen</li>
+          <li>DFCRMDealDetailScreen</li>
+          <li>DFCRMAnalyticsScreen</li>
+        </ul>
+      </div>
+
+      <!-- Project Management -->
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">Project Management</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Task boards, project detail, and timeline views for productivity apps.</div>
+        <ul class="screen-list">
+          <li>DFPMTaskDetailScreen</li>
+          <li>DFPMProjectDetailScreen</li>
+          <li class="soon">DFPMBoardScreen — coming soon</li>
+          <li class="soon">DFPMTimelineScreen — coming soon</li>
+        </ul>
+      </div>
+
+      <!-- Auth -->
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Auth</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Sign-in, sign-up, forgot password, and 2FA screens with social provider support.</div>
+        <ul class="screen-list">
+          <li class="soon">DFAuthSignInScreen</li>
+          <li class="soon">DFAuthSignUpScreen</li>
+          <li class="soon">DFAuthForgotPasswordScreen</li>
+          <li class="soon">DFAuthOTPScreen</li>
+        </ul>
+      </div>
+
+      <!-- Onboarding -->
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Onboarding</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Feature carousel, permission requests, plan selection, and completion screens.</div>
+        <ul class="screen-list">
+          <li class="soon">DFOnboardingWelcomeScreen</li>
+          <li class="soon">DFOnboardingFeaturesScreen</li>
+          <li class="soon">DFOnboardingPermissionsScreen</li>
+          <li class="soon">DFOnboardingPlanScreen</li>
+        </ul>
+      </div>
+
+      <!-- Settings -->
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Settings</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Profile, account, notification preferences, and danger zone screens.</div>
+        <ul class="screen-list">
+          <li class="soon">DFSettingsHomeScreen</li>
+          <li class="soon">DFSettingsProfileScreen</li>
+          <li class="soon">DFSettingsNotificationsScreen</li>
+          <li class="soon">DFSettingsAccountScreen</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- E-commerce deep dive -->
+  <section class="section">
+    <p class="section-label">E-commerce vertical</p>
+    <h2>Four screens. Full workflow.</h2>
+    <p class="section-sub">
+      From browsing the order list to drilling into revenue analytics — every screen in the
+      e-commerce vertical is connected by the same model layer and passes data down through
+      typed configuration structs.
+    </p>
+
+    <div class="vertical-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))">
+      <div class="vertical-card" style="border-color:rgba(99,102,241,0.2)">
+        <div style="font-size:28px;margin-bottom:12px">📦</div>
+        <div class="vertical-name" style="margin-bottom:6px">Orders</div>
+        <div class="vertical-desc">Searchable order list with status chips, date-range filter, and loading/empty states.</div>
+      </div>
+      <div class="vertical-card" style="border-color:rgba(99,102,241,0.2)">
+        <div style="font-size:28px;margin-bottom:12px">🧾</div>
+        <div class="vertical-name" style="margin-bottom:6px">Order Detail</div>
+        <div class="vertical-desc">Line items, fulfillment timeline, tracking info, and cancel/ship actions.</div>
+      </div>
+      <div class="vertical-card" style="border-color:rgba(99,102,241,0.2)">
+        <div style="font-size:28px;margin-bottom:12px">🛍️</div>
+        <div class="vertical-name" style="margin-bottom:6px">Products</div>
+        <div class="vertical-desc">Grid/list toggle, status filter, sort menu, inventory metrics, and stock indicators.</div>
+      </div>
+      <div class="vertical-card" style="border-color:rgba(99,102,241,0.2)">
+        <div style="font-size:28px;margin-bottom:12px">📊</div>
+        <div class="vertical-name" style="margin-bottom:6px">Revenue</div>
+        <div class="vertical-desc">Period selector, hero revenue tile, stat cards, top products table, and monthly progress ring.</div>
+      </div>
+    </div>
+
+    <pre><span class="cm">// Wire up an orders screen in three lines.</span>
+<span class="type">NavigationStack</span> {
+    <span class="type">DFEcommerceOrdersScreen</span>(
+        configuration: .<span class="fn">init</span>(
+            orders: viewModel.orders,
+            onSelectOrder: { order <span class="kw">in</span> path.append(order) },
+            onRefresh: { <span class="kw">await</span> viewModel.reload() }
+        )
+    )
+}</pre>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Technical contract -->
+  <section class="section">
+    <p class="section-label">Technical contract</p>
+    <h2>Same guarantees. Bigger canvas.</h2>
+    <p class="section-sub">Every screen ships with the same standards as the primitives and blocks.</p>
+
+    <div class="contract">
+      <ul class="contract-list">
+        <li>Typed <code>Configuration</code> struct per screen — no stringly-typed API, no loose dictionaries</li>
+        <li>All colors, typography, spacing, and radius driven by <code>DFTheme</code> — zero hardcoded values</li>
+        <li>Domain model layer per vertical — <code>DFOrder</code>, <code>DFProduct</code>, <code>DFRevenueMetrics</code>, etc.</li>
+        <li>Swift 6 strict concurrency — compiles clean with <code>StrictConcurrency</code> enabled</li>
+        <li>Action closures <code>@MainActor</code>-isolated — safe to call into your actor-isolated view model</li>
+        <li>Light and dark <code>#Preview</code> variants per screen, plus loading and empty state previews</li>
+        <li>Swift Testing suite per screen — logic testable without UI interaction</li>
+        <li>iOS 18 · macOS 15 · visionOS 2</li>
+        <li>No external dependencies beyond <code>DesignFoundation</code> and <code>DesignFoundationPro</code></li>
+      </ul>
+    </div>
+
+    <h3 style="margin-bottom:12px;font-size:17px">Screens depend on Blocks depend on Primitives</h3>
+    <p style="color:var(--text-secondary);margin-bottom:20px">The three packages form a clean dependency chain. You can use Primitives alone, add Blocks on top, or bring in Screens for the full stack.</p>
+
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th>Package</th>
+          <th>What it provides</th>
+          <th>License</th>
+          <th>Requires</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DesignFoundation</td>
+          <td>Theme engine, 30+ primitives, full style system</td>
+          <td>MIT (free)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>DesignFoundationPro</td>
+          <td>29 composite UI blocks</td>
+          <td>Commercial</td>
+          <td>DesignFoundation</td>
+        </tr>
+        <tr>
+          <td>DesignFoundationScreens</td>
+          <td>Full screen verticals with domain models</td>
+          <td>Commercial</td>
+          <td>Foundation + Blocks</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Pricing -->
+  <section class="section">
+    <p class="section-label">Pricing</p>
+    <h2>One upgrade. Everything included.</h2>
+    <p class="section-sub">Blocks and Screens ship as one product — one license covers both. No bundles, no tiers, no upsells.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="price-tier">Individual</div>
+        <div class="price-amount">$149</div>
+        <div class="price-note">Per developer · unlimited projects</div>
+        <a class="btn btn-primary" href="https://buy.stripe.com/bJedR9diM0WW5XZevM04807" style="margin-top:20px;justify-content:center">Buy now →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Team (up to 5)</div>
+        <div class="price-amount">$449</div>
+        <div class="price-note">Flat team license · no per-seat friction</div>
+        <a class="btn btn-secondary" href="https://buy.stripe.com/9B67sLfqU6hgaefgDU04808" style="margin-top:20px;justify-content:center">Buy now →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Annual updates</div>
+        <div class="price-amount">$39<span style="font-size:16px;font-weight:400">/yr</span></div>
+        <div class="price-note">Optional after year 1 · new screens, new blocks, OS updates</div>
+        <a class="btn btn-secondary" href="https://buy.stripe.com/8x29AT4Mg9ts4TVbjA04809" style="margin-top:20px;justify-content:center">Subscribe →</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Foundation -->
+  <section class="section">
+    <p class="section-label">The full stack</p>
+    <h2>Free primitives. Commercial add-ons.</h2>
+    <p class="section-sub">
+      DesignFoundation — the theming engine and full component library — is open-source under MIT.
+      Blocks and Screens are the commercial layers built on top.
+    </p>
+    <div class="cta-row" style="justify-content:flex-start;gap:12px">
+      <a class="btn btn-secondary" href="https://github.com/NerdSnipe-Inc/design-foundation">View Primitives on GitHub →</a>
+      <a class="btn btn-secondary" href="/docs/pro/">Browse Pro →</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="https://github.com/NerdSnipe-Inc/design-foundation">DesignFoundation</a> is MIT licensed ·
+    Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
+  </p>
+</footer>
+
+</body>
+</html>

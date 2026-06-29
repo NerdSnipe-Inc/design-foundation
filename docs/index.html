@@ -205,7 +205,8 @@
     <a class="nav-brand" href="/docs/">Design<span>Foundation</span></a>
     <div class="nav-links">
       <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
-      <a class="nav-link highlight" href="/docs/blocks/">Blocks →</a>
+      <a class="nav-link" href="/docs/pro/">Pro</a>
+      <a class="nav-link highlight" href="/docs/screens/">Screens →</a>
     </div>
   </div>
 </nav>
@@ -237,7 +238,7 @@
     </div>
     <div class="sidebar-group">
       <div class="sidebar-group-label">Add-ons</div>
-      <a class="sidebar-link" href="#blocks">DF Blocks</a>
+      <a class="sidebar-link" href="#addons">Blocks &amp; Screens</a>
     </div>
     <div class="sidebar-group">
       <div class="sidebar-group-label">Reference</div>
@@ -549,44 +550,42 @@
 
     <hr class="divider" />
 
-    <!-- Blocks -->
-    <section class="doc-section" id="blocks">
-      <h2>DesignFoundationBlocks</h2>
+    <!-- Add-ons: Blocks + Screens -->
+    <section class="doc-section" id="addons">
+      <h2>Add-on Packages</h2>
       <p>
-        A commercial add-on package that sits on top of DesignFoundation — 29 production-ready,
-        fully themed screen blocks for the most common patterns in real apps.
-        Same theming engine, same style system, zero additional dependencies.
+        DesignFoundation is the free, open-source foundation. Two commercial packages build on top
+        — blocks for common UI patterns, screens for complete vertical feature sets. All three share
+        the same <code>DFTheme</code>, so a brand color change ripples through everything identically.
       </p>
-      <div class="blocks-cta">
+
+      <div class="blocks-cta" style="margin-top:24px">
         <div class="blocks-cta-text">
-          <h3>29 drop-in blocks</h3>
-          <p>Auth flows, onboarding, dashboards, forms, settings, and more. One configuration struct per block. Respects your active DFTheme automatically.</p>
+          <h3>DesignFoundationPro</h3>
+          <p>29 drop-in blocks — auth flows, onboarding, dashboards, forms, settings, and more. One typed <code>Configuration</code> struct per block.</p>
         </div>
-        <a class="btn btn-primary" href="/docs/blocks/">Browse all blocks →</a>
+        <a class="btn btn-primary" href="/docs/pro/">Browse Pro →</a>
       </div>
 
-      <h3>Installation</h3>
-      <p>DesignFoundationBlocks is a separate private package. Add it alongside DesignFoundation after purchase:</p>
+      <div class="blocks-cta" style="margin-top:16px">
+        <div class="blocks-cta-text">
+          <h3>DesignFoundationScreens</h3>
+          <p>Complete, wired-up screen verticals — e-commerce, CRM, project management, and more. Drop in a screen, pass a <code>Configuration</code>, connect your data layer.</p>
+        </div>
+        <a class="btn btn-primary" href="/docs/screens/">Browse screens →</a>
+      </div>
+
+      <h3 style="margin-top:32px">Installation</h3>
+      <p>Add whichever packages you need alongside DesignFoundation:</p>
       <pre><span class="cm">// Package.swift</span>
 <span class="kw">dependencies</span>: [
     .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>),
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-blocks"</span>, from: <span class="str">"1.0.0"</span>),
+    <span class="cm">// optional commercial packages</span>
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-pro"</span>, from: <span class="str">"1.0.0"</span>),
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-screens"</span>, from: <span class="str">"1.0.0"</span>),
 ]</pre>
-
-      <h3>Usage</h3>
-      <pre><span class="kw">import</span> <span class="type">DesignFoundationBlocks</span>
-
-<span class="type">DFSignInBlock</span>(
-    configuration: .<span class="fn">init</span>(
-        onSubmit: { email, password <span class="kw">in</span>
-            <span class="cm">// your auth logic</span>
-        },
-        providers: [.<span class="fn">apple</span> { }, .<span class="fn">google</span> { }],
-        onSignUp: { <span class="cm">/* push sign-up */</span> }
-    )
-)</pre>
       <p>
-        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationBlocks%20License">Get access →</a>
+        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundation%20License">Get access →</a>
       </p>
     </section>
 
