@@ -85,6 +85,12 @@ public struct DFCompactDatePickerStyle: DFDatePickerStyle, Sendable {
             .disabled(configuration.isDisabled)
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .background(theme.colors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radius.md)
+                    .stroke(theme.colors.border, lineWidth: 1)
+            )
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
