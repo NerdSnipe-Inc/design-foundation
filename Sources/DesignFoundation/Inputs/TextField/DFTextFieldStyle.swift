@@ -129,7 +129,11 @@ public struct DFOutlinedTextFieldStyle: DFTextFieldStyle, Sendable {
             .padding(.vertical, theme.spacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: theme.radius.md)
-                    .stroke(borderColor, lineWidth: configuration.isFocused ? 2 : 1)
+                    .fill(theme.colors.surface)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: theme.radius.md)
+                            .stroke(borderColor, lineWidth: configuration.isFocused ? 2 : 1)
+                    )
             )
             if case .error(let message) = configuration.validationState {
                 Text(message)

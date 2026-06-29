@@ -26,8 +26,8 @@ public struct DFSecureField: View {
 
     public var body: some View {
         let fieldContent: AnyView = isRevealed
-            ? AnyView(TextField(placeholder, text: $text).focused($isFocused))
-            : AnyView(SecureField(placeholder, text: $text).focused($isFocused))
+            ? AnyView(TextField(placeholder, text: $text).focused($isFocused).focusEffectDisabled())
+            : AnyView(SecureField(placeholder, text: $text).focused($isFocused).focusEffectDisabled())
 
         let config = DFSecureFieldStyleConfiguration(
             label: label,

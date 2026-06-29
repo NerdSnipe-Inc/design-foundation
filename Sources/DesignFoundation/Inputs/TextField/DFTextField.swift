@@ -84,6 +84,7 @@ public struct DFTextField: View {
             fieldContent: AnyView(
                 TextField(placeholder, text: $text)
                     .focused($isFocused)
+                    .focusEffectDisabled()
             ),
             leadingContent: leading,
             trailingContent: trailing,
