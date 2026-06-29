@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DesignFoundationBlocks — UI Blocks for SwiftUI</title>
+  <meta name="description" content="10 production-ready SwiftUI UI blocks built on DesignFoundation. Drop-in auth screens, dashboards, settings, and more — fully themeable, Swift 6 safe." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25);
+      --text: #f0f0f5;
+      --text-secondary: #9090a8;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Nav ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 860px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-brand span { color: var(--primary); }
+    .nav-link {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 6px 14px; transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 88px 0 72px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--primary); background: var(--primary-glow);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 100px; padding: 4px 14px; margin-bottom: 28px;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-secondary); max-width: 560px; margin: 0 auto 40px;
+    }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 500; text-decoration: none;
+      border-radius: 10px; padding: 12px 24px; transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary {
+      background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Blocks grid ── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 12px;
+    }
+    h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .block-card {
+      background: var(--surface);
+      padding: 24px;
+      transition: background 0.2s;
+    }
+    .block-card:hover { background: var(--surface2); }
+    .block-icon { font-size: 22px; margin-bottom: 12px; }
+    .block-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .block-desc { font-size: 13px; color: var(--text-secondary); }
+
+    /* ── Contract ── */
+    .contract {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+    .contract-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .contract-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; color: var(--text-secondary);
+    }
+    .contract-list li::before {
+      content: "✓"; color: var(--primary); font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* ── Code block ── */
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      overflow-x: auto;
+      font-size: 14px;
+      font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
+      line-height: 1.7;
+    }
+    .kw { color: #c792ea; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .fn { color: #82aaff; }
+    .type { color: #ffcb6b; }
+
+    /* ── Pricing ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .price-card.featured { border-color: var(--primary); }
+    .price-tier { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; }
+    .price-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .price-note { font-size: 12px; color: var(--text-secondary); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="https://github.com/NerdSnipe-Inc/design-foundation">Design<span>Foundation</span></a>
+    <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">View on GitHub →</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Commercial Add-on</div>
+    <h1>UI Blocks for SwiftUI.<br>Ship screens in minutes.</h1>
+    <p class="hero-sub">
+      10 production-ready blocks built on DesignFoundation — auth screens, dashboards,
+      settings lists, and more. Fully themeable. Swift 6 safe. iOS 18+.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationBlocks%20License">Get Access</a>
+      <a class="btn btn-secondary" href="https://github.com/NerdSnipe-Inc/design-foundation">View Free Primitives →</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Blocks -->
+  <section class="section">
+    <p class="section-label">What's included</p>
+    <h2>10 drop-in blocks</h2>
+    <p class="section-sub">Each block accepts a typed Configuration struct and respects your active DFTheme automatically.</p>
+
+    <div class="grid">
+      <div class="block-card">
+        <div class="block-icon">🔐</div>
+        <div class="block-name">DFSignInBlock</div>
+        <div class="block-desc">Email + password + social auth buttons with an optional sign-up prompt</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📝</div>
+        <div class="block-name">DFSignUpBlock</div>
+        <div class="block-desc">Name, email, password fields with social providers and terms prompt</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🔑</div>
+        <div class="block-name">DFForgotPasswordBlock</div>
+        <div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📊</div>
+        <div class="block-name">DFStatCardBlock</div>
+        <div class="block-desc">KPI with value, trend direction, icon, and tap handler</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📰</div>
+        <div class="block-name">DFActivityFeedRow</div>
+        <div class="block-desc">Avatar, title, message, timestamp, unread indicator</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">👤</div>
+        <div class="block-name">DFContactRow</div>
+        <div class="block-desc">Avatar, name, subtitle, optional badge, disclosure chevron</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🪪</div>
+        <div class="block-name">DFProfileHeaderBlock</div>
+        <div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">⚙️</div>
+        <div class="block-name">DFSettingsSectionBlock</div>
+        <div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🔔</div>
+        <div class="block-name">DFNotificationCell</div>
+        <div class="block-desc">Icon, title, body, timestamp, unread dot, and optional dismiss</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📭</div>
+        <div class="block-name">DFEmptyStateBlock</div>
+        <div class="block-desc">Icon, headline, optional message, optional CTA button</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Technical contract -->
+  <section class="section">
+    <p class="section-label">Technical contract</p>
+    <h2>Built to the same standard as the primitives</h2>
+    <p class="section-sub">Every block ships with the same guarantees.</p>
+
+    <div class="contract">
+      <ul class="contract-list">
+        <li>Typed <code>Configuration</code> struct — no stringly-typed API, no loose dictionaries</li>
+        <li>All colors, typography, spacing, and radius driven by <code>DFTheme</code> — zero hardcoded values</li>
+        <li>Swift 6 strict concurrency — compiles clean with <code>StrictConcurrency</code> enabled</li>
+        <li>Accessibility labels and traits wired by default on every interactive element</li>
+        <li>Light and dark <code>#Preview</code> variants included for every block</li>
+        <li>No external dependencies beyond DesignFoundation itself</li>
+        <li>iOS 18 · macOS 15 · visionOS 2</li>
+      </ul>
+    </div>
+
+    <pre><span class="cm">// One configuration struct. Full theme coverage.</span>
+<span class="kw">let</span> block = <span class="type">DFSignInBlock</span>(
+    configuration: .<span class="fn">init</span>(
+        onSubmit: { email, password <span class="kw">in</span>
+            <span class="cm">// your auth logic</span>
+        },
+        providers: [
+            .<span class="fn">apple</span> { <span class="cm">/* Sign in with Apple */</span> },
+            .<span class="fn">google</span> { <span class="cm">/* Sign in with Google */</span> }
+        ],
+        signUpTitle: <span class="str">"Create account"</span>,
+        onSignUp: { <span class="cm">/* push sign-up screen */</span> }
+    )
+)</pre>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Pricing -->
+  <section class="section">
+    <p class="section-label">Pricing</p>
+    <h2>One-time purchase</h2>
+    <p class="section-sub">No subscriptions. License once, use across unlimited projects.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="price-tier">Individual</div>
+        <div class="price-amount">$149</div>
+        <div class="price-note">Per developer · unlimited projects</div>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Team (up to 5)</div>
+        <div class="price-amount">$449</div>
+        <div class="price-note">Flat team license · no per-seat friction</div>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Annual updates</div>
+        <div class="price-amount">$39<span style="font-size:16px;font-weight:400">/yr</span></div>
+        <div class="price-note">Optional after year 1 · new blocks + OS updates</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundationBlocks%20License">Get Access via Email</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Foundation -->
+  <section class="section">
+    <p class="section-label">The foundation</p>
+    <h2>Free primitives. Commercial blocks.</h2>
+    <p class="section-sub">
+      DesignFoundation — the theming engine and full component library — is open-source under MIT.
+      DesignFoundationBlocks is the paid layer built on top.
+    </p>
+    <div class="cta-row" style="justify-content:flex-start">
+      <a class="btn btn-secondary" href="https://github.com/NerdSnipe-Inc/design-foundation">View DesignFoundation on GitHub →</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="https://github.com/NerdSnipe-Inc/design-foundation">DesignFoundation</a> is MIT licensed ·
+    Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
+  </p>
+</footer>
+
+</body>
+</html>
