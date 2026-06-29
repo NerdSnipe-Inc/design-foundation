@@ -83,6 +83,7 @@ public struct DFTextField: View {
             placeholder: placeholder,
             fieldContent: AnyView(
                 TextField(placeholder, text: $text)
+                    .textFieldStyle(.plain)
                     .focused($isFocused)
                     .focusEffectDisabled()
             ),
