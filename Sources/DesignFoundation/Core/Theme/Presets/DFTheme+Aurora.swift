@@ -1,7 +1,9 @@
 import SwiftUI
 
 public extension DFTheme {
+    /// The light variant of the Aurora preset theme.
     static let auroraLight = DFTheme(colors: .auroraLight, radius: .auroraRadius, shadows: .auroraShadows)
+    /// The dark variant of the Aurora preset theme.
     static let auroraDark  = DFTheme(colors: .auroraDark,  radius: .auroraRadius, shadows: .auroraShadows)
 }
 

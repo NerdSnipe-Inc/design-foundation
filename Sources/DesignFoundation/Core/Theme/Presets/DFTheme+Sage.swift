@@ -1,7 +1,9 @@
 import SwiftUI
 
 public extension DFTheme {
+    /// The light variant of the Sage preset theme.
     static let sageLight = DFTheme(colors: .sageLight, radius: .sageRadius, shadows: .sageShadows)
+    /// The dark variant of the Sage preset theme.
     static let sageDark  = DFTheme(colors: .sageDark,  radius: .sageRadius, shadows: .sageShadows)
 }
 

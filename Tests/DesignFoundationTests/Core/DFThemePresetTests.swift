@@ -47,4 +47,18 @@ struct DFThemePresetTests {
         #expect(DFThemePreset.slate.light.radius.md == DFTheme.slateLight.radius.md)
         #expect(DFThemePreset.slate.dark.radius.md  == DFTheme.slateDark.radius.md)
     }
+
+    @Test("resolve(for:) returns light theme for light color scheme")
+    func resolveReturnsLightForLightScheme() {
+        let preset = DFThemePreset.slate
+        let resolved = preset.resolve(for: .light)
+        #expect(resolved.colors.primary == DFTheme.slateLight.colors.primary)
+    }
+
+    @Test("resolve(for:) returns dark theme for dark color scheme")
+    func resolveReturnsDarkForDarkScheme() {
+        let preset = DFThemePreset.slate
+        let resolved = preset.resolve(for: .dark)
+        #expect(resolved.colors.primary == DFTheme.slateDark.colors.primary)
+    }
 }

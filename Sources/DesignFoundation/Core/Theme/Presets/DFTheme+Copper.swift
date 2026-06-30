@@ -1,7 +1,9 @@
 import SwiftUI
 
 public extension DFTheme {
+    /// The light variant of the Copper preset theme.
     static let copperLight = DFTheme(colors: .copperLight, radius: .copperRadius, shadows: .copperShadows)
+    /// The dark variant of the Copper preset theme.
     static let copperDark  = DFTheme(colors: .copperDark,  radius: .copperRadius, shadows: .copperShadows)
 }
 

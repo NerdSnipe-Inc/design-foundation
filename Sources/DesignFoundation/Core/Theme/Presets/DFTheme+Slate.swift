@@ -2,7 +2,9 @@ import SwiftUI
 
 public extension DFTheme {
     // Slate uses default radius and shadows — DFTheme() defaults apply.
+    /// The light variant of the Slate preset theme.
     static let slateLight = DFTheme(colors: .slateLight)
+    /// The dark variant of the Slate preset theme.
     static let slateDark  = DFTheme(colors: .slateDark)
 }
 
