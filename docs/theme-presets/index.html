@@ -100,6 +100,28 @@
     p { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; }
     p strong { color: var(--text); }
 
+    /* ── Gallery ── */
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .gallery-full { grid-column: 1 / -1; }
+    .gallery-item img {
+      width: 100%; display: block;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .gallery-item img:hover { border-color: rgba(255,255,255,0.2); }
+    .gallery-caption {
+      font-size: 12px; color: var(--text-secondary);
+      margin-top: 8px; padding: 0 2px;
+      line-height: 1.4;
+    }
+    .gallery-caption strong { color: var(--text); font-weight: 600; }
+
     /* ── Theme cards ── */
     .theme-grid {
       display: grid;
@@ -115,72 +137,40 @@
     }
     .theme-card:hover { border-color: rgba(255,255,255,0.15); }
 
+    .theme-img {
+      width: 100%; display: block;
+      border-bottom: 1px solid var(--border);
+    }
+
     .theme-swatch {
       height: 72px;
       display: flex;
       overflow: hidden;
     }
-    .swatch-col {
-      flex: 1;
-      height: 100%;
-    }
-
-    /* Slate light */
-    .slate-bg { background: #FAFAFA; }
-    .slate-surface { background: #F2F2F7; }
-    .slate-primary { background: #1C3D5A; }
-    .slate-accent { background: #2979FF; }
-    /* Slate dark */
-    .slate-dark-bg { background: #0F1923; }
-    .slate-dark-surface { background: #1C2B3A; }
-    .slate-dark-primary { background: #64B5F6; }
-    .slate-dark-accent { background: #82C4FF; }
-
-    /* Aurora light */
-    .aurora-bg { background: #FAFAFA; }
-    .aurora-surface { background: #F3F0FF; }
-    .aurora-primary { background: #6C47FF; }
-    .aurora-accent { background: #A78BFA; }
-    /* Aurora dark */
-    .aurora-dark-bg { background: #0D0A1E; }
-    .aurora-dark-surface { background: #1A1535; }
-    .aurora-dark-primary { background: #A78BFA; }
-    .aurora-dark-accent { background: #C4B5FD; }
-
-    /* Copper light */
-    .copper-bg { background: #FBF8F5; }
-    .copper-surface { background: #F5EDE3; }
-    .copper-primary { background: #C4622D; }
-    .copper-accent { background: #E8894B; }
-    /* Copper dark */
-    .copper-dark-bg { background: #1A1008; }
-    .copper-dark-surface { background: #2C1F12; }
-    .copper-dark-primary { background: #F4A261; }
-    .copper-dark-accent { background: #FFB74D; }
-
-    /* Sage light */
-    .sage-bg { background: #F7FAF7; }
-    .sage-surface { background: #EDF4EE; }
-    .sage-primary { background: #2D6A4F; }
-    .sage-accent { background: #52B788; }
-    /* Sage dark */
-    .sage-dark-bg { background: #0A1A0F; }
-    .sage-dark-surface { background: #162B1C; }
-    .sage-dark-primary { background: #74C69D; }
-    .sage-dark-accent { background: #95D5B2; }
-
-    .theme-swatch-label {
-      font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5); position: absolute;
-      bottom: 6px; left: 0; right: 0; text-align: center;
-    }
+    .swatch-col { flex: 1; height: 100%; }
     .swatch-half { flex: 1; display: flex; position: relative; }
-    .swatch-divider {
-      width: 1px;
-      background: rgba(0,0,0,0.15);
-      flex-shrink: 0;
-      align-self: stretch;
-    }
+    .swatch-divider { width: 1px; background: rgba(0,0,0,0.15); flex-shrink: 0; align-self: stretch; }
+
+    /* Slate */
+    .slate-bg { background: #FAFAFA; } .slate-surface { background: #F2F2F7; }
+    .slate-primary { background: #1C3D5A; } .slate-accent { background: #2979FF; }
+    .slate-dark-bg { background: #0F1923; } .slate-dark-surface { background: #1C2B3A; }
+    .slate-dark-primary { background: #64B5F6; } .slate-dark-accent { background: #82C4FF; }
+    /* Aurora */
+    .aurora-bg { background: #FAFAFA; } .aurora-surface { background: #F3F0FF; }
+    .aurora-primary { background: #6C47FF; } .aurora-accent { background: #A78BFA; }
+    .aurora-dark-bg { background: #0D0A1E; } .aurora-dark-surface { background: #1A1535; }
+    .aurora-dark-primary { background: #A78BFA; } .aurora-dark-accent { background: #C4B5FD; }
+    /* Copper */
+    .copper-bg { background: #FBF8F5; } .copper-surface { background: #F5EDE3; }
+    .copper-primary { background: #C4622D; } .copper-accent { background: #E8894B; }
+    .copper-dark-bg { background: #1A1008; } .copper-dark-surface { background: #2C1F12; }
+    .copper-dark-primary { background: #F4A261; } .copper-dark-accent { background: #FFB74D; }
+    /* Sage */
+    .sage-bg { background: #F7FAF7; } .sage-surface { background: #EDF4EE; }
+    .sage-primary { background: #2D6A4F; } .sage-accent { background: #52B788; }
+    .sage-dark-bg { background: #0A1A0F; } .sage-dark-surface { background: #162B1C; }
+    .sage-dark-primary { background: #74C69D; } .sage-dark-accent { background: #95D5B2; }
 
     .theme-body { padding: 22px 24px 24px; }
     .theme-name {
@@ -335,17 +325,13 @@
       <div class="theme-card">
         <div class="theme-swatch">
           <div class="swatch-half">
-            <div class="swatch-col slate-bg"></div>
-            <div class="swatch-col slate-surface"></div>
-            <div class="swatch-col slate-primary"></div>
-            <div class="swatch-col slate-accent"></div>
+            <div class="swatch-col slate-bg"></div><div class="swatch-col slate-surface"></div>
+            <div class="swatch-col slate-primary"></div><div class="swatch-col slate-accent"></div>
           </div>
           <div class="swatch-divider"></div>
           <div class="swatch-half">
-            <div class="swatch-col slate-dark-bg"></div>
-            <div class="swatch-col slate-dark-surface"></div>
-            <div class="swatch-col slate-dark-primary"></div>
-            <div class="swatch-col slate-dark-accent"></div>
+            <div class="swatch-col slate-dark-bg"></div><div class="swatch-col slate-dark-surface"></div>
+            <div class="swatch-col slate-dark-primary"></div><div class="swatch-col slate-dark-accent"></div>
           </div>
         </div>
         <div class="theme-body">
@@ -364,17 +350,13 @@
       <div class="theme-card">
         <div class="theme-swatch">
           <div class="swatch-half">
-            <div class="swatch-col aurora-bg"></div>
-            <div class="swatch-col aurora-surface"></div>
-            <div class="swatch-col aurora-primary"></div>
-            <div class="swatch-col aurora-accent"></div>
+            <div class="swatch-col aurora-bg"></div><div class="swatch-col aurora-surface"></div>
+            <div class="swatch-col aurora-primary"></div><div class="swatch-col aurora-accent"></div>
           </div>
           <div class="swatch-divider"></div>
           <div class="swatch-half">
-            <div class="swatch-col aurora-dark-bg"></div>
-            <div class="swatch-col aurora-dark-surface"></div>
-            <div class="swatch-col aurora-dark-primary"></div>
-            <div class="swatch-col aurora-dark-accent"></div>
+            <div class="swatch-col aurora-dark-bg"></div><div class="swatch-col aurora-dark-surface"></div>
+            <div class="swatch-col aurora-dark-primary"></div><div class="swatch-col aurora-dark-accent"></div>
           </div>
         </div>
         <div class="theme-body">
@@ -393,17 +375,13 @@
       <div class="theme-card">
         <div class="theme-swatch">
           <div class="swatch-half">
-            <div class="swatch-col copper-bg"></div>
-            <div class="swatch-col copper-surface"></div>
-            <div class="swatch-col copper-primary"></div>
-            <div class="swatch-col copper-accent"></div>
+            <div class="swatch-col copper-bg"></div><div class="swatch-col copper-surface"></div>
+            <div class="swatch-col copper-primary"></div><div class="swatch-col copper-accent"></div>
           </div>
           <div class="swatch-divider"></div>
           <div class="swatch-half">
-            <div class="swatch-col copper-dark-bg"></div>
-            <div class="swatch-col copper-dark-surface"></div>
-            <div class="swatch-col copper-dark-primary"></div>
-            <div class="swatch-col copper-dark-accent"></div>
+            <div class="swatch-col copper-dark-bg"></div><div class="swatch-col copper-dark-surface"></div>
+            <div class="swatch-col copper-dark-primary"></div><div class="swatch-col copper-dark-accent"></div>
           </div>
         </div>
         <div class="theme-body">
@@ -422,17 +400,13 @@
       <div class="theme-card">
         <div class="theme-swatch">
           <div class="swatch-half">
-            <div class="swatch-col sage-bg"></div>
-            <div class="swatch-col sage-surface"></div>
-            <div class="swatch-col sage-primary"></div>
-            <div class="swatch-col sage-accent"></div>
+            <div class="swatch-col sage-bg"></div><div class="swatch-col sage-surface"></div>
+            <div class="swatch-col sage-primary"></div><div class="swatch-col sage-accent"></div>
           </div>
           <div class="swatch-divider"></div>
           <div class="swatch-half">
-            <div class="swatch-col sage-dark-bg"></div>
-            <div class="swatch-col sage-dark-surface"></div>
-            <div class="swatch-col sage-dark-primary"></div>
-            <div class="swatch-col sage-dark-accent"></div>
+            <div class="swatch-col sage-dark-bg"></div><div class="swatch-col sage-dark-surface"></div>
+            <div class="swatch-col sage-dark-primary"></div><div class="swatch-col sage-dark-accent"></div>
           </div>
         </div>
         <div class="theme-body">
@@ -447,6 +421,36 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- Gallery — below the theme cards -->
+  <section class="section" style="padding-top:0">
+    <p class="section-label">Live previews</p>
+    <h2>Light and dark, out of the box</h2>
+    <p class="section-sub">Every preset ships both a light and a dark theme. The <code>dfThemePreset()</code> modifier selects the correct variant automatically based on the system color scheme.</p>
+
+    <div class="gallery">
+      <div class="gallery-item gallery-full">
+        <img src="/docs/images/theme-default.png" alt="Default theme — light and dark" loading="lazy">
+        <div class="gallery-caption"><strong>Default</strong> — System semantic colors. Fully adaptive, no preset required.</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/docs/images/theme-slate.png" alt="Slate preset — light and dark" loading="lazy">
+        <div class="gallery-caption"><strong>.slate</strong> — Professional, navy-slate brand. Default radius and shadows.</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/docs/images/theme-aurora.png" alt="Aurora preset — light and dark" loading="lazy">
+        <div class="gallery-caption"><strong>.aurora</strong> — Electric violet. Rounded corners, soft shadows.</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/docs/images/theme-copper.png" alt="Copper preset — light and dark" loading="lazy">
+        <div class="gallery-caption"><strong>.copper</strong> — Warm amber on cream. Sharp corners, defined shadows.</div>
+      </div>
+      <div class="gallery-item">
+        <img src="/docs/images/theme-sage.png" alt="Sage preset — light and dark" loading="lazy">
+        <div class="gallery-caption"><strong>.sage</strong> — Deep sage green. Very rounded corners, airy shadows.</div>
+      </div>
     </div>
   </section>
 

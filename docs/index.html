@@ -184,6 +184,25 @@
 
     hr.divider { border: none; border-top: 1px solid var(--border); margin: 0 0 64px; }
 
+    /* ── Theme gallery ── */
+    .theme-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0 28px;
+    }
+    .theme-gallery-full { grid-column: 1 / -1; }
+    .theme-gallery-item img {
+      width: 100%; display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .theme-gallery-caption {
+      font-size: 12px; color: var(--text-secondary);
+      margin-top: 6px; padding: 0 2px;
+    }
+    .theme-gallery-caption strong { color: var(--text); }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 28px 24px;
@@ -437,7 +456,30 @@
         </table>
       </div>
 
-      <div class="blocks-cta" style="margin-top:8px">
+      <div class="theme-gallery" style="margin-top:24px">
+        <div class="theme-gallery-item theme-gallery-full">
+          <img src="/docs/images/theme-default.png" alt="Default theme — light and dark" loading="lazy">
+          <div class="theme-gallery-caption"><strong>Default</strong> — System semantic colors. No preset required.</div>
+        </div>
+        <div class="theme-gallery-item">
+          <img src="/docs/images/theme-slate.png" alt="Slate preset — light and dark" loading="lazy">
+          <div class="theme-gallery-caption"><strong>.slate</strong> — Navy-slate, default radius.</div>
+        </div>
+        <div class="theme-gallery-item">
+          <img src="/docs/images/theme-aurora.png" alt="Aurora preset — light and dark" loading="lazy">
+          <div class="theme-gallery-caption"><strong>.aurora</strong> — Electric violet, rounded.</div>
+        </div>
+        <div class="theme-gallery-item">
+          <img src="/docs/images/theme-copper.png" alt="Copper preset — light and dark" loading="lazy">
+          <div class="theme-gallery-caption"><strong>.copper</strong> — Warm amber, sharp corners.</div>
+        </div>
+        <div class="theme-gallery-item">
+          <img src="/docs/images/theme-sage.png" alt="Sage preset — light and dark" loading="lazy">
+          <div class="theme-gallery-caption"><strong>.sage</strong> — Deep sage green, very rounded.</div>
+        </div>
+      </div>
+
+      <div class="blocks-cta" style="margin-top:24px">
         <div class="blocks-cta-text">
           <h3>Theme Presets Guide</h3>
           <p>Full color palettes, radius and shadow specs, API reference, and power-user patterns.</p>
