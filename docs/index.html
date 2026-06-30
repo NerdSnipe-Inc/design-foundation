@@ -3,8 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DesignFoundation — Docs</title>
-  <meta name="description" content="DesignFoundation: production-grade SwiftUI design system. Token-based theming, style-swappable components, Liquid Glass support, Swift 6 safe." />
+
+  <!-- Primary SEO -->
+  <title>DesignFoundation — SwiftUI Component Library &amp; Design System</title>
+  <meta name="description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 30+ accessible components, preset themes, Liquid Glass (iOS 26), Swift 6. Free via SPM." />
+  <meta name="keywords" content="swiftui component library, swiftui design system, swiftui ui kit, swift package manager ui components, swiftui dark mode, swiftui theming, swiftui button style, swiftui color tokens, swiftui ios 18, swiftui macos 15, swiftui visionos, swift 6 components, swiftui liquid glass ios 26, swiftui badge component, swiftui card component, swiftui avatar presence, swiftui text field outlined, swiftui form validation, swiftui modal sheet, swiftui toast notification, swiftui skeleton loading, swiftui design tokens, swiftui accessibility wcag, swiftui multiplatform ios macos, ios swiftui framework, swiftui style protocol, swiftui environment theme injection, production ready swiftui, swiftui reusable components, indie dev swiftui, swiftui professional ui, swiftui spm package" />
+  <meta name="author" content="NerdSnipe Inc" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://nerdsnipe-inc.github.io/design-foundation/" />
+  <meta name="theme-color" content="#6366f1" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DesignFoundation" />
+  <meta property="og:title" content="DesignFoundation — SwiftUI Component Library &amp; Design System" />
+  <meta property="og:description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 30+ components, preset themes, Liquid Glass, Swift 6. Free &amp; open-source via SPM." />
+  <meta property="og:url" content="https://nerdsnipe-inc.github.io/design-foundation/" />
+  <meta property="og:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
+  <meta property="og:image:alt" content="DesignFoundation SwiftUI component library — light and dark mode preview" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DesignFoundation — SwiftUI Component Library &amp; Design System" />
+  <meta name="twitter:description" content="Production-grade SwiftUI component library. Token-based theming, 30+ accessible components, preset themes, Liquid Glass, Swift 6. Free via SPM." />
+  <meta name="twitter:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
+  <meta name="twitter:image:alt" content="DesignFoundation SwiftUI components — light and dark mode" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -216,6 +241,195 @@
       .page { display: block; }
     }
   </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://nerdsnipe-inc.github.io/design-foundation/#software",
+        "name": "DesignFoundation",
+        "alternateName": ["DesignFoundation SwiftUI", "DF SwiftUI Design System"],
+        "description": "Production-grade SwiftUI design system and component library for iOS, macOS, and visionOS. Token-based theming engine, 30+ accessible components, four preset visual identities (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26/macOS 26, and Swift 6 strict concurrency safety.",
+        "url": "https://nerdsnipe-inc.github.io/design-foundation/",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Swift Package, iOS UI Framework, Design System",
+        "operatingSystem": ["iOS 18.0+", "macOS 15.0+", "visionOS 2.0+"],
+        "programmingLanguage": {
+          "@type": "ComputerLanguage",
+          "name": "Swift"
+        },
+        "softwareVersion": "1.1.0",
+        "releaseNotes": "https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/v1.1.0",
+        "softwareRequirements": "Xcode 16+, Swift 6, iOS 18 / macOS 15 / visionOS 2",
+        "downloadUrl": "https://github.com/NerdSnipe-Inc/design-foundation",
+        "codeRepository": "https://github.com/NerdSnipe-Inc/design-foundation",
+        "license": "https://opensource.org/licenses/MIT",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free and open-source under the MIT license"
+        },
+        "creator": {
+          "@type": "Organization",
+          "@id": "https://nerdsnipe-inc.github.io/design-foundation/#organization",
+          "name": "NerdSnipe Inc",
+          "url": "https://nerdsnipe-inc.github.io/design-foundation/",
+          "email": "nerdsnipe.inc@gmail.com"
+        },
+        "screenshot": [
+          "https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png",
+          "https://nerdsnipe-inc.github.io/design-foundation/images/theme-slate.png",
+          "https://nerdsnipe-inc.github.io/design-foundation/images/theme-aurora.png",
+          "https://nerdsnipe-inc.github.io/design-foundation/images/theme-copper.png",
+          "https://nerdsnipe-inc.github.io/design-foundation/images/theme-sage.png"
+        ],
+        "featureList": [
+          "Token-based color, typography, spacing, radius, shadow, and animation system",
+          "DFButton — filled, outlined, ghost, tinted, glass styles",
+          "DFBadge — default, subtle, outlined, glass variants",
+          "DFAvatar — circle, rounded, ring, glass; image or initials; presence indicators",
+          "DFCard — elevated, outlined, filled, glass variants",
+          "DFTextField and DFSecureField — outlined and filled styles with reveal toggle",
+          "DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox",
+          "DFModal, DFSheet, DFPopover, DFTooltip overlay components",
+          "DFTabBar, DFNavigationBar, DFSidebar navigation components",
+          "DFToast with queue management, DFSkeleton shimmer, DFProgressBar",
+          "DFList with swipe-delete and reorder, DFTable with sortable columns",
+          "Four preset themes: Slate, Aurora, Copper, Sage",
+          "Automatic light/dark switching via dfThemePreset() modifier",
+          "Liquid Glass styles for iOS 26+ and macOS 26+",
+          "Swift 6 strict concurrency safe",
+          "Swift Package Manager distribution",
+          "Accessibility-first with WCAG-compliant contrast ratios"
+        ],
+        "keywords": "SwiftUI component library, SwiftUI design system, SwiftUI UI kit, iOS component library, macOS SwiftUI components, Swift Package Manager UI, dark mode SwiftUI, Liquid Glass SwiftUI, Swift 6 components"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://nerdsnipe-inc.github.io/design-foundation/#website",
+        "name": "DesignFoundation",
+        "url": "https://nerdsnipe-inc.github.io/design-foundation/",
+        "description": "Documentation and guides for DesignFoundation — the production-grade SwiftUI component library",
+        "publisher": {
+          "@id": "https://nerdsnipe-inc.github.io/design-foundation/#organization"
+        },
+        "potentialAction": {
+          "@type": "ReadAction",
+          "target": "https://nerdsnipe-inc.github.io/design-foundation/"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://nerdsnipe-inc.github.io/design-foundation/#webpage",
+        "url": "https://nerdsnipe-inc.github.io/design-foundation/",
+        "name": "DesignFoundation — SwiftUI Component Library & Design System",
+        "description": "Production-grade SwiftUI component library. Token-based theming, 30+ accessible components, preset themes, Liquid Glass, Swift 6.",
+        "inLanguage": "en-US",
+        "isPartOf": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#website"},
+        "about": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#software"},
+        "dateModified": "2026-06-30",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "DesignFoundation",
+              "item": "https://nerdsnipe-inc.github.io/design-foundation/"
+            }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does DesignFoundation support dark mode?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Every component in DesignFoundation fully supports dark mode. The four built-in preset themes (Slate, Aurora, Copper, Sage) each ship a distinct light and dark variant. The dfThemePreset() modifier reads the system color scheme and selects the correct variant automatically."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is DesignFoundation compatible with Swift 6?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. DesignFoundation is built with Swift 6 strict concurrency enabled (StrictConcurrency experimental feature). All public types conform to Sendable where required, making it safe to use in Swift 6 apps without warnings."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does DesignFoundation support Liquid Glass on iOS 26 and macOS 26?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. DesignFoundation provides .glass styles for buttons, cards, badges, avatars, modals, sheets, popovers, and tooltips. These use native Liquid Glass materials on iOS 26+ and macOS 26+."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I install DesignFoundation via Swift Package Manager?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In Xcode: File > Add Package Dependencies, enter https://github.com/NerdSnipe-Inc/design-foundation, select from version 1.1.0. Or add to Package.swift: .package(url: \"https://github.com/NerdSnipe-Inc/design-foundation\", from: \"1.1.0\")"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What SwiftUI platforms does DesignFoundation support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DesignFoundation supports iOS 18.0+, macOS 15.0+, and visionOS 2.0+. It is distributed as a Swift Package and integrates with any SwiftUI app targeting these platforms."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I customize DesignFoundation themes with my own brand colors?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. DFTheme is fully customizable. Use a preset as a base: var custom = DFTheme.slateLight; custom.colors.primary = .indigo; MyView().dfTheme(custom). You can override any token: colors, typography, spacing, radius, shadows, or animation curves."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is DesignFoundation free to use commercially?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. DesignFoundation is open-source under the MIT license and free for personal and commercial use. DesignFoundation Pro is a paid add-on with 29 pre-built screen-level UI blocks (auth flows, onboarding, dashboards, e-commerce, CRM screens)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between DesignFoundation and DesignFoundation Pro?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DesignFoundation (free, MIT) provides the full component library: 30+ primitive components, the theming engine, preset themes, and style protocols. DesignFoundation Pro is a paid add-on providing 29 complete screen-level UI blocks — auth screens, onboarding flows, dashboards, settings, profiles, e-commerce, and CRM — built on top of the free library."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "name": "DesignFoundation Component Categories",
+        "description": "All component categories included in the DesignFoundation SwiftUI library",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Primitives", "description": "DFButton, DFText, DFIcon, DFBadge, DFAvatar, DFDivider"},
+          {"@type": "ListItem", "position": 2, "name": "Inputs", "description": "DFTextField, DFSecureField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox"},
+          {"@type": "ListItem", "position": 3, "name": "Layout", "description": "DFCard — elevated, outlined, filled, glass styles"},
+          {"@type": "ListItem", "position": 4, "name": "Overlays", "description": "DFModal, DFSheet, DFPopover, DFTooltip"},
+          {"@type": "ListItem", "position": 5, "name": "Navigation", "description": "DFTabBar, DFNavigationBar, DFSidebar"},
+          {"@type": "ListItem", "position": 6, "name": "Supplementary", "description": "DFAlert, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable"},
+          {"@type": "ListItem", "position": 7, "name": "Theme Presets", "description": "Slate, Aurora, Copper, Sage — each with automatic light/dark switching"}
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

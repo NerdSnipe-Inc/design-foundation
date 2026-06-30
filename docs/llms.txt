@@ -1,0 +1,29 @@
+# DesignFoundation
+
+> Production-grade SwiftUI component library and design system for iOS, macOS, and visionOS — free, open-source (MIT), distributed via Swift Package Manager.
+
+DesignFoundation gives Swift developers a token-based theming engine, 30+ accessible SwiftUI components, four opinionated visual identity presets (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
+
+## Documentation
+
+- [Component Library & Design System](https://nerdsnipe-inc.github.io/design-foundation/): Full documentation — installation, theming, all components, style system, platform support.
+- [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
+- [DesignFoundation Pro — UI Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 29 production-ready screen-level SwiftUI blocks: auth flows, onboarding, dashboards, settings, profiles, e-commerce, CRM. Fully themeable, Swift 6, iOS 18+.
+
+## Source
+
+- [GitHub Repository](https://github.com/NerdSnipe-Inc/design-foundation): Source code, releases, issues, and Swift Package Manager URL.
+- [Latest Release — v1.1.0](https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/v1.1.0): Release notes for v1.1.0 (preset themes, resolve(for:) API, macOS token fixes, semantic typography).
+
+## Key Facts
+
+- **License:** MIT (free for personal and commercial use)
+- **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation
+- **Current version:** 1.1.0
+- **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
+- **Swift version:** Swift 6 (strict concurrency enabled)
+- **Components:** DFButton, DFBadge, DFAvatar, DFCard, DFTextField, DFSecureField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFModal, DFSheet, DFPopover, DFTooltip, DFTabBar, DFNavigationBar, DFSidebar, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDivider, DFText, DFIcon, DFAlert
+- **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); all tokens (colors, typography, spacing, radius, shadow, animation) are overridable
+- **Preset themes:** .slate, .aurora, .copper, .sage — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
+- **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips — requires iOS 26+ / macOS 26+
+- **Contact:** nerdsnipe.inc@gmail.com
