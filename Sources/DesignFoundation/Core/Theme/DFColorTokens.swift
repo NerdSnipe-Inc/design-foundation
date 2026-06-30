@@ -13,8 +13,11 @@ public struct DFColorTokens: Sendable {
     public var accent: Color
 
     // MARK: Surfaces
+    /// App canvas. iOS: `systemBackground`. macOS: `textBackgroundColor` (not `windowBackgroundColor`).
     public var background: Color
+    /// Grouped panels and secondary regions. iOS: `secondarySystemBackground`. macOS: `controlBackgroundColor`.
     public var surface: Color
+    /// Cards and raised panels. iOS: `tertiarySystemBackground`. macOS: `windowBackgroundColor`.
     public var surfaceElevated: Color
 
     // MARK: Content
@@ -55,7 +58,7 @@ public struct DFColorTokens: Sendable {
         interactiveFill: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
         interactiveHover: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.85),
         interactivePressed: Color = Color(red: 0.0, green: 0.478, blue: 1.0).opacity(0.7),
-        interactiveDisabled: Color = Color(UIColor.systemFill),
+        interactiveDisabled: Color = Color(UIColor.systemGray5),
         destructive: Color = Color(UIColor.systemRed),
         success: Color = Color(UIColor.systemGreen),
         warning: Color = Color(UIColor.systemOrange),
@@ -87,10 +90,12 @@ public struct DFColorTokens: Sendable {
         primary: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
         secondary: Color = Color(white: 0.55),
         accent: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
-        background: Color = Color(NSColor.windowBackgroundColor),
+        // Canvas → grouped surface → elevated card (darkest to lightest in dark mode).
+        // Avoid windowBackgroundColor as canvas — it reads as bright gray beside sidebars.
+        background: Color = Color(NSColor.textBackgroundColor),
         surface: Color = Color(NSColor.controlBackgroundColor),
-        surfaceElevated: Color = Color(NSColor.controlColor),
-        textPrimary: Color = Color(NSColor.textColor),
+        surfaceElevated: Color = Color(NSColor.windowBackgroundColor),
+        textPrimary: Color = Color(NSColor.labelColor),
         textSecondary: Color = Color(NSColor.secondaryLabelColor),
         textDisabled: Color = Color(NSColor.tertiaryLabelColor),
         border: Color = Color(NSColor.separatorColor),

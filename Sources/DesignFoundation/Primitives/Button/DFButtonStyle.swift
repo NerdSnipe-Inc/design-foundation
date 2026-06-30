@@ -115,7 +115,6 @@ public struct DFFilledButtonStyle: DFButtonStyle, Sendable {
             )
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(theme.animation.fast, value: configuration.isPressed)
-            .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
 

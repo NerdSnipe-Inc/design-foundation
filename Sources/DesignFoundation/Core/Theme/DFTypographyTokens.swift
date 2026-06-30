@@ -12,6 +12,20 @@ public struct DFTextStyle: Sendable {
     }
 }
 
+/// Semantic typography tokens backed by SwiftUI text styles so sizes adapt per platform
+/// (e.g. macOS body ≈ 13 pt, iOS body ≈ 17 pt) instead of fixed point sizes everywhere.
+///
+/// **Role guide** — pick by UI job, not by “how big should this feel”:
+/// | Token | Use |
+/// |---|---|
+/// | `display` | Full-screen heroes, onboarding headlines |
+/// | `title` | Screen-level focal metrics, modal headers |
+/// | `headline` | Section headers, emphasized KPIs in cards |
+/// | `body` | Primary reading text, form fields |
+/// | `label` | Dense row primary text, toolbar labels, table cells |
+/// | `caption` | Metadata, timestamps, badges, secondary lines |
+///
+/// Do **not** use `title` or `display` inside list rows, kanban cards, or sidebar tables.
 public struct DFTypographyTokens: Sendable {
     public var display: DFTextStyle
     public var title: DFTextStyle
@@ -21,12 +35,19 @@ public struct DFTypographyTokens: Sendable {
     public var label: DFTextStyle
 
     public init(
-        display: DFTextStyle = DFTextStyle(font: .system(size: 34, weight: .bold), lineSpacing: 4, tracking: -0.5),
-        title: DFTextStyle = DFTextStyle(font: .system(size: 28, weight: .semibold), lineSpacing: 2),
-        headline: DFTextStyle = DFTextStyle(font: .system(size: 17, weight: .semibold)),
-        body: DFTextStyle = DFTextStyle(font: .system(size: 17, weight: .regular), lineSpacing: 2),
-        caption: DFTextStyle = DFTextStyle(font: .system(size: 12, weight: .regular), lineSpacing: 1),
-        label: DFTextStyle = DFTextStyle(font: .system(size: 13, weight: .medium))
+        display: DFTextStyle = DFTextStyle(
+            font: .largeTitle.weight(.bold),
+            lineSpacing: 4,
+            tracking: -0.5
+        ),
+        title: DFTextStyle = DFTextStyle(
+            font: .title2.weight(.semibold),
+            lineSpacing: 2
+        ),
+        headline: DFTextStyle = DFTextStyle(font: .headline.weight(.semibold)),
+        body: DFTextStyle = DFTextStyle(font: .body, lineSpacing: 2),
+        caption: DFTextStyle = DFTextStyle(font: .caption, lineSpacing: 1),
+        label: DFTextStyle = DFTextStyle(font: .subheadline.weight(.medium))
     ) {
         self.display = display
         self.title = title
