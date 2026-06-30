@@ -19,9 +19,9 @@ public enum DFAlertActionRole: Sendable, Equatable {
 public struct DFAlertAction: Sendable {
     public let title: String
     public let role: DFAlertActionRole?
-    public let action: (@Sendable () -> Void)?
+    public let action: (@MainActor @Sendable () -> Void)?
 
-    public init(title: String, role: DFAlertActionRole? = nil, action: (@Sendable () -> Void)? = nil) {
+    public init(title: String, role: DFAlertActionRole? = nil, action: (@MainActor @Sendable () -> Void)? = nil) {
         self.title = title
         self.role = role
         self.action = action
