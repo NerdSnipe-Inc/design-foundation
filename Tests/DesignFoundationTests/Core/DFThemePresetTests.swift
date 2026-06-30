@@ -24,26 +24,23 @@ struct DFThemePresetTests {
         #expect(preset.light.colors.primary != preset.dark.colors.primary)
     }
 
-    // TODO: Uncomment when Aurora preset is implemented (Task 3)
-    // @Test("aurora preset light and dark primaries differ")
-    // func auroraPresetHasTwoDistinctThemes() {
-    //     let preset = DFThemePreset.aurora
-    //     #expect(preset.light.colors.primary != preset.dark.colors.primary)
-    // }
+    @Test("aurora preset light and dark primaries differ")
+    func auroraPresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.aurora
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
 
-    // TODO: Uncomment when Copper preset is implemented (Task 4)
-    // @Test("copper preset light and dark primaries differ")
-    // func copperPresetHasTwoDistinctThemes() {
-    //     let preset = DFThemePreset.copper
-    //     #expect(preset.light.colors.primary != preset.dark.colors.primary)
-    // }
+    @Test("copper preset light and dark primaries differ")
+    func copperPresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.copper
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
 
-    // TODO: Uncomment when Sage preset is implemented (Task 5)
-    // @Test("sage preset light and dark primaries differ")
-    // func sagePresetHasTwoDistinctThemes() {
-    //     let preset = DFThemePreset.sage
-    //     #expect(preset.light.colors.primary != preset.dark.colors.primary)
-    // }
+    @Test("sage preset light and dark primaries differ")
+    func sagePresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.sage
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
 
     @Test("preset light theme matches named DFTheme static")
     func presetLightMatchesNamedStatic() {
