@@ -8,7 +8,7 @@ DesignFoundation gives Swift developers a token-based theming engine, 30+ access
 
 - [Component Library & Design System](https://nerdsnipe-inc.github.io/design-foundation/): Full documentation — installation, theming, all components, style system, platform support.
 - [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
-- [DesignFoundation Pro — UI Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 29 production-ready screen-level SwiftUI blocks: auth flows, onboarding, dashboards, settings, profiles, e-commerce, CRM. Fully themeable, Swift 6, iOS 18+.
+- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 47 full SwiftUI screens across 9 verticals (AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social) + 26 UI blocks + 18 shell layouts. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
 ## Source
 
