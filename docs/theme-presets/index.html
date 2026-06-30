@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preset Themes — DesignFoundation</title>
+  <meta name="description" content="Four opinionated SwiftUI visual identities built into DesignFoundation: Slate, Aurora, Copper, and Sage. One line, automatic light/dark switching." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25);
+      --text: #f0f0f5;
+      --text-secondary: #9090a8;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(12px);
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-brand span { color: var(--primary); }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-link {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 13px; transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.active { border-color: rgba(99,102,241,0.5); color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--primary); background: var(--primary-glow);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 100px; padding: 4px 14px; margin-bottom: 24px;
+    }
+    h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-secondary); max-width: 540px; margin: 0 auto 36px;
+    }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 500; text-decoration: none;
+      border-radius: 9px; padding: 10px 22px; transition: opacity 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; margin-top: 0; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 36px; font-size: 15px; }
+    p { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; }
+    p strong { color: var(--text); }
+
+    /* ── Theme cards ── */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .theme-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .theme-card:hover { border-color: rgba(255,255,255,0.15); }
+
+    .theme-swatch {
+      height: 72px;
+      display: flex;
+      overflow: hidden;
+    }
+    .swatch-col {
+      flex: 1;
+      height: 100%;
+    }
+
+    /* Slate light */
+    .slate-bg { background: #FAFAFA; }
+    .slate-surface { background: #F2F2F7; }
+    .slate-primary { background: #1C3D5A; }
+    .slate-accent { background: #2979FF; }
+    /* Slate dark */
+    .slate-dark-bg { background: #0F1923; }
+    .slate-dark-surface { background: #1C2B3A; }
+    .slate-dark-primary { background: #64B5F6; }
+    .slate-dark-accent { background: #82C4FF; }
+
+    /* Aurora light */
+    .aurora-bg { background: #FAFAFA; }
+    .aurora-surface { background: #F3F0FF; }
+    .aurora-primary { background: #6C47FF; }
+    .aurora-accent { background: #A78BFA; }
+    /* Aurora dark */
+    .aurora-dark-bg { background: #0D0A1E; }
+    .aurora-dark-surface { background: #1A1535; }
+    .aurora-dark-primary { background: #A78BFA; }
+    .aurora-dark-accent { background: #C4B5FD; }
+
+    /* Copper light */
+    .copper-bg { background: #FBF8F5; }
+    .copper-surface { background: #F5EDE3; }
+    .copper-primary { background: #C4622D; }
+    .copper-accent { background: #E8894B; }
+    /* Copper dark */
+    .copper-dark-bg { background: #1A1008; }
+    .copper-dark-surface { background: #2C1F12; }
+    .copper-dark-primary { background: #F4A261; }
+    .copper-dark-accent { background: #FFB74D; }
+
+    /* Sage light */
+    .sage-bg { background: #F7FAF7; }
+    .sage-surface { background: #EDF4EE; }
+    .sage-primary { background: #2D6A4F; }
+    .sage-accent { background: #52B788; }
+    /* Sage dark */
+    .sage-dark-bg { background: #0A1A0F; }
+    .sage-dark-surface { background: #162B1C; }
+    .sage-dark-primary { background: #74C69D; }
+    .sage-dark-accent { background: #95D5B2; }
+
+    .theme-swatch-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); position: absolute;
+      bottom: 6px; left: 0; right: 0; text-align: center;
+    }
+    .swatch-half { flex: 1; display: flex; position: relative; }
+    .swatch-divider {
+      width: 1px;
+      background: rgba(0,0,0,0.15);
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    .theme-body { padding: 22px 24px 24px; }
+    .theme-name {
+      font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .theme-tagline {
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .theme-meta {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .meta-chip {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.02em;
+      padding: 3px 10px; border-radius: 100px;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary);
+    }
+    .theme-targets {
+      font-size: 12px; color: var(--text-secondary);
+    }
+    .theme-targets strong { color: var(--text); font-weight: 500; }
+
+    /* ── API section ── */
+    pre, code {
+      font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
+    }
+    code {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 5px; padding: 1px 6px; font-size: 13px; color: #c3e88d;
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    pre code { background: none; border: none; padding: 0; font-size: inherit; color: inherit; }
+    .kw { color: #c792ea; }
+    .str { color: #c3e88d; }
+    .cm { color: #546e7a; font-style: italic; }
+    .fn { color: #82aaff; }
+    .type { color: #ffcb6b; }
+    .num { color: #f78c6c; }
+
+    /* ── How it works ── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .how-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .how-icon { font-size: 24px; margin-bottom: 12px; }
+    .how-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .how-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .callout strong { color: var(--text); }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-secondary);
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); vertical-align: top; }
+    td:first-child { color: var(--text); font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+    footer a { color: var(--primary); }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .theme-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="/docs/">Design<span>Foundation</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="/docs/">Primitives</a>
+      <a class="nav-link active" href="/docs/theme-presets/">Themes</a>
+      <a class="nav-link" href="/docs/pro/">Pro</a>
+      <a class="nav-link" href="/docs/screens/">Screens</a>
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Included in DesignFoundation</div>
+    <h1>Preset Themes</h1>
+    <p class="hero-sub">
+      Four opinionated visual identities — Slate, Aurora, Copper, Sage.
+      Each ships with a light and dark theme. One modifier, automatic switching.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/NerdSnipe-Inc/design-foundation">Get the Package →</a>
+      <a class="btn btn-secondary" href="/docs/#theming">Theme System Docs</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Theme cards -->
+  <section class="section">
+    <p class="section-label">The four presets</p>
+    <h2>Pick a visual identity. Ship in one line.</h2>
+    <p class="section-sub">
+      Each preset varies colors, corner radius, and shadow weight. Typography, spacing, and animation
+      stay consistent across all presets — only the identity changes.
+    </p>
+
+    <div class="theme-grid">
+
+      <!-- Slate -->
+      <div class="theme-card">
+        <div class="theme-swatch">
+          <div class="swatch-half">
+            <div class="swatch-col slate-bg"></div>
+            <div class="swatch-col slate-surface"></div>
+            <div class="swatch-col slate-primary"></div>
+            <div class="swatch-col slate-accent"></div>
+          </div>
+          <div class="swatch-divider"></div>
+          <div class="swatch-half">
+            <div class="swatch-col slate-dark-bg"></div>
+            <div class="swatch-col slate-dark-surface"></div>
+            <div class="swatch-col slate-dark-primary"></div>
+            <div class="swatch-col slate-dark-accent"></div>
+          </div>
+        </div>
+        <div class="theme-body">
+          <div class="theme-name">.slate</div>
+          <div class="theme-tagline">Professional, balanced, tech-forward</div>
+          <div class="theme-meta">
+            <span class="meta-chip">Radius default</span>
+            <span class="meta-chip">Shadows standard</span>
+            <span class="meta-chip">Navy-slate brand</span>
+          </div>
+          <div class="theme-targets"><strong>Best for:</strong> SaaS dashboards, productivity tools, developer-facing apps</div>
+        </div>
+      </div>
+
+      <!-- Aurora -->
+      <div class="theme-card">
+        <div class="theme-swatch">
+          <div class="swatch-half">
+            <div class="swatch-col aurora-bg"></div>
+            <div class="swatch-col aurora-surface"></div>
+            <div class="swatch-col aurora-primary"></div>
+            <div class="swatch-col aurora-accent"></div>
+          </div>
+          <div class="swatch-divider"></div>
+          <div class="swatch-half">
+            <div class="swatch-col aurora-dark-bg"></div>
+            <div class="swatch-col aurora-dark-surface"></div>
+            <div class="swatch-col aurora-dark-primary"></div>
+            <div class="swatch-col aurora-dark-accent"></div>
+          </div>
+        </div>
+        <div class="theme-body">
+          <div class="theme-name">.aurora</div>
+          <div class="theme-tagline">Vibrant, creative, modern</div>
+          <div class="theme-meta">
+            <span class="meta-chip">Radius rounded</span>
+            <span class="meta-chip">Shadows soft</span>
+            <span class="meta-chip">Electric violet</span>
+          </div>
+          <div class="theme-targets"><strong>Best for:</strong> Creative tools, consumer apps, entertainment, social platforms</div>
+        </div>
+      </div>
+
+      <!-- Copper -->
+      <div class="theme-card">
+        <div class="theme-swatch">
+          <div class="swatch-half">
+            <div class="swatch-col copper-bg"></div>
+            <div class="swatch-col copper-surface"></div>
+            <div class="swatch-col copper-primary"></div>
+            <div class="swatch-col copper-accent"></div>
+          </div>
+          <div class="swatch-divider"></div>
+          <div class="swatch-half">
+            <div class="swatch-col copper-dark-bg"></div>
+            <div class="swatch-col copper-dark-surface"></div>
+            <div class="swatch-col copper-dark-primary"></div>
+            <div class="swatch-col copper-dark-accent"></div>
+          </div>
+        </div>
+        <div class="theme-body">
+          <div class="theme-name">.copper</div>
+          <div class="theme-tagline">Warm, editorial, premium</div>
+          <div class="theme-meta">
+            <span class="meta-chip">Radius sharp</span>
+            <span class="meta-chip">Shadows defined</span>
+            <span class="meta-chip">Copper &amp; amber</span>
+          </div>
+          <div class="theme-targets"><strong>Best for:</strong> Finance apps, content readers, premium lifestyle products</div>
+        </div>
+      </div>
+
+      <!-- Sage -->
+      <div class="theme-card">
+        <div class="theme-swatch">
+          <div class="swatch-half">
+            <div class="swatch-col sage-bg"></div>
+            <div class="swatch-col sage-surface"></div>
+            <div class="swatch-col sage-primary"></div>
+            <div class="swatch-col sage-accent"></div>
+          </div>
+          <div class="swatch-divider"></div>
+          <div class="swatch-half">
+            <div class="swatch-col sage-dark-bg"></div>
+            <div class="swatch-col sage-dark-surface"></div>
+            <div class="swatch-col sage-dark-primary"></div>
+            <div class="swatch-col sage-dark-accent"></div>
+          </div>
+        </div>
+        <div class="theme-body">
+          <div class="theme-name">.sage</div>
+          <div class="theme-tagline">Calm, natural, organic</div>
+          <div class="theme-meta">
+            <span class="meta-chip">Radius very rounded</span>
+            <span class="meta-chip">Shadows airy</span>
+            <span class="meta-chip">Deep sage green</span>
+          </div>
+          <div class="theme-targets"><strong>Best for:</strong> Health, wellness, meditation, lifestyle, environmental apps</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- API -->
+  <section class="section">
+    <p class="section-label">API</p>
+    <h2>Three patterns, one type</h2>
+    <p class="section-sub">
+      The common case is one modifier at the app root. Power users can go deeper.
+    </p>
+
+    <h3>Common case — automatic light/dark</h3>
+    <pre><span class="kw">import</span> <span class="type">DesignFoundation</span>
+
+<span class="kw">@main</span>
+<span class="kw">struct</span> <span class="type">MyApp</span>: <span class="type">App</span> {
+    <span class="kw">var</span> body: <span class="kw">some</span> <span class="type">Scene</span> {
+        <span class="type">WindowGroup</span> {
+            <span class="type">ContentView</span>()
+                .<span class="fn">dfThemePreset</span>(.aurora) <span class="cm">// reads \.colorScheme, switches automatically</span>
+        }
+    }
+}</pre>
+
+    <h3>Force a specific appearance</h3>
+    <pre><span class="cm">// Force dark in Xcode Previews</span>
+<span class="type">ContentView</span>()
+    .<span class="fn">dfTheme</span>(.auroraDark)
+    .<span class="fn">environment</span>(\.<span class="fn">colorScheme</span>, .dark)
+
+<span class="cm">// Force light for a sub-tree</span>
+<span class="type">HeroView</span>()
+    .<span class="fn">dfTheme</span>(.slateLight)</pre>
+
+    <h3>Custom preset</h3>
+    <pre><span class="cm">// Mix preset themes — light from one, dark from another</span>
+<span class="kw">let</span> myPreset = <span class="type">DFThemePreset</span>(light: .slateLight, dark: .auroraDark)
+<span class="type">ContentView</span>().<span class="fn">dfThemePreset</span>(myPreset)
+
+<span class="cm">// Extend a preset with one token override</span>
+<span class="kw">var</span> custom = <span class="type">DFTheme</span>.sageLight
+custom.colors.primary = .purple
+<span class="type">MyView</span>().<span class="fn">dfTheme</span>(custom)</pre>
+
+    <div class="callout">
+      <strong>Environment flow:</strong> <code>dfThemePreset</code> reads <code>@Environment(\.colorScheme)</code> from above the modifier.
+      A <code>.preferredColorScheme</code> on a descendant does not retroactively flip the preset for ancestors —
+      this is standard SwiftUI environment behavior.
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- How it works -->
+  <section class="section">
+    <p class="section-label">Under the hood</p>
+    <h2>How presets work</h2>
+    <p class="section-sub">The implementation is a thin wrapper over the existing <code>dfTheme()</code> environment system.</p>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-icon">📦</div>
+        <div class="how-title">DFThemePreset</div>
+        <div class="how-desc">A Sendable struct pairing two <code>DFTheme</code> values — one for light, one for dark. Four named statics ship in the box.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🌗</div>
+        <div class="how-title">Automatic switching</div>
+        <div class="how-desc">The <code>dfThemePreset()</code> modifier reads <code>@Environment(\.colorScheme)</code> and calls <code>dfTheme()</code> with the correct variant. SwiftUI re-evaluates on scheme changes.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🎨</div>
+        <div class="how-title">What varies</div>
+        <div class="how-desc">Colors, corner radius, and shadow weight differ between presets. Typography, spacing, and animation stay consistent — less to learn, more transferable muscle-memory.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🔒</div>
+        <div class="how-title">Swift 6 safe</div>
+        <div class="how-desc"><code>DFThemePreset</code> is a value type with only <code>Sendable</code> stored properties. Compiles clean under <code>StrictConcurrency</code>.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- Color reference -->
+  <section class="section">
+    <p class="section-label">Color reference</p>
+    <h2>Full palette tables</h2>
+    <p class="section-sub">Every color token for each preset. <code>respectsColorScheme</code> is <code>false</code> on all preset tokens — switching is handled by the modifier.</p>
+
+    <h3>Slate</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td>.primary</td><td>#1C3D5A deep navy-slate</td><td>#64B5F6 sky blue</td></tr>
+          <tr><td>.secondary</td><td>#546E7A blue-gray</td><td>#78909C muted blue-gray</td></tr>
+          <tr><td>.accent</td><td>#2979FF electric blue</td><td>#82C4FF light blue</td></tr>
+          <tr><td>.background</td><td>#FAFAFA</td><td>#0F1923</td></tr>
+          <tr><td>.surface</td><td>#F2F2F7</td><td>#1C2B3A</td></tr>
+          <tr><td>.surfaceElevated</td><td>#FFFFFF</td><td>#243447</td></tr>
+          <tr><td>.textPrimary</td><td>#0D1B2A</td><td>#E8F0F8</td></tr>
+          <tr><td>.interactiveFill</td><td>#2979FF</td><td>#64B5F6</td></tr>
+          <tr><td>.destructive</td><td>#E53935</td><td>#EF5350</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Aurora</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td>.primary</td><td>#6C47FF electric violet</td><td>#A78BFA soft violet</td></tr>
+          <tr><td>.secondary</td><td>#9B72CF medium purple</td><td>#7C6BAD muted purple</td></tr>
+          <tr><td>.accent</td><td>#A78BFA soft violet</td><td>#C4B5FD light lavender</td></tr>
+          <tr><td>.background</td><td>#FAFAFA</td><td>#0D0A1E</td></tr>
+          <tr><td>.surface</td><td>#F3F0FF lavender tint</td><td>#1A1535</td></tr>
+          <tr><td>.surfaceElevated</td><td>#FFFFFF</td><td>#241D47</td></tr>
+          <tr><td>.textPrimary</td><td>#1A0A4F deep purple</td><td>#EDE9FF</td></tr>
+          <tr><td>.interactiveFill</td><td>#6C47FF</td><td>#A78BFA</td></tr>
+          <tr><td>.destructive</td><td>#E53935</td><td>#EF5350</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Copper</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td>.primary</td><td>#C4622D copper</td><td>#F4A261 warm amber</td></tr>
+          <tr><td>.secondary</td><td>#8D6E63 warm brown-gray</td><td>#A1887F light brown</td></tr>
+          <tr><td>.accent</td><td>#E8894B amber</td><td>#FFB74D golden amber</td></tr>
+          <tr><td>.background</td><td>#FBF8F5 warm white</td><td>#1A1008 espresso</td></tr>
+          <tr><td>.surface</td><td>#F5EDE3 warm cream</td><td>#2C1F12</td></tr>
+          <tr><td>.surfaceElevated</td><td>#FFFAF6</td><td>#3D2C1C</td></tr>
+          <tr><td>.textPrimary</td><td>#2C1810 dark espresso</td><td>#FFF3E8</td></tr>
+          <tr><td>.interactiveFill</td><td>#C4622D</td><td>#F4A261</td></tr>
+          <tr><td>.destructive</td><td>#C62828 deep red</td><td>#EF5350</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Sage</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td>.primary</td><td>#2D6A4F deep sage</td><td>#74C69D mint green</td></tr>
+          <tr><td>.secondary</td><td>#52796F teal-gray</td><td>#6B9E8F muted teal</td></tr>
+          <tr><td>.accent</td><td>#52B788 mint</td><td>#95D5B2 light mint</td></tr>
+          <tr><td>.background</td><td>#F7FAF7 green-white tint</td><td>#0A1A0F deep forest</td></tr>
+          <tr><td>.surface</td><td>#EDF4EE soft green</td><td>#162B1C</td></tr>
+          <tr><td>.surfaceElevated</td><td>#FFFFFF</td><td>#1F3D27</td></tr>
+          <tr><td>.textPrimary</td><td>#0A2318 deep forest</td><td>#E8F5EC</td></tr>
+          <tr><td>.interactiveFill</td><td>#2D6A4F</td><td>#74C69D</td></tr>
+          <tr><td>.destructive</td><td>#C62828</td><td>#EF5350</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CTA -->
+  <section class="section" style="padding-bottom:80px">
+    <p class="section-label">Get started</p>
+    <h2>Free and open-source</h2>
+    <p class="section-sub">Preset themes are included in DesignFoundation at no cost. MIT licensed.</p>
+    <div class="cta-row" style="justify-content:flex-start">
+      <a class="btn btn-primary" href="https://github.com/NerdSnipe-Inc/design-foundation">View on GitHub →</a>
+      <a class="btn btn-secondary" href="/docs/">Full Docs</a>
+      <a class="btn btn-secondary" href="/docs/pro/">Browse Pro Blocks</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="https://github.com/NerdSnipe-Inc/design-foundation">DesignFoundation</a> is MIT licensed ·
+    Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
+  </p>
+</footer>
+
+</body>
+</html>

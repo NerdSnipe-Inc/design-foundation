@@ -205,6 +205,7 @@
     <a class="nav-brand" href="/docs/">Design<span>Foundation</span></a>
     <div class="nav-links">
       <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+      <a class="nav-link" href="/docs/theme-presets/">Themes</a>
       <a class="nav-link" href="/docs/pro/">Pro</a>
       <a class="nav-link highlight" href="/docs/screens/">Screens →</a>
     </div>
@@ -225,6 +226,7 @@
       <div class="sidebar-group-label">Theme System</div>
       <a class="sidebar-link" href="#theming">DFTheme</a>
       <a class="sidebar-link" href="#tokens">Tokens</a>
+      <a class="sidebar-link" href="#presets">Preset Themes</a>
       <a class="sidebar-link" href="#styles">Style System</a>
     </div>
     <div class="sidebar-group">
@@ -405,6 +407,42 @@
             <tr><td>.label.font</td><td>Small UI labels</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- Preset Themes -->
+    <section class="doc-section" id="presets">
+      <h2>Preset Themes</h2>
+      <p>
+        Four opinionated visual identities ship in the box — each with a distinct color palette,
+        corner radius scale, and shadow weight. One modifier; automatic light/dark switching.
+      </p>
+      <pre><span class="cm">// Recommended — auto-adapts to system light/dark</span>
+<span class="type">MyApp</span>()
+    .<span class="fn">dfThemePreset</span>(.aurora)
+
+<span class="cm">// Force a specific variant</span>
+<span class="type">PreviewView</span>()
+    .<span class="fn">dfTheme</span>(.copperDark)</pre>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Preset</th><th>Personality</th><th>Radius</th><th>Shadows</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td>.slate</td><td>Professional, balanced</td><td>Default (md 8)</td><td>Standard</td><td>SaaS, developer tools</td></tr>
+            <tr><td>.aurora</td><td>Vibrant, creative</td><td>Rounded (md 10)</td><td>Soft</td><td>Creative tools, social</td></tr>
+            <tr><td>.copper</td><td>Warm, editorial</td><td>Sharp (md 6)</td><td>Defined</td><td>Finance, content readers</td></tr>
+            <tr><td>.sage</td><td>Calm, organic</td><td>Very rounded (md 12)</td><td>Airy</td><td>Health, wellness</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="blocks-cta" style="margin-top:8px">
+        <div class="blocks-cta-text">
+          <h3>Theme Presets Guide</h3>
+          <p>Full color palettes, radius and shadow specs, API reference, and power-user patterns.</p>
+        </div>
+        <a class="btn btn-primary" href="/docs/theme-presets/">Browse Themes →</a>
       </div>
     </section>
 

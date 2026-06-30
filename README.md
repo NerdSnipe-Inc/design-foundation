@@ -146,6 +146,42 @@ Every component reads from the nearest `DFTheme` in the environment. A token cha
 
 ---
 
+## Preset Themes
+
+Four opinionated visual identities ship in the box — each with a distinct color palette, corner radius scale, and shadow weight. Apply one in a single line; it adapts automatically to light and dark mode.
+
+```swift
+MyApp()
+    .dfThemePreset(.aurora)   // Electric violet, rounded corners, soft shadows
+```
+
+| Preset | Personality | Best for |
+|---|---|---|
+| `.slate` | Professional, tech-forward, neutral | SaaS dashboards, developer tools |
+| `.aurora` | Vibrant, creative, modern | Creative tools, social platforms |
+| `.copper` | Warm, editorial, premium | Finance apps, content readers |
+| `.sage` | Calm, natural, organic | Health, wellness, lifestyle apps |
+
+Each preset pairs a distinct light and dark `DFTheme`. The modifier reads `@Environment(\.colorScheme)` and switches automatically — no manual wiring required.
+
+```swift
+// Automatic light/dark — recommended
+MyApp().dfThemePreset(.slate)
+
+// Force a specific variant (previews, sub-tree overrides)
+MyView().dfTheme(.copperDark)
+
+// Build a custom preset from named themes
+let myPreset = DFThemePreset(light: .slateLight, dark: .auroraDark)
+
+// Mutate one token, keep the rest
+var custom = DFTheme.sageLight
+custom.colors.primary = .purple
+MyView().dfTheme(custom)
+```
+
+---
+
 ## Style System
 
 Every component exposes a `makeBody(configuration:)` style protocol — the same pattern SwiftUI uses for `ButtonStyle`. Styles compose, propagate through the environment, and apply hierarchically.
