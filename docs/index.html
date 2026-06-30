@@ -331,7 +331,7 @@
         "inLanguage": "en-US",
         "isPartOf": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#website"},
         "about": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#software"},
-        "dateModified": "2026-06-30",
+        "dateModified": "2026-07-01",
         "breadcrumb": {
           "@type": "BreadcrumbList",
           "itemListElement": [
@@ -400,7 +400,7 @@
             "name": "Is DesignFoundation free to use commercially?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. DesignFoundation is open-source under the MIT license and free for personal and commercial use. DesignFoundation Pro is a paid add-on with 29 pre-built screen-level UI blocks (auth flows, onboarding, dashboards, e-commerce, CRM screens)."
+              "text": "Yes. DesignFoundation is open-source under the MIT license and free for personal and commercial use. DesignFoundation Pro is a paid add-on with 29 drop-in UI blocks, 47 production screens across 9 verticals, 18 shell layouts, and 9 wired composition examples."
             }
           },
           {
@@ -408,7 +408,7 @@
             "name": "What is the difference between DesignFoundation and DesignFoundation Pro?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DesignFoundation (free, MIT) provides the full component library: 30+ primitive components, the theming engine, preset themes, and style protocols. DesignFoundation Pro is a paid add-on providing 29 complete screen-level UI blocks — auth screens, onboarding flows, dashboards, settings, profiles, e-commerce, and CRM — built on top of the free library."
+              "text": "DesignFoundation (free, MIT) provides the full component library: 30+ primitive components, the theming engine, preset themes, and style protocols. DesignFoundation Pro is a paid add-on providing 29 UI blocks, 47 screens across 9 verticals, 18 shell layouts, and 9 wired composition examples — all built on the free library, fully themeable, and cross-platform with no platform guards required in consuming code."
             }
           }
         ]
@@ -767,6 +767,7 @@
           <tbody>
             <tr><td>DFTextField</td><td><code>.outlined</code> <code>.filled</code></td></tr>
             <tr><td>DFSecureField</td><td><code>.outlined</code> <code>.filled</code> — reveal toggle built in</td></tr>
+            <tr><td>DFValidatedTextField</td><td>Built-in validation via <code>DFFieldValidator</code> — rules: .email, .minLength, .required, .custom. Pairs with <code>DFFormState</code> for multi-field forms.</td></tr>
             <tr><td>DFToggle</td><td><code>.switch</code> <code>.checkbox</code></td></tr>
             <tr><td>DFSlider</td><td><code>.standard</code> <code>.labeled</code></td></tr>
             <tr><td>DFPicker</td><td><code>.segmented</code> <code>.menu</code> <code>.wheel</code></td></tr>
@@ -813,9 +814,9 @@
         <table>
           <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
           <tbody>
-            <tr><td>DFTabBar</td><td><code>.standard</code> <code>.minimal</code></td></tr>
+            <tr><td>DFTabBar</td><td><code>.standard</code> <code>.minimal</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFNavigationBar</td><td><code>.standard</code> <code>.transparent</code></td></tr>
-            <tr><td>DFSidebar</td><td><code>.standard</code> <code>.plain</code></td></tr>
+            <tr><td>DFSidebar</td><td><code>.standard</code> <code>.plain</code> <code>.glass</code>¹</td></tr>
           </tbody>
         </table>
       </div>
@@ -835,6 +836,8 @@
             <tr><td>DFListRow</td><td>Leading/trailing slots and disclosure indicator</td></tr>
             <tr><td>DFList</td><td>Swipe-delete, reorder, and multi-select</td></tr>
             <tr><td>DFTable</td><td>Sortable columns</td></tr>
+            <tr><td>DFDataTable</td><td>Selection, multi-sort, empty slot — cross-platform</td></tr>
+            <tr><td>DFDataGrid</td><td>Inline edit, bulk actions, column config, large-dataset paging</td></tr>
           </tbody>
         </table>
       </div>
@@ -855,27 +858,17 @@
       <div class="blocks-cta" style="margin-top:24px">
         <div class="blocks-cta-text">
           <h3>DesignFoundationPro</h3>
-          <p>29 drop-in blocks — auth flows, onboarding, dashboards, forms, settings, and more. One typed <code>Configuration</code> struct per block.</p>
+          <p>29 drop-in blocks, 47 production screens across 9 verticals, 18 shell layouts, and 9 wired composition examples. All components adapt to iOS, macOS, and visionOS automatically — no platform guards required.</p>
         </div>
         <a class="btn btn-primary" href="pro/">Browse Pro →</a>
       </div>
 
-      <div class="blocks-cta" style="margin-top:16px">
-        <div class="blocks-cta-text">
-          <h3>DesignFoundationScreens</h3>
-          <p>Complete, wired-up screen verticals — e-commerce, CRM, project management, and more. Drop in a screen, pass a <code>Configuration</code>, connect your data layer.</p>
-        </div>
-        <a class="btn btn-primary" href="screens/">Browse screens →</a>
-      </div>
-
       <h3 style="margin-top:32px">Installation</h3>
-      <p>Add whichever packages you need alongside DesignFoundation:</p>
+      <p>Add both packages via SPM — Foundation is the free base, Pro adds everything on top:</p>
       <pre><span class="cm">// Package.swift</span>
 <span class="kw">dependencies</span>: [
     .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>),
-    <span class="cm">// optional commercial packages</span>
     .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-pro"</span>, from: <span class="str">"1.0.0"</span>),
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-screens"</span>, from: <span class="str">"1.0.0"</span>),
 ]</pre>
       <p>
         <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundation%20License">Get access →</a>

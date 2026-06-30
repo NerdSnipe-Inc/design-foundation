@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - Column
 
-public struct DFTableColumn<Row: Identifiable & Sendable>: Identifiable {
+public struct DFTableColumn<Row: Identifiable & Sendable>: Identifiable, Sendable {
     public let id: String
     public let title: String
     public let sortable: Bool

@@ -4,16 +4,26 @@
 
 DesignFoundation gives Swift developers a token-based theming engine, 30+ accessible SwiftUI components, four opinionated visual identity presets (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
 
+All components handle platform differences internally. Consumers do not need `#if os(macOS)` or `#if os(iOS)` guards to use DesignFoundation components — platform adaptation is automatic.
+
 ## Documentation
 
 - [Component Library & Design System](https://nerdsnipe-inc.github.io/design-foundation/): Full documentation — installation, theming, all components, style system, platform support.
 - [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
-- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 47 full SwiftUI screens across 9 verticals (AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social) + 26 UI blocks + 18 shell layouts. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
+- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 47 full SwiftUI screens across 9 verticals (AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social) + 29 UI blocks + 18 shell layouts + 9 wired composition examples. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
 ## Source
 
 - [GitHub Repository](https://github.com/NerdSnipe-Inc/design-foundation): Source code, releases, issues, and Swift Package Manager URL.
 - [Latest Release — v1.1.0](https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/v1.1.0): Release notes for v1.1.0 (preset themes, resolve(for:) API, macOS token fixes, semantic typography).
+
+## AI Agent Guidance
+
+DesignFoundation ships agent instruction files to help AI coding assistants use the package correctly:
+- `CLAUDE.md` / `AGENTS.md` — Claude Code and OpenAI Codex instructions in both packages
+- `.cursor/rules/design-foundation.mdc` and `.cursor/rules/design-foundation-pro.mdc` — Cursor rules
+
+The core rule in all files: never build UI that DesignFoundation or DesignFoundationPro already provides.
 
 ## Key Facts
 
@@ -22,8 +32,14 @@ DesignFoundation gives Swift developers a token-based theming engine, 30+ access
 - **Current version:** 1.1.0
 - **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
 - **Swift version:** Swift 6 (strict concurrency enabled)
-- **Components:** DFButton, DFBadge, DFAvatar, DFCard, DFTextField, DFSecureField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFModal, DFSheet, DFPopover, DFTooltip, DFTabBar, DFNavigationBar, DFSidebar, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDivider, DFText, DFIcon, DFAlert
+- **Cross-platform:** All components adapt internally — no `#if os()` guards needed in consuming code
+- **Components:** DFButton, DFBadge, DFAvatar, DFCard, DFTextField, DFSecureField, DFValidatedTextField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFModal, DFSheet, DFPopover, DFTooltip, DFTabBar, DFNavigationBar, DFSidebar, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid, DFDivider, DFText, DFIcon, DFAlert
+- **Validation:** DFValidatedTextField with DFFieldValidator (rules: .email, .minLength, .required, .custom) and DFFormState for multi-field form management
 - **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); all tokens (colors, typography, spacing, radius, shadow, animation) are overridable
 - **Preset themes:** .slate, .aurora, .copper, .sage — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
-- **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips — requires iOS 26+ / macOS 26+
+- **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips, sidebar, tab bar — requires iOS 26+ / macOS 26+
+- **Pro — Blocks (29):** Auth (5), Dashboard (7 incl. DFLineChartBlock/DFBarChartBlock/DFDonutChartBlock via Swift Charts), Onboarding (4), Settings (4), Forms (4), Feed/People/Loading/Empty (5)
+- **Pro — Screens (47):** 9 verticals — AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social
+- **Pro — Shells (18):** DFAdaptiveShell, DFStandardSidebarShell, DFThreeColumnShell, DFDualSidebarShell, DFFloatingOverlayShell, DFIconRailShell, DFSearchSidebarShell, DFCalendarSidebarShell, DFFileTreeShell, DFRightInspectorShell, DFInsetSidebarShell, DFPopoverSidebarShell, DFDropdownSubmenuShell, DFExpandableSubmenuShell, DFSheetSidebarShell, DFStickyHeaderShell, DFNestedDualColumnShell, DFWorkspaceSidebarShell
+- **Pro — Composition examples (9):** Onboarding, Social, AI Chat, Documents, Settings, CRM, Project Manager, Ecommerce, Analytics — each is a wired, production-quality app example built from Pro blocks and screens
 - **Contact:** nerdsnipe.inc@gmail.com

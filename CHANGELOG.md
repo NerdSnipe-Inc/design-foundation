@@ -6,6 +6,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+<!-- Accumulate here until release — do not tag until product says so. -->
+
+---
+
+## [1.1.1] — 2026-07-01 — Data Tables, Validation, and AI Agent Guidance
+
+### Added
+- **`DFDataTable`:** Sortable data table with single/multi-row selection (`Set<ID>`), shared `DFDataTableColumn` API, `@ViewBuilder` empty state slot, optional `filterQuery` for client-side row filtering, `onRowActivate` on Return/double-click (macOS) and tap (iOS), and arrow-key row navigation on macOS. Native SwiftUI `Table` on macOS, scrollable row layout on iOS.
+- **`DFDataGrid`:** Power-user grid built on `DFDataTable` patterns — sort, filter, multi-select, bulk toolbar slot, column visibility menu, and inline cell edit with `DFFormState` / `DFFieldValidator`. Supports `.renderAll` lazy stack and `.paged` client windowing via `DFDataGridLargeDatasetStrategy`.
+- **Forms validation:** `DFFieldValidator` protocol with built-in `Required`, `Email`, `MinLength`, `MaxLength`, and `Regex` validators. `DFFormState` provides observable state with field keys, values, errors, and touched tracking (`validate()` / `validate(field:)`). `DFValidatedTextField` wraps `DFTextField` with form binding and themed error display via `DFValidationState`.
+- **AI agent guidance files:** `CLAUDE.md` and `AGENTS.md` at the package root give AI coding assistants (Claude Code, OpenAI Codex) a full component reference and the rule against building what the package already provides. Cursor rules at `.cursor/rules/design-foundation.mdc` with `alwaysApply: true` on all `.swift` files.
+
+### Changed
+- **Docs (`docs/index.html`):** Added `DFValidatedTextField`, `DFDataTable`, and `DFDataGrid` to component tables; added `.glass` style to `DFSidebar` and `DFTabBar` entries; removed stale `DesignFoundationScreens` package reference; updated FAQ to reflect accurate Pro inventory.
+- **Docs (`docs/pro/index.html`):** Updated block count 26 → 29; expanded Dashboard block grid to include `DFLineChartBlock`, `DFBarChartBlock`, and `DFDonutChartBlock` as first-class Swift Charts blocks; added Composition Examples section; added cross-platform note to technical contract.
+- **Docs (`docs/llms.txt`):** Full rewrite with accurate component list, block count, chart blocks, composition examples, cross-platform behavior, and AI agent file mention.
+
+---
+
+## [1.0.3] — 2026-06-30 — Typography & macOS Surface Tokens
+
+### Fixed
+- **DFTypographyTokens:** Replaced fixed point sizes with SwiftUI semantic text styles (`.largeTitle`, `.title2`, `.headline`, `.body`, `.caption`, `.subheadline`) so typography adapts per platform (e.g. macOS body ≈ 13 pt, iOS body ≈ 17 pt). Added role guide doc comment.
+- **DFColorTokens (macOS):** Corrected surface hierarchy — `background` uses `textBackgroundColor` (not `windowBackgroundColor`), `surface` uses `controlBackgroundColor`, `surfaceElevated` uses `windowBackgroundColor`. Added doc comments explaining the canvas → grouped surface → elevated card stack.
+- **DFColorTokens (iOS):** `interactiveDisabled` uses `systemGray5` for a more visible disabled state.
+- **DFButtonStyle:** Removed redundant `.opacity()` on filled buttons (disabled state already handled by `isDisabled`).
+- **DFTheme+Slate (light):** Updated Slate light preset test to match deep-navy interactive fill from the Slate differentiation pass.
+
+---
+
 ## [0.6.0] — 2026-06-28 — Tier 3 Supplementary
 
 ### Added
@@ -112,6 +144,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+[1.1.1]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.1.1
+[1.0.3]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.0.3
 [0.6.0]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/0.6.0
 [0.5.0]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/0.5.0
 [0.4.0]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/0.4.0

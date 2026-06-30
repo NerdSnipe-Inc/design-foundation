@@ -34,9 +34,9 @@ struct DFThemeSlateTests {
         #expect(DFTheme.slateDark.colors.primary == Color(red: 0.392, green: 0.710, blue: 0.965))
     }
 
-    @Test("slateLight interactive fill matches accent intent")
+    @Test("slateLight interactive fill is deep navy")
     func slateLightInteractiveFill() {
-        #expect(DFTheme.slateLight.colors.interactiveFill == Color(red: 0.161, green: 0.475, blue: 1.0))
+        #expect(DFTheme.slateLight.colors.interactiveFill == Color(red: 0.118, green: 0.239, blue: 0.490))
     }
 
     // MARK: Radius tokens
