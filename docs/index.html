@@ -439,6 +439,10 @@
     <div class="nav-links">
       <a class="nav-link active" href="./">Foundation</a>
       <a class="nav-link" href="pro/">Pro</a>
+      <a class="nav-link" href="foundation-way/">Foundation Way</a>
+      <a class="nav-link" href="integration/">Integration</a>
+      <a class="nav-link" href="use-cases/">Use Cases</a>
+      <a class="nav-link" href="theme-presets/">Themes</a>
       <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
     </div>
   </div>
@@ -460,6 +464,13 @@
       <a class="sidebar-link" href="#tokens">Tokens</a>
       <a class="sidebar-link" href="#presets">Preset Themes</a>
       <a class="sidebar-link" href="#styles">Style System</a>
+    </div>
+    <div class="sidebar-group">
+      <div class="sidebar-group-label">Guides</div>
+      <a class="sidebar-link" href="foundation-way/">The Foundation Way</a>
+      <a class="sidebar-link" href="integration/">Integration Guide</a>
+      <a class="sidebar-link" href="use-cases/">Use Cases</a>
+      <a class="sidebar-link" href="theme-presets/">Theme Presets</a>
     </div>
     <div class="sidebar-group">
       <div class="sidebar-group-label">Components</div>
@@ -499,6 +510,11 @@
         A production-grade SwiftUI design system. Token-based theming, protocol-driven style swapping,
         first-class Liquid Glass support, and a full component library — one dependency, instantly consistent across every screen.
       </p>
+      <div class="btn-row" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+        <a class="btn btn-primary" href="foundation-way/" style="display:inline-flex;font-size:14px;font-weight:500;border-radius:9px;padding:10px 20px;background:var(--primary);color:#fff;text-decoration:none">The Foundation Way →</a>
+        <a class="btn btn-secondary" href="integration/" style="display:inline-flex;font-size:14px;font-weight:500;border-radius:9px;padding:10px 20px;background:var(--surface2);color:var(--text);border:1px solid var(--border);text-decoration:none">Integration Guide</a>
+        <a class="btn btn-secondary" href="use-cases/" style="display:inline-flex;font-size:14px;font-weight:500;border-radius:9px;padding:10px 20px;background:var(--surface2);color:var(--text);border:1px solid var(--border);text-decoration:none">Use Cases</a>
+      </div>
       <p>
         DesignFoundation mirrors SwiftUI's own <code>ButtonStyle</code> pattern across every component.
         Inject a <code>DFTheme</code> once at the app root; every component reads its colors, typography,
@@ -511,13 +527,13 @@
     <section class="doc-section" id="installation">
       <h2>Installation</h2>
       <h3>Xcode</h3>
-      <p><strong>File → Add Package Dependencies</strong>, paste the URL below, and choose <em>Up to Next Major</em> from version <code>1.0.0</code>.</p>
+      <p><strong>File → Add Package Dependencies</strong>, paste the URL below, and choose <em>Up to Next Major</em> from version <code>1.1.0</code>.</p>
       <pre>https://github.com/NerdSnipe-Inc/design-foundation</pre>
 
       <h3>Package.swift</h3>
       <pre><span class="cm">// Package.swift</span>
 <span class="kw">dependencies</span>: [
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>)
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>)
 ],
 <span class="kw">targets</span>: [
     .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [<span class="str">"DesignFoundation"</span>])
@@ -864,14 +880,16 @@
       </div>
 
       <h3 style="margin-top:32px">Installation</h3>
-      <p>Add both packages via SPM — Foundation is the free base, Pro adds everything on top:</p>
-      <pre><span class="cm">// Package.swift</span>
+      <p>Add DesignFoundation via SPM (free). Pro is a licensed add-on — private repo access provided after purchase:</p>
+      <pre><span class="cm">// Package.swift — Foundation (public)</span>
 <span class="kw">dependencies</span>: [
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.0.0"</span>),
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation-pro"</span>, from: <span class="str">"1.0.0"</span>),
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>),
+    <span class="cm">// Pro: private SPM URL included with your license</span>
 ]</pre>
       <p>
-        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundation%20License">Get access →</a>
+        <a href="integration/">Integration guide →</a> ·
+        <a href="use-cases/">Use cases →</a> ·
+        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundation%20Pro%20License">Get Pro access →</a>
       </p>
     </section>
 

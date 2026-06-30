@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use Cases — Who Builds What with DesignFoundation</title>
+  <meta name="description" content="SwiftUI design system use cases: consumer social apps, SaaS productivity, AI chat, notes, ecommerce, analytics, onboarding, and internal ops — compose from blocks and screens, not templates." />
+  <link rel="canonical" href="https://nerdsnipe-inc.github.io/design-foundation/use-cases/" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta property="og:title" content="DesignFoundation Use Cases" />
+  <meta property="og:description" content="See how teams use DesignFoundation + Pro across consumer, pro, and ops apps — with recommended roots, blocks, and shells." />
+  <meta property="og:url" content="https://nerdsnipe-inc.github.io/design-foundation/use-cases/" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08); --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25); --text: #f0f0f5;
+      --text-secondary: #9090a8; --radius: 12px; --success: #10b981;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; line-height: 1.6; min-height: 100vh; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    nav { border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.92); backdrop-filter: blur(12px); }
+    nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 960px; margin: 0 auto; padding: 0 24px; flex-wrap: wrap; gap: 12px; }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--primary); }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-link { font-size: 13px; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 5px 13px; text-decoration: none; }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.active { border-color: rgba(99,102,241,0.5); color: var(--text); background: rgba(99,102,241,0.08); }
+    .hero { padding: 72px 0 40px; text-align: center; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--primary); background: var(--primary-glow); border: 1px solid rgba(99,102,241,0.3); border-radius: 100px; padding: 4px 14px; margin-bottom: 20px; }
+    h1 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+    .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 620px; margin: 0 auto 32px; line-height: 1.55; }
+    hr.divider { border: none; border-top: 1px solid var(--border); }
+    .section { padding: 56px 0; }
+    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+    h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 32px; font-size: 15px; max-width: 680px; }
+    .use-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .use-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color 0.15s; }
+    .use-card:hover { border-color: rgba(99,102,241,0.35); }
+    .use-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; margin-top: 0; }
+    .use-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px; }
+    .use-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .tag { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 100px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary); }
+    .tag.pro { border-color: rgba(99,102,241,0.35); color: var(--primary); }
+    .use-picks { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .use-picks strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .use-picks code { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: #c3e88d; background: var(--surface2); padding: 1px 5px; border-radius: 4px; }
+    .callout { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(99,102,241,0.03)); border: 1px solid rgba(99,102,241,0.25); border-radius: var(--radius); padding: 28px 32px; margin-top: 40px; }
+    .callout h3 { font-size: 18px; margin-bottom: 8px; }
+    .callout p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn { display: inline-flex; font-size: 14px; font-weight: 500; border-radius: 9px; padding: 10px 20px; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .ops-band { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-top: 32px; }
+    .ops-band h3 { font-size: 16px; margin-bottom: 8px; }
+    .ops-band p { font-size: 14px; color: var(--text-secondary); margin-bottom: 0; }
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="../">Design<span>Foundation</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="../">Foundation</a>
+      <a class="nav-link" href="../pro/">Pro</a>
+      <a class="nav-link" href="../foundation-way/">Foundation Way</a>
+      <a class="nav-link" href="../integration/">Integration</a>
+      <a class="nav-link active" href="./">Use Cases</a>
+      <a class="nav-link" href="../theme-presets/">Themes</a>
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <div class="badge">Compose · theme · cross-platform</div>
+    <h1>What teams build with the kit</h1>
+    <p class="hero-sub">DesignFoundation is a design system — not a single app template. Pick blocks and screens for your domain, theme once, ship on iPhone, iPad, and Mac. These are the most common starting points.</p>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<div class="container">
+  <section class="section">
+    <p class="section-label">By product type</p>
+    <h2>Match your app to the catalog</h2>
+    <p class="section-sub">Each card lists a recommended composition root (fastest path), individual screens, and Foundation primitives you will use everywhere.</p>
+
+    <div class="use-grid">
+
+      <div class="use-card">
+        
+        <div class="use-title">Consumer / social app</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Consumer</span></div>
+        <div class="use-desc">Feed, stories, explore, profiles, notifications — the patterns every social product needs without rebuilding chrome.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFSocialAppShell</code> · <code>DFSocialFeedScreen</code> · <code>DFProfileHeaderBlock</code>
+          <br><br>
+          <strong>Theme</strong> Aurora or Sage
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">SaaS / productivity</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">B2B</span></div>
+        <div class="use-desc">Split navigation, dense settings, auth blocks, validated forms, empty and loading states — ship a credible v1 fast.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFAdaptiveShell</code> · <code>DFSettingsRootView</code> · <code>DFSignInBlock</code>
+          <br><br>
+          <strong>Theme</strong> Slate or workspace
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">AI / chat product</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">AI</span></div>
+        <div class="use-desc">Thread UI, composer, model picker, compare mode, settings sheet — conversation patterns that usually take weeks.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFAIChatRootView</code> · <code>DFAIChatThreadScreen</code> · <code>AIChatDesignKit</code>
+          <br><br>
+          <strong>Theme</strong> Aurora or custom
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Docs / notes app</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Knowledge</span></div>
+        <div class="use-desc">Three-column browse, folder sidebar, editor column, search — Notes / Bear / Notion-style layout on all platforms.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFDocumentsRootView</code> · <code>DFThreeColumnShell</code> · <code>DocumentsDesignKit</code>
+          <br><br>
+          <strong>Theme</strong> Copper or Sage
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Store / marketplace</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Commerce</span></div>
+        <div class="use-desc">Seller ops or storefront dashboards — products, orders, revenue charts, order detail timelines.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFEcommerceRootView</code> · <code>DFEcommerceOrdersScreen</code> · <code>DFBarChartBlock</code>
+          <br><br>
+          <strong>Theme</strong> Copper or Slate
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Analytics / data product</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Metrics</span></div>
+        <div class="use-desc">KPI overview, revenue trends, user acquisition, live event tables — real Swift Charts, not placeholder mockups.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFAnalyticsRootView</code> · <code>DFLineChartBlock</code> · <code>DFDataTable</code>
+          <br><br>
+          <strong>Theme</strong> Slate + workspace density
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Indie app + onboarding</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Launch</span></div>
+        <div class="use-desc">Welcome → auth → OTP → permissions → plan selection → success. Ten screens, one flow, fully themed.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFOnboardingFlow</code> · <code>DFWelcomeBlock</code> · <code>DFPlanSelectionBlock</code>
+          <br><br>
+          <strong>Theme</strong> Any preset — swap in one line
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Project / task management</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Teams</span></div>
+        <div class="use-desc">Command center home, kanban board, list view, timeline, team roster, task detail — team product reference.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFPMRootView</code> · <code>DFPMBoardScreen</code> · <code>PMDesignKit</code>
+          <br><br>
+          <strong>Theme</strong> Slate workspace
+        </div>
+      </div>
+
+      <div class="use-card">
+        
+        <div class="use-title">Settings &amp; account (any app)</div>
+        <div class="use-tags"><span class="tag">Universal</span></div>
+        <div class="use-desc">Every app needs account, security, billing, notifications, team, and danger zone — drop in six screens or the unified root.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFSettingsRootView</code> · <code>DFSettingsSecurityScreen</code> · <code>DFFormState</code>
+          <br><br>
+          <strong>Free + Pro</strong> validation via Foundation
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ops-band">
+      <h3>Internal tools &amp; ops apps</h3>
+      <p>Data-heavy rosters, bulk actions, inline edit, and dense dashboards are first-class — not the whole product identity. Teams building admin consoles reach for <code>DFDataTable</code>, <code>DFDataGrid</code> (contacts list ↔ grid toggle), CRM and Analytics composition roots, and workspace density. See the CRM and Analytics cards above, or start from the <a href="../integration/">Integration Guide</a>.</p>
+    </div>
+
+    <div class="callout">
+      <h3>Ready to integrate?</h3>
+      <p>Follow the five-step workflow, or see <a href="../foundation-way/">The Foundation Way</a> — old SwiftUI vs Foundation side-by-side with line counts and token estimates.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../foundation-way/">The Foundation Way →</a>
+        <a class="btn btn-secondary" href="../integration/">Integration Guide →</a>
+        <a class="btn btn-secondary" href="../pro/">Browse Pro →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="../">DesignFoundation</a> ·
+    <a href="mailto:nerdsnipe.inc@gmail.com">License questions</a>
+  </p>
+</footer>
+</body>
+</html>

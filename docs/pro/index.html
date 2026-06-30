@@ -358,7 +358,6 @@
       border-radius: var(--radius);
       padding: 24px;
     }
-    .prop-icon { font-size: 24px; margin-bottom: 12px; }
     .prop-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .prop-body { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
 
@@ -381,11 +380,9 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px;
-      display: flex; gap: 12px; align-items: flex-start;
       transition: border-color 0.15s;
     }
     .block-card:hover { border-color: rgba(99,102,241,0.3); }
-    .block-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
     .block-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; font-family: "SF Mono", "Fira Code", Menlo, monospace; }
     .block-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.45; }
 
@@ -453,7 +450,6 @@
       border-radius: var(--radius);
       padding: 20px 16px;
     }
-    .ecom-icon { font-size: 24px; margin-bottom: 10px; }
     .ecom-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
     .ecom-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
 
@@ -605,6 +601,10 @@
     <div class="nav-links">
       <a class="nav-link" href="../">Foundation</a>
       <a class="nav-link active" href="./">Pro</a>
+      <a class="nav-link" href="../foundation-way/">Foundation Way</a>
+      <a class="nav-link" href="../integration/">Integration</a>
+      <a class="nav-link" href="../use-cases/">Use Cases</a>
+      <a class="nav-link" href="../theme-presets/">Themes</a>
       <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -623,6 +623,7 @@
     </p>
     <div class="cta-row">
       <a class="btn btn-primary btn-lg" href="#pricing">Get Pro — from $149</a>
+      <a class="btn btn-secondary btn-lg" href="../foundation-way/">The Foundation Way →</a>
       <a class="btn btn-secondary btn-lg" href="../">View free primitives →</a>
     </div>
 
@@ -633,7 +634,7 @@
         <div class="stat-label">Full Screens</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">26</div>
+        <div class="stat-value">29</div>
         <div class="stat-label">UI Blocks</div>
       </div>
       <div class="stat-item">
@@ -660,17 +661,17 @@
   <section class="section" style="padding-top: 56px; padding-bottom: 56px;">
     <div class="props-grid">
       <div class="prop-card">
-        <div class="prop-icon">⚡</div>
+        
         <div class="prop-title">Days, not sprints</div>
         <div class="prop-body">Every screen is a complete, themed, accessible unit. Drop <code>DFAIChatThreadScreen</code> into your app and your AI chat is done. No design decisions. No accessibility wiring.</div>
       </div>
       <div class="prop-card">
-        <div class="prop-icon">🎨</div>
+        
         <div class="prop-title">Everything theming</div>
-        <div class="prop-body">Every pixel obeys your <code>DFTheme</code>. Swap the entire visual identity of 47 screens and 26 blocks with one modifier at the app root. Slate, Aurora, Copper, Sage — or your own tokens.</div>
+        <div class="prop-body">Every pixel obeys your <code>DFTheme</code>. Swap the entire visual identity of 47 screens and 29 blocks with one modifier at the app root. Slate, Aurora, Copper, Sage — or your own tokens.</div>
       </div>
       <div class="prop-card">
-        <div class="prop-icon">🔑</div>
+        
         <div class="prop-title">One purchase. Forever.</div>
         <div class="prop-body">$149 per developer, unlimited projects, no seat tax. Annual updates are optional — your license never expires and nothing ever locks or degrades.</div>
       </div>
@@ -744,65 +745,65 @@
     <div class="category">
       <div class="category-label">Auth</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">🔐</div><div><div class="block-name">DFWelcomeBlock</div><div class="block-desc">Logo, headline, tagline, and primary + social sign-in entry point</div></div></div>
-        <div class="block-card"><div class="block-icon">🔑</div><div><div class="block-name">DFSignInBlock</div><div class="block-desc">Email + password + social auth buttons with optional sign-up prompt</div></div></div>
-        <div class="block-card"><div class="block-icon">📝</div><div><div class="block-name">DFSignUpBlock</div><div class="block-desc">Name, email, password fields with social providers and terms prompt</div></div></div>
-        <div class="block-card"><div class="block-icon">🔓</div><div><div class="block-name">DFForgotPasswordBlock</div><div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div></div></div>
-        <div class="block-card"><div class="block-icon">🔢</div><div><div class="block-name">DFOTPBlock</div><div class="block-desc">N-digit code entry with auto-advance, paste support, and resend timer</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFWelcomeBlock</div><div class="block-desc">Logo, headline, tagline, and primary + social sign-in entry point</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFSignInBlock</div><div class="block-desc">Email + password + social auth buttons with optional sign-up prompt</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFSignUpBlock</div><div class="block-desc">Name, email, password fields with social providers and terms prompt</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFForgotPasswordBlock</div><div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFOTPBlock</div><div class="block-desc">N-digit code entry with auto-advance, paste support, and resend timer</div></div></div>
       </div>
     </div>
 
     <div class="category">
       <div class="category-label">Dashboard</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">📊</div><div><div class="block-name">DFStatCardBlock</div><div class="block-desc">KPI with value, trend direction, icon, and tap handler</div></div></div>
-        <div class="block-card"><div class="block-icon">🔢</div><div><div class="block-name">DFMetricGridBlock</div><div class="block-desc">2- or 3-column grid of labeled metric values with optional icons</div></div></div>
-        <div class="block-card"><div class="block-icon">🍩</div><div><div class="block-name">DFProgressRingBlock</div><div class="block-desc">Circular progress ring with center label, legend, and animated fill</div></div></div>
-        <div class="block-card"><div class="block-icon">📈</div><div><div class="block-name">DFLineChartBlock</div><div class="block-desc">Swift Charts line + area trend with period toolbar, theming, and loading skeleton</div></div></div>
-        <div class="block-card"><div class="block-icon">📉</div><div><div class="block-name">DFBarChartBlock</div><div class="block-desc">Swift Charts vertical bar breakdown with themed bars and period selection</div></div></div>
-        <div class="block-card"><div class="block-icon">🥧</div><div><div class="block-name">DFDonutChartBlock</div><div class="block-desc">Swift Charts donut with segment coloring, center label, legend, and period toolbar</div></div></div>
-        <div class="block-card"><div class="block-icon">⏳</div><div><div class="block-name">DFChartPlaceholderBlock</div><div class="block-desc">Shimmer skeleton slot while chart data loads — swap for a real chart block when ready</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFStatCardBlock</div><div class="block-desc">KPI with value, trend direction, icon, and tap handler</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFMetricGridBlock</div><div class="block-desc">2- or 3-column grid of labeled metric values with optional icons</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFProgressRingBlock</div><div class="block-desc">Circular progress ring with center label, legend, and animated fill</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFLineChartBlock</div><div class="block-desc">Swift Charts line + area trend with period toolbar, theming, and loading skeleton</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFBarChartBlock</div><div class="block-desc">Swift Charts vertical bar breakdown with themed bars and period selection</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFDonutChartBlock</div><div class="block-desc">Swift Charts donut with segment coloring, center label, legend, and period toolbar</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFChartPlaceholderBlock</div><div class="block-desc">Shimmer skeleton slot while chart data loads — swap for a real chart block when ready</div></div></div>
       </div>
     </div>
 
     <div class="category">
       <div class="category-label">Onboarding</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">✨</div><div><div class="block-name">DFFeatureCarouselBlock</div><div class="block-desc">Paginated feature highlights with icon, title, body, and skip/continue controls</div></div></div>
-        <div class="block-card"><div class="block-icon">🔔</div><div><div class="block-name">DFPermissionRequestBlock</div><div class="block-desc">System permission prompt with icon, explanation, allow/skip actions</div></div></div>
-        <div class="block-card"><div class="block-icon">💳</div><div><div class="block-name">DFPlanSelectionBlock</div><div class="block-desc">Pricing plan cards with feature lists and highlighted recommended plan</div></div></div>
-        <div class="block-card"><div class="block-icon">🎉</div><div><div class="block-name">DFSuccessBlock</div><div class="block-desc">Completion screen with icon, headline, message, and primary CTA</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFFeatureCarouselBlock</div><div class="block-desc">Paginated feature highlights with icon, title, body, and skip/continue controls</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFPermissionRequestBlock</div><div class="block-desc">System permission prompt with icon, explanation, allow/skip actions</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFPlanSelectionBlock</div><div class="block-desc">Pricing plan cards with feature lists and highlighted recommended plan</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFSuccessBlock</div><div class="block-desc">Completion screen with icon, headline, message, and primary CTA</div></div></div>
       </div>
     </div>
 
     <div class="category">
       <div class="category-label">Settings</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">⚙️</div><div><div class="block-name">DFSettingsSectionBlock</div><div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div></div></div>
-        <div class="block-card"><div class="block-icon">👤</div><div><div class="block-name">DFAccountBlock</div><div class="block-desc">Avatar, display name, email, edit action, and optional membership badge</div></div></div>
-        <div class="block-card"><div class="block-icon">🔕</div><div><div class="block-name">DFNotificationPreferencesBlock</div><div class="block-desc">Per-channel notification toggles with section grouping</div></div></div>
-        <div class="block-card"><div class="block-icon">⚠️</div><div><div class="block-name">DFDangerZoneBlock</div><div class="block-desc">Destructive actions list with confirmation prompt and red styling</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFSettingsSectionBlock</div><div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFAccountBlock</div><div class="block-desc">Avatar, display name, email, edit action, and optional membership badge</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFNotificationPreferencesBlock</div><div class="block-desc">Per-channel notification toggles with section grouping</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFDangerZoneBlock</div><div class="block-desc">Destructive actions list with confirmation prompt and red styling</div></div></div>
       </div>
     </div>
 
     <div class="category">
       <div class="category-label">Forms</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">🏷️</div><div><div class="block-name">DFTagPickerBlock</div><div class="block-desc">Multi-select pill picker with optional max selection and custom tags</div></div></div>
-        <div class="block-card"><div class="block-icon">📅</div><div><div class="block-name">DFDateRangeBlock</div><div class="block-desc">Start + end date pickers with validation and range constraint support</div></div></div>
-        <div class="block-card"><div class="block-icon">🏠</div><div><div class="block-name">DFAddressBlock</div><div class="block-desc">Street, city, state, zip, country fields with keyboard-aware layout</div></div></div>
-        <div class="block-card"><div class="block-icon">📋</div><div><div class="block-name">DFMultiStepFormBlock</div><div class="block-desc">Stepped form container with progress bar, back/next nav, and completion callback</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFTagPickerBlock</div><div class="block-desc">Multi-select pill picker with optional max selection and custom tags</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFDateRangeBlock</div><div class="block-desc">Start + end date pickers with validation and range constraint support</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFAddressBlock</div><div class="block-desc">Street, city, state, zip, country fields with keyboard-aware layout</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFMultiStepFormBlock</div><div class="block-desc">Stepped form container with progress bar, back/next nav, and completion callback</div></div></div>
       </div>
     </div>
 
     <div class="category">
       <div class="category-label">Feed · People · Lists · Loading · Empty State</div>
       <div class="block-grid">
-        <div class="block-card"><div class="block-icon">📰</div><div><div class="block-name">DFActivityFeedBlock</div><div class="block-desc">Full scrollable activity feed with section headers and empty state</div></div></div>
-        <div class="block-card"><div class="block-icon">🪪</div><div><div class="block-name">DFProfileHeaderBlock</div><div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div></div></div>
-        <div class="block-card"><div class="block-icon">🔍</div><div><div class="block-name">DFSearchResultsBlock</div><div class="block-desc">Search results list with section grouping, badges, and empty/loading states</div></div></div>
-        <div class="block-card"><div class="block-icon">👻</div><div><div class="block-name">DFBlockSkeletonBlock</div><div class="block-desc">Animated skeleton placeholder matching any block's layout</div></div></div>
-        <div class="block-card"><div class="block-icon">📭</div><div><div class="block-name">DFEmptyStateBlock</div><div class="block-desc">Icon, headline, optional message, optional CTA button</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFActivityFeedBlock</div><div class="block-desc">Full scrollable activity feed with section headers and empty state</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFProfileHeaderBlock</div><div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFSearchResultsBlock</div><div class="block-desc">Search results list with section grouping, badges, and empty/loading states</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFBlockSkeletonBlock</div><div class="block-desc">Animated skeleton placeholder matching any block's layout</div></div></div>
+        <div class="block-card"><div><div class="block-name">DFEmptyStateBlock</div><div class="block-desc">Icon, headline, optional message, optional CTA button</div></div></div>
       </div>
     </div>
 
@@ -1059,27 +1060,27 @@
 
     <div class="ecom-grid">
       <div class="ecom-card">
-        <div class="ecom-icon">🏪</div>
+        
         <div class="ecom-name">Store Home</div>
         <div class="ecom-desc">KPI strip, recent activity feed, and quick-action navigation hub.</div>
       </div>
       <div class="ecom-card">
-        <div class="ecom-icon">🛍️</div>
+        
         <div class="ecom-name">Products</div>
         <div class="ecom-desc">Grid/list toggle, status filter, sort menu, inventory metrics, stock indicators.</div>
       </div>
       <div class="ecom-card">
-        <div class="ecom-icon">📦</div>
+        
         <div class="ecom-name">Orders</div>
         <div class="ecom-desc">Searchable order list with status chips, date-range filter, and loading/empty states.</div>
       </div>
       <div class="ecom-card">
-        <div class="ecom-icon">🧾</div>
+        
         <div class="ecom-name">Order Detail</div>
         <div class="ecom-desc">Line items, fulfillment timeline, tracking info, and cancel/ship actions.</div>
       </div>
       <div class="ecom-card">
-        <div class="ecom-icon">📊</div>
+        
         <div class="ecom-name">Revenue</div>
         <div class="ecom-desc">Period selector, hero revenue tile, stat cards, top products table, monthly progress ring.</div>
       </div>
@@ -1155,7 +1156,7 @@
 
 <!-- ── Composition Examples ── -->
 <div class="container">
-  <section class="section">
+  <section class="section" id="composition">
     <p class="section-label">Composition examples</p>
     <h2>9 wired app examples. Steal or ship.</h2>
     <p class="section-sub">Each composition example is a complete, runnable SwiftUI app built entirely from Pro blocks, screens, and shells — themed, wired with <code>dfToast</code>, and written to production quality. Copy the whole thing or take just the parts you need.</p>
@@ -1199,7 +1200,20 @@
       </div>
     </div>
 
-    <p style="margin-top: 28px; font-size: 14px; color: var(--text-secondary);">All 9 examples are included in the <strong style="color: var(--text);">DFPlayground</strong> companion app — browse, screenshot, and reference side-by-side with the block and screen catalog.</p>
+    <p style="margin-top: 28px; font-size: 14px; color: var(--text-secondary);">See <a href="../foundation-way/">The Foundation Way</a> for side-by-side line counts — how much code stays out of your repo (and out of AI prompts). All 9 examples are in <strong style="color: var(--text);">DFPlayground</strong>.</p>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Integration ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">Get started</p>
+    <h2>Integrate in ~15 minutes</h2>
+    <p class="section-sub">Theme → shell → block → screen → your data. Or start with <a href="../foundation-way/">The Foundation Way</a> to see why teams switch — same UI, ~87% fewer lines in your target.</p>
+    <a class="btn btn-primary btn-lg" href="../integration/">Read the Integration Guide →</a>
+    <a class="btn btn-secondary btn-lg" href="../foundation-way/" style="margin-left:12px">Compare line counts →</a>
   </section>
 </div>
 
@@ -1278,7 +1292,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">Do I need the free DesignFoundation library to use Pro?</div>
-        <div class="faq-a">Yes. <code>DesignFoundationPro</code> depends on <code>DesignFoundation</code> (the free MIT package). Add both to your <code>Package.swift</code> — Foundation provides the primitives, theming engine, and style system; Pro adds the 26 blocks, 47 screens, and 18 shell layouts on top.</div>
+        <div class="faq-a">Yes. <code>DesignFoundationPro</code> depends on <code>DesignFoundation</code> (the free MIT package). Add both to your <code>Package.swift</code> — Foundation provides the primitives, theming engine, and style system; Pro adds the 29 blocks, 47 screens, and 18 shell layouts on top. Pro is distributed via a licensed private repository.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Can I use Pro across multiple apps?</div>

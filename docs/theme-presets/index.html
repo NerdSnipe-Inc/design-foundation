@@ -258,8 +258,7 @@
       border-radius: var(--radius);
       padding: 22px;
     }
-    .how-icon { font-size: 24px; margin-bottom: 12px; }
-    .how-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .how-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; margin-top: 0; }
     .how-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
 
     /* ── Callout ── */
@@ -445,6 +444,10 @@
     <div class="nav-links">
       <a class="nav-link" href="../">Foundation</a>
       <a class="nav-link" href="../pro/">Pro</a>
+      <a class="nav-link" href="../foundation-way/">Foundation Way</a>
+      <a class="nav-link" href="../integration/">Integration</a>
+      <a class="nav-link" href="../use-cases/">Use Cases</a>
+      <a class="nav-link active" href="./">Themes</a>
       <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
     </div>
   </div>
@@ -672,22 +675,22 @@ custom.colors.primary = .purple
 
     <div class="how-grid">
       <div class="how-card">
-        <div class="how-icon">📦</div>
+        
         <div class="how-title">DFThemePreset</div>
         <div class="how-desc">A Sendable struct pairing two <code>DFTheme</code> values — one for light, one for dark. Four named statics ship in the box.</div>
       </div>
       <div class="how-card">
-        <div class="how-icon">🌗</div>
+        
         <div class="how-title">Automatic switching</div>
         <div class="how-desc">The <code>dfThemePreset()</code> modifier reads <code>@Environment(\.colorScheme)</code> and calls <code>dfTheme()</code> with the correct variant. SwiftUI re-evaluates on scheme changes.</div>
       </div>
       <div class="how-card">
-        <div class="how-icon">🎨</div>
+        
         <div class="how-title">What varies</div>
         <div class="how-desc">Colors, corner radius, and shadow weight differ between presets. Typography, spacing, and animation stay consistent — less to learn, more transferable muscle-memory.</div>
       </div>
       <div class="how-card">
-        <div class="how-icon">🔒</div>
+        
         <div class="how-title">Swift 6 safe</div>
         <div class="how-desc"><code>DFThemePreset</code> is a value type with only <code>Sendable</code> stored properties. Compiles clean under <code>StrictConcurrency</code>.</div>
       </div>
@@ -785,7 +788,10 @@ custom.colors.primary = .purple
     <div class="cta-row" style="justify-content:flex-start">
       <a class="btn btn-primary" href="https://github.com/NerdSnipe-Inc/design-foundation">View on GitHub →</a>
       <a class="btn btn-secondary" href="../">Full Docs</a>
-      <a class="btn btn-secondary" href="../pro/">Browse Pro Blocks</a>
+      <a class="btn btn-secondary" href="../foundation-way/">The Foundation Way</a>
+      <a class="btn btn-secondary" href="../integration/">Integration Guide</a>
+      <a class="btn btn-secondary" href="../use-cases/">Use Cases</a>
+      <a class="btn btn-secondary" href="../pro/">Browse Pro</a>
     </div>
   </section>
 
