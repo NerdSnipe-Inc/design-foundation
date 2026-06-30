@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary SEO -->
-  <title>DesignFoundation Pro — SwiftUI Screen Templates &amp; UI Blocks</title>
-  <meta name="description" content="29 production-ready SwiftUI UI blocks: auth screens, onboarding, dashboards, settings, profiles, e-commerce &amp; CRM. Fully themeable, Swift 6, iOS 18+. Ship in days, not weeks." />
-  <meta name="keywords" content="swiftui screen templates, swiftui ui blocks, swiftui auth screen, swiftui onboarding template, swiftui dashboard template, swiftui settings screen, swiftui profile screen, swiftui login screen, swiftui signup screen, swiftui paywall screen, swiftui e-commerce template, swiftui crm template, buy swiftui templates, swiftui pro components, swiftui pre-built screens, swiftui app starter kit, ready made swiftui ui, swiftui commercial ui kit, swiftui blocks purchase, swiftui app templates ios, swiftui ios 18 templates, swiftui dark mode screens, swiftui themeable templates, swift 6 screen blocks, professional swiftui screens, swiftui indie dev templates, swiftui freelancer ui kit, swiftui saas template, swiftui productivity template" />
+  <title>DesignFoundation Pro — SwiftUI Blocks &amp; Screen Templates | Ship Faster</title>
+  <meta name="description" content="29 production-ready SwiftUI UI blocks + complete screen verticals: auth, onboarding, dashboards, e-commerce, CRM. One purchase. Fully themeable, Swift 6, iOS 18+. Stop building boilerplate." />
+  <meta name="keywords" content="swiftui screen templates, swiftui ui blocks, swiftui auth screen, swiftui onboarding template, swiftui dashboard template, swiftui settings screen, swiftui login screen, swiftui signup screen, swiftui e-commerce swiftui template, swiftui crm template, buy swiftui templates, swiftui pro components, swiftui pre-built screens, swiftui app starter kit, ready made swiftui ui, swiftui blocks purchase, swiftui app templates ios, swiftui dark mode screens, swift 6 screen blocks, professional swiftui screens, swiftui saas template, swiftui indie developer, swiftui freelancer ui kit, swiftui one time purchase, swiftui no subscription" />
   <meta name="author" content="NerdSnipe Inc" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
@@ -17,8 +17,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="product" />
   <meta property="og:site_name" content="DesignFoundation" />
-  <meta property="og:title" content="DesignFoundation Pro — SwiftUI Screen Templates &amp; UI Blocks" />
-  <meta property="og:description" content="29 production-ready SwiftUI UI blocks: auth, onboarding, dashboards, settings, e-commerce, CRM. Fully themeable, Swift 6 safe, iOS 18+. Ship in days, not weeks." />
+  <meta property="og:title" content="DesignFoundation Pro — SwiftUI Blocks &amp; Screen Templates" />
+  <meta property="og:description" content="29 production-ready SwiftUI UI blocks + complete screen verticals. Auth, onboarding, dashboards, e-commerce, CRM. One purchase, unlimited projects, Swift 6, iOS 18+." />
   <meta property="og:url" content="https://nerdsnipe-inc.github.io/design-foundation/pro/" />
   <meta property="og:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
   <meta property="og:image:alt" content="DesignFoundation Pro — SwiftUI screen templates and UI blocks" />
@@ -26,182 +26,12 @@
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DesignFoundation Pro — SwiftUI Screen Templates &amp; UI Blocks" />
-  <meta name="twitter:description" content="29 production-ready SwiftUI UI blocks: auth, onboarding, dashboards, settings, e-commerce, CRM. Fully themeable, Swift 6, iOS 18+." />
+  <meta name="twitter:title" content="DesignFoundation Pro — SwiftUI Blocks &amp; Screen Templates" />
+  <meta name="twitter:description" content="29 production-ready SwiftUI UI blocks + complete screen verticals. One purchase. Swift 6, iOS 18+. Stop building boilerplate." />
   <meta name="twitter:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
   <meta name="twitter:image:alt" content="DesignFoundation Pro SwiftUI screen templates" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c26;
-      --border: rgba(255,255,255,0.08);
-      --primary: #6366f1;
-      --primary-glow: rgba(99,102,241,0.25);
-      --text: #f0f0f5;
-      --text-secondary: #9090a8;
-      --radius: 12px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
-
-    nav {
-      border-bottom: 1px solid var(--border);
-      padding: 18px 0;
-    }
-    nav .inner {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 860px; margin: 0 auto; padding: 0 24px;
-    }
-    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: -0.01em; }
-    .nav-brand span { color: var(--primary); }
-    .nav-link {
-      font-size: 13px; color: var(--text-secondary); text-decoration: none;
-      border: 1px solid var(--border); border-radius: 8px;
-      padding: 6px 14px; transition: border-color 0.2s, color 0.2s;
-    }
-    .nav-link:hover { border-color: var(--primary); color: var(--text); }
-
-    .hero {
-      padding: 88px 0 72px;
-      text-align: center;
-    }
-    .badge {
-      display: inline-block;
-      font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
-      color: var(--primary); background: var(--primary-glow);
-      border: 1px solid rgba(99,102,241,0.3);
-      border-radius: 100px; padding: 4px 14px; margin-bottom: 28px;
-    }
-    h1 {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
-      margin-bottom: 20px;
-    }
-    .hero-sub {
-      font-size: clamp(16px, 2vw, 19px);
-      color: var(--text-secondary); max-width: 560px; margin: 0 auto 40px;
-    }
-    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 15px; font-weight: 500; text-decoration: none;
-      border-radius: 10px; padding: 12px 24px; transition: opacity 0.2s, transform 0.15s;
-    }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-secondary {
-      background: var(--surface2); color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .section { padding: 64px 0; }
-    .section-label {
-      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--primary); margin-bottom: 12px;
-    }
-    h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .section-sub { color: var(--text-secondary); margin-bottom: 40px; font-size: 16px; }
-
-    /* Category groups */
-    .category { margin-bottom: 40px; }
-    .category-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-secondary); margin-bottom: 12px; padding-left: 2px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .block-card {
-      background: var(--surface);
-      padding: 24px;
-      transition: background 0.2s;
-    }
-    .block-card:hover { background: var(--surface2); }
-    .block-icon { font-size: 22px; margin-bottom: 12px; }
-    .block-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-    .block-desc { font-size: 13px; color: var(--text-secondary); }
-
-    .contract {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      margin-bottom: 40px;
-    }
-    .contract-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .contract-list li {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 15px; color: var(--text-secondary);
-    }
-    .contract-list li::before {
-      content: "✓"; color: var(--primary); font-weight: 700;
-      flex-shrink: 0; margin-top: 1px;
-    }
-
-    pre {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      overflow-x: auto;
-      font-size: 14px;
-      font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
-      line-height: 1.7;
-    }
-    .kw { color: #c792ea; }
-    .str { color: #c3e88d; }
-    .cm { color: #546e7a; font-style: italic; }
-    .fn { color: #82aaff; }
-    .type { color: #ffcb6b; }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .price-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-    }
-    .price-card.featured { border-color: var(--primary); }
-    .price-tier { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; }
-    .price-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
-    .price-note { font-size: 12px; color: var(--text-secondary); }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      text-align: center;
-    }
-    footer p { font-size: 13px; color: var(--text-secondary); }
-    footer a { color: var(--primary); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-  </style>
-
-  <!-- Structured Data -->
+  <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -210,8 +40,8 @@
         "@type": "Product",
         "@id": "https://nerdsnipe-inc.github.io/design-foundation/pro/#product",
         "name": "DesignFoundation Pro",
-        "alternateName": ["DesignFoundation Pro Blocks", "DF Pro SwiftUI Blocks"],
-        "description": "29 production-ready SwiftUI UI blocks for iOS, macOS, and visionOS — covering auth flows, onboarding, dashboards, settings, profiles, e-commerce, and CRM screens. Built on DesignFoundation, fully themeable with all four preset themes, Swift 6 safe, iOS 18+.",
+        "alternateName": ["DesignFoundation Pro Blocks", "DesignFoundation Blocks & Screens"],
+        "description": "29 production-ready SwiftUI UI blocks and complete app screen verticals for iOS, macOS, and visionOS — covering auth flows, onboarding, dashboards, e-commerce, CRM, and more. Built on DesignFoundation, fully themeable, Swift 6 safe, iOS 18+.",
         "url": "https://nerdsnipe-inc.github.io/design-foundation/pro/",
         "image": "https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png",
         "brand": {
@@ -228,48 +58,42 @@
         "category": "SwiftUI Templates, iOS Developer Tools, Mobile UI Kit",
         "audience": {
           "@type": "Audience",
-          "audienceType": "iOS developers, macOS developers, SwiftUI developers, indie app developers, iOS freelancers"
+          "audienceType": "iOS developers, macOS developers, SwiftUI developers, indie app developers, iOS freelancers, Swift developers"
         },
-        "offers": {
-          "@type": "Offer",
-          "seller": {
-            "@type": "Organization",
-            "name": "NerdSnipe Inc"
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Individual License",
+            "price": "149",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2027-01-01",
+            "url": "https://buy.stripe.com/bJedR9diM0WW5XZevM04807",
+            "description": "Per developer, unlimited projects, one-time purchase"
           },
-          "availability": "https://schema.org/InStock",
-          "url": "https://nerdsnipe-inc.github.io/design-foundation/pro/",
-          "description": "Contact for pricing"
-        },
-        "additionalProperty": [
-          {"@type": "PropertyValue", "name": "Swift Version", "value": "Swift 6"},
-          {"@type": "PropertyValue", "name": "Minimum iOS", "value": "iOS 18.0"},
-          {"@type": "PropertyValue", "name": "Minimum macOS", "value": "macOS 15.0"},
-          {"@type": "PropertyValue", "name": "visionOS Support", "value": "visionOS 2.0+"},
-          {"@type": "PropertyValue", "name": "Block Count", "value": "29"},
-          {"@type": "PropertyValue", "name": "License", "value": "Commercial"},
-          {"@type": "PropertyValue", "name": "Distribution", "value": "Swift Package Manager"}
+          {
+            "@type": "Offer",
+            "name": "Team License",
+            "price": "449",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2027-01-01",
+            "url": "https://buy.stripe.com/9B67sLfqU6hgaefgDU04808",
+            "description": "Up to 5 developers, flat team license, one-time purchase"
+          }
         ],
         "featureList": [
-          "DFWelcomeBlock — app welcome screen with sign-in entry point",
-          "DFSignInBlock — email, password, and social auth",
-          "DFSignUpBlock — registration with social providers",
-          "DFForgotPasswordBlock — password reset flow",
-          "DFOTPBlock — OTP code entry with auto-advance and resend",
-          "DFFeatureCarouselBlock — paginated onboarding feature highlights",
-          "DFPermissionsBlock — system permission request UI",
-          "DFProfileSetupBlock — avatar, name, and bio onboarding",
-          "DFDashboardHeaderBlock — greeting and stats summary",
-          "DFMetricsBlock — KPI grid",
-          "DFActivityFeedBlock — timestamped activity list",
-          "DFQuickActionsBlock — action grid",
-          "DFAccountBlock — user profile and plan display",
-          "DFPreferencesBlock — grouped settings toggles",
-          "DFAppearanceBlock — theme selector with live preview",
-          "DFNotificationsSettingsBlock — notification channel toggles",
-          "DFSecurityBlock — password change, 2FA, session management",
-          "Fully themeable with all four DesignFoundation presets",
-          "Automatic light/dark mode switching",
-          "Swift 6 strict concurrency safe",
+          "29 production-ready SwiftUI UI blocks across 10 categories",
+          "Complete e-commerce screen vertical — orders, detail, products, revenue",
+          "Complete CRM screen vertical — contacts, pipeline, deal detail, analytics",
+          "Project management screens — task detail, project detail",
+          "Auth blocks — welcome, sign-in, sign-up, forgot password, OTP",
+          "Onboarding blocks — feature carousel, permission request, plan selection, success",
+          "Dashboard blocks — stat cards, metric grid, progress ring, chart placeholder",
+          "Settings blocks — settings section, account, notification preferences, danger zone",
+          "Typed Configuration struct per block — no stringly-typed API",
+          "All visual tokens from DFTheme — zero hardcoded values",
+          "Swift 6 strict concurrency (StrictConcurrency enabled)",
           "iOS 18+, macOS 15+, visionOS 2+ support"
         ]
       },
@@ -277,8 +101,8 @@
         "@type": "WebPage",
         "@id": "https://nerdsnipe-inc.github.io/design-foundation/pro/#webpage",
         "url": "https://nerdsnipe-inc.github.io/design-foundation/pro/",
-        "name": "DesignFoundation Pro — SwiftUI Screen Templates & UI Blocks",
-        "description": "29 production-ready SwiftUI UI blocks covering auth, onboarding, dashboards, settings, and more. Fully themeable, Swift 6, iOS 18+.",
+        "name": "DesignFoundation Pro — SwiftUI Blocks & Screen Templates",
+        "description": "29 production-ready SwiftUI UI blocks and complete app screen verticals. One purchase, unlimited projects, Swift 6, iOS 18+.",
         "inLanguage": "en-US",
         "isPartOf": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#website"},
         "about": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/pro/#product"},
@@ -292,418 +116,1032 @@
         }
       },
       {
-        "@type": "ItemList",
-        "name": "DesignFoundation Pro — UI Block Categories",
-        "description": "All 29 SwiftUI UI blocks included in DesignFoundation Pro",
-        "numberOfItems": 29,
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Auth Blocks", "description": "DFWelcomeBlock, DFSignInBlock, DFSignUpBlock, DFForgotPasswordBlock, DFOTPBlock"},
-          {"@type": "ListItem", "position": 2, "name": "Onboarding Blocks", "description": "DFFeatureCarouselBlock, DFPermissionsBlock, DFProfileSetupBlock"},
-          {"@type": "ListItem", "position": 3, "name": "Dashboard Blocks", "description": "DFDashboardHeaderBlock, DFMetricsBlock, DFActivityFeedBlock, DFQuickActionsBlock"},
-          {"@type": "ListItem", "position": 4, "name": "Settings Blocks", "description": "DFAccountBlock, DFPreferencesBlock, DFAppearanceBlock, DFNotificationsSettingsBlock, DFSecurityBlock"},
-          {"@type": "ListItem", "position": 5, "name": "E-Commerce Blocks", "description": "Product listings, cart, checkout, and order confirmation screens"},
-          {"@type": "ListItem", "position": 6, "name": "CRM Blocks", "description": "Contact list, detail view, pipeline, and activity timeline"}
-        ]
-      },
-      {
         "@type": "FAQPage",
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "What is DesignFoundation Pro?",
+            "name": "Does Pro work with any DFTheme or preset?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DesignFoundation Pro is a paid commercial add-on to the free DesignFoundation SwiftUI library. It provides 29 production-ready screen-level UI blocks — auth flows, onboarding, dashboards, settings, profiles, e-commerce, and CRM screens — all built on the DesignFoundation component system and fully themeable."
+              "text": "Yes. Every block reads all visual tokens — colors, typography, spacing, radius, shadows — from whatever DFTheme is in the environment. Apply your own custom theme or any of the four presets (Slate, Aurora, Copper, Sage) and every block adapts automatically."
             }
           },
           {
             "@type": "Question",
-            "name": "Do I need the free DesignFoundation library before using Pro?",
+            "name": "Do I need the free DesignFoundation library to use Pro?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DesignFoundation (the base library) is free and open-source under the MIT license. DesignFoundation Pro is a commercial add-on that requires the free base library as a dependency. You need both in your project."
+              "text": "Yes. DesignFoundationPro depends on DesignFoundation (the free MIT package). Add both to your Package.swift — Foundation provides the primitives and theming engine; Pro adds the blocks on top."
             }
           },
           {
             "@type": "Question",
-            "name": "Are the DesignFoundation Pro blocks customizable?",
+            "name": "Can I use Pro blocks on multiple apps?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Every Pro block accepts a typed Configuration struct for content customization, and all visual styling is driven by your active DFTheme. You can use any of the four preset themes or a fully custom theme — every color, radius, shadow, and typography token is overridable."
+              "text": "Individual license covers one developer, unlimited apps and projects. Team license covers up to 5 developers. No per-project or per-app fees."
             }
           },
           {
             "@type": "Question",
-            "name": "What platforms do the Pro blocks support?",
+            "name": "What's the difference between Blocks and Screens?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DesignFoundation Pro blocks support iOS 18+, macOS 15+, and visionOS 2+. They are Swift 6 concurrency safe and distributed via Swift Package Manager."
+              "text": "Blocks are composite UI components — DFSignInBlock, DFStatCardBlock, DFProfileHeaderBlock — that you compose into screens yourself. Screens are full-page SwiftUI views with domain model layers already wired — DFEcommerceOrdersScreen, DFCRMPipelineScreen — ready to connect to your data. One license covers both."
             }
           },
           {
             "@type": "Question",
-            "name": "How do I purchase DesignFoundation Pro?",
+            "name": "What happens after year 1? Is there a forced subscription?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Contact NerdSnipe Inc at nerdsnipe.inc@gmail.com with subject 'DesignFoundationPro License' to get access and pricing information."
+              "text": "Nothing. Your license never expires. You keep every block and screen you bought forever. Annual updates ($39/yr) are optional — they give you access to new blocks, new screen verticals, and OS compatibility updates as they ship."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is DesignFoundation Pro compatible with Swift 6 and iOS 18?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. DesignFoundation Pro is built with Swift 6 strict concurrency enabled (StrictConcurrency experimental feature). It targets iOS 18+, macOS 15+, and visionOS 2+. All action closures are @MainActor-isolated."
             }
           }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "name": "DesignFoundation Pro — All 29 UI Blocks",
+        "numberOfItems": 29,
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "DFWelcomeBlock", "description": "Logo, headline, tagline, and primary + social sign-in entry point"},
+          {"@type": "ListItem", "position": 2, "name": "DFSignInBlock", "description": "Email + password + social auth buttons with optional sign-up prompt"},
+          {"@type": "ListItem", "position": 3, "name": "DFSignUpBlock", "description": "Name, email, password fields with social providers and terms prompt"},
+          {"@type": "ListItem", "position": 4, "name": "DFForgotPasswordBlock", "description": "Email input, submit, and optional back link — ready to wire to any auth API"},
+          {"@type": "ListItem", "position": 5, "name": "DFOTPBlock", "description": "N-digit code entry with auto-advance, paste support, and resend timer"},
+          {"@type": "ListItem", "position": 6, "name": "DFFeatureCarouselBlock", "description": "Paginated feature highlights with icon, title, body, and skip/continue controls"},
+          {"@type": "ListItem", "position": 7, "name": "DFPermissionRequestBlock", "description": "System permission prompt with icon, explanation, allow/skip actions"},
+          {"@type": "ListItem", "position": 8, "name": "DFPlanSelectionBlock", "description": "Pricing plan cards with feature lists, highlighted recommended plan"},
+          {"@type": "ListItem", "position": 9, "name": "DFSuccessBlock", "description": "Completion screen with icon, headline, message, and primary CTA"},
+          {"@type": "ListItem", "position": 10, "name": "DFStatCardBlock", "description": "KPI with value, trend direction, icon, and tap handler"},
+          {"@type": "ListItem", "position": 11, "name": "DFMetricGridBlock", "description": "2- or 3-column grid of labeled metric values with optional icons"},
+          {"@type": "ListItem", "position": 12, "name": "DFProgressRingBlock", "description": "Circular progress ring with center label, legend, and animated fill"},
+          {"@type": "ListItem", "position": 13, "name": "DFChartPlaceholderBlock", "description": "Styled chart placeholder with title and Swift Charts drop-in zone"},
+          {"@type": "ListItem", "position": 14, "name": "DFActivityFeedBlock", "description": "Full scrollable activity feed with section headers and empty state"},
+          {"@type": "ListItem", "position": 15, "name": "DFActivityFeedRow", "description": "Single feed row — avatar, title, message, timestamp, unread indicator"},
+          {"@type": "ListItem", "position": 16, "name": "DFContactRow", "description": "Avatar, name, subtitle, optional badge, disclosure chevron"},
+          {"@type": "ListItem", "position": 17, "name": "DFProfileHeaderBlock", "description": "Large avatar, name, subtitle, primary + secondary actions"},
+          {"@type": "ListItem", "position": 18, "name": "DFTagPickerBlock", "description": "Multi-select pill picker with optional max selection and custom tags"},
+          {"@type": "ListItem", "position": 19, "name": "DFDateRangeBlock", "description": "Start + end date pickers with validation and range constraint support"},
+          {"@type": "ListItem", "position": 20, "name": "DFAddressBlock", "description": "Street, city, state, zip, country fields with keyboard-aware layout"},
+          {"@type": "ListItem", "position": 21, "name": "DFMultiStepFormBlock", "description": "Stepped form container with progress bar, back/next nav, and completion callback"},
+          {"@type": "ListItem", "position": 22, "name": "DFSearchResultsBlock", "description": "Search results list with section grouping, badges, and empty/loading states"},
+          {"@type": "ListItem", "position": 23, "name": "DFNotificationCell", "description": "Icon, title, body, timestamp, unread dot, and optional dismiss"},
+          {"@type": "ListItem", "position": 24, "name": "DFSettingsSectionBlock", "description": "Grouped settings rows — navigation, toggle, destructive, and info variants"},
+          {"@type": "ListItem", "position": 25, "name": "DFAccountBlock", "description": "Avatar, display name, email, edit action, and optional membership badge"},
+          {"@type": "ListItem", "position": 26, "name": "DFNotificationPreferencesBlock", "description": "Per-channel notification toggles with section grouping"},
+          {"@type": "ListItem", "position": 27, "name": "DFDangerZoneBlock", "description": "Destructive actions list with confirmation prompt and red styling"},
+          {"@type": "ListItem", "position": 28, "name": "DFBlockSkeletonBlock", "description": "Animated skeleton placeholder matching any block's layout"},
+          {"@type": "ListItem", "position": 29, "name": "DFEmptyStateBlock", "description": "Icon, headline, optional message, optional CTA button"}
         ]
       }
     ]
   }
   </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25);
+      --text: #f0f0f5;
+      --text-secondary: #9090a8;
+      --radius: 12px;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    nav .inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+    }
+    .nav-brand {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: var(--primary); }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-link {
+      font-size: 13px; color: var(--text-secondary); text-decoration: none;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 5px 13px; transition: border-color 0.15s, color 0.15s;
+    }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.active {
+      border-color: rgba(99,102,241,0.5); color: var(--text);
+      background: rgba(99,102,241,0.08);
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .section { padding: 72px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--primary); margin-bottom: 10px;
+    }
+    h2 { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 36px; font-size: 16px; max-width: 640px; }
+    p { color: var(--text-secondary); font-size: 15px; line-height: 1.65; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 15px; font-weight: 500; text-decoration: none;
+      border-radius: 10px; padding: 12px 24px;
+      transition: opacity 0.15s, transform 0.12s;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-lg { font-size: 16px; padding: 14px 32px; border-radius: 12px; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 96px 0 72px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--primary); background: var(--primary-glow);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 100px; padding: 4px 14px; margin-bottom: 28px;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+    h1 {
+      font-size: clamp(32px, 5.5vw, 56px);
+      font-weight: 800; letter-spacing: -0.035em; line-height: 1.08;
+      margin-bottom: 20px;
+    }
+    h1 .accent { color: var(--primary); }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-secondary); max-width: 600px;
+      margin: 0 auto 40px; line-height: 1.55;
+    }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; flex-wrap: wrap;
+      border: 1px solid var(--border); border-radius: 14px;
+      background: var(--surface); overflow: hidden;
+      margin: 56px 0 0;
+    }
+    .stat-item {
+      flex: 1; min-width: 140px;
+      padding: 24px 20px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--text); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-value span { color: var(--primary); }
+    .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+
+    /* ── What you get ── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 600px) { .overview-grid { grid-template-columns: 1fr; } }
+    .overview-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .overview-card.primary-border { border-color: rgba(99,102,241,0.3); }
+    .overview-title {
+      font-size: 15px; font-weight: 700; color: var(--text);
+      margin-bottom: 4px;
+    }
+    .overview-count {
+      font-size: 32px; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--primary); margin-bottom: 16px; line-height: 1;
+    }
+    .overview-list { list-style: none; }
+    .overview-list li {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 5px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .overview-list li:last-child { border-bottom: none; }
+    .overview-list li::before {
+      content: ""; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0;
+    }
+
+    /* ── Value props ── */
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+    @media (max-width: 680px) { .props-grid { grid-template-columns: 1fr; } }
+    .prop-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .prop-icon { font-size: 24px; margin-bottom: 12px; }
+    .prop-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .prop-body { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* ── Block / category grid ── */
+    .category { margin-bottom: 36px; }
+    .category-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .block-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .block-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+      transition: border-color 0.15s;
+    }
+    .block-card:hover { border-color: rgba(99,102,241,0.3); }
+    .block-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .block-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; font-family: "SF Mono", "Fira Code", Menlo, monospace; }
+    .block-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.45; }
+
+    /* ── Screen verticals ── */
+    .vertical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .vertical-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .vertical-card.available { border-color: rgba(99,102,241,0.25); }
+    .vertical-card.coming-soon { opacity: 0.55; }
+    .vertical-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .vertical-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .vertical-pill {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      border-radius: 100px; padding: 3px 10px;
+    }
+    .pill-available { background: rgba(16,185,129,0.12); color: var(--success); }
+    .pill-soon { background: rgba(245,158,11,0.10); color: var(--warning); }
+    .vertical-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
+    .screen-list { list-style: none; }
+    .screen-list li {
+      font-size: 12px; color: var(--text-secondary);
+      padding: 4px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 7px;
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+    }
+    .screen-list li:last-child { border-bottom: none; }
+    .screen-list li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .screen-list li.soon::before { background: var(--text-secondary); }
+
+    /* ── E-commerce deep dive ── */
+    .ecom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .ecom-card {
+      background: var(--surface);
+      border: 1px solid rgba(99,102,241,0.18);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+    }
+    .ecom-icon { font-size: 26px; margin-bottom: 10px; }
+    .ecom-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .ecom-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ── Technical contract ── */
+    .contract {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+    .contract-list { list-style: none; }
+    .contract-list li {
+      font-size: 14px; padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 12px;
+      color: var(--text-secondary);
+    }
+    .contract-list li:last-child { border-bottom: none; }
+    .contract-list li::before { content: "✓"; color: var(--success); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .contract-list li strong { color: var(--text); }
+
+    /* ── Code ── */
+    code {
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 0.875em;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1px 5px; color: var(--primary);
+    }
+    pre {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "SF Mono", "Fira Code", Menlo, monospace;
+      font-size: 13px; line-height: 1.7; margin: 24px 0;
+    }
+    .kw { color: #c678dd; }
+    .type { color: #e5c07b; }
+    .fn { color: #61afef; }
+    .str { color: #98c379; }
+    .cm { color: #5c6370; font-style: italic; }
+
+    /* ── Dependency table ── */
+    .tier-table { width: 100%; border-collapse: collapse; margin: 24px 0 8px; }
+    .tier-table th, .tier-table td {
+      padding: 12px 16px; text-align: left; font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tier-table th {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-secondary);
+    }
+    .tier-table td:first-child { font-weight: 600; color: var(--text); }
+    .tier-table td { color: var(--text-secondary); }
+    .tier-table tr:last-child td { border-bottom: none; }
+    .tier-free { color: var(--success); font-weight: 600; }
+    .tier-paid { color: var(--primary); font-weight: 600; }
+
+    /* ── Pricing ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: rgba(99,102,241,0.45);
+      background: rgba(99,102,241,0.07);
+    }
+    .popular-label {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      background: var(--primary); color: #fff;
+      padding: 3px 14px; border-radius: 0 0 8px 8px;
+    }
+    .price-tier {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-secondary); margin-bottom: 10px;
+      margin-top: 10px;
+    }
+    .price-amount {
+      font-size: 40px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--text); line-height: 1; margin-bottom: 4px;
+    }
+    .price-note { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+    .price-features { list-style: none; margin: 0 0 24px; }
+    .price-features li {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 6px 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 8px; align-items: center;
+    }
+    .price-features li:last-child { border-bottom: none; }
+    .price-features li::before { content: "✓"; color: var(--success); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 22px 0;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q {
+      font-size: 16px; font-weight: 600; color: var(--text);
+      margin-bottom: 10px; line-height: 1.4;
+    }
+    .faq-a { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* ── Footer CTA band ── */
+    .cta-band {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(99,102,241,0.04) 100%);
+      border-top: 1px solid rgba(99,102,241,0.2);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .cta-band h2 {
+      font-size: clamp(24px, 3.5vw, 38px);
+      margin-bottom: 12px;
+    }
+    .cta-band p { font-size: 16px; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-band-links { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 16px; }
+    .cta-band-email { font-size: 14px; color: var(--text-secondary); }
+    .cta-band-email a { color: var(--text-secondary); text-decoration: underline; }
+    .cta-band-email a:hover { color: var(--text); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
 
+<!-- ── Nav ── -->
 <nav>
   <div class="inner">
     <a class="nav-brand" href="../">Design<span>Foundation</span></a>
-    <div style="display:flex;gap:8px">
-      <a class="nav-link" href="../">Primitives</a>
-      <a class="nav-link" style="border-color:rgba(99,102,241,0.5);color:#f0f0f5" href="./">Blocks</a>
-      <a class="nav-link" href="../screens/">Screens</a>
-      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+    <div class="nav-links">
+      <a class="nav-link" href="../">Foundation</a>
+      <a class="nav-link active" href="./">Pro</a>
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </nav>
 
 <div class="container">
 
-  <!-- Hero -->
+  <!-- ── Hero ── -->
   <section class="hero">
-    <div class="badge">Commercial Add-on</div>
-    <h1>DesignFoundation<span style="color:var(--primary)">Pro</span><br>Blocks &amp; Screens for SwiftUI. Ship faster.</h1>
+    <div class="badge"><span class="badge-dot"></span>Commercial Add-on · Built on DesignFoundation</div>
+    <h1>Stop building auth screens.<br><span class="accent">Start building your app.</span></h1>
     <p class="hero-sub">
-      29 blocks + complete screen verticals — auth, onboarding, e-commerce, CRM, and more.
-      One package. One purchase. Fully themeable. Swift 6 safe. iOS 18+.
+      DesignFoundation Pro ships 29 production-ready SwiftUI blocks and complete app screen verticals —
+      auth flows, onboarding, dashboards, e-commerce, CRM. Drop in, theme with one modifier,
+      wire your data layer, ship.
     </p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#pricing">Get Access</a>
-      <a class="btn btn-secondary" href="https://github.com/NerdSnipe-Inc/design-foundation">View Free Primitives →</a>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- Blocks -->
-  <section class="section">
-    <p class="section-label">What's included</p>
-    <h2>29 drop-in blocks</h2>
-    <p class="section-sub">Each block accepts a typed Configuration struct and respects your active DFTheme automatically.</p>
-
-    <!-- Auth -->
-    <div class="category">
-      <div class="category-label">Auth</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">🔐</div>
-          <div class="block-name">DFWelcomeBlock</div>
-          <div class="block-desc">Logo, headline, tagline, and primary + social sign-in entry point</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔑</div>
-          <div class="block-name">DFSignInBlock</div>
-          <div class="block-desc">Email + password + social auth buttons with optional sign-up prompt</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">📝</div>
-          <div class="block-name">DFSignUpBlock</div>
-          <div class="block-desc">Name, email, password fields with social providers and terms prompt</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔓</div>
-          <div class="block-name">DFForgotPasswordBlock</div>
-          <div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔢</div>
-          <div class="block-name">DFOTPBlock</div>
-          <div class="block-desc">N-digit code entry with auto-advance, paste support, and resend timer</div>
-        </div>
-      </div>
+      <a class="btn btn-primary btn-lg" href="#pricing">Get Pro — from $149</a>
+      <a class="btn btn-secondary btn-lg" href="../">View free primitives →</a>
     </div>
 
-    <!-- Onboarding -->
-    <div class="category">
-      <div class="category-label">Onboarding</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">✨</div>
-          <div class="block-name">DFFeatureCarouselBlock</div>
-          <div class="block-desc">Paginated feature highlights with icon, title, body, and skip/continue controls</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔔</div>
-          <div class="block-name">DFPermissionRequestBlock</div>
-          <div class="block-desc">System permission prompt with icon, explanation, allow/skip actions</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">💳</div>
-          <div class="block-name">DFPlanSelectionBlock</div>
-          <div class="block-desc">Pricing plan cards with feature lists, highlighted recommended plan</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🎉</div>
-          <div class="block-name">DFSuccessBlock</div>
-          <div class="block-desc">Completion screen with icon, headline, message, and primary CTA</div>
-        </div>
+    <!-- Stats strip -->
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-value">29</div>
+        <div class="stat-label">UI Blocks</div>
       </div>
-    </div>
-
-    <!-- Dashboard -->
-    <div class="category">
-      <div class="category-label">Dashboard</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">📊</div>
-          <div class="block-name">DFStatCardBlock</div>
-          <div class="block-desc">KPI with value, trend direction, icon, and tap handler</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔢</div>
-          <div class="block-name">DFMetricGridBlock</div>
-          <div class="block-desc">2- or 3-column grid of labeled metric values with optional icons</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🍩</div>
-          <div class="block-name">DFProgressRingBlock</div>
-          <div class="block-desc">Circular progress ring with center label, legend, and animated fill</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">📈</div>
-          <div class="block-name">DFChartPlaceholderBlock</div>
-          <div class="block-desc">Styled chart placeholder with title and Swift Charts drop-in zone</div>
-        </div>
+      <div class="stat-item">
+        <div class="stat-value">3<span>+</span></div>
+        <div class="stat-label">Screen Verticals</div>
       </div>
-    </div>
-
-    <!-- Feed -->
-    <div class="category">
-      <div class="category-label">Feed</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">📰</div>
-          <div class="block-name">DFActivityFeedBlock</div>
-          <div class="block-desc">Full scrollable activity feed with section headers and empty state</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">📋</div>
-          <div class="block-name">DFActivityFeedRow</div>
-          <div class="block-desc">Single feed row — avatar, title, message, timestamp, unread indicator</div>
-        </div>
+      <div class="stat-item">
+        <div class="stat-value">Swift 6</div>
+        <div class="stat-label">Concurrency Safe</div>
       </div>
-    </div>
-
-    <!-- People -->
-    <div class="category">
-      <div class="category-label">People</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">👤</div>
-          <div class="block-name">DFContactRow</div>
-          <div class="block-desc">Avatar, name, subtitle, optional badge, disclosure chevron</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🪪</div>
-          <div class="block-name">DFProfileHeaderBlock</div>
-          <div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div>
-        </div>
+      <div class="stat-item">
+        <div class="stat-value">$149</div>
+        <div class="stat-label">One-time · No Subs</div>
       </div>
-    </div>
-
-    <!-- Forms -->
-    <div class="category">
-      <div class="category-label">Forms</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">🏷️</div>
-          <div class="block-name">DFTagPickerBlock</div>
-          <div class="block-desc">Multi-select pill picker with optional max selection and custom tags</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">📅</div>
-          <div class="block-name">DFDateRangeBlock</div>
-          <div class="block-desc">Start + end date pickers with validation and range constraint support</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🏠</div>
-          <div class="block-name">DFAddressBlock</div>
-          <div class="block-desc">Street, city, state, zip, country fields with keyboard-aware layout</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">📋</div>
-          <div class="block-name">DFMultiStepFormBlock</div>
-          <div class="block-desc">Stepped form container with progress bar, back/next nav, and completion callback</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Lists & Search -->
-    <div class="category">
-      <div class="category-label">Lists &amp; Search</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">🔍</div>
-          <div class="block-name">DFSearchResultsBlock</div>
-          <div class="block-desc">Search results list with section grouping, badges, and empty/loading states</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Notifications -->
-    <div class="category">
-      <div class="category-label">Notifications</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">🔔</div>
-          <div class="block-name">DFNotificationCell</div>
-          <div class="block-desc">Icon, title, body, timestamp, unread dot, and optional dismiss</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Settings -->
-    <div class="category">
-      <div class="category-label">Settings</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">⚙️</div>
-          <div class="block-name">DFSettingsSectionBlock</div>
-          <div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">👤</div>
-          <div class="block-name">DFAccountBlock</div>
-          <div class="block-desc">Avatar, display name, email, edit action, and optional membership badge</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">🔕</div>
-          <div class="block-name">DFNotificationPreferencesBlock</div>
-          <div class="block-desc">Per-channel notification toggles with section grouping</div>
-        </div>
-        <div class="block-card">
-          <div class="block-icon">⚠️</div>
-          <div class="block-name">DFDangerZoneBlock</div>
-          <div class="block-desc">Destructive actions list with confirmation prompt and red styling</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Loading -->
-    <div class="category">
-      <div class="category-label">Loading</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">👻</div>
-          <div class="block-name">DFBlockSkeletonBlock</div>
-          <div class="block-desc">Animated skeleton placeholder matching any block's layout</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Empty State -->
-    <div class="category">
-      <div class="category-label">Empty State</div>
-      <div class="grid">
-        <div class="block-card">
-          <div class="block-icon">📭</div>
-          <div class="block-name">DFEmptyStateBlock</div>
-          <div class="block-desc">Icon, headline, optional message, optional CTA button</div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <hr class="divider" />
-
-  <!-- Technical contract -->
-  <section class="section">
-    <p class="section-label">Technical contract</p>
-    <h2>Built to the same standard as the primitives</h2>
-    <p class="section-sub">Every block ships with the same guarantees.</p>
-
-    <div class="contract">
-      <ul class="contract-list">
-        <li>Typed <code>Configuration</code> struct — no stringly-typed API, no loose dictionaries</li>
-        <li>All colors, typography, spacing, and radius driven by <code>DFTheme</code> — zero hardcoded values</li>
-        <li>Swift 6 strict concurrency — compiles clean with <code>StrictConcurrency</code> enabled</li>
-        <li>Accessibility labels and traits wired by default on every interactive element</li>
-        <li>Light and dark <code>#Preview</code> variants included for every block</li>
-        <li>No external dependencies beyond DesignFoundation itself</li>
-        <li>iOS 18 · macOS 15 · visionOS 2</li>
-      </ul>
-    </div>
-
-    <pre><span class="cm">// One configuration struct. Full theme coverage.</span>
-<span class="kw">let</span> block = <span class="type">DFSignInBlock</span>(
-    configuration: .<span class="fn">init</span>(
-        onSubmit: { email, password <span class="kw">in</span>
-            <span class="cm">// your auth logic</span>
-        },
-        providers: [
-            .<span class="fn">apple</span> { <span class="cm">/* Sign in with Apple */</span> },
-            .<span class="fn">google</span> { <span class="cm">/* Sign in with Google */</span> }
-        ],
-        signUpTitle: <span class="str">"Create account"</span>,
-        onSignUp: { <span class="cm">/* push sign-up screen */</span> }
-    )
-)</pre>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- Pricing -->
-  <section class="section" id="pricing">
-    <p class="section-label">Pricing</p>
-    <h2>One-time purchase</h2>
-    <p class="section-sub">No subscriptions. License once, use across unlimited projects.</p>
-
-    <div class="pricing-grid">
-      <div class="price-card featured">
-        <div class="price-tier">Individual</div>
-        <div class="price-amount">$149</div>
-        <div class="price-note">Per developer · unlimited projects</div>
-        <a class="btn btn-primary" href="https://buy.stripe.com/bJedR9diM0WW5XZevM04807" target="_blank" rel="noopener" style="margin-top:20px;justify-content:center">Buy now →</a>
-      </div>
-      <div class="price-card">
-        <div class="price-tier">Team (up to 5)</div>
-        <div class="price-amount">$449</div>
-        <div class="price-note">Flat team license · no per-seat friction</div>
-        <a class="btn btn-secondary" href="https://buy.stripe.com/9B67sLfqU6hgaefgDU04808" target="_blank" rel="noopener" style="margin-top:20px;justify-content:center">Buy now →</a>
-      </div>
-      <div class="price-card">
-        <div class="price-tier">Annual updates</div>
-        <div class="price-amount">$39<span style="font-size:16px;font-weight:400">/yr</span></div>
-        <div class="price-note">Optional after year 1 · new blocks + OS updates</div>
-        <a class="btn btn-secondary" href="https://buy.stripe.com/8x29AT4Mg9ts4TVbjA04809" target="_blank" rel="noopener" style="margin-top:20px;justify-content:center">Subscribe →</a>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- Foundation -->
-  <section class="section">
-    <p class="section-label">The full stack</p>
-    <h2>Free primitives. Commercial add-ons.</h2>
-    <p class="section-sub">
-      DesignFoundation — the theming engine and full component library — is open-source under MIT.
-      Blocks and Screens are the paid layers built on top.
-    </p>
-    <div class="cta-row" style="justify-content:flex-start;gap:12px">
-      <a class="btn btn-secondary" href="https://github.com/NerdSnipe-Inc/design-foundation">View Primitives on GitHub →</a>
-      <a class="btn btn-secondary" href="/docs/screens/">Browse Screens →</a>
     </div>
   </section>
 
 </div>
 
+<hr class="divider" />
+
+<!-- ── Value props ── -->
+<div class="container">
+  <section class="section" style="padding-top: 56px; padding-bottom: 56px;">
+    <div class="props-grid">
+      <div class="prop-card">
+        <div class="prop-icon">⚡</div>
+        <div class="prop-title">Days, not sprints</div>
+        <div class="prop-body">Every block is a complete, themed, accessible unit. Drop <code>DFSignInBlock</code> into your <code>NavigationStack</code> and your auth screen is done. No design decisions. No accessibility wiring.</div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">🎨</div>
+        <div class="prop-title">Everything theming</div>
+        <div class="prop-body">Every pixel obeys your <code>DFTheme</code>. Swap the entire visual identity of 29 blocks with one line at the app root. Slate, Aurora, Copper, Sage — or your own tokens.</div>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">🔑</div>
+        <div class="prop-title">One purchase. Forever.</div>
+        <div class="prop-body">$149 per developer, unlimited projects, no seat tax. Annual updates are optional — your license never expires and nothing ever locks or degrades.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── What you get overview ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">What's included</p>
+    <h2>Blocks. Screens. One package.</h2>
+    <p class="section-sub">Two product layers, one license. Use the blocks to compose your own screens, or drop in a complete screen vertical and wire your data in minutes.</p>
+
+    <div class="overview-grid">
+      <div class="overview-card primary-border">
+        <div class="overview-title">UI Blocks</div>
+        <div class="overview-count">29</div>
+        <ul class="overview-list">
+          <li>Auth — 5 blocks (welcome, sign-in, sign-up, forgot pw, OTP)</li>
+          <li>Onboarding — 4 blocks (carousel, permission, plan, success)</li>
+          <li>Dashboard — 4 blocks (stat, metric grid, progress ring, chart)</li>
+          <li>Feed — 2 blocks (feed + row)</li>
+          <li>People — 2 blocks (contact row, profile header)</li>
+          <li>Forms — 4 blocks (tag picker, date range, address, multi-step)</li>
+          <li>Lists &amp; Search — 1 block</li>
+          <li>Notifications — 1 block</li>
+          <li>Settings — 4 blocks (section, account, notifications, danger zone)</li>
+          <li>Loading + Empty State — 2 blocks</li>
+        </ul>
+      </div>
+      <div class="overview-card">
+        <div class="overview-title">App Screen Verticals</div>
+        <div class="overview-count">3+</div>
+        <ul class="overview-list">
+          <li>E-commerce — orders, detail, products, revenue (Available)</li>
+          <li>CRM — home, contacts, detail, pipeline, deal, analytics (Available)</li>
+          <li>Project Management — task detail, project detail (Available)</li>
+          <li>Auth Screens — sign-in, sign-up, forgot pw, OTP (Coming Soon)</li>
+          <li>Onboarding Screens — welcome, features, permissions, plan (Coming Soon)</li>
+          <li>Settings Screens — home, profile, notifications, account (Coming Soon)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Blocks ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">UI Blocks</p>
+    <h2>29 drop-in blocks</h2>
+    <p class="section-sub">Each block accepts a typed <code>Configuration</code> struct and inherits every visual token from your active <code>DFTheme</code> automatically.</p>
+
+    <div class="category">
+      <div class="category-label">Auth</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">🔐</div><div><div class="block-name">DFWelcomeBlock</div><div class="block-desc">Logo, headline, tagline, and primary + social sign-in entry point</div></div></div>
+        <div class="block-card"><div class="block-icon">🔑</div><div><div class="block-name">DFSignInBlock</div><div class="block-desc">Email + password + social auth buttons with optional sign-up prompt</div></div></div>
+        <div class="block-card"><div class="block-icon">📝</div><div><div class="block-name">DFSignUpBlock</div><div class="block-desc">Name, email, password fields with social providers and terms prompt</div></div></div>
+        <div class="block-card"><div class="block-icon">🔓</div><div><div class="block-name">DFForgotPasswordBlock</div><div class="block-desc">Email input, submit, and optional back link — ready to wire to any auth API</div></div></div>
+        <div class="block-card"><div class="block-icon">🔢</div><div><div class="block-name">DFOTPBlock</div><div class="block-desc">N-digit code entry with auto-advance, paste support, and resend timer</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Onboarding</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">✨</div><div><div class="block-name">DFFeatureCarouselBlock</div><div class="block-desc">Paginated feature highlights with icon, title, body, and skip/continue controls</div></div></div>
+        <div class="block-card"><div class="block-icon">🔔</div><div><div class="block-name">DFPermissionRequestBlock</div><div class="block-desc">System permission prompt with icon, explanation, allow/skip actions</div></div></div>
+        <div class="block-card"><div class="block-icon">💳</div><div><div class="block-name">DFPlanSelectionBlock</div><div class="block-desc">Pricing plan cards with feature lists, highlighted recommended plan</div></div></div>
+        <div class="block-card"><div class="block-icon">🎉</div><div><div class="block-name">DFSuccessBlock</div><div class="block-desc">Completion screen with icon, headline, message, and primary CTA</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Dashboard</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">📊</div><div><div class="block-name">DFStatCardBlock</div><div class="block-desc">KPI with value, trend direction, icon, and tap handler</div></div></div>
+        <div class="block-card"><div class="block-icon">🔢</div><div><div class="block-name">DFMetricGridBlock</div><div class="block-desc">2- or 3-column grid of labeled metric values with optional icons</div></div></div>
+        <div class="block-card"><div class="block-icon">🍩</div><div><div class="block-name">DFProgressRingBlock</div><div class="block-desc">Circular progress ring with center label, legend, and animated fill</div></div></div>
+        <div class="block-card"><div class="block-icon">📈</div><div><div class="block-name">DFChartPlaceholderBlock</div><div class="block-desc">Styled chart placeholder with title and Swift Charts drop-in zone</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Feed</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">📰</div><div><div class="block-name">DFActivityFeedBlock</div><div class="block-desc">Full scrollable activity feed with section headers and empty state</div></div></div>
+        <div class="block-card"><div class="block-icon">📋</div><div><div class="block-name">DFActivityFeedRow</div><div class="block-desc">Single feed row — avatar, title, message, timestamp, unread indicator</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">People</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">👤</div><div><div class="block-name">DFContactRow</div><div class="block-desc">Avatar, name, subtitle, optional badge, disclosure chevron</div></div></div>
+        <div class="block-card"><div class="block-icon">🪪</div><div><div class="block-name">DFProfileHeaderBlock</div><div class="block-desc">Large avatar, name, subtitle, primary + secondary actions</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Forms</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">🏷️</div><div><div class="block-name">DFTagPickerBlock</div><div class="block-desc">Multi-select pill picker with optional max selection and custom tags</div></div></div>
+        <div class="block-card"><div class="block-icon">📅</div><div><div class="block-name">DFDateRangeBlock</div><div class="block-desc">Start + end date pickers with validation and range constraint support</div></div></div>
+        <div class="block-card"><div class="block-icon">🏠</div><div><div class="block-name">DFAddressBlock</div><div class="block-desc">Street, city, state, zip, country fields with keyboard-aware layout</div></div></div>
+        <div class="block-card"><div class="block-icon">📋</div><div><div class="block-name">DFMultiStepFormBlock</div><div class="block-desc">Stepped form container with progress bar, back/next nav, and completion callback</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Lists &amp; Search</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">🔍</div><div><div class="block-name">DFSearchResultsBlock</div><div class="block-desc">Search results list with section grouping, badges, and empty/loading states</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Notifications</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">🔔</div><div><div class="block-name">DFNotificationCell</div><div class="block-desc">Icon, title, body, timestamp, unread dot, and optional dismiss</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Settings</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">⚙️</div><div><div class="block-name">DFSettingsSectionBlock</div><div class="block-desc">Grouped settings rows — navigation, toggle, destructive, and info variants</div></div></div>
+        <div class="block-card"><div class="block-icon">👤</div><div><div class="block-name">DFAccountBlock</div><div class="block-desc">Avatar, display name, email, edit action, and optional membership badge</div></div></div>
+        <div class="block-card"><div class="block-icon">🔕</div><div><div class="block-name">DFNotificationPreferencesBlock</div><div class="block-desc">Per-channel notification toggles with section grouping</div></div></div>
+        <div class="block-card"><div class="block-icon">⚠️</div><div><div class="block-name">DFDangerZoneBlock</div><div class="block-desc">Destructive actions list with confirmation prompt and red styling</div></div></div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-label">Loading &amp; Empty State</div>
+      <div class="block-grid">
+        <div class="block-card"><div class="block-icon">👻</div><div><div class="block-name">DFBlockSkeletonBlock</div><div class="block-desc">Animated skeleton placeholder matching any block's layout</div></div></div>
+        <div class="block-card"><div class="block-icon">📭</div><div><div class="block-name">DFEmptyStateBlock</div><div class="block-desc">Icon, headline, optional message, optional CTA button</div></div></div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Screen Verticals ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">Screen Verticals</p>
+    <h2>Complete app screens. Wire up. Ship.</h2>
+    <p class="section-sub">Each vertical is a self-contained set of full-page SwiftUI screens covering a complete feature domain — domain models, typed configuration, and <code>@MainActor</code>-isolated action closures included.</p>
+
+    <div class="vertical-grid">
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">E-commerce</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Order management, product catalog, and revenue analytics for storefront apps.</div>
+        <ul class="screen-list">
+          <li>DFEcommerceOrdersScreen</li>
+          <li>DFEcommerceOrderDetailScreen</li>
+          <li>DFEcommerceProductsScreen</li>
+          <li>DFEcommerceRevenueScreen</li>
+        </ul>
+      </div>
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">CRM</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Contact management, deal pipeline, and sales analytics for relationship-driven apps.</div>
+        <ul class="screen-list">
+          <li>DFCRMHomeScreen</li>
+          <li>DFCRMContactsScreen</li>
+          <li>DFCRMContactDetailScreen</li>
+          <li>DFCRMPipelineScreen</li>
+          <li>DFCRMDealDetailScreen</li>
+          <li>DFCRMAnalyticsScreen</li>
+        </ul>
+      </div>
+      <div class="vertical-card available">
+        <div class="vertical-header">
+          <div class="vertical-name">Project Management</div>
+          <div class="vertical-pill pill-available">Available</div>
+        </div>
+        <div class="vertical-desc">Task boards, project detail, and timeline views for productivity apps.</div>
+        <ul class="screen-list">
+          <li>DFPMTaskDetailScreen</li>
+          <li>DFPMProjectDetailScreen</li>
+          <li class="soon">DFPMBoardScreen — coming soon</li>
+          <li class="soon">DFPMTimelineScreen — coming soon</li>
+        </ul>
+      </div>
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Auth</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Sign-in, sign-up, forgot password, and OTP screens with social provider support.</div>
+        <ul class="screen-list">
+          <li class="soon">DFAuthSignInScreen</li>
+          <li class="soon">DFAuthSignUpScreen</li>
+          <li class="soon">DFAuthForgotPasswordScreen</li>
+          <li class="soon">DFAuthOTPScreen</li>
+        </ul>
+      </div>
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Onboarding</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Feature carousel, permission requests, plan selection, and completion screens.</div>
+        <ul class="screen-list">
+          <li class="soon">DFOnboardingWelcomeScreen</li>
+          <li class="soon">DFOnboardingFeaturesScreen</li>
+          <li class="soon">DFOnboardingPermissionsScreen</li>
+          <li class="soon">DFOnboardingPlanScreen</li>
+        </ul>
+      </div>
+      <div class="vertical-card coming-soon">
+        <div class="vertical-header">
+          <div class="vertical-name">Settings</div>
+          <div class="vertical-pill pill-soon">Coming Soon</div>
+        </div>
+        <div class="vertical-desc">Profile, account, notification preferences, and danger zone screens.</div>
+        <ul class="screen-list">
+          <li class="soon">DFSettingsHomeScreen</li>
+          <li class="soon">DFSettingsProfileScreen</li>
+          <li class="soon">DFSettingsNotificationsScreen</li>
+          <li class="soon">DFSettingsAccountScreen</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── E-commerce deep dive ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">E-commerce vertical</p>
+    <h2>Four screens. Full workflow.</h2>
+    <p class="section-sub">From browsing the order list to drilling into revenue analytics — every screen shares a typed model layer and connects through closures your view model already speaks.</p>
+
+    <div class="ecom-grid">
+      <div class="ecom-card">
+        <div class="ecom-icon">📦</div>
+        <div class="ecom-name">Orders</div>
+        <div class="ecom-desc">Searchable order list with status chips, date-range filter, and loading/empty states.</div>
+      </div>
+      <div class="ecom-card">
+        <div class="ecom-icon">🧾</div>
+        <div class="ecom-name">Order Detail</div>
+        <div class="ecom-desc">Line items, fulfillment timeline, tracking info, and cancel/ship actions.</div>
+      </div>
+      <div class="ecom-card">
+        <div class="ecom-icon">🛍️</div>
+        <div class="ecom-name">Products</div>
+        <div class="ecom-desc">Grid/list toggle, status filter, sort menu, inventory metrics, stock indicators.</div>
+      </div>
+      <div class="ecom-card">
+        <div class="ecom-icon">📊</div>
+        <div class="ecom-name">Revenue</div>
+        <div class="ecom-desc">Period selector, hero revenue tile, stat cards, top products table, monthly progress ring.</div>
+      </div>
+    </div>
+
+    <pre><span class="cm">// Wire up an orders screen in three lines.</span>
+<span class="type">NavigationStack</span> {
+    <span class="type">DFEcommerceOrdersScreen</span>(
+        configuration: .<span class="fn">init</span>(
+            orders: viewModel.orders,
+            onSelectOrder: { order <span class="kw">in</span> path.append(order) },
+            onRefresh: { <span class="kw">await</span> viewModel.reload() }
+        )
+    )
+}</pre>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Technical contract ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">Technical contract</p>
+    <h2>Built to the same standard as the primitives.</h2>
+    <p class="section-sub">Every block and screen ships with non-negotiable guarantees — not aspirational, contractual.</p>
+
+    <div class="contract">
+      <ul class="contract-list">
+        <li><strong>Typed <code>Configuration</code> struct per block</strong> — no stringly-typed API, no loose dictionaries, full autocomplete</li>
+        <li><strong>All visual tokens from <code>DFTheme</code></strong> — zero hardcoded colors, radii, fonts, or shadows anywhere</li>
+        <li><strong>Swift 6 strict concurrency</strong> — compiles clean with <code>StrictConcurrency</code> enabled, no suppressions</li>
+        <li><strong>Accessibility wired by default</strong> — labels, traits, and focus order on every interactive element</li>
+        <li><strong>Light and dark <code>#Preview</code> variants</strong> included for every block and screen</li>
+        <li><strong>No external dependencies</strong> beyond DesignFoundation itself</li>
+        <li><strong>Domain model layer per screen vertical</strong> — <code>DFOrder</code>, <code>DFProduct</code>, <code>DFContact</code>, etc.</li>
+        <li><strong><code>@MainActor</code>-isolated action closures</strong> — safe to call directly into your actor-isolated view model</li>
+        <li><strong>iOS 18 · macOS 15 · visionOS 2</strong></li>
+      </ul>
+    </div>
+
+    <h3>The dependency chain</h3>
+    <p style="margin-bottom:0; color: var(--text-secondary); font-size:14px;">Three packages. A clean stack. Use any layer on its own or go full-stack.</p>
+    <table class="tier-table">
+      <thead>
+        <tr>
+          <th>Package</th>
+          <th>What it provides</th>
+          <th>License</th>
+          <th>Requires</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DesignFoundation</td>
+          <td>Theme engine, 30+ primitive components, full style system</td>
+          <td class="tier-free">MIT — free</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>DesignFoundationPro</td>
+          <td>29 composite UI blocks</td>
+          <td class="tier-paid">Commercial</td>
+          <td>DesignFoundation</td>
+        </tr>
+        <tr>
+          <td>DesignFoundationScreens</td>
+          <td>Full screen verticals with domain models</td>
+          <td class="tier-paid">Commercial</td>
+          <td>Foundation + Pro</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── Pricing ── -->
+<div class="container">
+  <section class="section" id="pricing">
+    <p class="section-label">Pricing</p>
+    <h2>One purchase. Unlimited projects.</h2>
+    <p class="section-sub">No subscriptions. No seat counting. License it once — it's yours for every project you ever ship.</p>
+
+    <div class="pricing-grid">
+
+      <div class="price-card featured">
+        <div class="popular-label">Most popular</div>
+        <div class="price-tier">Individual</div>
+        <div class="price-amount">$149</div>
+        <div class="price-note">One developer · unlimited projects · lifetime license</div>
+        <ul class="price-features">
+          <li>All 29 UI blocks</li>
+          <li>All available screen verticals</li>
+          <li>All future blocks &amp; screens in year 1</li>
+          <li>Light + dark previews for every block</li>
+          <li>Swift 6 · iOS 18 · macOS 15 · visionOS 2</li>
+        </ul>
+        <a class="btn btn-primary" href="https://buy.stripe.com/bJedR9diM0WW5XZevM04807" target="_blank" rel="noopener noreferrer" style="width:100%">Buy now →</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Team</div>
+        <div class="price-amount">$449</div>
+        <div class="price-note">Up to 5 developers · flat team license · no per-seat friction</div>
+        <ul class="price-features">
+          <li>Everything in Individual</li>
+          <li>5 developer seats</li>
+          <li>Shared team license · single purchase</li>
+          <li>No per-project or per-app fees</li>
+        </ul>
+        <a class="btn btn-secondary" href="https://buy.stripe.com/9B67sLfqU6hgaefgDU04808" target="_blank" rel="noopener noreferrer" style="width:100%">Buy team license →</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">Annual Updates</div>
+        <div class="price-amount">$39<span style="font-size:18px;font-weight:400">/yr</span></div>
+        <div class="price-note">Optional after year 1 · never required · license never expires</div>
+        <ul class="price-features">
+          <li>New blocks as they ship</li>
+          <li>New screen verticals</li>
+          <li>OS compatibility updates</li>
+          <li>Cancel anytime · no lock-in</li>
+        </ul>
+        <a class="btn btn-secondary" href="https://buy.stripe.com/8x29AT4Mg9ts4TVbjA04809" target="_blank" rel="noopener noreferrer" style="width:100%">Subscribe →</a>
+      </div>
+
+    </div>
+
+    <p style="text-align:center;margin-top:20px;font-size:13px;">
+      Questions about licensing? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
+    </p>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<!-- ── FAQ ── -->
+<div class="container">
+  <section class="section">
+    <p class="section-label">FAQ</p>
+    <h2>Common questions</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Does Pro work with any DFTheme or preset?</div>
+        <div class="faq-a">Yes. Every block reads all visual tokens — colors, typography, spacing, radius, shadows — from whatever <code>DFTheme</code> is in the environment. Apply your own custom theme or any of the four presets (Slate, Aurora, Copper, Sage) and every block adapts automatically. No per-block configuration required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need the free DesignFoundation library to use Pro?</div>
+        <div class="faq-a">Yes. <code>DesignFoundationPro</code> depends on <code>DesignFoundation</code> (the free MIT package). Add both to your <code>Package.swift</code> — Foundation provides the primitives and theming engine; Pro adds the blocks and screens on top.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I use Pro blocks across multiple apps?</div>
+        <div class="faq-a">Yes. An Individual license covers one developer and unlimited apps and projects. A Team license covers up to 5 developers. There are no per-project or per-app fees — ever.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's the difference between Blocks and Screens?</div>
+        <div class="faq-a">Blocks are composite UI components — <code>DFSignInBlock</code>, <code>DFStatCardBlock</code>, <code>DFProfileHeaderBlock</code> — that you compose into screens yourself. Screens are full-page SwiftUI views with domain model layers already wired — <code>DFEcommerceOrdersScreen</code>, <code>DFCRMPipelineScreen</code> — ready to connect to your data source. One license covers both.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens after year 1? Is there a forced subscription?</div>
+        <div class="faq-a">Nothing changes. Your license never expires. You keep every block and screen you licensed forever, and they keep working. Annual updates ($39/yr) are fully optional — they give you access to new blocks, new screen verticals, and OS compatibility updates as they ship. Skip it and keep shipping with what you have.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is DesignFoundation Pro compatible with Swift 6 and iOS 18?</div>
+        <div class="faq-a">Yes. DesignFoundation Pro is built with Swift 6 strict concurrency enabled (<code>StrictConcurrency</code> experimental feature enabled in Package.swift). It targets iOS 18+, macOS 15+, and visionOS 2+. All action closures are <code>@MainActor</code>-isolated so they compose safely with your actor-isolated view models.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── Footer CTA band ── -->
+<div class="cta-band">
+  <h2>Ready to stop building boilerplate?</h2>
+  <p>Join developers who are shipping faster with DesignFoundation Pro.</p>
+  <a class="btn btn-primary btn-lg" href="#pricing">Get Pro — from $149</a>
+  <div class="cta-band-links">
+    <div class="cta-band-email">Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a></div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
 <footer>
   <p>
-    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
-    <a href="https://github.com/NerdSnipe-Inc/design-foundation">DesignFoundation</a> is MIT licensed ·
+    Built by <a href="https://github.com/NerdSnipe-Inc" target="_blank" rel="noopener">NerdSnipe Inc</a> ·
+    <a href="../">DesignFoundation</a> is MIT licensed ·
     Questions? <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a>
   </p>
 </footer>
