@@ -11,22 +11,24 @@ public extension DFTheme {
 private extension DFColorTokens {
 
     static var slateLight: DFColorTokens {
-        let fill = Color(red: 0.161, green: 0.475, blue: 1.0)
+        // Deep navy — far from system blue's bright azure
+        let fill = Color(red: 0.118, green: 0.239, blue: 0.490)
         return DFColorTokens(
             primary:             Color(red: 0.110, green: 0.239, blue: 0.353),
             secondary:           Color(red: 0.329, green: 0.431, blue: 0.478),
-            accent:              Color(red: 0.161, green: 0.475, blue: 1.0),
-            background:          Color(white: 0.980),
-            surface:             Color(red: 0.949, green: 0.949, blue: 0.969),
-            surfaceElevated:     .white,
+            accent:              Color(red: 0.220, green: 0.427, blue: 0.765),
+            // Visibly cool blue-grey — distinguishable from neutral white at a glance
+            background:          Color(red: 0.894, green: 0.906, blue: 0.922),
+            surface:             Color(red: 0.925, green: 0.933, blue: 0.945),
+            surfaceElevated:     Color(red: 0.961, green: 0.965, blue: 0.973),
             textPrimary:         Color(red: 0.051, green: 0.106, blue: 0.165),
             textSecondary:       Color(red: 0.329, green: 0.431, blue: 0.478),
             textDisabled:        Color(red: 0.620, green: 0.667, blue: 0.710),
-            border:              Color(red: 0.820, green: 0.851, blue: 0.878),
+            border:              Color(red: 0.761, green: 0.800, blue: 0.839),
             interactiveFill:     fill,
             interactiveHover:    fill.opacity(0.85),
             interactivePressed:  fill.opacity(0.70),
-            interactiveDisabled: Color(red: 0.886, green: 0.910, blue: 0.929),
+            interactiveDisabled: Color(red: 0.839, green: 0.863, blue: 0.890),
             destructive:         Color(red: 0.898, green: 0.224, blue: 0.208),
             success:             Color(red: 0.180, green: 0.490, blue: 0.196),
             warning:             Color(red: 0.961, green: 0.486, blue: 0.0),
