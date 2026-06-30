@@ -10,9 +10,12 @@ public struct DFThemePreset: Sendable {
     }
 
     public static let slate  = DFThemePreset(light: .slateLight,  dark: .slateDark)
-    public static let aurora = DFThemePreset(light: .auroraLight, dark: .auroraDark)
-    public static let copper = DFThemePreset(light: .copperLight, dark: .copperDark)
-    public static let sage   = DFThemePreset(light: .sageLight,   dark: .sageDark)
+    // TODO: Uncomment when Aurora preset is implemented (Task 3)
+    // public static let aurora = DFThemePreset(light: .auroraLight, dark: .auroraDark)
+    // TODO: Uncomment when Copper preset is implemented (Task 4)
+    // public static let copper = DFThemePreset(light: .copperLight, dark: .copperDark)
+    // TODO: Uncomment when Sage preset is implemented (Task 5)
+    // public static let sage   = DFThemePreset(light: .sageLight,   dark: .sageDark)
 }
 
 public extension View {
