@@ -1,15 +1,17 @@
 #if DEBUG
 import SwiftUI
 
-// MARK: - Shared showcase view
+// MARK: - Showcase view
 
-/// A compact UI panel that exercises real components so every themed preview
-/// shows authentic radius, shadow, and color personality.
+/// A realistic UI panel exercising the tokens that actually differ between themes:
+/// primary (avatar, buttons), surface (card background), border (text field),
+/// and corner radius.
 private struct ThemeShowcase: View {
     @State private var email = "you@example.com"
+    @Environment(\.dfTheme) private var theme
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             DFCard {
                 VStack(alignment: .leading, spacing: 14) {
                     HStack(spacing: 10) {
@@ -31,14 +33,48 @@ private struct ThemeShowcase: View {
                     }
                 }
             }
+
+            HStack(spacing: 8) {
+                DFBadge(text: "Active").dfBadgeStyle(.tinted)
+                DFBadge(text: "Pending").dfBadgeStyle(.outlined)
+                DFBadge(text: "Done").dfBadgeStyle(.filled)
+                Spacer()
+            }
+            .padding(.horizontal, 4)
         }
         .padding()
+        // Theme's own background fills the space around the card,
+        // so light variants look light and dark variants look dark.
+        .background(theme.colors.background)
+    }
+}
+
+// MARK: - Column helper
+
+private struct PresetColumn: View {
+    let label: String
+    let theme: DFTheme
+    let scheme: ColorScheme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(label)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(.ultraThinMaterial)
+            ThemeShowcase()
+                .dfTheme(theme)
+                .environment(\.colorScheme, scheme)
+                .frame(width: 280)
+        }
     }
 }
 
 // MARK: - Previews
 
-#Preview("Default theme") {
+#Preview("Default theme — light and dark") {
     HStack(spacing: 0) {
         ThemeShowcase()
             .environment(\.colorScheme, .light)
@@ -47,108 +83,93 @@ private struct ThemeShowcase: View {
         ThemeShowcase()
             .environment(\.colorScheme, .dark)
             .frame(maxWidth: .infinity)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
     }
 }
 
 #Preview("Slate — light and dark") {
     HStack(spacing: 0) {
         ThemeShowcase()
+            .dfTheme(.slateLight)
             .environment(\.colorScheme, .light)
             .frame(maxWidth: .infinity)
         Divider()
         ThemeShowcase()
+            .dfTheme(.slateDark)
             .environment(\.colorScheme, .dark)
             .frame(maxWidth: .infinity)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
     }
-    .dfThemePreset(.slate)
 }
 
 #Preview("Aurora — light and dark") {
     HStack(spacing: 0) {
         ThemeShowcase()
+            .dfTheme(.auroraLight)
             .environment(\.colorScheme, .light)
             .frame(maxWidth: .infinity)
         Divider()
         ThemeShowcase()
+            .dfTheme(.auroraDark)
             .environment(\.colorScheme, .dark)
             .frame(maxWidth: .infinity)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
     }
-    .dfThemePreset(.aurora)
 }
 
 #Preview("Copper — light and dark") {
     HStack(spacing: 0) {
         ThemeShowcase()
+            .dfTheme(.copperLight)
             .environment(\.colorScheme, .light)
             .frame(maxWidth: .infinity)
         Divider()
         ThemeShowcase()
+            .dfTheme(.copperDark)
             .environment(\.colorScheme, .dark)
             .frame(maxWidth: .infinity)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
     }
-    .dfThemePreset(.copper)
 }
 
 #Preview("Sage — light and dark") {
     HStack(spacing: 0) {
         ThemeShowcase()
+            .dfTheme(.sageLight)
             .environment(\.colorScheme, .light)
             .frame(maxWidth: .infinity)
         Divider()
         ThemeShowcase()
+            .dfTheme(.sageDark)
             .environment(\.colorScheme, .dark)
             .frame(maxWidth: .infinity)
-            .background(Color(.sRGB, white: 0.1, opacity: 1))
     }
-    .dfThemePreset(.sage)
 }
 
-#Preview("All presets side by side") {
+#Preview("All presets — light") {
     ScrollView(.horizontal, showsIndicators: false) {
         HStack(alignment: .top, spacing: 0) {
-            ForEach(Array(presetRows.enumerated()), id: \.offset) { _, row in
-                VStack(spacing: 4) {
-                    Text(row.label)
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 12)
-                    ThemeShowcase()
-                        .frame(width: 260)
-                        .applyPreset(row.preset)
-                }
-                if row.label != presetRows.last?.label {
-                    Divider()
-                }
-            }
+            PresetColumn(label: "Default",    theme: .default,     scheme: .light)
+            Divider()
+            PresetColumn(label: "Slate",      theme: .slateLight,  scheme: .light)
+            Divider()
+            PresetColumn(label: "Aurora",     theme: .auroraLight, scheme: .light)
+            Divider()
+            PresetColumn(label: "Copper",     theme: .copperLight, scheme: .light)
+            Divider()
+            PresetColumn(label: "Sage",       theme: .sageLight,   scheme: .light)
         }
     }
 }
 
-private struct PresetRow {
-    let label: String
-    let preset: DFThemePreset?
-}
-
-private let presetRows: [PresetRow] = [
-    PresetRow(label: "Default", preset: nil),
-    PresetRow(label: "Slate",   preset: .slate),
-    PresetRow(label: "Aurora",  preset: .aurora),
-    PresetRow(label: "Copper",  preset: .copper),
-    PresetRow(label: "Sage",    preset: .sage),
-]
-
-private extension View {
-    @ViewBuilder
-    func applyPreset(_ preset: DFThemePreset?) -> some View {
-        if let preset {
-            self.dfThemePreset(preset)
-        } else {
-            self
+#Preview("All presets — dark") {
+    ScrollView(.horizontal, showsIndicators: false) {
+        HStack(alignment: .top, spacing: 0) {
+            PresetColumn(label: "Default",    theme: .default,    scheme: .dark)
+            Divider()
+            PresetColumn(label: "Slate",      theme: .slateDark,  scheme: .dark)
+            Divider()
+            PresetColumn(label: "Aurora",     theme: .auroraDark, scheme: .dark)
+            Divider()
+            PresetColumn(label: "Copper",     theme: .copperDark, scheme: .dark)
+            Divider()
+            PresetColumn(label: "Sage",       theme: .sageDark,   scheme: .dark)
         }
     }
 }
