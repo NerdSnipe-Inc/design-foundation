@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integration Guide — Theme → Shell → Block → Screen | DesignFoundation</title>
+  <meta name="description" content="Integrate DesignFoundation + Pro in under 15 minutes. Apply DFTheme, pick a shell or composition root, drop blocks and screens, wire your data. Swift 6, iOS 18+, macOS 15+." />
+  <link rel="canonical" href="https://nerdsnipe-inc.github.io/design-foundation/integration/" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta property="og:title" content="DesignFoundation Integration Guide" />
+  <meta property="og:description" content="Five-step workflow: theme, shell, block, screen, your data. Compose cross-platform SwiftUI apps from the kit." />
+  <meta property="og:url" content="https://nerdsnipe-inc.github.io/design-foundation/integration/" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08); --primary: #6366f1;
+      --primary-glow: rgba(99,102,241,0.25); --text: #f0f0f5;
+      --text-secondary: #9090a8; --radius: 12px; --success: #10b981;
+    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; line-height: 1.65; min-height: 100vh; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    nav { border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.92); backdrop-filter: blur(12px); }
+    nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 0 24px; flex-wrap: wrap; gap: 12px; }
+    .nav-brand { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--primary); }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-link { font-size: 13px; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 5px 13px; text-decoration: none; transition: border-color 0.15s, color 0.15s; }
+    .nav-link:hover { border-color: var(--primary); color: var(--text); text-decoration: none; }
+    .nav-link.active { border-color: rgba(99,102,241,0.5); color: var(--text); background: rgba(99,102,241,0.08); }
+    .hero { padding: 72px 0 48px; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--primary); background: var(--primary-glow); border: 1px solid rgba(99,102,241,0.3); border-radius: 100px; padding: 4px 14px; margin-bottom: 20px; }
+    h1 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+    .lead { font-size: 18px; color: var(--text-secondary); max-width: 640px; margin-bottom: 28px; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .flow-step { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 100px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-secondary); }
+    .flow-step span { color: var(--primary); margin-right: 6px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .section { padding: 56px 0; }
+    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+    h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .section-sub { color: var(--text-secondary); margin-bottom: 28px; font-size: 15px; max-width: 640px; }
+    p { color: var(--text-secondary); font-size: 15px; margin-bottom: 16px; }
+    p strong { color: var(--text); }
+    pre, code { font-family: "SF Mono", Menlo, monospace; }
+    code { background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-size: 13px; color: #c3e88d; }
+    pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; overflow-x: auto; font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+    pre code { background: none; border: none; padding: 0; color: inherit; }
+    .kw { color: #c792ea; } .str { color: #c3e88d; } .cm { color: #546e7a; font-style: italic; }
+    .fn { color: #82aaff; } .type { color: #ffcb6b; }
+    .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 20px; font-size: 14px; color: var(--text-secondary); }
+    .callout strong { color: var(--text); }
+    .path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin: 24px 0; }
+    .path-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .path-time { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--success); margin-bottom: 8px; }
+    .path-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .path-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+    th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); vertical-align: top; }
+    td:first-child { color: var(--text); font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+    .table-wrap { overflow-x: auto; }
+    .checklist { list-style: none; margin-bottom: 24px; }
+    .checklist li { font-size: 14px; color: var(--text-secondary); padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
+    .checklist li::before { content: "☐"; color: var(--primary); flex-shrink: 0; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .btn { display: inline-flex; align-items: center; font-size: 14px; font-weight: 500; border-radius: 9px; padding: 10px 20px; text-decoration: none; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; }
+    footer p { font-size: 13px; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="nav-brand" href="../">Design<span>Foundation</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="../">Foundation</a>
+      <a class="nav-link" href="../pro/">Pro</a>
+      <a class="nav-link" href="../foundation-way/">Foundation Way</a>
+      <a class="nav-link active" href="./">Integration</a>
+      <a class="nav-link" href="../use-cases/">Use Cases</a>
+      <a class="nav-link" href="../theme-presets/">Themes</a>
+      <a class="nav-link" href="https://github.com/NerdSnipe-Inc/design-foundation">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <section class="hero">
+    <div class="badge">Integration guide · Phase 6</div>
+    <h1>Theme → shell → block → screen → your data</h1>
+    <p class="lead">The DesignFoundation workflow: apply a theme once, pick layout chrome, compose blocks and reference screens, then wire your models. Cross-platform by default — iPhone, iPad, and Mac from the same code.</p>
+    <div class="flow">
+      <div class="flow-step"><span>1</span> Theme</div>
+      <div class="flow-step"><span>2</span> Shell</div>
+      <div class="flow-step"><span>3</span> Block</div>
+      <div class="flow-step"><span>4</span> Screen</div>
+      <div class="flow-step"><span>5</span> Your data</div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider" />
+
+<div class="container">
+  <section class="section" id="packages">
+    <p class="section-label">Step 0</p>
+    <h2>Add both packages</h2>
+    <p class="section-sub">Foundation is free (MIT). Pro is a commercial license with private GitHub access after purchase.</p>
+    <pre><span class="kw">dependencies</span>: [
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>),
+    <span class="cm">// Pro: private repo URL provided with your license</span>
+],
+<span class="kw">targets</span>: [
+    .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [
+        <span class="str">"DesignFoundation"</span>,
+        <span class="str">"DesignFoundationPro"</span>
+    ])
+]</pre>
+    <div class="callout"><strong>License access:</strong> Pro is not a public repository. After purchase you receive GitHub access for SPM. Questions: <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a></div>
+  </section>
+
+  <section class="section" id="theme">
+    <p class="section-label">Step 1</p>
+    <h2>Apply theme at the root</h2>
+    <p class="section-sub">One modifier at the app root themes every primitive, block, and screen below it.</p>
+    <pre><span class="kw">import</span> <span class="type">DesignFoundation</span>
+<span class="kw">import</span> <span class="type">DesignFoundationPro</span>
+
+<span class="type">WindowGroup</span> {
+    <span class="type">AppRootView</span>()
+        .<span class="fn">environment</span>(\.dfTheme, .workspace) <span class="cm">// product apps</span>
+        <span class="cm">// or: .dfThemePreset(.slate)</span>
+}</pre>
+    <p>Explore presets on the <a href="../theme-presets/">Theme Presets</a> page. Custom brands: mutate any token on <code>DFTheme</code> — colors, spacing, radius, typography.</p>
+  </section>
+
+  <section class="section" id="shell">
+    <p class="section-label">Step 2</p>
+    <h2>Pick a shell — or a composition root</h2>
+    <p class="section-sub"><strong>Shells</strong> are layout-only: sidebars, tabs, split views. <strong>Composition roots</strong> are full reference apps already wired — faster if your product matches a vertical.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Shell / root</th><th>Use when</th></tr></thead>
+        <tbody>
+          <tr><td>DFAdaptiveShell</td><td>Tabs on phone, sidebar on iPad/Mac</td></tr>
+          <tr><td>DFThreeColumnShell</td><td>Folder sidebar + list + detail</td></tr>
+          <tr><td>DFDocumentsRootView</td><td>Notes / knowledge app (composition)</td></tr>
+          <tr><td>DFCRMRootView</td><td>Sales pipeline workspace (composition)</td></tr>
+          <tr><td>DFSocialAppShell</td><td>Feed + profile consumer app (composition)</td></tr>
+          <tr><td>DFSettingsRootView</td><td>Account &amp; preferences hub (composition)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <pre><span class="type">DFCRMRootView</span>(
+    deals: viewModel.deals,
+    contacts: viewModel.contacts
+)
+.<span class="fn">environment</span>(\.dfTheme, .workspace)
+.<span class="fn">environment</span>(\.dfUseDesktopDensity, <span class="type">DFLayout</span>.<span class="fn">useDesktopLayout</span>(horizontalSizeClass: sizeClass))
+.<span class="fn">dfToastHost</span>()</pre>
+    <p>See all 9 composition examples on the <a href="../pro/#composition">Pro page</a> and in DFPlayground.</p>
+  </section>
+
+  <section class="section" id="block">
+    <p class="section-label">Step 3</p>
+    <h2>Compose blocks</h2>
+    <p class="section-sub">Blocks are partial UI — stat cards, auth forms, charts, empty states. Drop them inside any shell or custom layout.</p>
+    <pre><span class="type">VStack</span>(spacing: theme.spacing.lg) {
+    <span class="type">DFMetricGridBlock</span>(configuration: .<span class="fn">init</span>(metrics: viewModel.kpis))
+    <span class="type">DFLineChartBlock</span>(configuration: .<span class="fn">init</span>(
+        title: <span class="str">"Active users"</span>,
+        data: viewModel.trend,
+        isLoading: viewModel.isLoading
+    ))
+}</pre>
+  </section>
+
+  <section class="section" id="screen">
+    <p class="section-label">Step 4</p>
+    <h2>Use reference screens</h2>
+    <p class="section-sub">Full pages with typed <code>Configuration</code> structs — connect closures to your view model.</p>
+    <pre><span class="type">DFEcommerceOrdersScreen</span>(
+    configuration: .<span class="fn">init</span>(
+        orders: viewModel.orders,
+        onSelectOrder: { viewModel.open($0) },
+        onRefresh: { <span class="kw">await</span> viewModel.reload() }
+    )
+)</pre>
+  </section>
+
+  <section class="section" id="data">
+    <p class="section-label">Step 5</p>
+    <h2>Wire your data</h2>
+    <p class="section-sub">Replace preview fixtures with your API models. Keep theme tokens and DesignKit colors — avoid inline hex in your app layer.</p>
+    <pre><span class="cm">// Success feedback (toast host at root)</span>
+<span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(text: <span class="str">"Saved"</span>, severity: .success)
+
+<span class="cm">// Forms: DFFormState + DFValidatedTextField (Foundation)</span>
+<span class="cm">// Pro auth blocks: usesFormValidation: true by default</span></pre>
+  </section>
+
+  <section class="section" id="paths">
+    <p class="section-label">Choose your path</p>
+    <h2>Three ways in — pick your depth</h2>
+    <div class="path-grid">
+      <div class="path-card">
+        <div class="path-time">~5 minutes</div>
+        <div class="path-title">One block</div>
+        <div class="path-desc">Theme at root → drop <code>DFSignInBlock</code> or <code>DFStatCardBlock</code> → pass Configuration callbacks.</div>
+      </div>
+      <div class="path-card">
+        <div class="path-time">~10 minutes</div>
+        <div class="path-title">One screen</div>
+        <div class="path-desc">Theme + density → embed <code>DFSettingsSecurityScreen</code> or <code>DFAIChatThreadScreen</code> in your navigation stack.</div>
+      </div>
+      <div class="path-card">
+        <div class="path-time">~15 minutes</div>
+        <div class="path-title">Composition root</div>
+        <div class="path-desc">Instantiate <code>DFCRMRootView</code> or <code>DFDocumentsRootView</code> → swap initializer data for your stores.</div>
+      </div>
+    </div>
+    <p>Not sure which vertical fits? Browse the <a href="../use-cases/">Use Cases</a> page — or see <a href="../foundation-way/">The Foundation Way</a> for line-count comparisons.</p>
+  </section>
+
+  <section class="section" id="checklist">
+    <p class="section-label">Before you ship</p>
+    <h2>Integration checklist</h2>
+    <ul class="checklist">
+      <li><code>.environment(\.dfTheme, .workspace)</code> or brand preset at root</li>
+      <li><code>dfUseDesktopDensity</code> on product-shaped roots</li>
+      <li><code>.dfToastHost()</code> on composition roots</li>
+      <li>Loading + empty states for data-driven screens</li>
+      <li>No hardcoded colors — theme + vertical DesignKit only</li>
+    </ul>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="../pro/">Browse Pro catalog →</a>
+      <a class="btn btn-secondary" href="../use-cases/">See use cases →</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/NerdSnipe-Inc">NerdSnipe Inc</a> ·
+    <a href="../">DesignFoundation</a> MIT ·
+    <a href="mailto:nerdsnipe.inc@gmail.com">License questions</a>
+  </p>
+</footer>
+</body>
+</html>

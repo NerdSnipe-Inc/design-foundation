@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="DesignFoundation" src="docs/images/design-foundation-logo.png" width="100%" />
+</p>
+
 # DesignFoundation
 
 **The design system for serious SwiftUI apps.**

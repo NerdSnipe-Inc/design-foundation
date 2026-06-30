@@ -9,8 +9,11 @@ All components handle platform differences internally. Consumers do not need `#i
 ## Documentation
 
 - [Component Library & Design System](https://nerdsnipe-inc.github.io/design-foundation/): Full documentation — installation, theming, all components, style system, platform support.
+- [Integration Guide](https://nerdsnipe-inc.github.io/design-foundation/integration/): Five-step workflow for DesignFoundation + Pro — theme → shell → block → screen → your data. Target: first custom screen in under 15 minutes.
+- [The Foundation Way](https://nerdsnipe-inc.github.io/design-foundation/foundation-way/): Side-by-side line-count comparisons — hand-rolled SwiftUI vs composing the packages. Promo for less code in your repo and fewer AI coding tokens.
+- [Use Cases](https://nerdsnipe-inc.github.io/design-foundation/use-cases/): Who builds what — consumer social, SaaS, AI chat, notes, ecommerce, analytics, onboarding, PM, settings, and ops apps. Recommended roots and blocks per domain.
 - [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
-- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on. 47 full SwiftUI screens across 9 verticals (AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social) + 29 UI blocks + 18 shell layouts + 9 wired composition examples. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
+- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 47 full SwiftUI screens across 9 verticals + 29 UI blocks + 18 shell layouts + 9 wired composition examples. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
 ## Source
 
@@ -21,7 +24,7 @@ All components handle platform differences internally. Consumers do not need `#i
 
 DesignFoundation ships agent instruction files to help AI coding assistants use the package correctly:
 - `CLAUDE.md` / `AGENTS.md` — Claude Code and OpenAI Codex instructions in both packages
-- `.cursor/rules/design-foundation.mdc` and `.cursor/rules/design-foundation-pro.mdc` — Cursor rules
+- `.cursor/rules/design-foundation.mdc` and `.cursor/rules/design-foundation-pro.mdc` — Cursor rules for teams **using** the packages
 
 The core rule in all files: never build UI that DesignFoundation or DesignFoundationPro already provides.
 
@@ -30,6 +33,7 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 - **License:** MIT (free for personal and commercial use)
 - **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation
 - **Current version:** 1.1.0
+- **DesignFoundation Pro:** Commercial license — private GitHub access after purchase (not a public repository)
 - **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
 - **Swift version:** Swift 6 (strict concurrency enabled)
 - **Cross-platform:** All components adapt internally — no `#if os()` guards needed in consuming code
@@ -38,8 +42,3 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 - **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); all tokens (colors, typography, spacing, radius, shadow, animation) are overridable
 - **Preset themes:** .slate, .aurora, .copper, .sage — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
 - **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips, sidebar, tab bar — requires iOS 26+ / macOS 26+
-- **Pro — Blocks (29):** Auth (5), Dashboard (7 incl. DFLineChartBlock/DFBarChartBlock/DFDonutChartBlock via Swift Charts), Onboarding (4), Settings (4), Forms (4), Feed/People/Loading/Empty (5)
-- **Pro — Screens (47):** 9 verticals — AI Chat, Analytics, CRM, Documents, E-commerce, Onboarding, Project Manager, Settings, Social
-- **Pro — Shells (18):** DFAdaptiveShell, DFStandardSidebarShell, DFThreeColumnShell, DFDualSidebarShell, DFFloatingOverlayShell, DFIconRailShell, DFSearchSidebarShell, DFCalendarSidebarShell, DFFileTreeShell, DFRightInspectorShell, DFInsetSidebarShell, DFPopoverSidebarShell, DFDropdownSubmenuShell, DFExpandableSubmenuShell, DFSheetSidebarShell, DFStickyHeaderShell, DFNestedDualColumnShell, DFWorkspaceSidebarShell
-- **Pro — Composition examples (9):** Onboarding, Social, AI Chat, Documents, Settings, CRM, Project Manager, Ecommerce, Analytics — each is a wired, production-quality app example built from Pro blocks and screens
-- **Contact:** nerdsnipe.inc@gmail.com
