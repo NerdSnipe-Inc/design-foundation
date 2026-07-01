@@ -240,6 +240,18 @@
       main { padding-left: 0; border-left: none; }
       .page { display: block; }
     }
+
+    /* ── DFPlayground CTA ── */
+    .pg-cta { background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(99,102,241,0.03)); border: 1px solid rgba(99,102,241,0.22); border-radius: var(--radius); padding: 28px 32px; margin-top: 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .pg-cta-icon { font-size: 36px; flex-shrink: 0; }
+    .pg-cta-text { flex: 1; min-width: 200px; }
+    .pg-cta-text h3 { margin: 0 0 4px; font-size: 17px; color: var(--text); }
+    .pg-cta-text p { margin: 0; font-size: 14px; color: var(--text-secondary); }
+    /* floating pill */
+    .floating-pg { position: fixed; bottom: 24px; right: 24px; z-index: 500; display: flex; align-items: center; gap: 8px; background: var(--surface2); color: var(--text); padding: 10px 18px 10px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px var(--border); transition: transform 0.15s, box-shadow 0.15s; }
+    .floating-pg:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(99,102,241,0.45); color: var(--text); text-decoration: none !important; }
+    .floating-pg-icon { width: 24px; height: 24px; background: var(--primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    @media (max-width: 600px) { .floating-pg span.label { display: none; } }
   </style>
 
   <!-- Structured Data -->
@@ -879,6 +891,15 @@
         <a class="btn btn-primary" href="pro/">Browse Pro →</a>
       </div>
 
+      <div class="pg-cta">
+        <div class="pg-cta-icon">🖥</div>
+        <div class="pg-cta-text">
+          <h3>DFPlayground — See it before you build it</h3>
+          <p>Free macOS companion app with every component, block, screen, and theme interactive and live. Browse the full catalog, switch themes, open any Pro screen — then decide what to use.</p>
+        </div>
+        <a class="btn btn-secondary" href="DFPlayground.zip" download>⬇ Download free · 9.9 MB</a>
+      </div>
+
       <h3 style="margin-top:32px">Installation</h3>
       <p>Add DesignFoundation via SPM (free). Pro is a licensed add-on — private repo access provided after purchase:</p>
       <pre><span class="cm">// Package.swift — Foundation (public)</span>
@@ -943,6 +964,12 @@
   }, { rootMargin: '-20% 0px -70% 0px' });
   sections.forEach(s => observer.observe(s));
 </script>
+
+<!-- Floating DFPlayground download -->
+<a class="floating-pg" href="DFPlayground.zip" download title="Download DFPlayground — free macOS companion app">
+  <span class="floating-pg-icon">⬇</span>
+  <span class="label">Try DFPlayground free</span>
+</a>
 
 </body>
 </html>
