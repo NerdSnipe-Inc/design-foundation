@@ -4,7 +4,7 @@
 
 # DesignFoundation
 
-**The design system for serious SwiftUI apps.**
+A SwiftUI design system I built because every new project I started, I was rebuilding the same buttons, inputs, cards, and modals, losing another two weeks to it.
 
 ![Swift 6.0](https://img.shields.io/badge/Swift-6.0-orange?logo=swift)
 ![iOS 18+](https://img.shields.io/badge/iOS-18%2B-blue?logo=apple)
@@ -12,14 +12,16 @@
 ![visionOS 2+](https://img.shields.io/badge/visionOS-2%2B-blue?logo=apple)
 ![MIT License](https://img.shields.io/badge/license-MIT-green)
 ![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNerdSnipe-Inc%2Fdesign-foundation%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/NerdSnipe-Inc/design-foundation)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FNerdSnipe-Inc%2Fdesign-foundation%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/NerdSnipe-Inc/design-foundation)
 
-<!-- demo GIF coming -->
+<!-- demo GIF goes here once recorded -->
 
 ---
 
-DesignFoundation is a production-grade Swift Package that gives iOS, macOS, and visionOS developers a fully themed, style-swappable component library — ready to drop into any project, instantly consistent across every screen, and built to grow with you from first commit to App Store.
+DesignFoundation gives you a token-based theming engine and 30+ SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
-It ships a token-based theming engine, a protocol-based style system that mirrors SwiftUI's own `ButtonStyle` pattern, first-class Liquid Glass support for iOS/macOS 26+, and a full suite of accessible, Swift 6–safe components — all in a single dependency.
+Works on iOS 18+, macOS 15+, visionOS 2+. Swift 6 strict concurrency safe. Liquid Glass styles included for iOS/macOS 26+.
 
 ---
 
@@ -52,14 +54,19 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .dfTheme(DFTheme(colors: DFColorTokens(primary: .indigo)))
+                .dfThemePreset(.slate)
         }
     }
 }
 
-// In any view:
-DFButton("Get Started") { print("tapped") }
+struct ContentView: View {
+    var body: some View {
+        DFButton("Get started") { print("tapped") }
+    }
+}
 ```
+
+Four presets ship: `.slate`, `.aurora`, `.copper`, `.sage`. Each swaps automatically for light and dark mode. Build your own from tokens if none of them fit, see the Theme System section below.
 
 ---
 
@@ -73,22 +80,22 @@ DFButton("Get Started") { print("tapped") }
 | `DFText` | display, title, headline, body, caption, label |
 | `DFIcon` | SF Symbol wrapper with token-driven size and color |
 | `DFBadge` | `.default`, `.subtle`, `.outlined`, `.glass`¹ |
-| `DFAvatar` | `.circle`, `.rounded`, `.ring`, `.glass`¹ — image or initials, presence indicators |
-| `DFDivider` | `.solid`, `.dashed`, `.gradient` — horizontal/vertical, labeled variant |
+| `DFAvatar` | `.circle`, `.rounded`, `.ring`, `.glass`¹ (image or initials, presence indicators) |
+| `DFDivider` | `.solid`, `.dashed`, `.gradient` (horizontal/vertical, labeled variant) |
 
 ### Inputs
 
 | Component | Built-in Styles |
 |---|---|
 | `DFTextField` | `.outlined`, `.filled` |
-| `DFSecureField` | `.outlined`, `.filled` — reveal toggle built in |
+| `DFSecureField` | `.outlined`, `.filled` (reveal toggle built in) |
 | `DFToggle` | `.switch`, `.checkbox` |
 | `DFSlider` | `.standard`, `.labeled` |
 | `DFPicker` | `.segmented`, `.menu`, `.wheel` |
 | `DFDatePicker` | `.compact`, `.graphical`, `.wheel` |
 | `DFCheckbox` | `.default` |
 
-All input components share `DFValidationState` (`.idle / .valid / .error(String)`) for consistent error display.
+All input components share `DFValidationState` (`.idle / .valid / .error(String)`) so error display looks consistent everywhere.
 
 ### Layout
 
@@ -117,7 +124,7 @@ All input components share `DFValidationState` (`.idle / .valid / .error(String)
 
 | Component | Notes |
 |---|---|
-| `DFAlert` | Convenience wrapper over native SwiftUI alert |
+| `DFAlert` | Convenience wrapper over the native SwiftUI alert |
 | `DFToast` | Queue management and auto-dismiss |
 | `DFSkeleton` | Shimmer animation |
 | `DFProgressBar` | Linear, circular, and indeterminate variants |
@@ -131,7 +138,7 @@ All input components share `DFValidationState` (`.idle / .valid / .error(String)
 
 ## Theme System
 
-A single `DFTheme` struct propagates through SwiftUI's environment and drives every component. Inject it once at the app root; override it at any subtree.
+One `DFTheme` struct sits in SwiftUI's environment and drives every component. Set it at the app root, override it anywhere below.
 
 ```swift
 // Token namespaces: colors, typography, spacing, radius, shadow, animation, components
@@ -146,30 +153,30 @@ MyApp()
     ))
 ```
 
-Every component reads from the nearest `DFTheme` in the environment. A token change propagates to every component that uses it — no manual wiring required.
+Every component reads from the nearest `DFTheme` in the environment. Change a token, everything that uses it updates. No manual wiring.
 
 ---
 
 ## Preset Themes
 
-Four opinionated visual identities ship in the box — each with a distinct color palette, corner radius scale, and shadow weight. Apply one in a single line; it adapts automatically to light and dark mode.
+Four presets ship in the box. Each one pairs a light and dark `DFTheme` and switches automatically based on `@Environment(\.colorScheme)`.
 
 ```swift
 MyApp()
-    .dfThemePreset(.aurora)   // Electric violet, rounded corners, soft shadows
+    .dfThemePreset(.aurora)
 ```
 
-| Preset | Personality | Best for |
+| Preset | Notes | Fits well with |
 |---|---|---|
-| `.slate` | Professional, tech-forward, neutral | SaaS dashboards, developer tools |
-| `.aurora` | Vibrant, creative, modern | Creative tools, social platforms |
-| `.copper` | Warm, editorial, premium | Finance apps, content readers |
-| `.sage` | Calm, natural, organic | Health, wellness, lifestyle apps |
+| `.slate` | Closest to Apple system defaults, neutral palette | SaaS dashboards, developer tools |
+| `.aurora` | Violet primary, larger corner radii, softer shadows | Creative tools, social apps |
+| `.copper` | Warm orange-brown palette | Finance, content readers |
+| `.sage` | Muted green, calmer contrast | Health, wellness |
 
-Each preset pairs a distinct light and dark `DFTheme`. The modifier reads `@Environment(\.colorScheme)` and switches automatically — no manual wiring required.
+The differences read better in a preview than in a description, spin them up and see which one feels right for your app.
 
 ```swift
-// Automatic light/dark — recommended
+// Automatic light/dark
 MyApp().dfThemePreset(.slate)
 
 // Force a specific variant (previews, sub-tree overrides)
@@ -188,7 +195,7 @@ MyView().dfTheme(custom)
 
 ## Style System
 
-Every component exposes a `makeBody(configuration:)` style protocol — the same pattern SwiftUI uses for `ButtonStyle`. Styles compose, propagate through the environment, and apply hierarchically.
+Every component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section
@@ -207,7 +214,7 @@ ContentView()
     .dfTooltipStyle(.glass)
 ```
 
-Writing a custom style means implementing one function. The protocol is open; built-in styles are concrete structs you can copy and fork.
+Writing a custom style means implementing one function. Built-in styles are concrete structs, copy any of them as a starting point.
 
 ---
 
@@ -219,9 +226,21 @@ Writing a custom style means implementing one function. The protocol is open; bu
 | macOS | 15.0 |
 | visionOS | 2.0 |
 
-Liquid Glass (`.glass` styles) requires iOS 26+ / macOS 26+. All other styles work on the minimum versions above.
+Liquid Glass (`.glass` styles) requires iOS 26+ / macOS 26+. Everything else works on the minimums above.
 
-The `DFPlatformVariant` enum (`automatic / compact / expanded / immersive`) lets components adapt their form factor at runtime, or lets you force a specific layout for testing or design overrides.
+The `DFPlatformVariant` enum (`automatic / compact / expanded / immersive`) lets components adapt their form factor at runtime, or lets you force a specific layout for previews and testing.
+
+---
+
+## Why I built this
+
+Short version: every SwiftUI project I started ended up rebuilding the same primitives. Buttons that needed 40 lines of styling to match brand. Text fields with validation states I always got slightly wrong. The design system would drift within months because there was no single source of truth for spacing, radius, color, or elevation. Six months in, half my app used one theme and half used whatever I shipped in a busy sprint.
+
+DesignFoundation makes the tokens the source of truth. Components read from the environment. Brand refreshes are a theme file edit, not a file hunt.
+
+There's a paid tier at [nerdsnipe-inc.github.io/design-foundation/pro](https://nerdsnipe-inc.github.io/design-foundation/pro/) that adds pre-built screens for auth, dashboard, CRM, analytics, and other verticals, composed from these same primitives. That's optional. The primitives on this repo stay MIT and get maintained regardless.
+
+Feedback and issues are welcome, especially on the theme API. If something's rough, open an issue.
 
 ---
 

@@ -5,3 +5,9 @@
 .swiftpm/xcode/xcuserdata/
 .claude/
 docs/DFPlayground.app/
+
+# Internal product docs — kept locally, not published
+docs/product-description.md
+docs/product-roadmap.md
+.idea/
+scripts/scrub-history.sh
