@@ -12,6 +12,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.1.2] — 2026-07-02 — Multiline Text & Typography
+
+This patch rounds out the text input story with a proper multiline field and fills a gap in the type scale that was showing up in real-world layouts.
+
+### Added
+- **`DFTextArea`:** Multiline text input styled to match `DFTextField` — same label, placeholder, focus border, validation state, and disabled appearance. Configurable `minLines` / `maxLines` bounds the visible height, and the editor scrolls when content overflows. Closes the last gap in the forms input set.
+- **`DFTextScale.labelLarge`:** New scale step between `.headline` and `.label`, rendered as `.callout` semibold. Designed for card section headers, list item titles, and any spot where `.headline` feels too heavy but `.label` doesn't carry enough weight.
+
+### Changed
+- **`DFTypographyTokens`:** Added `labelLarge` token with a matching default value so the new scale step is available wherever token access is used.
+- **CLAUDE.md component reference:** `DFTextArea` added to the Text Fields section with its full call-site signature and available parameters.
+
+### Docs & Housekeeping
+- Added `docs/wiki/Style-System.md` and `wiki/Text-and-Typography.md` — deep-dive references covering the full typography system, color token semantics, and spacing scale.
+- Cleaned up stale internal planning documents that had accumulated in `docs/superpowers/plans/`. No public-facing content was removed.
+- README updated to reflect current component inventory.
+
+---
+
 ## [1.1.1] — 2026-07-01 — Data Tables, Validation, and AI Agent Guidance
 
 ### Added
@@ -144,6 +163,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+[1.1.2]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.1.2
 [1.1.1]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.1.1
 [1.0.3]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.0.3
 [0.6.0]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/0.6.0
