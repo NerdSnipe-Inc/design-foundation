@@ -75,12 +75,17 @@ DFButton("Label", isLoading: true) { }                 // loading spinner state
 DFButton("Label") { }.disabled(condition)
 ```
 
-### Text Fields & Secure Fields
+### Text Fields, Text Areas & Secure Fields
 ```swift
-DFTextField("Placeholder", text: $text)
-DFTextField("Email", text: $email, leadingIcon: "envelope")
-DFTextField("Search", text: $query, trailingIcon: "magnifyingglass")
+// DFTextField(_ label: String, text: Binding<String>, placeholder: String = "", validationState: DFValidationState = .none)
+DFTextField("Email", text: $email)
+DFTextField("Email", text: $email, placeholder: "you@example.com")
+DFTextField("Search", text: $query) { Image(systemName: "magnifyingglass") }  // leading accessory
 DFSecureField("Password", text: $password)
+
+// Multiline — use DFTextArea, not DFTextField
+// DFTextArea(_ label: String, text: Binding<String>, placeholder: String = "", minLines: Int = 3, maxLines: Int = 8)
+DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4)
 
 // With validation
 DFValidatedTextField("Email", text: $email, validator: .email)

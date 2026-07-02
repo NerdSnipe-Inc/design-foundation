@@ -3,16 +3,18 @@ import SwiftUI
 // MARK: - Scale
 
 public enum DFTextScale: String, Sendable, CaseIterable {
-    case display, title, headline, body, caption, label
+    case display, title, headline, labelLarge, body, bodySmall, label, caption
 
     public func style(from theme: DFTheme) -> DFTextStyle {
         switch self {
-        case .display:  return theme.typography.display
-        case .title:    return theme.typography.title
-        case .headline: return theme.typography.headline
-        case .body:     return theme.typography.body
-        case .caption:  return theme.typography.caption
-        case .label:    return theme.typography.label
+        case .display:    return theme.typography.display
+        case .title:      return theme.typography.title
+        case .headline:   return theme.typography.headline
+        case .labelLarge: return theme.typography.labelLarge
+        case .body:       return theme.typography.body
+        case .bodySmall:  return theme.typography.bodySmall
+        case .label:      return theme.typography.label
+        case .caption:    return theme.typography.caption
         }
     }
 }

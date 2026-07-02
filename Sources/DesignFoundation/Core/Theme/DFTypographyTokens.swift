@@ -20,8 +20,10 @@ public struct DFTextStyle: Sendable {
 /// |---|---|
 /// | `display` | Full-screen heroes, onboarding headlines |
 /// | `title` | Screen-level focal metrics, modal headers |
-/// | `headline` | Section headers, emphasized KPIs in cards |
+/// | `headline` | Screen-level section headers, emphasized KPIs |
+/// | `labelLarge` | Card section headers, list group titles |
 /// | `body` | Primary reading text, form fields |
+/// | `bodySmall` | Supporting body copy, secondary paragraphs |
 /// | `label` | Dense row primary text, toolbar labels, table cells |
 /// | `caption` | Metadata, timestamps, badges, secondary lines |
 ///
@@ -30,9 +32,11 @@ public struct DFTypographyTokens: Sendable {
     public var display: DFTextStyle
     public var title: DFTextStyle
     public var headline: DFTextStyle
+    public var labelLarge: DFTextStyle
     public var body: DFTextStyle
-    public var caption: DFTextStyle
+    public var bodySmall: DFTextStyle
     public var label: DFTextStyle
+    public var caption: DFTextStyle
 
     public init(
         display: DFTextStyle = DFTextStyle(
@@ -44,17 +48,21 @@ public struct DFTypographyTokens: Sendable {
             font: .title2.weight(.semibold),
             lineSpacing: 2
         ),
-        headline: DFTextStyle = DFTextStyle(font: .headline.weight(.semibold)),
-        body: DFTextStyle = DFTextStyle(font: .body, lineSpacing: 2),
-        caption: DFTextStyle = DFTextStyle(font: .caption, lineSpacing: 1),
-        label: DFTextStyle = DFTextStyle(font: .subheadline.weight(.medium))
+        headline: DFTextStyle  = DFTextStyle(font: .headline.weight(.semibold)),
+        labelLarge: DFTextStyle = DFTextStyle(font: .callout.weight(.semibold)),
+        body: DFTextStyle      = DFTextStyle(font: .body, lineSpacing: 2),
+        bodySmall: DFTextStyle = DFTextStyle(font: .callout, lineSpacing: 2),
+        label: DFTextStyle     = DFTextStyle(font: .subheadline.weight(.medium)),
+        caption: DFTextStyle   = DFTextStyle(font: .caption, lineSpacing: 1)
     ) {
-        self.display = display
-        self.title = title
-        self.headline = headline
-        self.body = body
-        self.caption = caption
-        self.label = label
+        self.display   = display
+        self.title     = title
+        self.headline  = headline
+        self.labelLarge = labelLarge
+        self.body      = body
+        self.bodySmall = bodySmall
+        self.label     = label
+        self.caption   = caption
     }
 
     public static let `default` = DFTypographyTokens()
