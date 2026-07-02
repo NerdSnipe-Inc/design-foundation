@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CEZV91RF9B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CEZV91RF9B');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Foundation Way — Same UI, a Fraction of the Code</title>
   <meta name="description" content="Side-by-side line counts: hand-rolled SwiftUI vs DesignFoundation + Pro. See how many lines and AI tokens you skip on auth, dashboards, tables, and full screens." />
@@ -430,5 +438,16 @@
     <a href="mailto:nerdsnipe.inc@gmail.com">License questions</a>
   </p>
 </footer>
+  <script>
+    document.querySelectorAll('a[href*="DFPlayground.dmg"]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        gtag('event', 'file_download', {
+          file_name: 'DFPlayground.dmg',
+          file_extension: 'dmg',
+          link_text: (el.innerText || '').trim().slice(0, 100)
+        });
+      });
+    });
+  </script>
 </body>
 </html>
