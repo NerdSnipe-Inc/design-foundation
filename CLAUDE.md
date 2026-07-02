@@ -146,8 +146,19 @@ DFDataGrid(columns: columns, rows: rowData)            // editable, sortable, pa
 
 ### Loading States
 ```swift
-DFSkeleton(width: 200, height: 16)                    // single shimmer bar
-DFSkeleton(width: 40, height: 40, shape: .circle)     // avatar placeholder
+// DFSkeleton — shimmer placeholder. Size via .frame(), shape via init param.
+// init(shape: DFSkeletonShape = .roundedRectangle(cornerRadius: 8))
+// Shapes: .rectangle  .roundedRectangle(cornerRadius:)  .circle  .capsule
+
+DFSkeleton()                                           // rounded rect, set size with .frame()
+    .frame(height: 16)                                 // single-line text placeholder
+DFSkeleton()
+    .frame(width: 200, height: 16)                     // fixed-width text placeholder
+DFSkeleton(shape: .circle)
+    .frame(width: 40, height: 40)                      // avatar placeholder
+DFSkeleton(shape: .capsule)
+    .frame(width: 80, height: 28)                      // badge / tag placeholder
+
 DFProgressBar(value: 0.7)
 DFProgressBar(value: progress).dfProgressBarStyle(.linear)
 ```

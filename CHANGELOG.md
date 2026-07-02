@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 - **`DFButton` `style:` init parameter:** Convenience initialiser that accepts any `DFButtonStyle` directly — `DFButton("Open", style: .outlined) { }` — in addition to the existing `.dfButtonStyle()` modifier. The modifier path remains unchanged; the init parameter is purely additive and takes precedence over the environment style when set.
 
+### Docs
+- **`DFSkeleton` CLAUDE.md entry corrected:** Previous docs showed a non-existent `DFSkeleton(width:height:)` init. Corrected to the real API — `DFSkeleton(shape:)` sized via `.frame()` — with examples for all four shape cases (rectangle, roundedRectangle, circle, capsule).
+
 ---
 
 ## [1.1.2] — 2026-07-02 — Multiline Text & Typography
