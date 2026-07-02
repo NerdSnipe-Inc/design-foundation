@@ -4,10 +4,11 @@ public struct DFButton: View {
     private let label: String
     private let action: () -> Void
     private let role: DFButtonRole?
+    private let styleOverride: AnyDFButtonStyle?
 
     @Environment(\.dfTheme) private var theme
     @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.dfButtonStyle) private var style
+    @Environment(\.dfButtonStyle) private var envStyle
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var isPressed = false
@@ -20,9 +21,23 @@ public struct DFButton: View {
         self.label = label
         self.role = role
         self.action = action
+        self.styleOverride = nil
+    }
+
+    public init<S: DFButtonStyle & Sendable>(
+        _ label: String,
+        style: S,
+        role: DFButtonRole? = nil,
+        action: @escaping () -> Void
+    ) {
+        self.label = label
+        self.role = role
+        self.action = action
+        self.styleOverride = AnyDFButtonStyle(style)
     }
 
     public var body: some View {
+        let activeStyle = styleOverride ?? envStyle
         let config = DFButtonStyleConfiguration(
             label: AnyView(Text(label)),
             isPressed: isPressed && !reduceMotion,
@@ -30,7 +45,7 @@ public struct DFButton: View {
             role: role,
             theme: theme
         )
-        style.makeBody(configuration: config)
+        activeStyle.makeBody(configuration: config)
             .onTapGesture {
                 if isEnabled { action() }
             }

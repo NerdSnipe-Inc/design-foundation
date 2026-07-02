@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-<!-- Accumulate here until release — do not tag until product says so. -->
+### Added
+- **`DFButton` `style:` init parameter:** Convenience initialiser that accepts any `DFButtonStyle` directly — `DFButton("Open", style: .outlined) { }` — in addition to the existing `.dfButtonStyle()` modifier. The modifier path remains unchanged; the init parameter is purely additive and takes precedence over the environment style when set.
 
 ---
 

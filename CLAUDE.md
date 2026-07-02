@@ -64,14 +64,21 @@ ContentView().applyPlaygroundTheme(themeState.preset)
 ## Component Reference
 
 ### Buttons
+
+Available styles: `.filled` (default), `.outlined`, `.ghost`, `.tinted`, `.glass` (iOS/macOS 26+)
+
 ```swift
-DFButton("Label") { action() }                          // primary (default)
-DFButton("Label") { }.dfButtonStyle(.secondary)
-DFButton("Label") { }.dfButtonStyle(.outlined)
-DFButton("Label") { }.dfButtonStyle(.ghost)
-DFButton("Label") { }.dfButtonStyle(.destructive)
-DFButton("Label", icon: "plus") { }                    // SF Symbol leading icon
-DFButton("Label", isLoading: true) { }                 // loading spinner state
+// Style via modifier (preferred when style is set at the container level)
+DFButton("Save") { action() }                           // filled — default
+DFButton("Cancel") { }.dfButtonStyle(.outlined)
+DFButton("Delete") { }.dfButtonStyle(.ghost)
+DFButton("Info") { }.dfButtonStyle(.tinted)
+
+// Style via init parameter (preferred for one-off inline usage)
+DFButton("Open", style: .outlined) { action() }
+DFButton("Delete", style: .ghost, role: .destructive) { action() }
+
+// Other options
 DFButton("Label") { }.disabled(condition)
 ```
 
