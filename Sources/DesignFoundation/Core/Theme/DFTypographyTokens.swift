@@ -35,8 +35,8 @@ public struct DFTypographyTokens: Sendable {
     public var labelLarge: DFTextStyle
     public var body: DFTextStyle
     public var bodySmall: DFTextStyle
-    public var label: DFTextStyle
     public var caption: DFTextStyle
+    public var label: DFTextStyle
 
     public init(
         display: DFTextStyle = DFTextStyle(
@@ -44,25 +44,22 @@ public struct DFTypographyTokens: Sendable {
             lineSpacing: 4,
             tracking: -0.5
         ),
-        title: DFTextStyle = DFTextStyle(
-            font: .title2.weight(.semibold),
-            lineSpacing: 2
-        ),
+        title: DFTextStyle     = DFTextStyle(font: .title2.weight(.semibold), lineSpacing: 2),
         headline: DFTextStyle  = DFTextStyle(font: .headline.weight(.semibold)),
         labelLarge: DFTextStyle = DFTextStyle(font: .callout.weight(.semibold)),
         body: DFTextStyle      = DFTextStyle(font: .body, lineSpacing: 2),
         bodySmall: DFTextStyle = DFTextStyle(font: .callout, lineSpacing: 2),
-        label: DFTextStyle     = DFTextStyle(font: .subheadline.weight(.medium)),
-        caption: DFTextStyle   = DFTextStyle(font: .caption, lineSpacing: 1)
+        caption: DFTextStyle   = DFTextStyle(font: .caption, lineSpacing: 1),
+        label: DFTextStyle     = DFTextStyle(font: .subheadline.weight(.medium))
     ) {
-        self.display   = display
-        self.title     = title
-        self.headline  = headline
+        self.display    = display
+        self.title      = title
+        self.headline   = headline
         self.labelLarge = labelLarge
-        self.body      = body
-        self.bodySmall = bodySmall
-        self.label     = label
-        self.caption   = caption
+        self.body       = body
+        self.bodySmall  = bodySmall
+        self.caption    = caption
+        self.label      = label
     }
 
     public static let `default` = DFTypographyTokens()
