@@ -709,7 +709,7 @@
       <div class="pg-text">
         <p class="section-label">DFPlayground · Free · macOS</p>
         <h2 class="pg-title">See every block, screen, and shell before you buy.</h2>
-        <p class="pg-desc">DFPlayground is a free companion macOS app with the complete Pro catalog built in. Browse all 29 blocks, 47 screens, 18 shells, and 9 composition examples — live, interactive, and themeable. Open any screen in its own window. Switch between all 5 themes. Then decide.</p>
+        <p class="pg-desc">DFPlayground is a free companion macOS app with the complete Pro catalog built in. Browse all 29 blocks, 47 screens, 18 shells, and 9 composition examples — live, interactive, and themeable. Open any screen in its own window. Switch between all 4 themes. Then decide.</p>
         <a class="btn btn-primary btn-lg" href="../DFPlayground.dmg" download>⬇&nbsp; Download DFPlayground — Free · macOS · 9.9 MB</a>
       </div>
       <div class="pg-window" aria-hidden="true">
@@ -864,6 +864,7 @@
         <div class="block-card"><div><div class="block-name">DFDonutChartBlock</div><div class="block-desc">Swift Charts donut with segment coloring, center label, legend, and period toolbar</div></div></div>
         <div class="block-card"><div><div class="block-name">DFChartPlaceholderBlock</div><div class="block-desc">Shimmer skeleton slot while chart data loads — swap for a real chart block when ready</div></div></div>
       </div>
+      <p class="block-note">All three chart blocks are built on <code>DFChartBlockShell&lt;Period, Chart&gt;</code> — the shared card/title/loading/period-toolbar chrome around any Swift Charts view. Use it directly for a chart shape none of the three cover, or conform to <code>DFChartBlock</code> to compose the same way. Their <code>periods:</code> field accepts the built-in <code>DFChartPeriodPreset</code> (7D/1M/3M/1Y) or your own type conforming to <code>DFChartPeriodRepresentable</code>.</p>
     </div>
 
     <div class="category">
@@ -1192,7 +1193,7 @@
         configuration: .<span class="fn">init</span>(
             orders: viewModel.orders,
             onSelectOrder: { order <span class="kw">in</span> path.append(order) },
-            onRefresh: { <span class="kw">await</span> viewModel.reload() }
+            onMarkShipped: { order <span class="kw">in</span> viewModel.markShipped(order) }
         )
     )
 }</pre>
@@ -1237,7 +1238,7 @@
       <tbody>
         <tr>
           <td>DesignFoundation</td>
-          <td>Theme engine, 30+ primitive components, preset themes, Liquid Glass, full style system</td>
+          <td>Theme engine, 25 primitive components + 6 feedback/overlay modifiers, preset themes, Liquid Glass, full style system</td>
           <td class="tier-free">MIT — free</td>
           <td>—</td>
         </tr>

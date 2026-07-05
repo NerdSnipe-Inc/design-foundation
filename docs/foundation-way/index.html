@@ -189,10 +189,13 @@
 }</pre>
         </div>
         <div class="compare-col new">
-          <div class="col-label"><span>The Foundation way</span><span class="line-badge">11 lines</span></div>
+          <div class="col-label"><span>The Foundation way</span><span class="line-badge">13 lines</span></div>
           <pre><span class="type">DFSignInBlock</span>(
   configuration: .<span class="fn">init</span>(
-    socialProviders: [.apple, .google],
+    socialProviders: [
+      .apple { <span class="kw">await</span> auth.signInWithApple() },
+      .google { <span class="kw">await</span> auth.signInWithGoogle() }
+    ],
     onSubmit: { email, password <span class="kw">in</span>
       <span class="kw">await</span> auth.<span class="fn">signIn</span>(email: email, password: password)
     },
@@ -253,9 +256,9 @@
           <pre><span class="type">DFMetricGridBlock</span>(
   configuration: .<span class="fn">init</span>(
     metrics: [
-      .<span class="fn">init</span>(title: <span class="str">"Revenue"</span>, value: <span class="str">"$48.2k"</span>, trend: <span class="str">"+12%"</span>, direction: .up),
-      .<span class="fn">init</span>(title: <span class="str">"Orders"</span>, value: <span class="str">"1,284"</span>, trend: <span class="str">"+3%"</span>, direction: .up),
-      .<span class="fn">init</span>(title: <span class="str">"Refunds"</span>, value: <span class="str">"0.8%"</span>, trend: <span class="str">"−0.2%"</span>, direction: .down),
+      .<span class="fn">init</span>(title: <span class="str">"Revenue"</span>, value: <span class="str">"$48.2k"</span>, trend: <span class="str">"+12%"</span>, trendDirection: .up),
+      .<span class="fn">init</span>(title: <span class="str">"Orders"</span>, value: <span class="str">"1,284"</span>, trend: <span class="str">"+3%"</span>, trendDirection: .up),
+      .<span class="fn">init</span>(title: <span class="str">"Refunds"</span>, value: <span class="str">"0.8%"</span>, trend: <span class="str">"−0.2%"</span>, trendDirection: .down),
     ]
   )
 )</pre>
@@ -361,8 +364,8 @@
     orders: viewModel.orders,
     isLoading: viewModel.isLoading,
     onSelectOrder: { viewModel.<span class="fn">open</span>($0) },
-    onRefresh: { <span class="kw">await</span> viewModel.<span class="fn">reload</span>() },
-    onCancelOrder: { viewModel.<span class="fn">cancel</span>($0) }
+    onMarkShipped: { viewModel.<span class="fn">markShipped</span>($0) },
+    onRefund: { viewModel.<span class="fn">refund</span>($0) }
   )
 )</pre>
         </div>

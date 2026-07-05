@@ -186,6 +186,7 @@
     <span class="type">DFLineChartBlock</span>(configuration: .<span class="fn">init</span>(
         title: <span class="str">"Active users"</span>,
         data: viewModel.trend,
+        selectedPeriod: viewModel.period,
         isLoading: viewModel.isLoading
     ))
 }</pre>
@@ -199,7 +200,7 @@
     configuration: .<span class="fn">init</span>(
         orders: viewModel.orders,
         onSelectOrder: { viewModel.open($0) },
-        onRefresh: { <span class="kw">await</span> viewModel.reload() }
+        onMarkShipped: { viewModel.markShipped($0) }
     )
 )</pre>
   </section>

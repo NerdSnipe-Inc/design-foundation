@@ -2,7 +2,7 @@
 
 > Production-grade SwiftUI component library and design system for iOS, macOS, and visionOS — free, open-source (MIT), distributed via Swift Package Manager.
 
-DesignFoundation gives Swift developers a token-based theming engine, 30+ accessible SwiftUI components, four opinionated visual identity presets (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
+DesignFoundation gives Swift developers a token-based theming engine, 25 accessible SwiftUI components plus 6 feedback/overlay modifiers (alert, toast, modal, sheet, popover, tooltip), four opinionated visual identity presets (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
 
 All components handle platform differences internally. Consumers do not need `#if os(macOS)` or `#if os(iOS)` guards to use DesignFoundation components — platform adaptation is automatic.
 

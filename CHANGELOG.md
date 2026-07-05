@@ -10,9 +10,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - **`DFButton` `style:` init parameter:** Convenience initialiser that accepts any `DFButtonStyle` directly — `DFButton("Open", style: .outlined) { }` — in addition to the existing `.dfButtonStyle()` modifier. The modifier path remains unchanged; the init parameter is purely additive and takes precedence over the environment style when set.
+- **`.garnet` theme preset:** A fifth preset — bold, saturated red, gallery-clean rather than warm/earthy (contrast with `.copper`). `DFThemePreset.garnet` / `DFTheme.garnetLight` / `DFTheme.garnetDark`.
+- **Doc-snippet CI gate:** Every ` ```swift ` code sample in `CLAUDE.md`, `AGENTS.md`, and the Cursor rule is now compiled against the real package on every PR (`Scripts/check_doc_snippets.py`, wired into `.github/workflows/doc-snippets.yml`). A sample that doesn't match the live API now fails CI instead of drifting silently.
 
 ### Docs
-- **`DFSkeleton` CLAUDE.md entry corrected:** Previous docs showed a non-existent `DFSkeleton(width:height:)` init. Corrected to the real API — `DFSkeleton(shape:)` sized via `.frame()` — with examples for all four shape cases (rectangle, roundedRectangle, circle, capsule).
+This release includes a full pass over every AI-agent-facing doc (`CLAUDE.md`, `AGENTS.md`, `.cursor/rules/design-foundation.mdc`) and the published site (`docs/index.html` and friends), verifying every code sample and claim against the current source rather than trusting what was previously written. Highlights:
+
+- **Component reference brought fully in sync with the current API:** button styles, text field/list row accessory closures, skeleton sizing, avatar/badge/card/text initializers, theme preset application, toast queue calls, and the overlay modifiers (`.dfModal()`, `.dfSheet()`, `.dfPopover()`, `.dfTooltip()` — these are view modifiers, not constructible types) all now match the real signatures exactly, and are mechanically re-verified by the new CI gate going forward.
+- **New sections for previously under-documented APIs:** `DFFormState` and the five built-in field validators, the six `DFComponentTokens` sub-namespaces (per-component overrides), and `DFPlatformContext` — the actual mechanism behind "no `#if os()` needed" — each now have a real, compiling usage example instead of a passing mention.
+- **`DFMaterialTokens` documented as forward-looking:** the type exists for future Liquid Glass customization but isn't wired into `DFTheme` yet — noted explicitly so nobody expects it to configure anything today.
+- **Published site (`docs/index.html`):** corrected the component/modifier count (25 components + 6 feedback/overlay modifiers), added the missing token namespaces (Shadows, Animation, Component overrides, Materials) to the Tokens reference, added the `.glass` variant to five component rows that already ship one, corrected `DFDivider`'s real style names, and fixed a `Color(.systemBackground)` example that didn't compile cross-platform. Clarified that DesignFoundation has one commercial add-on (DesignFoundationPro) rather than two, and pointed the "Get Pro access" link at the Pro page instead of an email link.
 
 ---
 

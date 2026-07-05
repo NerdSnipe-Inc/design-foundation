@@ -24,6 +24,8 @@ public struct DFThemePreset: Sendable {
     public static let copper = DFThemePreset(light: .copperLight, dark: .copperDark)
     /// A natural green preset with generous radii and subtle shadows for a calm aesthetic.
     public static let sage   = DFThemePreset(light: .sageLight,   dark: .sageDark)
+    /// A bold, saturated red preset — deep garnet red (#C8102E), white cards, off-white background.
+    public static let garnet = DFThemePreset(light: .garnetLight, dark: .garnetDark)
 }
 
 public extension View {

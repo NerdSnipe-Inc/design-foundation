@@ -14,7 +14,7 @@
 
   <!-- Primary SEO -->
   <title>DesignFoundation — SwiftUI Component Library &amp; Design System</title>
-  <meta name="description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 30+ accessible components, preset themes, Liquid Glass (iOS 26), Swift 6. Free via SPM." />
+  <meta name="description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 25 accessible components + 6 feedback modifiers, preset themes, Liquid Glass (iOS 26), Swift 6. Free via SPM." />
   <meta name="keywords" content="swiftui component library, swiftui design system, swiftui ui kit, swift package manager ui components, swiftui dark mode, swiftui theming, swiftui button style, swiftui color tokens, swiftui ios 18, swiftui macos 15, swiftui visionos, swift 6 components, swiftui liquid glass ios 26, swiftui badge component, swiftui card component, swiftui avatar presence, swiftui text field outlined, swiftui form validation, swiftui modal sheet, swiftui toast notification, swiftui skeleton loading, swiftui design tokens, swiftui accessibility wcag, swiftui multiplatform ios macos, ios swiftui framework, swiftui style protocol, swiftui environment theme injection, production ready swiftui, swiftui reusable components, indie dev swiftui, swiftui professional ui, swiftui spm package" />
   <meta name="author" content="NerdSnipe Inc" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="DesignFoundation" />
   <meta property="og:title" content="DesignFoundation — SwiftUI Component Library &amp; Design System" />
-  <meta property="og:description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 30+ components, preset themes, Liquid Glass, Swift 6. Free &amp; open-source via SPM." />
+  <meta property="og:description" content="Production-grade SwiftUI component library for iOS, macOS &amp; visionOS. Token-based theming, 25 components + 6 modifiers, preset themes, Liquid Glass, Swift 6. Free &amp; open-source via SPM." />
   <meta property="og:url" content="https://nerdsnipe-inc.github.io/design-foundation/" />
   <meta property="og:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
   <meta property="og:image:alt" content="DesignFoundation SwiftUI component library — light and dark mode preview" />
@@ -35,7 +35,7 @@
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="DesignFoundation — SwiftUI Component Library &amp; Design System" />
-  <meta name="twitter:description" content="Production-grade SwiftUI component library. Token-based theming, 30+ accessible components, preset themes, Liquid Glass, Swift 6. Free via SPM." />
+  <meta name="twitter:description" content="Production-grade SwiftUI component library. Token-based theming, 25 accessible components + 6 feedback modifiers, preset themes, Liquid Glass, Swift 6. Free via SPM." />
   <meta name="twitter:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
   <meta name="twitter:image:alt" content="DesignFoundation SwiftUI components — light and dark mode" />
   <style>
@@ -277,7 +277,7 @@
         "@id": "https://nerdsnipe-inc.github.io/design-foundation/#software",
         "name": "DesignFoundation",
         "alternateName": ["DesignFoundation SwiftUI", "DF SwiftUI Design System"],
-        "description": "Production-grade SwiftUI design system and component library for iOS, macOS, and visionOS. Token-based theming engine, 30+ accessible components, four preset visual identities (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26/macOS 26, and Swift 6 strict concurrency safety.",
+        "description": "Production-grade SwiftUI design system and component library for iOS, macOS, and visionOS. Token-based theming engine, 25 accessible components plus 6 feedback/overlay modifiers, four preset visual identities (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26/macOS 26, and Swift 6 strict concurrency safety.",
         "url": "https://nerdsnipe-inc.github.io/design-foundation/",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "Swift Package, iOS UI Framework, Design System",
@@ -352,7 +352,7 @@
         "@id": "https://nerdsnipe-inc.github.io/design-foundation/#webpage",
         "url": "https://nerdsnipe-inc.github.io/design-foundation/",
         "name": "DesignFoundation — SwiftUI Component Library & Design System",
-        "description": "Production-grade SwiftUI component library. Token-based theming, 30+ accessible components, preset themes, Liquid Glass, Swift 6.",
+        "description": "Production-grade SwiftUI component library. Token-based theming, 25 accessible components + 6 feedback modifiers, preset themes, Liquid Glass, Swift 6.",
         "inLanguage": "en-US",
         "isPartOf": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#website"},
         "about": {"@id": "https://nerdsnipe-inc.github.io/design-foundation/#software"},
@@ -393,7 +393,7 @@
             "name": "Does DesignFoundation support Liquid Glass on iOS 26 and macOS 26?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. DesignFoundation provides .glass styles for buttons, cards, badges, avatars, modals, sheets, popovers, and tooltips. These use native Liquid Glass materials on iOS 26+ and macOS 26+."
+              "text": "Yes. DesignFoundation provides .glass styles for buttons, cards, badges, avatars, text fields, secure fields, toggles, sliders, pickers, date pickers, tab bars, sidebars, navigation bars, sheets, popovers, and tooltips (modals too, via DFGlassModalStyle, though without a .glass shorthand accessor). These use native Liquid Glass materials on iOS 26+ and macOS 26+."
             }
           },
           {
@@ -433,7 +433,7 @@
             "name": "What is the difference between DesignFoundation and DesignFoundation Pro?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DesignFoundation (free, MIT) provides the full component library: 30+ primitive components, the theming engine, preset themes, and style protocols. DesignFoundation Pro is a paid add-on providing 29 UI blocks, 47 screens across 9 verticals, 18 shell layouts, and 9 wired composition examples — all built on the free library, fully themeable, and cross-platform with no platform guards required in consuming code."
+              "text": "DesignFoundation (free, MIT) provides the full component library: 25 primitive components plus 6 feedback/overlay modifiers, the theming engine, preset themes, and style protocols. DesignFoundation Pro is a paid add-on providing 29 UI blocks, 47 screens across 9 verticals, 18 shell layouts, and 9 wired composition examples — all built on the free library, fully themeable, and cross-platform with no platform guards required in consuming code."
             }
           }
         ]
@@ -448,7 +448,7 @@
           {"@type": "ListItem", "position": 3, "name": "Layout", "description": "DFCard — elevated, outlined, filled, glass styles"},
           {"@type": "ListItem", "position": 4, "name": "Overlays", "description": "DFModal, DFSheet, DFPopover, DFTooltip"},
           {"@type": "ListItem", "position": 5, "name": "Navigation", "description": "DFTabBar, DFNavigationBar, DFSidebar"},
-          {"@type": "ListItem", "position": 6, "name": "Supplementary", "description": "DFAlert, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable"},
+          {"@type": "ListItem", "position": 6, "name": "Supplementary", "description": "Alert and toast modifiers, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid"},
           {"@type": "ListItem", "position": 7, "name": "Theme Presets", "description": "Slate, Aurora, Copper, Sage — each with automatic light/dark switching"}
         ]
       }
@@ -587,7 +587,7 @@
     .<span class="fn">dfTextFieldStyle</span>(.outlined)
 
 <span class="type">DFCard</span> {
-    <span class="type">DFText</span>(<span class="str">"Hello"</span>, style: .headline)
+    <span class="type">DFText</span>(<span class="str">"Hello"</span>, scale: .headline)
 }</pre>
     </section>
 
@@ -603,8 +603,7 @@
       <pre><span class="type">ContentView</span>()
     .<span class="fn">dfTheme</span>(<span class="type">DFTheme</span>(
         colors: <span class="type">DFColorTokens</span>(
-            primary: .indigo,
-            surface: <span class="type">Color</span>(.systemBackground)
+            primary: .indigo
         ),
         spacing: <span class="type">DFSpacingTokens</span>(md: <span class="num">20</span>),
         radius: <span class="type">DFRadiusTokens</span>(md: <span class="num">12</span>)
@@ -675,12 +674,55 @@
             <tr><td>.display.font</td><td>Hero headlines</td></tr>
             <tr><td>.title.font</td><td>Screen titles</td></tr>
             <tr><td>.headline.font</td><td>Section headers</td></tr>
+            <tr><td>.labelLarge.font</td><td>Prominent inline labels</td></tr>
             <tr><td>.body.font</td><td>Body text</td></tr>
-            <tr><td>.caption.font</td><td>Labels, helper text</td></tr>
+            <tr><td>.bodySmall.font</td><td>Secondary body text</td></tr>
             <tr><td>.label.font</td><td>Small UI labels</td></tr>
+            <tr><td>.caption.font</td><td>Labels, helper text</td></tr>
           </tbody>
         </table>
       </div>
+
+      <h3>Shadows — <code>theme.shadows</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Fields</th></tr></thead>
+          <tbody>
+            <tr><td>.none / .sm / .md / .lg</td><td>Each a <code>DFShadow</code>: <code>color</code>, <code>radius</code>, <code>x</code>, <code>y</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Animation — <code>theme.animation</code></h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Token</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>.fast</td><td>Quick state changes (press, toggle)</td></tr>
+            <tr><td>.default</td><td>Standard transitions</td></tr>
+            <tr><td>.slow</td><td>Emphasis / large layout changes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Per-component overrides — <code>theme.components</code></h3>
+      <p>Every field is optional — <code>nil</code> inherits the regular tokens above. Confirmed read directly by component styles (e.g. <code>DFButtonStyle</code> reads <code>theme.components.button.cornerRadius ?? theme.radius.md</code>).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sub-namespace</th><th>Overrides</th></tr></thead>
+          <tbody>
+            <tr><td>DFButtonTokens</td><td>cornerRadius, horizontalPadding, verticalPadding, labelStyle</td></tr>
+            <tr><td>DFTextFieldTokens</td><td>cornerRadius, horizontalPadding, verticalPadding, inputStyle, labelStyle</td></tr>
+            <tr><td>DFCardTokens</td><td>cornerRadius, padding</td></tr>
+            <tr><td>DFAvatarTokens</td><td>defaultSize, borderWidth</td></tr>
+            <tr><td>DFBadgeTokens</td><td>cornerRadius, horizontalPadding, verticalPadding</td></tr>
+            <tr><td>DFIconTokens</td><td>defaultSize</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Materials — <code>DFMaterialTokens</code> (iOS/macOS 26+)</h3>
+      <p><code>surfaceMaterial</code>, <code>elevatedMaterial</code>, <code>preferLiquidGlass</code>. <strong>Not yet wired into <code>DFTheme</code></strong> — <code>.glass</code> styles currently use <code>.regularMaterial</code>/<code>.thickMaterial</code> directly rather than reading this type. Documented here so you know it exists, not because it configures anything yet.</p>
     </section>
 
     <!-- Preset Themes -->
@@ -788,11 +830,11 @@
           <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
           <tbody>
             <tr><td>DFButton</td><td><code>.filled</code> <code>.outlined</code> <code>.ghost</code> <code>.tinted</code> <code>.glass</code>¹</td></tr>
-            <tr><td>DFText</td><td>display, title, headline, body, caption, label</td></tr>
+            <tr><td>DFText</td><td>scale: display, title, headline, labelLarge, body, bodySmall, label, caption</td></tr>
             <tr><td>DFIcon</td><td>SF Symbol wrapper with token-driven size and color</td></tr>
             <tr><td>DFBadge</td><td><code>.default</code> <code>.subtle</code> <code>.outlined</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFAvatar</td><td><code>.circle</code> <code>.rounded</code> <code>.ring</code> <code>.glass</code>¹ — image or initials, presence indicators</td></tr>
-            <tr><td>DFDivider</td><td><code>.solid</code> <code>.dashed</code> <code>.gradient</code> — horizontal/vertical, labeled variant</td></tr>
+            <tr><td>DFDivider</td><td><code>.standard</code> <code>.thick</code> <code>.subtle</code> — horizontal/vertical, labeled variant</td></tr>
           </tbody>
         </table>
       </div>
@@ -801,22 +843,39 @@
     <!-- Inputs -->
     <section class="doc-section" id="inputs">
       <h2>Inputs</h2>
-      <p>All input components share <code>DFValidationState</code> (<code>.idle / .valid / .error(String)</code>) for consistent error display.</p>
+      <p>All input components share <code>DFValidationState</code> (<code>.none / .valid / .error(String)</code>) for consistent error display.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Component</th><th>Built-in Styles / Notes</th></tr></thead>
           <tbody>
             <tr><td>DFTextField</td><td><code>.outlined</code> <code>.filled</code></td></tr>
             <tr><td>DFSecureField</td><td><code>.outlined</code> <code>.filled</code> — reveal toggle built in</td></tr>
-            <tr><td>DFValidatedTextField</td><td>Built-in validation via <code>DFFieldValidator</code> — rules: .email, .minLength, .required, .custom. Pairs with <code>DFFormState</code> for multi-field forms.</td></tr>
-            <tr><td>DFToggle</td><td><code>.switch</code> <code>.checkbox</code></td></tr>
-            <tr><td>DFSlider</td><td><code>.standard</code> <code>.labeled</code></td></tr>
-            <tr><td>DFPicker</td><td><code>.segmented</code> <code>.menu</code> <code>.wheel</code></td></tr>
-            <tr><td>DFDatePicker</td><td><code>.compact</code> <code>.graphical</code> <code>.wheel</code></td></tr>
+            <tr><td>DFValidatedTextField</td><td>Reads/writes a named field on a <code>DFFormState</code> you register validators on separately — <code>DFRequiredValidator</code>, <code>DFEmailValidator</code>, <code>DFMinLengthValidator</code>, <code>DFMaxLengthValidator</code>, <code>DFRegexValidator</code>, or your own <code>DFFieldValidator</code>.</td></tr>
+            <tr><td>DFToggle</td><td><code>.switch</code> <code>.checkbox</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFSlider</td><td><code>.standard</code> <code>.labeled</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFPicker</td><td><code>.segmented</code> <code>.menu</code> <code>.wheel</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFDatePicker</td><td><code>.compact</code> <code>.graphical</code> <code>.wheel</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFCheckbox</td><td><code>.default</code></td></tr>
           </tbody>
         </table>
       </div>
+      <pre><span class="cm">// DFFormState — observable state for a set of validated fields</span>
+<span class="kw">let</span> formState = <span class="type">DFFormState</span>(fields: [
+    <span class="str">"email"</span>:    [<span class="type">DFRequiredValidator</span>(), <span class="type">DFEmailValidator</span>()],
+    <span class="str">"password"</span>: [<span class="type">DFRequiredValidator</span>(), <span class="type">DFMinLengthValidator</span>(minLength: <span class="num">8</span>)],
+])
+
+<span class="type">DFValidatedTextField</span>(<span class="str">"Email"</span>, field: <span class="str">"email"</span>, form: formState)
+<span class="type">DFSecureField</span>(
+    <span class="str">"Password"</span>,
+    text: formState.<span class="fn">binding</span>(for: <span class="str">"password"</span>),
+    validationState: formState.<span class="fn">validationState</span>(for: <span class="str">"password"</span>)
+)
+
+<span class="type">DFButton</span>(<span class="str">"Sign in"</span>) {
+    <span class="kw">guard</span> formState.<span class="fn">validate</span>() <span class="kw">else</span> { <span class="kw">return</span> }
+    submit(formState.values[<span class="str">"email"</span>, default: <span class="str">""</span>], formState.values[<span class="str">"password"</span>, default: <span class="str">""</span>])
+}</pre>
     </section>
 
     <!-- Layout -->
@@ -835,17 +894,19 @@
     <!-- Overlays -->
     <section class="doc-section" id="overlays">
       <h2>Overlays</h2>
+      <p>These are applied as view modifiers (<code>.dfModal()</code>, <code>.dfSheet()</code>, <code>.dfPopover()</code>, <code>.dfTooltip()</code>) — not constructed directly like the components above.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
           <tbody>
-            <tr><td>DFModal</td><td><code>.standard</code> <code>.glass</code>¹</td></tr>
+            <tr><td>DFModal</td><td><code>.standard</code>, <code>DFGlassModalStyle()</code>¹² — no <code>.glass</code> shorthand for Modal specifically</td></tr>
             <tr><td>DFSheet</td><td><code>.standard</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFPopover</td><td><code>.arrow</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFTooltip</td><td><code>.bubble</code> <code>.glass</code>¹</td></tr>
           </tbody>
         </table>
       </div>
+      <p>² <code>DFGlassModalStyle</code> exists but has no <code>.glass</code> convenience accessor like the other overlay styles — construct it directly: <code>.dfModalStyle(DFGlassModalStyle())</code>.</p>
     </section>
 
     <!-- Navigation -->
@@ -856,7 +917,7 @@
           <thead><tr><th>Component</th><th>Built-in Styles</th></tr></thead>
           <tbody>
             <tr><td>DFTabBar</td><td><code>.standard</code> <code>.minimal</code> <code>.glass</code>¹</td></tr>
-            <tr><td>DFNavigationBar</td><td><code>.standard</code> <code>.transparent</code></td></tr>
+            <tr><td>DFNavigationBar</td><td><code>.standard</code> <code>.transparent</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFSidebar</td><td><code>.standard</code> <code>.plain</code> <code>.glass</code>¹</td></tr>
           </tbody>
         </table>
@@ -870,8 +931,8 @@
         <table>
           <thead><tr><th>Component</th><th>Notes</th></tr></thead>
           <tbody>
-            <tr><td>DFAlert</td><td>Convenience wrapper over native SwiftUI alert</td></tr>
-            <tr><td>DFToast</td><td>Queue management and auto-dismiss</td></tr>
+            <tr><td>DFAlertConfiguration + .dfAlert()</td><td>Convenience wrapper over native SwiftUI alert</td></tr>
+            <tr><td>DFToastQueue + .dfToast()</td><td>Queue management and auto-dismiss</td></tr>
             <tr><td>DFSkeleton</td><td>Shimmer animation placeholder</td></tr>
             <tr><td>DFProgressBar</td><td>Linear, circular, and indeterminate variants</td></tr>
             <tr><td>DFListRow</td><td>Leading/trailing slots and disclosure indicator</td></tr>
@@ -891,9 +952,10 @@
     <section class="doc-section" id="addons">
       <h2>Add-on Packages</h2>
       <p>
-        DesignFoundation is the free, open-source foundation. Two commercial packages build on top
-        — blocks for common UI patterns, screens for complete vertical feature sets. All three share
-        the same <code>DFTheme</code>, so a brand color change ripples through everything identically.
+        DesignFoundation is the free, open-source foundation. One commercial package —
+        DesignFoundationPro — builds on top, adding drop-in blocks for common UI patterns and
+        full screens for complete vertical feature sets. Both share the same <code>DFTheme</code>
+        as the free package, so a brand color change ripples through everything identically.
       </p>
 
       <div class="blocks-cta" style="margin-top:24px">
@@ -923,7 +985,7 @@
       <p>
         <a href="integration/">Integration guide →</a> ·
         <a href="use-cases/">Use cases →</a> ·
-        <a href="mailto:nerdsnipe.inc@gmail.com?subject=DesignFoundation%20Pro%20License">Get Pro access →</a>
+        <a href="pro/">Get Pro access →</a>
       </p>
     </section>
 
@@ -943,6 +1005,7 @@
         </table>
       </div>
       <p><code>.glass</code> styles require iOS 26+ / macOS 26+. All other styles work on the minimum versions above.</p>
+      <p><strong>How "no platform guards" actually works:</strong> <code>DFPlatformContext</code> — a resolved-once struct (<code>idiom</code>, <code>horizontalSizeClass</code>, <code>isLiquidGlassAvailable</code>) — is injected into the SwiftUI environment alongside <code>DFTheme</code> by <code>.dfTheme()</code>/<code>.dfThemePreset()</code>. Component styles read this context internally to pick their rendering path, instead of your app branching on platform with <code>#if os()</code>.</p>
     </section>
 
     <!-- License -->

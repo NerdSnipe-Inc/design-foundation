@@ -1,5 +1,7 @@
 # DesignFoundation — AI Agent Instructions
 
+> **Canonical source.** This file is the verified source of truth for DesignFoundation's public API. `AGENTS.md` and `.cursor/rules/design-foundation.mdc` must describe the same API surface as this file — if you change a signature here, update those two as well. All three are compile-checked in CI (see `.github/workflows/doc-snippets.yml`); a snippet that doesn't compile fails the build.
+
 ## The Rule
 
 **Never build UI components that DesignFoundation already provides.**
@@ -32,7 +34,7 @@ theme.colors.border           // dividers, outlines
 theme.colors.accent           // secondary accent
 theme.colors.success
 theme.colors.warning
-theme.colors.error
+theme.colors.destructive
 
 // Spacing (pt)
 theme.spacing.xs   // 4
@@ -52,20 +54,34 @@ theme.radius.full  // pill / circle
 Apply a preset at the scene root:
 ```swift
 ContentView()
-    .environment(\.dfTheme, DFThemePreset.default.theme)
-// Presets: .default  .slate  .copper  .aurora  .sage
+    .dfThemePreset(.slate)
+// Presets: .slate  .aurora  .copper  .sage
 ```
 
-Or use the convenience modifier if your app defines `applyPlaygroundTheme`:
+`.dfThemePreset(_:)` resolves the light/dark variant automatically from `@Environment(\.colorScheme)`. To set an explicit `DFTheme` value directly instead of a light/dark pair, use `.dfTheme(_:)`:
 ```swift
-ContentView().applyPlaygroundTheme(themeState.preset)
+ContentView().dfTheme(.slateLight)
 ```
+
+### Per-component token overrides
+
+`DFTheme.components: DFComponentTokens` lets you override one component's sizing/typography without touching the rest of the theme. Every field is optional — `nil` inherits from the theme's regular spacing/radius/typography tokens. Confirmed wired in (e.g. `DFButtonStyle` reads `theme.components.button.cornerRadius ?? theme.radius.md`):
+
+```swift
+var theme = DFTheme.slateLight
+theme.components.button = DFButtonTokens(cornerRadius: 4)          // sharper buttons only
+theme.components.card = DFCardTokens(padding: 20)                  // roomier cards only
+// Also available: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens — same
+// "every field optional, nil inherits" pattern.
+```
+
+`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`, `@available(iOS 26, macOS 26, *)`) exists in `Core/Theme/DFMaterialTokens.swift` but **is not yet wired into `DFTheme` or read by any component** — the `.glass` styles use hardcoded `.regularMaterial`/`.thickMaterial` directly instead. Don't write doc examples assuming it configures Liquid Glass rendering; it doesn't yet.
 
 ## Component Reference
 
 ### Buttons
 
-Available styles: `.filled` (default), `.outlined`, `.ghost`, `.tinted`, `.glass` (iOS/macOS 26+)
+Available styles: `.filled` (default), `.outlined`, `.ghost`, `.tinted`, `.glass` (iOS/macOS 26+). `role: .destructive` is a separate parameter, not a style.
 
 ```swift
 // Style via modifier (preferred when style is set at the container level)
@@ -82,66 +98,123 @@ DFButton("Delete", style: .ghost, role: .destructive) { action() }
 DFButton("Label") { }.disabled(condition)
 ```
 
+There is no `icon:` or `isLoading:` init parameter — compose an icon or spinner inside your own label view if you need one; `DFButton` itself only takes a `String` title.
+
 ### Text Fields, Text Areas & Secure Fields
 ```swift
 // DFTextField(_ label: String, text: Binding<String>, placeholder: String = "", validationState: DFValidationState = .none)
 DFTextField("Email", text: $email)
 DFTextField("Email", text: $email, placeholder: "you@example.com")
-DFTextField("Search", text: $query) { Image(systemName: "magnifyingglass") }  // leading accessory
+// leading:/trailing: labels are required — DFTextField has separate leading-only, trailing-only,
+// and leading+trailing overloads, so an unlabeled trailing closure is ambiguous between them.
+DFTextField("Search", text: $query, leading: { Image(systemName: "magnifyingglass") })
+
 DFSecureField("Password", text: $password)
 
 // Multiline — use DFTextArea, not DFTextField
-// DFTextArea(_ label: String, text: Binding<String>, placeholder: String = "", minLines: Int = 3, maxLines: Int = 8)
+// DFTextArea(_ label: String, text: Binding<String>, placeholder: String = "", minLines: Int = 3, maxLines: Int = 8, validationState: DFValidationState = .none)
 DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4)
-
-// With validation
-DFValidatedTextField("Email", text: $email, validator: .email)
 ```
+
+### Forms & Validation
+
+`DFFormState` is an `@Observable` class that owns a keyed set of field values, validators, errors, and touched state. Register fields with an array of `DFFieldValidator`s; each validator returns `nil` when valid or an error message when not.
+
+```swift
+// DFFormState(fields: [String: [any DFFieldValidator]] = [:], initialValues: [String: String] = [:])
+let formState = DFFormState(fields: [
+    "email":    [DFRequiredValidator(), DFEmailValidator()],
+    "password": [DFRequiredValidator(), DFMinLengthValidator(minLength: 8)],
+])
+// Or register a field after construction:
+formState.register(field: "email", validators: [DFRequiredValidator(), DFEmailValidator()])
+
+// DFValidatedTextField reads/writes the named field on `form` directly.
+DFValidatedTextField("Email", field: "email", form: formState)
+
+// For components without a dedicated Validated* wrapper, use .binding(for:) and
+// .validationState(for:) directly:
+DFSecureField(
+    "Password",
+    text: formState.binding(for: "password"),
+    validationState: formState.validationState(for: "password")
+)
+
+DFButton("Sign in") {
+    guard formState.validate() else { return }   // validates every registered field
+    submit(formState.values["email", default: ""], formState.values["password", default: ""])
+}
+```
+
+Built-in validators, all conforming to `DFFieldValidator` (`func validate(_ value: String) -> String?`):
+
+```swift
+DFRequiredValidator(message: "This field is required")               // message: has a default
+DFEmailValidator(message: "Enter a valid email address")              // message: has a default
+DFMinLengthValidator(minLength: 8, message: "...")                    // message: nil default derives one
+DFMaxLengthValidator(maxLength: 280, message: "...")                  // message: nil default derives one
+DFRegexValidator(pattern: "^[A-Z]{2}\\d{4}$", message: "Invalid format")  // message: required, no default
+```
+
+Conform your own type to `DFFieldValidator` to add custom validation.
 
 ### Controls
 ```swift
 DFToggle("Enable notifications", isOn: $enabled)
-DFSlider(value: $volume, in: 0...1, label: "Volume")
-DFCheckbox("I agree to terms", isChecked: $agreed)
-DFPicker("Select role", selection: $role, options: roles)
+DFSlider("Volume", value: $volume, in: 0...1)
+DFCheckbox(isChecked: $agreed, label: "I agree to terms")   // label is a keyword arg, not positional
+
+// DFPicker takes a @ViewBuilder content closure, not an `options:` array
+DFPicker("Select role", selection: $role) {
+    ForEach(roles) { role in
+        Text(role.name).tag(role)
+    }
+}
+
 DFDatePicker("Start date", selection: $date)
 ```
 
 ### Display Primitives
 ```swift
-DFBadge(text: "New")
-DFBadge(text: "Pro", color: .purple)
-DFAvatar(name: "Jamie Lin")                            // initials fallback
-DFAvatar(url: profileURL, size: 40)
+DFBadge(text: "New")                                   // color comes from DFBadgeStyle, not a per-call param
+DFAvatar("JL")                                         // initials — no `name:` label
+DFAvatar(image: Image("profile"))                      // custom image — no built-in URL-loading init
 DFIcon("star.fill")
-DFIcon("star.fill", size: .lg, color: theme.colors.primary)
-DFText("Headline copy", style: .headline)
-DFText("Caption copy", style: .caption)
+DFIcon("star.fill", size: 28)                           // size is a plain CGFloat, no `.lg`/`color:` params
+DFText("Headline copy", scale: .headline)               // parameter is `scale:`, not `style:`
+DFText("Caption copy", scale: .caption)
 DFDivider()
 ```
 
 ### Layout
 ```swift
-DFCard { content }
-DFCard(padding: theme.spacing.lg) { content }
+DFCard { content }                                      // no `padding:` init param — padding is theme/style-driven
 ```
 
 ### Lists & Tables
 ```swift
 // Data list with optional delete/move
 DFList(items) { item in
-    DFListRow(item.title, subtitle: item.subtitle, icon: item.icon)
+    DFListRow(title: item.title, subtitle: item.subtitle)
 }
 
-DFListRow("Title")
-DFListRow("Title", subtitle: "Detail text")
-DFListRow("Title", subtitle: "Detail", icon: "folder.fill")
-DFListRow("Title", accessory: .navigation)             // chevron
-DFListRow("Title", accessory: .checkmark(isOn: flag))
+// DFListRow always requires the `title:` label — no unlabeled positional form
+DFListRow(title: "Title")
+DFListRow(title: "Title", subtitle: "Detail text")
+DFListRow(title: "Title", subtitle: "Detail", showDisclosure: true, leading: {
+    Image(systemName: "folder.fill")                    // leading icon via @ViewBuilder, not an `icon:` string
+})   // leading:/trailing: label required — an unlabeled closure is ambiguous between the two overloads
+// There is no `accessory:` parameter (no `.navigation`/`.checkmark` cases) — use `showDisclosure:`
+// for a chevron, or a trailing @ViewBuilder closure for a checkmark/custom accessory.
 
-// Tables
-DFTable(columns: columns, rows: rowData)
-DFDataGrid(columns: columns, rows: rowData)            // editable, sortable, paginated
+// Tables — column value closures required; there is no bare "columns"/"rows" shortcut.
+// Annotate the columns array's element type explicitly (e.g. `[DFTableColumn<Contact>]`) —
+// without it, Swift can't infer the closure parameter's type and the snippet won't compile.
+let columns: [DFTableColumn<Contact>] = [
+    DFTableColumn(id: "name", title: "Name") { $0.name }
+]
+DFTable(data: contacts, columns: columns)                     // param is `data:`, not `rows:`
+DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
 ```
 
 ### Loading States
@@ -149,6 +222,7 @@ DFDataGrid(columns: columns, rows: rowData)            // editable, sortable, pa
 // DFSkeleton — shimmer placeholder. Size via .frame(), shape via init param.
 // init(shape: DFSkeletonShape = .roundedRectangle(cornerRadius: 8))
 // Shapes: .rectangle  .roundedRectangle(cornerRadius:)  .circle  .capsule
+// There is no width:/height: init parameter — size always comes from .frame().
 
 DFSkeleton()                                           // rounded rect, set size with .frame()
     .frame(height: 16)                                 // single-line text placeholder
@@ -159,8 +233,8 @@ DFSkeleton(shape: .circle)
 DFSkeleton(shape: .capsule)
     .frame(width: 80, height: 28)                      // badge / tag placeholder
 
-DFProgressBar(value: 0.7)
-DFProgressBar(value: progress).dfProgressBarStyle(.linear)
+DFProgressBar(value: 0.7)                               // linear, determinate (default)
+DFProgressBar(variant: .indeterminate)
 ```
 
 ### Navigation
@@ -172,8 +246,7 @@ DFSidebar(selection: $selected, sections: sections).dfSidebarStyle(.glass) // iO
 
 // Tab bar
 DFTabBar(selection: $tab, items: tabItems) { id in tabContent(for: id) }
-DFTabBar(selection: $tab, items: tabItems) { id in ... }.dfTabBarStyle(.minimal)
-DFTabBar(selection: $tab, items: tabItems) { id in ... }.dfTabBarStyle(.glass) // iOS 26+ / macOS 26+
+    .dfTabBarStyle(.minimal)   // or .standard (default) / .glass (iOS 26+ / macOS 26+)
 
 // Navigation bar (view modifier, not a standalone view)
 YourContentView()
@@ -190,35 +263,41 @@ DFTabItem(id: "home", icon: "house.fill", label: "Home")
 
 ### Alerts & Feedback
 ```swift
-// Alert — present via .dfAlert modifier
-.dfAlert(isPresented: $showAlert, alert: DFAlert(
+// Alert — present via .dfAlert modifier on a view. The value type is DFAlertConfiguration,
+// not DFAlert, and the modifier's parameter is `configuration:`, not `alert:`.
+YourContentView().dfAlert(isPresented: $showAlert, configuration: DFAlertConfiguration(
     title: "Delete item?",
     message: "This cannot be undone.",
     actions: [
-        DFAlertAction(title: "Cancel", role: .cancel) { },
+        DFAlertAction(title: "Cancel", role: .cancel),
         DFAlertAction(title: "Delete", role: .destructive) { deleteItem() },
     ]
 ))
 
-// Toasts — show from anywhere, apply modifier at scene root
-DFToastQueue.shared.show("Saved successfully", style: .success)
-DFToastQueue.shared.show("Upload failed", style: .error)
-DFToastQueue.shared.show("Processing…", style: .info)
+// Toasts — show from anywhere, apply modifier at scene root.
+// Signature: show(text:icon:duration:severity:) — first arg is `text:`, not positional; the
+// style parameter is `severity:`, not `style:`. Severities: .info .success .warning .error
+DFToastQueue.shared.show(text: "Saved successfully", severity: .success)
+DFToastQueue.shared.show(text: "Upload failed", severity: .error)
+DFToastQueue.shared.show(text: "Processing…", severity: .info)
 
-ContentView().dfToast(queue: DFToastQueue.shared)  // root modifier
+ContentView().dfToast(queue: DFToastQueue.shared)  // root modifier (or just .dfToast() — defaults to .shared)
 
-// Overlays
-DFModal(isPresented: $showModal) { ModalContent() }
-DFSheet(isPresented: $showSheet) { SheetContent() }
-DFPopover(isPresented: $showPopover, anchor: $anchor) { PopoverContent() }
-DFTooltip("Hint text") { triggerView }
+// Overlays — these are all View modifiers, NOT standalone constructible views.
+// There is no `DFModal(isPresented:)`, `DFSheet(isPresented:)`, `DFPopover(isPresented:)`,
+// or `DFTooltip("text") { trigger }` initializer — do not write those, they don't compile.
+YourContentView()
+    .dfModal(isPresented: $showModal) { ModalContent() }
+    .dfSheet(isPresented: $showSheet) { SheetContent() }
+    .dfPopover(isPresented: $showPopover, attachmentAnchor: .point(.bottom)) { PopoverContent() }
+    .dfTooltip("Hint text")   // takes a plain String describing this view — not a separate trigger view
 ```
 
 ## Cross-Platform
 
 DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+.
 
-**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()` modifier. `DFSidebar`, `DFTabBar`, `DFModal`, and every other DF component just work across all platforms — no guards required.
+**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required.
 
 The only place you need platform guards is in your **own app-level code** that calls APIs DF doesn't wrap — such as `WindowGroup` with multiple IDs, `.windowStyle(.titleBar)`, or `@Environment(\.openWindow)`:
 

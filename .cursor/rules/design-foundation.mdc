@@ -7,6 +7,10 @@ alwaysApply: true
 
 # DesignFoundation — Always Use the Package
 
+<!-- This rule mirrors CLAUDE.md / AGENTS.md — kept in sync by hand, checked by CI
+     (.github/workflows/doc-snippets.yml compiles every snippet in all three files).
+     If you edit a signature here, update those two files as well. -->
+
 **Never build UI components that DesignFoundation already provides.** One `DFButton("Save") { }` replaces 25+ lines of custom SwiftUI. Every component you build from scratch wastes tokens and breaks visual consistency.
 
 ## Import
@@ -20,79 +24,110 @@ import DesignFoundation
 ```swift
 @Environment(\.dfTheme) private var theme
 
-theme.colors.primary / .background / .surface / .surfaceElevated
-theme.colors.textPrimary / .textSecondary / .border / .accent
-theme.colors.success / .warning / .error
-theme.spacing.xs(4) / .sm(8) / .md(12) / .lg(16) / .xl(24) / .xxl(32)
-theme.radius.sm / .md / .lg / .full
+// theme.colors: .primary .background .surface .surfaceElevated
+//               .textPrimary .textSecondary .border .accent .success .warning .destructive
+// theme.spacing: .xs(4) .sm(8) .md(12) .lg(16) .xl(24) .xxl(32)
+// theme.radius: .sm .md .lg .full
+theme.colors.primary
+theme.spacing.md
+theme.radius.md
 ```
 
 Preset at scene root:
 ```swift
-ContentView().environment(\.dfTheme, DFThemePreset.default.theme)
-// Presets: .default  .slate  .copper  .aurora  .sage
+ContentView().dfThemePreset(.slate)
+// Presets: .slate  .aurora  .copper  .sage
 ```
+
+Per-component overrides (every field optional, `nil` inherits theme tokens; confirmed wired into `DFButtonStyle`/`DFCardStyle`):
+```swift
+var theme = DFTheme.slateLight
+theme.components.button = DFButtonTokens(cornerRadius: 4)
+theme.components.card = DFCardTokens(padding: 20)
+// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens
+```
+`DFMaterialTokens` (iOS/macOS 26+) exists but is NOT wired into `DFTheme` yet — `.glass` styles hardcode materials directly. Don't document it as configuring anything.
 
 ## Components — Never Build These
 
 ### Buttons
 ```swift
-DFButton("Label") { }                              // primary
-DFButton("Label") { }.dfButtonStyle(.secondary)
+DFButton("Label") { }                              // filled (default)
 DFButton("Label") { }.dfButtonStyle(.outlined)
 DFButton("Label") { }.dfButtonStyle(.ghost)
-DFButton("Label") { }.dfButtonStyle(.destructive)
-DFButton("Label", icon: "plus") { }
-DFButton("Label", isLoading: true) { }
+DFButton("Label") { }.dfButtonStyle(.tinted)
+DFButton("Label", style: .ghost, role: .destructive) { }
+// No icon: / isLoading: params. .destructive is a role:, not a style.
 ```
 
 ### Inputs
 ```swift
 DFTextField("Placeholder", text: $text)
-DFTextField("Email", text: $email, leadingIcon: "envelope")
+// leading:/trailing: labels required (separate overloads) — unlabeled closure is ambiguous
+DFTextField("Search", text: $query, leading: { Image(systemName: "magnifyingglass") })
 DFSecureField("Password", text: $password)
-DFValidatedTextField("Email", text: $email, validator: .email)
+```
+
+### Forms & Validation
+```swift
+let formState = DFFormState(fields: [
+    "email": [DFRequiredValidator(), DFEmailValidator()],
+    "password": [DFRequiredValidator(), DFMinLengthValidator(minLength: 8)],
+])
+DFValidatedTextField("Email", field: "email", form: formState)
+DFSecureField("Password", text: formState.binding(for: "password"), validationState: formState.validationState(for: "password"))
+DFButton("Sign in") {
+    guard formState.validate() else { return }
+    submit(formState.values["email", default: ""], formState.values["password", default: ""])
+}
+// Validators: DFRequiredValidator, DFEmailValidator, DFMinLengthValidator(minLength:),
+// DFMaxLengthValidator(maxLength:), DFRegexValidator(pattern:message:). Conform to DFFieldValidator for custom ones.
 ```
 
 ### Controls
 ```swift
 DFToggle("Enable", isOn: $flag)
-DFSlider(value: $val, in: 0...1, label: "Volume")
-DFCheckbox("Agree", isChecked: $agreed)
-DFPicker("Role", selection: $role, options: roles)
+DFSlider("Volume", value: $val, in: 0...1)
+DFCheckbox(isChecked: $agreed, label: "Agree")       // label: is a keyword arg
+DFPicker("Role", selection: $role) { ForEach(roles) { Text($0.name).tag($0) } }  // content:, not options:
 DFDatePicker("Date", selection: $date)
 ```
 
 ### Display
 ```swift
-DFBadge(text: "New")
-DFAvatar(name: "Jamie Lin")
-DFAvatar(url: url, size: 40)
+DFBadge(text: "New")               // no color: param
+DFAvatar("JL")                     // initials, no name: label
+DFAvatar(image: someImage)         // no URL-loading init
 DFIcon("star.fill")
-DFText("Headline", style: .headline)
+DFIcon("star.fill", size: 28)      // plain CGFloat, no .lg/color:
+DFText("Headline", scale: .headline)   // scale:, not style:
 DFDivider()
-DFCard { content }
+DFCard { content }                 // no padding: param
 ```
 
 ### Lists & Data
 ```swift
-DFList(items) { item in DFListRow(item.title, subtitle: item.subtitle) }
-DFListRow("Title", subtitle: "Detail", icon: "folder.fill", accessory: .navigation)
-DFTable(columns: columns, rows: rowData)
-DFDataGrid(columns: columns, rows: rowData)
+DFList(items) { item in DFListRow(title: item.title, subtitle: item.subtitle) }
+DFListRow(title: "Title", subtitle: "Detail", showDisclosure: true, leading: { Image(systemName: "folder.fill") })  // label required, ambiguous otherwise
+// title: always required; no icon:/accessory: params.
+// Annotate the columns array element type (e.g. [DFTableColumn<Contact>]) — without it,
+// Swift can't infer the closure parameter's type.
+let columns: [DFTableColumn<Contact>] = [DFTableColumn(id: "name", title: "Name") { $0.name }]
+DFTable(data: contacts, columns: columns)        // data:, not rows:
+DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
 ```
 
 ### Loading
 ```swift
-DFSkeleton(width: 200, height: 16)
-DFSkeleton(width: 40, height: 40, shape: .circle)
+DFSkeleton().frame(width: 200, height: 16)          // no width:/height: init params
+DFSkeleton(shape: .circle).frame(width: 40, height: 40)
 DFProgressBar(value: 0.7)
 ```
 
 ### Navigation
 ```swift
 DFSidebar(selection: $sel, sections: sections)                 // .standard / .plain / .glass
-DFTabBar(selection: $tab, items: items) { id in content }      // .standard / .minimal / .glass
+DFTabBar(selection: $tab, items: tabItems) { id in tabContent(for: id) }      // .standard / .minimal / .glass
 YourView().dfNavigationBar(title: "Title") { ToolbarItems() }
 
 DFSidebarSection(id: "s", title: "Section", items: [
@@ -103,13 +138,18 @@ DFTabItem(id: "home", icon: "house.fill", label: "Home")
 
 ### Feedback & Overlays
 ```swift
-.dfAlert(isPresented: $show, alert: DFAlert(title:message:actions:))
-DFToastQueue.shared.show("Saved", style: .success)      // .success / .error / .info
-ContentView().dfToast(queue: DFToastQueue.shared)        // root modifier
-DFModal(isPresented: $show) { content }
-DFSheet(isPresented: $show) { content }
-DFPopover(isPresented: $show, anchor: $anchor) { content }
-DFTooltip("Hint") { triggerView }
+YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguration(title: "Title", message: "…", actions: [
+    DFAlertAction(title: "Cancel", role: .cancel),
+]))
+DFToastQueue.shared.show(text: "Saved", severity: .success)   // text:, severity: — not style:
+ContentView().dfToast(queue: DFToastQueue.shared)
+
+// Overlays are modifiers, not constructible views — no DFModal(isPresented:) etc.
+YourContentView()
+    .dfModal(isPresented: $show) { content }
+    .dfSheet(isPresented: $show) { content }
+    .dfPopover(isPresented: $show, attachmentAnchor: .point(.bottom)) { content }
+    .dfTooltip("Hint")   // plain String, no separate trigger view
 ```
 
 ## Cross-Platform
