@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [Unreleased]
+## [1.2.0] — 2026-07-05 — Garnet Preset & Verified Documentation
 
 ### Added
 - **`DFButton` `style:` init parameter:** Convenience initialiser that accepts any `DFButtonStyle` directly — `DFButton("Open", style: .outlined) { }` — in addition to the existing `.dfButtonStyle()` modifier. The modifier path remains unchanged; the init parameter is purely additive and takes precedence over the environment style when set.
@@ -174,6 +174,7 @@ This patch rounds out the text input story with a proper multiline field and fil
 
 ---
 
+[1.2.0]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.2.0
 [1.1.2]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.1.2
 [1.1.1]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.1.1
 [1.0.3]: https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.0.3
