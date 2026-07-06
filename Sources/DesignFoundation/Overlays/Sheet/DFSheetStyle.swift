@@ -103,8 +103,13 @@ public struct DFGlassSheetStyle: DFSheetStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFSheetStyleConfiguration) -> some View {
+        let theme = configuration.theme
         configuration.content
             .presentationDetents([.medium, .large])
-            .presentationBackground(.regularMaterial)
+            .presentationBackground(
+                theme.materials.preferLiquidGlass
+                    ? AnyShapeStyle(theme.materials.surfaceMaterial)
+                    : AnyShapeStyle(theme.colors.background)
+            )
     }
 }

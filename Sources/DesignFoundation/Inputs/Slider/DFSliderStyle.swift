@@ -167,25 +167,33 @@ public struct DFGlassSliderStyle: DFSliderStyle, Sendable {
 
     public func makeBody(configuration: DFSliderStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
+        let labelColor: Color = useGlass ? .white.opacity(0.7) : theme.colors.textSecondary
+        let valueColor: Color = useGlass ? .white.opacity(0.9) : theme.colors.primary
+        let tintColor: Color = useGlass ? .white.opacity(0.9) : theme.colors.primary
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.surfaceMaterial)
+            : AnyShapeStyle(theme.colors.surface)
+
         VStack(alignment: .leading, spacing: theme.spacing.xs) {
             if let label = configuration.label {
                 HStack {
                     Text(label)
                         .font(theme.typography.caption.font)
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(labelColor)
                     Spacer()
                     Text(String(format: "%.0f", configuration.value.wrappedValue))
                         .font(theme.typography.caption.font)
-                        .foregroundStyle(.white.opacity(0.9))
+                        .foregroundStyle(valueColor)
                         .monospacedDigit()
                 }
             }
             nativeSlider(value: configuration.value, range: configuration.range, step: configuration.step)
-                .tint(.white.opacity(0.9))
+                .tint(tintColor)
                 .disabled(configuration.isDisabled)
         }
         .padding(theme.spacing.md)
-        .background(.regularMaterial)
+        .background(background)
         .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
         .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }

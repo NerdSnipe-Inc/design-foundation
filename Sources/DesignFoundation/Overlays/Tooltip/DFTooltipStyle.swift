@@ -106,14 +106,22 @@ public struct DFGlassTooltipStyle: DFTooltipStyle, Sendable {
 
     public func makeBody(configuration: DFTooltipStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.elevatedMaterial)
+            : AnyShapeStyle(theme.colors.surfaceElevated)
         Text(configuration.text)
             .font(theme.typography.caption.font)
             .foregroundStyle(theme.colors.textPrimary)
             .padding(.horizontal, theme.spacing.sm)
             .padding(.vertical, theme.spacing.xs)
             .fixedSize()
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.sm))
-            .overlay(RoundedRectangle(cornerRadius: theme.radius.sm).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+            .overlay {
+                if useGlass {
+                    RoundedRectangle(cornerRadius: theme.radius.sm).stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                }
+            }
     }
 }

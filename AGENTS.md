@@ -66,10 +66,18 @@ ContentView()
 var theme = DFTheme.slateLight
 theme.components.button = DFButtonTokens(cornerRadius: 4)
 theme.components.card = DFCardTokens(padding: 20)
-// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens (same pattern)
+// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens, DFDividerTokens,
+// DFProgressBarTokens, DFSkeletonTokens, DFToggleTokens, DFDatePickerTokens, DFSidebarTokens,
+// DFTabBarTokens (same pattern). DFSlider/DFPicker/DFNavigationBar have none — thin native
+// wrappers with nothing custom-drawn to override.
 ```
 
-`DFMaterialTokens` (`Core/Theme/DFMaterialTokens.swift`, iOS/macOS 26+) exists but **is not wired into `DFTheme` or read by any component yet** — `.glass` styles hardcode `.regularMaterial`/`.thickMaterial` directly. Don't document it as configuring Liquid Glass — it doesn't yet.
+`DFMaterialTokens` is wired into `DFTheme.materials` and read by all 16 `.glass` styles:
+```swift
+var theme = DFTheme.slateLight
+theme.materials.preferLiquidGlass = false   // .glass styles fall back to their non-glass colors
+```
+No `@available` gate on the type itself (only the individual `.glass` styles remain iOS/macOS 26+).
 
 ## Component Reference
 
@@ -163,6 +171,20 @@ DFTable(data: contacts, columns: columns)          // param is `data:`, not `row
 DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
 ```
 
+### Calendar & Empty States
+```swift
+// Respects @Environment(\.calendar)/\.locale. dayContent defaults to EmptyView().
+DFCalendarView(selection: $selectedDate, minimumDate: Date()) { date in
+    if hasEvent(on: date) {
+        Circle().fill(DFTheme.default.colors.primary).frame(width: 4, height: 4)
+    }
+}
+
+// icon/title required; message/actionTitle/onAction independent optionals.
+DFEmptyState(icon: "tray", title: "No results", message: "Try a different filter.", actionTitle: "Clear", onAction: { clear() })
+// Both ship only one built-in style: .standard.
+```
+
 ### Loading States
 ```swift
 // DFSkeleton has no width:/height: init params — size always comes from .frame().
@@ -201,6 +223,12 @@ YourContentView()
     .dfSheet(isPresented: $show) { content }
     .dfPopover(isPresented: $show, attachmentAnchor: .point(.bottom)) { content }
     .dfTooltip("Hint")   // plain String on the view it annotates — no separate trigger closure
+
+// Also an overlay modifier. onSelect is palette-level, not per-item.
+YourContentView().dfCommandPalette(isPresented: $showPalette, items: [
+    DFCommandPaletteItem(title: "New Document", icon: "doc.badge.plus"),
+]) { selected in handle(selected) }
+// Case-insensitive substring filter; ↑/↓/Return/Escape keyboard nav on macOS. Only .standard style.
 ```
 
 ## Cross-Platform

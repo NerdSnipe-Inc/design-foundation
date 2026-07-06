@@ -235,27 +235,46 @@ public struct DFGlassSecureFieldStyle: DFSecureFieldStyle, Sendable {
 
     public func makeBody(configuration: DFSecureFieldStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
         let strokeColor: Color = {
+            if !useGlass {
+                if configuration.isDisabled { return theme.colors.border }
+                switch configuration.validationState {
+                case .error: return theme.colors.destructive
+                case .valid: return theme.colors.success
+                case .none: return configuration.isFocused ? theme.colors.primary : theme.colors.border
+                }
+            }
             switch configuration.validationState {
             case .error: return theme.colors.destructive.opacity(0.8)
             case .valid: return theme.colors.success.opacity(0.8)
             case .none: return configuration.isFocused ? .white.opacity(0.5) : .white.opacity(0.2)
             }
         }()
+        let labelColor: Color = useGlass ? .white.opacity(0.7) : theme.colors.textSecondary
+        let fieldColor: Color = useGlass
+            ? (configuration.isDisabled ? .white.opacity(0.4) : .white)
+            : (configuration.isDisabled ? theme.colors.textDisabled : theme.colors.textPrimary)
+        let revealColor: Color = useGlass
+            ? .white.opacity(configuration.isDisabled ? 0.3 : 0.7)
+            : (configuration.isDisabled ? theme.colors.textDisabled : theme.colors.textSecondary)
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.surfaceMaterial)
+            : AnyShapeStyle(theme.colors.surface)
 
         VStack(alignment: .leading, spacing: theme.spacing.xs) {
             if !configuration.label.isEmpty {
                 Text(configuration.label)
                     .font(theme.typography.caption.font)
-                    .foregroundStyle(.white.opacity(0.7))
+                    .foregroundStyle(labelColor)
             }
             HStack(spacing: theme.spacing.sm) {
                 configuration.fieldContent
                     .font(theme.typography.body.font)
-                    .foregroundStyle(configuration.isDisabled ? .white.opacity(0.4) : .white)
+                    .foregroundStyle(fieldColor)
                 Button(action: configuration.onToggleReveal) {
                     Image(systemName: configuration.isRevealed ? "eye.slash" : "eye")
-                        .foregroundStyle(.white.opacity(configuration.isDisabled ? 0.3 : 0.7))
+                        .foregroundStyle(revealColor)
                 }
                 .buttonStyle(.plain)
                 .disabled(configuration.isDisabled)
@@ -263,7 +282,7 @@ public struct DFGlassSecureFieldStyle: DFSecureFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radius.md)

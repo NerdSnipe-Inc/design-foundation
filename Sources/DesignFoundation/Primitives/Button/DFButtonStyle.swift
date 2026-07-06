@@ -217,6 +217,10 @@ public struct DFGlassButtonStyle: DFButtonStyle, Sendable {
         let radius = theme.components.button.cornerRadius ?? theme.radius.md
         let hPad = theme.components.button.horizontalPadding ?? theme.spacing.lg
         let vPad = theme.components.button.verticalPadding ?? theme.spacing.md
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.elevatedMaterial)
+            : AnyShapeStyle(theme.colors.surface)
 
         configuration.label
             .font((theme.components.button.labelStyle ?? theme.typography.label).font)
@@ -227,12 +231,14 @@ public struct DFGlassButtonStyle: DFButtonStyle, Sendable {
             )
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: radius))
-            .overlay(
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
-            )
+            .overlay {
+                if useGlass {
+                    RoundedRectangle(cornerRadius: radius)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                }
+            }
             .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
             .animation(theme.animation.fast, value: configuration.isPressed)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)

@@ -132,6 +132,37 @@ struct DFComponentTokensTests {
     }
 }
 
+@Suite("DFMaterialTokens")
+struct DFMaterialTokensTests {
+
+    @Test("default preferLiquidGlass is true")
+    func defaultPreferLiquidGlassIsTrue() {
+        #expect(DFMaterialTokens.default.preferLiquidGlass == true)
+    }
+
+    @Test("default materials exist and are usable")
+    func defaultMaterialsExist() {
+        // Material has no public Equatable conformance — verify by using them,
+        // matching the pattern used for DFAnimationTokens above.
+        let tokens = DFMaterialTokens.default
+        let _ = tokens.surfaceMaterial
+        let _ = tokens.elevatedMaterial
+    }
+
+    @Test("tokens are mutable")
+    func tokensAreMutable() {
+        var tokens = DFMaterialTokens.default
+        tokens.preferLiquidGlass = false
+        #expect(tokens.preferLiquidGlass == false)
+    }
+
+    @Test("custom initialiser overrides preferLiquidGlass independently of materials")
+    func customInitOverridesPreferLiquidGlass() {
+        let tokens = DFMaterialTokens(preferLiquidGlass: false)
+        #expect(tokens.preferLiquidGlass == false)
+    }
+}
+
 @Suite("DFTheme")
 struct DFThemeTests {
 
@@ -156,5 +187,70 @@ struct DFThemeTests {
         #expect(theme.colors.primary == .green)
         // Unspecified tokens still use defaults
         #expect(theme.spacing.md == DFSpacingTokens.default.md)
+    }
+
+    @Test("default theme has default material tokens")
+    func defaultThemeMaterials() {
+        let theme = DFTheme.default
+        #expect(theme.materials.preferLiquidGlass == DFMaterialTokens.default.preferLiquidGlass)
+    }
+
+    @Test("custom initialiser composes materials correctly")
+    func customInitMaterials() {
+        let theme = DFTheme(materials: DFMaterialTokens(preferLiquidGlass: false))
+        #expect(theme.materials.preferLiquidGlass == false)
+        // Unspecified tokens still use defaults
+        #expect(theme.colors.primary == DFColorTokens.default.primary)
+    }
+
+    @Test("materials mutation is independent (value semantics)")
+    func materialsValueSemantics() {
+        var theme1 = DFTheme.default
+        let theme2 = DFTheme.default
+        theme1.materials.preferLiquidGlass = false
+        #expect(theme2.materials.preferLiquidGlass == true)
+    }
+}
+
+@Suite("Glass style material resolution")
+struct DFGlassStyleMaterialResolutionTests {
+
+    /// DFCardStyleConfiguration threading `theme.materials` through to DFGlassCardStyle,
+    /// and DFGlassCardStyle.makeBody actually running under both `preferLiquidGlass` states.
+    /// A snapshot-free assertion: we don't inspect pixels, just confirm (a) the resolved
+    /// theme value reaching the configuration is what was set, and (b) makeBody executes
+    /// successfully for both branches (glass-material path and color-token fallback path)
+    /// without a fatal error — i.e. the `if theme.materials.preferLiquidGlass` branch inside
+    /// DFGlassCardStyle is exercised both ways.
+    @Test("preferLiquidGlass = true routes DFCardStyleConfiguration through the glass-material branch")
+    @available(iOS 26, macOS 26, *)
+    func preferLiquidGlassTrueUsesGlassBranch() {
+        var theme = DFTheme.default
+        theme.materials.preferLiquidGlass = true
+        let configuration = DFCardStyleConfiguration(
+            content: AnyView(Text("Card")),
+            isPressed: false,
+            isDisabled: false,
+            isInteractive: true,
+            theme: theme
+        )
+        #expect(configuration.theme.materials.preferLiquidGlass == true)
+        _ = DFGlassCardStyle().makeBody(configuration: configuration)
+    }
+
+    @Test("preferLiquidGlass = false routes DFCardStyleConfiguration through the color-token fallback branch")
+    @available(iOS 26, macOS 26, *)
+    func preferLiquidGlassFalseUsesColorFallbackBranch() {
+        var theme = DFTheme.default
+        theme.materials.preferLiquidGlass = false
+        let configuration = DFCardStyleConfiguration(
+            content: AnyView(Text("Card")),
+            isPressed: false,
+            isDisabled: false,
+            isInteractive: true,
+            theme: theme
+        )
+        #expect(configuration.theme.materials.preferLiquidGlass == false)
+        _ = DFGlassCardStyle().makeBody(configuration: configuration)
     }
 }

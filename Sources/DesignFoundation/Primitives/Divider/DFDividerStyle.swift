@@ -92,17 +92,18 @@ public struct DFStandardDividerStyle: DFDividerStyle, Sendable {
 
     public func makeBody(configuration: DFDividerStyleConfiguration) -> some View {
         let color = configuration.theme.colors.border
+        let lineWidth = configuration.theme.components.divider.lineWidth ?? 1
         if let label = configuration.label, configuration.orientation == .horizontal {
             HStack {
-                dividerLine(color: color, lineWidth: 1, orientation: .horizontal)
+                dividerLine(color: color, lineWidth: lineWidth, orientation: .horizontal)
                 Text(label)
                     .font(configuration.theme.typography.caption.font)
                     .foregroundStyle(configuration.theme.colors.textSecondary)
                     .fixedSize()
-                dividerLine(color: color, lineWidth: 1, orientation: .horizontal)
+                dividerLine(color: color, lineWidth: lineWidth, orientation: .horizontal)
             }
         } else {
-            dividerLine(color: color, lineWidth: 1, orientation: configuration.orientation)
+            dividerLine(color: color, lineWidth: lineWidth, orientation: configuration.orientation)
         }
     }
 }

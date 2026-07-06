@@ -107,10 +107,19 @@ public struct DFGlassPopoverStyle: DFPopoverStyle, Sendable {
 
     public func makeBody(configuration: DFPopoverStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.elevatedMaterial)
+            : AnyShapeStyle(theme.colors.surface)
+
         configuration.content
             .padding(theme.spacing.md)
             .frame(minWidth: 180)
-            .background(.regularMaterial)
-            .overlay(RoundedRectangle(cornerRadius: theme.radius.md).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+            .background(background)
+            .overlay {
+                if useGlass {
+                    RoundedRectangle(cornerRadius: theme.radius.md).stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                }
+            }
     }
 }

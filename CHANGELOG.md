@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Added
+- **`DFCalendarView`:** a new themed month-grid calendar primitive (`Supplementary/Calendar/`) — single-date `selection: Binding<Date>`, optional external `displayedMonth` control, `minimumDate`/`maximumDate` bounds with disabled out-of-range days, and a generic `@ViewBuilder dayContent: (Date) -> Content` slot for event dots/badges. Respects `@Environment(\.calendar)`/`\.locale` — no hardcoded first-weekday assumption. Ships one built-in style, `.standard`.
+- **`DFEmptyState`:** a free-tier "no results" primitive (`Supplementary/EmptyState/`) — icon + title + optional message + optional action button, all independent optionals beyond the required icon/title. Previously this pattern only existed behind DesignFoundationPro's `DFEmptyStateBlock`.
+- **`DFCommandPalette`:** a new Cmd-K-style overlay modifier (`Overlays/CommandPalette/`) — `.dfCommandPalette(isPresented:items:placeholder:onSelect:)`, case-insensitive substring filtering on title/subtitle, and keyboard navigation on macOS (↑/↓ to highlight, Return to select, Escape to dismiss).
+- **`DFMaterialTokens` wired in:** `DFTheme.materials: DFMaterialTokens` is now a real theme property, and all 16 `.glass` styles read `theme.materials.surfaceMaterial`/`elevatedMaterial` instead of hardcoding `.regularMaterial`/`.thickMaterial`. Setting `theme.materials.preferLiquidGlass = false` opts every `.glass` style back to its non-glass color-token appearance — useful for accessibility, branding, or pre-26 OS parity testing. `DFMaterialTokens` itself no longer carries an `@available` gate (only the individual `.glass` styles remain iOS/macOS 26+, unchanged).
+- **`DFComponentTokens` expanded:** seven new per-component override structs — `DFDividerTokens`, `DFProgressBarTokens`, `DFSkeletonTokens`, `DFToggleTokens`, `DFDatePickerTokens`, `DFSidebarTokens`, `DFTabBarTokens` — following the existing "every field optional, `nil` inherits the theme default" pattern. (Slider, Picker, and NavigationBar were evaluated and intentionally excluded — they're thin native-control wrappers with nothing custom-drawn worth exposing as an override.)
+
+### Docs
+- `CLAUDE.md`, `AGENTS.md`, and `.cursor/rules/design-foundation.mdc` updated with reference sections for all of the above, verified against source and mechanically compiled via the doc-snippet CI gate.
+
+---
+
 ## [1.2.0] — 2026-07-05 — Garnet Preset & Verified Documentation
 
 ### Added

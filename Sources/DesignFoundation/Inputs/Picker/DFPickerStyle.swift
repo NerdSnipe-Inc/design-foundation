@@ -134,18 +134,24 @@ public struct DFGlassPickerStyle: DFPickerStyle, Sendable {
 
     public func makeBody(configuration: DFPickerStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.surfaceMaterial)
+            : AnyShapeStyle(theme.colors.surface)
         configuration.content
             .pickerStyle(.menu)
-            .tint(.white)
+            .tint(useGlass ? Color.white : theme.colors.primary)
             .disabled(configuration.isDisabled)
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radius.md)
-                    .stroke(.white.opacity(0.2), lineWidth: 0.5)
-            )
+            .overlay {
+                if useGlass {
+                    RoundedRectangle(cornerRadius: theme.radius.md)
+                        .stroke(.white.opacity(0.2), lineWidth: 0.5)
+                }
+            }
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }

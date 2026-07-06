@@ -89,10 +89,11 @@ public struct DFStandardSidebarStyle: DFSidebarStyle, Sendable {
 
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let iconSize = theme.components.sidebar.iconSize ?? 16
         HStack(spacing: theme.spacing.sm) {
             if let icon = configuration.item.icon {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: iconSize, weight: .medium))
                     .foregroundStyle(
                         configuration.isSelected ? theme.colors.primary : theme.colors.textSecondary
                     )
@@ -108,7 +109,7 @@ public struct DFStandardSidebarStyle: DFSidebarStyle, Sendable {
         .padding(.horizontal, theme.spacing.md)
         .padding(.vertical, theme.spacing.sm)
         .background(
-            RoundedRectangle(cornerRadius: theme.radius.md)
+            RoundedRectangle(cornerRadius: theme.components.sidebar.itemCornerRadius ?? theme.radius.md)
                 .fill(configuration.isSelected ? theme.colors.primary.opacity(0.12) : Color.clear)
         )
         .opacity(configuration.isEnabled ? 1.0 : 0.5)
@@ -124,10 +125,11 @@ public struct DFPlainSidebarStyle: DFSidebarStyle, Sendable {
 
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let iconSize = theme.components.sidebar.iconSize ?? 16
         HStack(spacing: theme.spacing.sm) {
             if let icon = configuration.item.icon {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: iconSize, weight: .medium))
                     .foregroundStyle(
                         configuration.isSelected ? theme.colors.primary : theme.colors.textSecondary
                     )
@@ -162,11 +164,12 @@ public struct DFGlassSidebarStyle: DFSidebarStyle, Sendable {
     public init() {}
 
     public func sidebarBackground(theme: DFTheme) -> AnyView {
-        AnyView(Color.clear)
+        theme.materials.preferLiquidGlass ? AnyView(Color.clear) : AnyView(theme.colors.surface)
     }
 
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
         HStack(spacing: theme.spacing.sm) {
             if let icon = configuration.item.icon {
                 Image(systemName: icon)
@@ -187,12 +190,17 @@ public struct DFGlassSidebarStyle: DFSidebarStyle, Sendable {
         .padding(.vertical, theme.spacing.sm)
         .background {
             if configuration.isSelected {
-                RoundedRectangle(cornerRadius: theme.radius.md)
-                    .fill(.regularMaterial)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: theme.radius.md)
-                            .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
-                    )
+                if useGlass {
+                    RoundedRectangle(cornerRadius: theme.radius.md)
+                        .fill(theme.materials.elevatedMaterial)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: theme.radius.md)
+                                .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                        )
+                } else {
+                    RoundedRectangle(cornerRadius: theme.radius.md)
+                        .fill(theme.colors.primary.opacity(0.12))
+                }
             }
         }
         .opacity(configuration.isEnabled ? 1.0 : 0.5)

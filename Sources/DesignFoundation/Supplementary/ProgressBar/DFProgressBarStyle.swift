@@ -83,6 +83,7 @@ public struct DFDefaultProgressBarStyle: DFProgressBarStyle, Sendable {
 
         switch configuration.variant {
         case .linear:
+            let trackHeight = theme.components.progressBar.trackHeight ?? 6
             VStack(alignment: .leading, spacing: theme.spacing.xs) {
                 if let label = configuration.label {
                     Text(label)
@@ -93,13 +94,13 @@ public struct DFDefaultProgressBarStyle: DFProgressBarStyle, Sendable {
                     ZStack(alignment: .leading) {
                         Capsule()
                             .fill(theme.colors.border)
-                            .frame(height: 6)
+                            .frame(height: trackHeight)
                         Capsule()
                             .fill(theme.colors.primary)
-                            .frame(width: geo.size.width * clamped, height: 6)
+                            .frame(width: geo.size.width * clamped, height: trackHeight)
                     }
                 }
-                .frame(height: 6)
+                .frame(height: trackHeight)
             }
 
         case .circular:

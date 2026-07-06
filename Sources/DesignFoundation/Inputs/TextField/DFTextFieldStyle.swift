@@ -223,7 +223,16 @@ public struct DFGlassTextFieldStyle: DFTextFieldStyle, Sendable {
 
     public func makeBody(configuration: DFTextFieldStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
         let strokeColor: Color = {
+            if !useGlass {
+                if configuration.isDisabled { return theme.colors.border }
+                switch configuration.validationState {
+                case .error: return theme.colors.destructive
+                case .valid: return theme.colors.success
+                case .none: return configuration.isFocused ? theme.colors.primary : theme.colors.border
+                }
+            }
             if configuration.isDisabled { return .white.opacity(0.1) }
             switch configuration.validationState {
             case .error: return theme.colors.destructive.opacity(0.8)
@@ -231,27 +240,35 @@ public struct DFGlassTextFieldStyle: DFTextFieldStyle, Sendable {
             case .none: return configuration.isFocused ? .white.opacity(0.5) : .white.opacity(0.2)
             }
         }()
+        let labelColor: Color = useGlass ? .white.opacity(0.7) : theme.colors.textSecondary
+        let leadingTrailingColor: Color = useGlass ? .white.opacity(0.6) : theme.colors.textSecondary
+        let fieldColor: Color = useGlass
+            ? (configuration.isDisabled ? .white.opacity(0.4) : .white)
+            : (configuration.isDisabled ? theme.colors.textDisabled : theme.colors.textPrimary)
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.surfaceMaterial)
+            : AnyShapeStyle(theme.colors.surface)
 
         VStack(alignment: .leading, spacing: theme.spacing.xs) {
             if !configuration.label.isEmpty {
                 Text(configuration.label)
                     .font(theme.typography.caption.font)
-                    .foregroundStyle(.white.opacity(0.7))
+                    .foregroundStyle(labelColor)
             }
             HStack(spacing: theme.spacing.sm) {
                 if let leading = configuration.leadingContent {
-                    leading.foregroundStyle(.white.opacity(0.6))
+                    leading.foregroundStyle(leadingTrailingColor)
                 }
                 configuration.fieldContent
                     .font(theme.typography.body.font)
-                    .foregroundStyle(configuration.isDisabled ? .white.opacity(0.4) : .white)
+                    .foregroundStyle(fieldColor)
                 if let trailing = configuration.trailingContent {
-                    trailing.foregroundStyle(.white.opacity(0.6))
+                    trailing.foregroundStyle(leadingTrailingColor)
                 }
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radius.md)

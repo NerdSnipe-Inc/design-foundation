@@ -119,6 +119,13 @@ HARNESS_STUBS = textwrap.dedent(
     }
     let items: [Item] = []
     let tabItems: [DFTabItem] = []
+    @State var selectedDate: Date = Date()
+    let oneYearFromNow = Date().addingTimeInterval(60 * 60 * 24 * 365)
+    func hasEvent(on date: Date) -> Bool { false }
+    func clearFilters() {}
+    func clear() {}
+    @State var showPalette: Bool = false
+    func handle(_ item: DFCommandPaletteItem) {}
     let sections: [DFSidebarSection] = []
     let sidebarSections: [DFSidebarSection] = []
     let columnVisibility = NavigationSplitViewVisibility.all

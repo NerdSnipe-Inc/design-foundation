@@ -71,11 +71,23 @@ ContentView().dfTheme(.slateLight)
 var theme = DFTheme.slateLight
 theme.components.button = DFButtonTokens(cornerRadius: 4)          // sharper buttons only
 theme.components.card = DFCardTokens(padding: 20)                  // roomier cards only
-// Also available: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens — same
-// "every field optional, nil inherits" pattern.
+// Also available: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens,
+// DFDividerTokens, DFProgressBarTokens, DFSkeletonTokens, DFToggleTokens,
+// DFDatePickerTokens, DFSidebarTokens, DFTabBarTokens — same "every field optional,
+// nil inherits" pattern. (DFSlider/DFPicker/DFNavigationBar have no component-token
+// struct — they're thin native-control wrappers with nothing custom-drawn to override.)
 ```
 
-`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`, `@available(iOS 26, macOS 26, *)`) exists in `Core/Theme/DFMaterialTokens.swift` but **is not yet wired into `DFTheme` or read by any component** — the `.glass` styles use hardcoded `.regularMaterial`/`.thickMaterial` directly instead. Don't write doc examples assuming it configures Liquid Glass rendering; it doesn't yet.
+`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is now wired into `DFTheme.materials` and read by all 16 `.glass` styles:
+
+```swift
+var theme = DFTheme.slateLight
+theme.materials.preferLiquidGlass = false   // every .glass style falls back to its
+                                             // non-glass color-token appearance instead
+                                             // of a translucent Material
+```
+
+`DFMaterialTokens` itself is universally available (no `@available` gate — `Material` has existed since iOS 15/macOS 12); only the individual `.glass` *styles* remain `@available(iOS 26, macOS 26, *)`, unchanged.
 
 ## Component Reference
 
@@ -217,6 +229,40 @@ DFTable(data: contacts, columns: columns)                     // param is `data:
 DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
 ```
 
+### Calendar
+```swift
+// Month-grid calendar. Respects @Environment(\.calendar)/\.locale — no hardcoded first-weekday.
+// selection: Binding<Date>. displayedMonth: optional external control; omit to let the view manage it.
+// dayContent: @ViewBuilder (Date) -> Content, defaults to EmptyView() — event dots/badges go here.
+DFCalendarView(selection: $selectedDate)
+
+DFCalendarView(
+    selection: $selectedDate,
+    minimumDate: Date(),                 // days before today render disabled
+    maximumDate: oneYearFromNow
+) { date in
+    if hasEvent(on: date) {
+        Circle().fill(DFTheme.default.colors.primary).frame(width: 4, height: 4)
+        // Or read @Environment(\.dfTheme) private var theme on your own view and use that.
+    }
+}
+// Only one built-in style ships: .standard (default via .dfCalendarViewStyle(_:)).
+```
+
+### Empty States
+```swift
+// icon/title required; message/actionTitle/onAction all optional and independent of each other.
+DFEmptyState(icon: "tray", title: "No results")
+DFEmptyState(
+    icon: "person.crop.circle.badge.questionmark",
+    title: "No contacts found",
+    message: "Try a different search or filter.",
+    actionTitle: "Clear filters",
+    onAction: { clearFilters() }
+)
+// Only one built-in style ships: .standard (default via .dfEmptyStateStyle(_:)).
+```
+
 ### Loading States
 ```swift
 // DFSkeleton — shimmer placeholder. Size via .frame(), shape via init param.
@@ -291,6 +337,21 @@ YourContentView()
     .dfSheet(isPresented: $showSheet) { SheetContent() }
     .dfPopover(isPresented: $showPopover, attachmentAnchor: .point(.bottom)) { PopoverContent() }
     .dfTooltip("Hint text")   // takes a plain String describing this view — not a separate trigger view
+```
+
+### Command Palette
+```swift
+// Also an overlay modifier, not a constructible view. Selection is reported via a single
+// palette-level onSelect — DFCommandPaletteItem stays a plain Sendable/Equatable value.
+YourContentView()
+    .dfCommandPalette(isPresented: $showPalette, items: [
+        DFCommandPaletteItem(title: "New Document", icon: "doc.badge.plus"),
+        DFCommandPaletteItem(title: "Settings", subtitle: "⌘,", icon: "gear"),
+    ]) { selected in
+        handle(selected)
+    }
+// Case-insensitive substring filter on title/subtitle. Keyboard nav on macOS: ↑/↓ to
+// highlight, Return to select, Escape to dismiss. Only .standard style ships.
 ```
 
 ## Cross-Platform

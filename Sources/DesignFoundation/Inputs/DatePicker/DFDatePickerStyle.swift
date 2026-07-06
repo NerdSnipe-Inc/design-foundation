@@ -79,12 +79,14 @@ public struct DFCompactDatePickerStyle: DFDatePickerStyle, Sendable {
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let horizontalPadding = theme.components.datePicker.horizontalPadding ?? theme.spacing.md
+        let verticalPadding = theme.components.datePicker.verticalPadding ?? theme.spacing.sm
         configuration.content
             .datePickerStyle(.compact)
             .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
-            .padding(.horizontal, theme.spacing.md)
-            .padding(.vertical, theme.spacing.sm)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.vertical, verticalPadding)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
@@ -96,12 +98,14 @@ public struct DFGraphicalDatePickerStyle: DFDatePickerStyle, Sendable {
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let horizontalPadding = theme.components.datePicker.horizontalPadding ?? theme.spacing.md
+        let verticalPadding = theme.components.datePicker.verticalPadding ?? theme.spacing.sm
         configuration.content
             .datePickerStyle(.graphical)
             .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
-            .padding(.horizontal, theme.spacing.md)
-            .padding(.vertical, theme.spacing.sm)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.vertical, verticalPadding)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }
@@ -113,21 +117,23 @@ public struct DFWheelDatePickerStyle: DFDatePickerStyle, Sendable {
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let horizontalPadding = theme.components.datePicker.horizontalPadding ?? theme.spacing.md
+        let verticalPadding = theme.components.datePicker.verticalPadding ?? theme.spacing.sm
 #if os(iOS) || os(visionOS)
         configuration.content
             .datePickerStyle(.wheel)
             .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
-            .padding(.horizontal, theme.spacing.md)
-            .padding(.vertical, theme.spacing.sm)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.vertical, verticalPadding)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
 #else
         configuration.content
             .datePickerStyle(.graphical)
             .tint(theme.colors.primary)
             .disabled(configuration.isDisabled)
-            .padding(.horizontal, theme.spacing.md)
-            .padding(.vertical, theme.spacing.sm)
+            .padding(.horizontal, horizontalPadding)
+            .padding(.vertical, verticalPadding)
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
 #endif
     }
@@ -148,18 +154,24 @@ public struct DFGlassDatePickerStyle: DFDatePickerStyle, Sendable {
 
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.surfaceMaterial)
+            : AnyShapeStyle(theme.colors.surface)
         configuration.content
             .datePickerStyle(.compact)
-            .tint(.white)
+            .tint(useGlass ? Color.white : theme.colors.primary)
             .disabled(configuration.isDisabled)
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
-            .background(.regularMaterial)
+            .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radius.md)
-                    .stroke(.white.opacity(0.2), lineWidth: 0.5)
-            )
+            .overlay {
+                if useGlass {
+                    RoundedRectangle(cornerRadius: theme.radius.md)
+                        .stroke(.white.opacity(0.2), lineWidth: 0.5)
+                }
+            }
             .opacity(configuration.isDisabled ? 0.5 : 1.0)
     }
 }

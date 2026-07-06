@@ -80,8 +80,8 @@ public struct DFDefaultSkeletonStyle: DFSkeletonStyle, Sendable {
     public func makeBody(configuration: DFSkeletonStyleConfiguration) -> some View {
         let theme = configuration.theme
         let phase = configuration.animationPhase
-        let base = theme.colors.border.opacity(0.25)
-        let highlight = theme.colors.border.opacity(0.55)
+        let base = theme.colors.border.opacity(theme.components.skeleton.shimmerBaseOpacity ?? 0.25)
+        let highlight = theme.colors.border.opacity(theme.components.skeleton.shimmerHighlightOpacity ?? 0.55)
 
         let gradient = LinearGradient(
             stops: [

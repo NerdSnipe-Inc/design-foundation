@@ -125,13 +125,14 @@ private struct DFTabBadgeOverlay: View {
     theme: DFTheme,
     onSelect: @escaping @MainActor (String) -> Void
 ) -> some View {
+    let iconSize = theme.components.tabBar.iconSize ?? 22
     return Button {
         onSelect(item.id)
     } label: {
         VStack(spacing: 2) {
             ZStack(alignment: .topTrailing) {
                 Image(systemName: item.icon)
-                    .font(.system(size: 22))
+                    .font(.system(size: iconSize))
                     .foregroundStyle(
                         isSelected ? theme.colors.primary : theme.colors.textSecondary
                     )
@@ -157,12 +158,13 @@ private struct DFTabBadgeOverlay: View {
     theme: DFTheme,
     onSelect: @escaping @MainActor (String) -> Void
 ) -> some View {
-    Button {
+    let iconSize = theme.components.tabBar.iconSize ?? 24
+    return Button {
         onSelect(item.id)
     } label: {
         ZStack(alignment: .topTrailing) {
             Image(systemName: item.icon)
-                .font(.system(size: 24))
+                .font(.system(size: iconSize))
                 .foregroundStyle(
                     isSelected ? theme.colors.primary : theme.colors.textSecondary
                 )
@@ -257,6 +259,10 @@ public struct DFGlassTabBarStyle: DFTabBarStyle, Sendable {
         let items = configuration.items
         let selectedID = configuration.selectedID
         let onSelect = configuration.onSelect
+        let useGlass = theme.materials.preferLiquidGlass
+        let background: AnyShapeStyle = useGlass
+            ? AnyShapeStyle(theme.materials.elevatedMaterial)
+            : AnyShapeStyle(theme.colors.surface)
 
         return VStack(spacing: 0) {
             HStack(spacing: 0) {
@@ -288,11 +294,13 @@ public struct DFGlassTabBarStyle: DFTabBarStyle, Sendable {
                     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                 }
             }
-            .background(.regularMaterial)
+            .background(background)
             .overlay(alignment: .top) {
-                Rectangle()
-                    .fill(Color.white.opacity(0.2))
-                    .frame(height: 0.5)
+                if useGlass {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(height: 0.5)
+                }
             }
         }
     }

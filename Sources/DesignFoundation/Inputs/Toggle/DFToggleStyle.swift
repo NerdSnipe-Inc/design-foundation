@@ -95,6 +95,7 @@ public struct DFCheckboxToggleStyle: DFToggleStyle, Sendable {
 
     public func makeBody(configuration: DFToggleStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let checkboxSize = theme.components.toggle.checkboxSize ?? 20
         Button {
             if !configuration.isDisabled {
                 configuration.isOn.wrappedValue.toggle()
@@ -115,7 +116,7 @@ public struct DFCheckboxToggleStyle: DFToggleStyle, Sendable {
                                     lineWidth: 1.5
                                 )
                         )
-                        .frame(width: 20, height: 20)
+                        .frame(width: checkboxSize, height: checkboxSize)
                     if configuration.isOn.wrappedValue {
                         Image(systemName: "checkmark")
                             .font(.system(size: 12, weight: .bold))
@@ -153,6 +154,7 @@ public struct DFGlassToggleStyle: DFToggleStyle, Sendable {
 
     public func makeBody(configuration: DFToggleStyleConfiguration) -> some View {
         let theme = configuration.theme
+        let useGlass = theme.materials.preferLiquidGlass
         Button {
             if !configuration.isDisabled {
                 configuration.isOn.wrappedValue.toggle()
@@ -160,22 +162,43 @@ public struct DFGlassToggleStyle: DFToggleStyle, Sendable {
         } label: {
             HStack(spacing: theme.spacing.sm) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: theme.radius.sm)
-                        .fill(.regularMaterial)
-                        .frame(width: 22, height: 22)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: theme.radius.sm)
-                                .stroke(.white.opacity(0.3), lineWidth: 1)
-                        )
+                    if useGlass {
+                        RoundedRectangle(cornerRadius: theme.radius.sm)
+                            .fill(theme.materials.surfaceMaterial)
+                            .frame(width: 22, height: 22)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: theme.radius.sm)
+                                    .stroke(.white.opacity(0.3), lineWidth: 1)
+                            )
+                    } else {
+                        RoundedRectangle(cornerRadius: theme.radius.sm)
+                            .fill(
+                                configuration.isOn.wrappedValue
+                                    ? (configuration.isDisabled ? theme.colors.interactiveDisabled : theme.colors.primary)
+                                    : Color.clear
+                            )
+                            .frame(width: 22, height: 22)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: theme.radius.sm)
+                                    .stroke(
+                                        configuration.isDisabled ? theme.colors.border : theme.colors.primary,
+                                        lineWidth: 1.5
+                                    )
+                            )
+                    }
                     if configuration.isOn.wrappedValue {
                         Image(systemName: "checkmark")
                             .font(.system(size: 12, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(useGlass ? .white : Color.white)
                     }
                 }
                 Text(configuration.label)
                     .font(theme.typography.body.font)
-                    .foregroundStyle(configuration.isDisabled ? .white.opacity(0.4) : .white)
+                    .foregroundStyle(
+                        useGlass
+                            ? (configuration.isDisabled ? .white.opacity(0.4) : .white)
+                            : (configuration.isDisabled ? theme.colors.textDisabled : theme.colors.textPrimary)
+                    )
             }
         }
         .buttonStyle(.plain)

@@ -44,9 +44,11 @@ Per-component overrides (every field optional, `nil` inherits theme tokens; conf
 var theme = DFTheme.slateLight
 theme.components.button = DFButtonTokens(cornerRadius: 4)
 theme.components.card = DFCardTokens(padding: 20)
-// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens
+// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens, DFDividerTokens,
+// DFProgressBarTokens, DFSkeletonTokens, DFToggleTokens, DFDatePickerTokens, DFSidebarTokens,
+// DFTabBarTokens. (Slider/Picker/NavigationBar have none — nothing custom-drawn to override.)
 ```
-`DFMaterialTokens` (iOS/macOS 26+) exists but is NOT wired into `DFTheme` yet — `.glass` styles hardcode materials directly. Don't document it as configuring anything.
+`DFMaterialTokens` is wired into `DFTheme.materials`, read by all 16 `.glass` styles: `theme.materials.preferLiquidGlass = false` opts a style back to its non-glass colors. No `@available` gate on the type itself.
 
 ## Components — Never Build These
 
@@ -115,6 +117,13 @@ DFListRow(title: "Title", subtitle: "Detail", showDisclosure: true, leading: { I
 let columns: [DFTableColumn<Contact>] = [DFTableColumn(id: "name", title: "Name") { $0.name }]
 DFTable(data: contacts, columns: columns)        // data:, not rows:
 DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
+
+// Calendar & empty state — respects @Environment(\.calendar)/\.locale; dayContent defaults to EmptyView()
+DFCalendarView(selection: $selectedDate, minimumDate: Date()) { date in
+    if hasEvent(on: date) { Circle().fill(DFTheme.default.colors.primary).frame(width: 4, height: 4) }
+}
+DFEmptyState(icon: "tray", title: "No results", message: "Try a different filter.", actionTitle: "Clear", onAction: { clear() })
+// icon/title required; message/actionTitle/onAction independent optionals. Only .standard style ships.
 ```
 
 ### Loading
@@ -150,6 +159,11 @@ YourContentView()
     .dfSheet(isPresented: $show) { content }
     .dfPopover(isPresented: $show, attachmentAnchor: .point(.bottom)) { content }
     .dfTooltip("Hint")   // plain String, no separate trigger view
+
+YourContentView().dfCommandPalette(isPresented: $showPalette, items: [
+    DFCommandPaletteItem(title: "New Document", icon: "doc.badge.plus"),
+]) { selected in handle(selected) }
+// Case-insensitive substring filter; ↑/↓/Return/Escape nav on macOS. Only .standard style.
 ```
 
 ## Cross-Platform

@@ -195,15 +195,27 @@ public struct DFGlassAvatarStyle: DFAvatarStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFAvatarStyleConfiguration) -> some View {
-        let size = configuration.theme.components.avatar.defaultSize ?? configuration.size
+        let theme = configuration.theme
+        let size = theme.components.avatar.defaultSize ?? configuration.size
+        let useGlass = theme.materials.preferLiquidGlass
         ZStack {
-            Circle()
-                .fill(.ultraThinMaterial)
-                .frame(width: size, height: size)
-            avatarContent(source: configuration.source, size: size - 4, theme: configuration.theme)
+            if useGlass {
+                Circle()
+                    .fill(theme.materials.surfaceMaterial)
+                    .frame(width: size, height: size)
+            } else {
+                Circle()
+                    .fill(theme.colors.surface)
+                    .frame(width: size, height: size)
+            }
+            avatarContent(source: configuration.source, size: size - 4, theme: theme)
                 .clipShape(Circle())
         }
-        .overlay(Circle().stroke(Color.white.opacity(0.25), lineWidth: 0.5))
+        .overlay {
+            if useGlass {
+                Circle().stroke(Color.white.opacity(0.25), lineWidth: 0.5)
+            }
+        }
         .frame(width: size, height: size)
     }
 }

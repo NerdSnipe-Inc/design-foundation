@@ -203,24 +203,44 @@ public struct DFGlassBadgeStyle: DFBadgeStyle, Sendable {
         let theme = configuration.theme
         let hPad = theme.components.badge.horizontalPadding ?? theme.spacing.xs
         let vPad = theme.components.badge.verticalPadding ?? 2
+        let useGlass = theme.materials.preferLiquidGlass
 
         if case .dot = configuration.variant {
-            return AnyView(
-                Circle()
-                    .fill(.ultraThinMaterial)
-                    .frame(width: 8, height: 8)
-            )
+            if useGlass {
+                return AnyView(
+                    Circle()
+                        .fill(theme.materials.surfaceMaterial)
+                        .frame(width: 8, height: 8)
+                )
+            } else {
+                return AnyView(
+                    Circle()
+                        .fill(theme.colors.surface)
+                        .frame(width: 8, height: 8)
+                )
+            }
         }
 
         let text = badgeLabel(configuration.variant, theme: theme) ?? ""
-        return AnyView(
-            Text(text)
-                .font(theme.typography.label.font)
-                .foregroundStyle(theme.colors.textPrimary)
-                .padding(.horizontal, hPad)
-                .padding(.vertical, vPad)
-                .background(Capsule().fill(.ultraThinMaterial))
-                .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 0.5))
-        )
+        if useGlass {
+            return AnyView(
+                Text(text)
+                    .font(theme.typography.label.font)
+                    .foregroundStyle(theme.colors.textPrimary)
+                    .padding(.horizontal, hPad)
+                    .padding(.vertical, vPad)
+                    .background(Capsule().fill(theme.materials.surfaceMaterial))
+                    .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+            )
+        } else {
+            return AnyView(
+                Text(text)
+                    .font(theme.typography.label.font)
+                    .foregroundStyle(theme.colors.textPrimary)
+                    .padding(.horizontal, hPad)
+                    .padding(.vertical, vPad)
+                    .background(Capsule().fill(theme.colors.surface))
+            )
+        }
     }
 }

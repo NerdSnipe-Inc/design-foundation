@@ -119,13 +119,17 @@ public struct DFGlassNavigationBarStyle: DFNavigationBarStyle, Sendable {
     public init() {}
 
     public func makeBody(configuration: DFNavigationBarStyleConfiguration) -> some View {
+        let theme = configuration.theme
+        let background: AnyShapeStyle = theme.materials.preferLiquidGlass
+            ? AnyShapeStyle(theme.materials.elevatedMaterial)
+            : AnyShapeStyle(theme.colors.surface)
         #if os(iOS) || os(visionOS)
         configuration.content
-            .toolbarBackground(.regularMaterial, for: .navigationBar)
+            .toolbarBackground(background, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         #else
         configuration.content
-            .toolbarBackground(.regularMaterial, for: .windowToolbar)
+            .toolbarBackground(background, for: .windowToolbar)
         #endif
     }
 }

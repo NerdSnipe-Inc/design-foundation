@@ -9,6 +9,7 @@ public struct DFTheme: Sendable {
     public var shadows: DFShadowTokens
     public var animation: DFAnimationTokens
     public var components: DFComponentTokens
+    public var materials: DFMaterialTokens
 
     public init(
         colors: DFColorTokens = .default,
@@ -17,7 +18,8 @@ public struct DFTheme: Sendable {
         radius: DFRadiusTokens = .default,
         shadows: DFShadowTokens = .default,
         animation: DFAnimationTokens = .default,
-        components: DFComponentTokens = .default
+        components: DFComponentTokens = .default,
+        materials: DFMaterialTokens = .default
     ) {
         self.colors = colors
         self.typography = typography
@@ -26,6 +28,7 @@ public struct DFTheme: Sendable {
         self.shadows = shadows
         self.animation = animation
         self.components = components
+        self.materials = materials
     }
 
     // MARK: Presets
