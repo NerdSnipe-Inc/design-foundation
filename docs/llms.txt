@@ -2,7 +2,7 @@
 
 > Production-grade SwiftUI component library and design system for iOS, macOS, and visionOS — free, open-source (MIT), distributed via Swift Package Manager.
 
-DesignFoundation gives Swift developers a token-based theming engine, 25 accessible SwiftUI components plus 6 feedback/overlay modifiers (alert, toast, modal, sheet, popover, tooltip), four opinionated visual identity presets (Slate, Aurora, Copper, Sage), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
+DesignFoundation gives Swift developers a token-based theming engine, 25 accessible SwiftUI components plus 6 feedback/overlay modifiers (alert, toast, modal, sheet, popover, tooltip), five opinionated visual identity presets (Slate, Aurora, Copper, Sage, Garnet), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
 
 All components handle platform differences internally. Consumers do not need `#if os(macOS)` or `#if os(iOS)` guards to use DesignFoundation components — platform adaptation is automatic.
 
@@ -40,5 +40,5 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 - **Components:** DFButton, DFBadge, DFAvatar, DFCard, DFTextField, DFSecureField, DFValidatedTextField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFModal, DFSheet, DFPopover, DFTooltip, DFTabBar, DFNavigationBar, DFSidebar, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid, DFDivider, DFText, DFIcon, DFAlert
 - **Validation:** DFValidatedTextField with DFFieldValidator (rules: .email, .minLength, .required, .custom) and DFFormState for multi-field form management
 - **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); all tokens (colors, typography, spacing, radius, shadow, animation) are overridable
-- **Preset themes:** .slate, .aurora, .copper, .sage — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
+- **Preset themes:** .slate, .aurora, .copper, .sage, .garnet — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
 - **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips, sidebar, tab bar — requires iOS 26+ / macOS 26+

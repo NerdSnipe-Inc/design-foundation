@@ -29,19 +29,20 @@ public struct DFProgressBarStyleConfiguration: Sendable {
 
 public protocol DFProgressBarStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFProgressBarStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFProgressBarStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFProgressBarStyle: DFProgressBarStyle, @unchecked Sendable {
     // @unchecked Sendable: _makeBody captures a concrete Sendable style value; internal storage is never mutated after init.
-    private let _makeBody: (DFProgressBarStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFProgressBarStyleConfiguration) -> AnyView
 
     public init<S: DFProgressBarStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFProgressBarStyleConfiguration) -> some View {
         _makeBody(configuration)
     }

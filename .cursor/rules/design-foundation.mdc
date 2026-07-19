@@ -36,7 +36,7 @@ theme.radius.md
 Preset at scene root:
 ```swift
 ContentView().dfThemePreset(.slate)
-// Presets: .slate  .aurora  .copper  .sage
+// Presets: .slate  .aurora  .copper  .sage  .garnet
 ```
 
 Per-component overrides (every field optional, `nil` inherits theme tokens; confirmed wired into `DFButtonStyle`/`DFCardStyle`):
@@ -93,6 +93,7 @@ DFSlider("Volume", value: $val, in: 0...1)
 DFCheckbox(isChecked: $agreed, label: "Agree")       // label: is a keyword arg
 DFPicker("Role", selection: $role) { ForEach(roles) { Text($0.name).tag($0) } }  // content:, not options:
 DFDatePicker("Date", selection: $date)
+DFQuantityStepper(value: $quantity, range: 0...10)   // styles: .bordered(default)/.compact; not "DFStepper"
 ```
 
 ### Display
@@ -104,7 +105,16 @@ DFIcon("star.fill")
 DFIcon("star.fill", size: 28)      // plain CGFloat, no .lg/color:
 DFText("Headline", scale: .headline)   // scale:, not style:
 DFDivider()
+DFChip("Label")                    // styles: .filled(default)/.tinted/.outlined; isSelected: separate param
+DFChip(.dismissible("Tag", onDismiss: { }))
+DFRatingView(value: 4.5)           // styles: .stars(default)/.numeric; mode: .readOnly(default)/.interactive(onChange:)
+DFPriceView(amount: 34.99, compareAtAmount: 49.99)   // styles: .standard(default)/.compact
+DFPriceSummaryView(lineItems: [DFPriceLineItem(label: "Total", amount: 94.96, emphasis: .total)])
 DFCard { content }                 // no padding: param
+DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevron)   // vs DFListRow: fixed media/trailing vocabulary, not arbitrary views
+DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
+DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }   // or .adaptive(minWidth:)
+DFCarousel { DFEntityCard(title: "Slide").frame(width: 140) }   // no built-in paging
 ```
 
 ### Lists & Data
@@ -124,6 +134,9 @@ DFCalendarView(selection: $selectedDate, minimumDate: Date()) { date in
 }
 DFEmptyState(icon: "tray", title: "No results", message: "Try a different filter.", actionTitle: "Clear", onAction: { clear() })
 // icon/title required; message/actionTitle/onAction independent optionals. Only .standard style ships.
+// secondaryActionTitle/onSecondaryAction add a 2nd ghost button — this covers permission-prompt
+// two-choice screens too; there's no separate DFPermissionPromptView component.
+DFEmptyState(icon: "bell.badge", title: "Enable notifications", actionTitle: "Allow", onAction: { requestNotificationPermission() }, secondaryActionTitle: "Not Now", onSecondaryAction: { dismissPrompt() })
 ```
 
 ### Loading
@@ -152,6 +165,7 @@ YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguratio
 ]))
 DFToastQueue.shared.show(text: "Saved", severity: .success)   // text:, severity: — not style:
 ContentView().dfToast(queue: DFToastQueue.shared)
+DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })   // NOT DFToastQueue-based, place directly in hierarchy
 
 // Overlays are modifiers, not constructible views — no DFModal(isPresented:) etc.
 YourContentView()

@@ -88,6 +88,7 @@ HARNESS_STUBS = textwrap.dedent(
     @State var text: String = ""
     @State var bio: String = ""
     @State var val: Double = 0.5
+    @State var quantity: Int = 1
     @State var role: DocRole = DocRole(name: "Admin")
     @State var showAlert: Bool = false
     @State var showModal: Bool = false
@@ -123,6 +124,8 @@ HARNESS_STUBS = textwrap.dedent(
     let oneYearFromNow = Date().addingTimeInterval(60 * 60 * 24 * 365)
     func hasEvent(on date: Date) -> Bool { false }
     func clearFilters() {}
+    func requestNotificationPermission() {}
+    func dismissPrompt() {}
     func clear() {}
     @State var showPalette: Bool = false
     func handle(_ item: DFCommandPaletteItem) {}

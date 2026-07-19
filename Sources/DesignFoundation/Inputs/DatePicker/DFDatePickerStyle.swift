@@ -24,18 +24,19 @@ public struct DFDatePickerStyleConfiguration {
 
 public protocol DFDatePickerStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFDatePickerStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFDatePickerStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFDatePickerStyle: DFDatePickerStyle, @unchecked Sendable {
-    private let _makeBody: (DFDatePickerStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFDatePickerStyleConfiguration) -> AnyView
 
     public init<S: DFDatePickerStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFDatePickerStyleConfiguration) -> some View {
         _makeBody(configuration)
     }

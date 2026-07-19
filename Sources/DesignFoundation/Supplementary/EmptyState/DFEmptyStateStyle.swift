@@ -8,6 +8,8 @@ public struct DFEmptyStateStyleConfiguration: Sendable {
     public let message: String?
     public let actionTitle: String?
     public let onAction: (@MainActor @Sendable () -> Void)?
+    public let secondaryActionTitle: String?
+    public let onSecondaryAction: (@MainActor @Sendable () -> Void)?
     public let theme: DFTheme
 
     public init(
@@ -16,6 +18,8 @@ public struct DFEmptyStateStyleConfiguration: Sendable {
         message: String?,
         actionTitle: String?,
         onAction: (@MainActor @Sendable () -> Void)?,
+        secondaryActionTitle: String? = nil,
+        onSecondaryAction: (@MainActor @Sendable () -> Void)? = nil,
         theme: DFTheme
     ) {
         self.icon = icon
@@ -23,6 +27,8 @@ public struct DFEmptyStateStyleConfiguration: Sendable {
         self.message = message
         self.actionTitle = actionTitle
         self.onAction = onAction
+        self.secondaryActionTitle = secondaryActionTitle
+        self.onSecondaryAction = onSecondaryAction
         self.theme = theme
     }
 }
@@ -102,7 +108,15 @@ public struct DFStandardEmptyStateStyle: DFEmptyStateStyle, Sendable {
             .accessibilityElement(children: .combine)
 
             if let actionTitle = configuration.actionTitle, let onAction = configuration.onAction {
-                DFButton(actionTitle) { onAction() }
+                VStack(spacing: theme.spacing.sm) {
+                    DFButton(actionTitle) { onAction() }
+
+                    if let secondaryActionTitle = configuration.secondaryActionTitle,
+                       let onSecondaryAction = configuration.onSecondaryAction {
+                        DFButton(secondaryActionTitle) { onSecondaryAction() }
+                            .dfButtonStyle(.ghost)
+                    }
+                }
             }
         }
         .padding(theme.spacing.xxl)

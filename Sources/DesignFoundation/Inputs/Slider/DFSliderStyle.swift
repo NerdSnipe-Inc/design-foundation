@@ -32,18 +32,19 @@ public struct DFSliderStyleConfiguration: Sendable {
 
 public protocol DFSliderStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFSliderStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFSliderStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFSliderStyle: DFSliderStyle, @unchecked Sendable {
-    private let _makeBody: (DFSliderStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFSliderStyleConfiguration) -> AnyView
 
     public init<S: DFSliderStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFSliderStyleConfiguration) -> some View {
         _makeBody(configuration)
     }

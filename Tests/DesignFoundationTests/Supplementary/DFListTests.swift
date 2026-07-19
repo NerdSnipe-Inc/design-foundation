@@ -3,6 +3,7 @@ import SwiftUI
 @testable import DesignFoundation
 
 @Suite("DFListRow")
+@MainActor
 struct DFListRowTests {
     @Test("basic init compiles and holds title")
     func basicInit() {
@@ -37,6 +38,7 @@ private struct SampleItem: Identifiable {
 }
 
 @Suite("DFList")
+@MainActor
 struct DFListTests {
     @Test("compiles with basic data")
     func basicInit() {

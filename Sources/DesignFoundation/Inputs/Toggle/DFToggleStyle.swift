@@ -22,18 +22,19 @@ public struct DFToggleStyleConfiguration: Sendable {
 
 public protocol DFToggleStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFToggleStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFToggleStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFToggleStyle: DFToggleStyle, @unchecked Sendable {
-    private let _makeBody: (DFToggleStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFToggleStyleConfiguration) -> AnyView
 
     public init<S: DFToggleStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFToggleStyleConfiguration) -> some View {
         _makeBody(configuration)
     }

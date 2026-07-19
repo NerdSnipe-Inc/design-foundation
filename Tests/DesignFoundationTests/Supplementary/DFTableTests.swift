@@ -30,6 +30,7 @@ struct DFTableColumnTests {
 @Suite("DFTable")
 struct DFTableTests {
     @Test("compiles with data and columns")
+    @MainActor
     func basicInit() {
         let people = [Person(id: 1, name: "Alice", age: 30)]
         let cols = [DFTableColumn<Person>(id: "name", title: "Name") { $0.name }]
@@ -37,6 +38,7 @@ struct DFTableTests {
     }
 
     @Test("compiles with onSort callback")
+    @MainActor
     func withOnSort() {
         let people = [Person(id: 1, name: "Alice", age: 30)]
         let cols = [DFTableColumn<Person>(id: "name", title: "Name") { $0.name }]

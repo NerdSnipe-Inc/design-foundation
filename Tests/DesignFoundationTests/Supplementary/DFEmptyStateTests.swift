@@ -63,6 +63,32 @@ struct DFEmptyStateStyleConfigurationTests {
         )
         #expect(config.onAction == nil)
     }
+
+    @Test("secondary action defaults to nil, can be set (permission-prompt shape)")
+    @MainActor
+    func secondaryActionDefaultsToNilAndFires() {
+        let defaultConfig = DFEmptyStateStyleConfiguration(
+            icon: "bell.badge", title: "Enable notifications", message: nil,
+            actionTitle: "Allow", onAction: nil, theme: .default
+        )
+        #expect(defaultConfig.secondaryActionTitle == nil)
+        #expect(defaultConfig.onSecondaryAction == nil)
+
+        var secondaryFired = false
+        let withSecondary = DFEmptyStateStyleConfiguration(
+            icon: "bell.badge",
+            title: "Enable notifications",
+            message: "Get notified about new messages",
+            actionTitle: "Allow",
+            onAction: {},
+            secondaryActionTitle: "Not Now",
+            onSecondaryAction: { secondaryFired = true },
+            theme: .default
+        )
+        #expect(withSecondary.secondaryActionTitle == "Not Now")
+        withSecondary.onSecondaryAction?()
+        #expect(secondaryFired)
+    }
 }
 
 @Suite("DFEmptyState Environment")

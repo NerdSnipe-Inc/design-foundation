@@ -66,7 +66,7 @@ struct ContentView: View {
 }
 ```
 
-Four presets ship: `.slate`, `.aurora`, `.copper`, `.sage`. Each swaps automatically for light and dark mode. Build your own from tokens if none of them fit, see the Theme System section below.
+Five presets ship: `.slate`, `.aurora`, `.copper`, `.sage`, `.garnet`. Each swaps automatically for light and dark mode. Build your own from tokens if none of them fit, see the Theme System section below.
 
 ---
 
@@ -159,7 +159,7 @@ Every component reads from the nearest `DFTheme` in the environment. Change a to
 
 ## Preset Themes
 
-Four presets ship in the box. Each one pairs a light and dark `DFTheme` and switches automatically based on `@Environment(\.colorScheme)`.
+Five presets ship in the box. Each one pairs a light and dark `DFTheme` and switches automatically based on `@Environment(\.colorScheme)`.
 
 ```swift
 MyApp()
@@ -172,6 +172,7 @@ MyApp()
 | `.aurora` | Violet primary, larger corner radii, softer shadows | Creative tools, social apps |
 | `.copper` | Warm orange-brown palette | Finance, content readers |
 | `.sage` | Muted green, calmer contrast | Health, wellness |
+| `.garnet` | Bold, saturated deep garnet red (#C8102E), white cards, off-white background | Bold consumer brands, retail, sports |
 
 The differences read better in a preview than in a description, spin them up and see which one feels right for your app.
 

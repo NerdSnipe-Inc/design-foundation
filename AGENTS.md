@@ -55,7 +55,7 @@ Apply a preset at the scene root:
 ```swift
 ContentView()
     .dfThemePreset(.slate)
-// Presets: .slate  .aurora  .copper  .sage
+// Presets: .slate  .aurora  .copper  .sage  .garnet
 ```
 
 ### Per-component token overrides
@@ -133,6 +133,10 @@ DFPicker("Select role", selection: $role) {               // @ViewBuilder conten
     ForEach(roles) { role in Text(role.name).tag(role) }
 }
 DFDatePicker("Start date", selection: $date)
+
+// DFQuantityStepper — named to avoid colliding with SwiftUI's own Stepper. Styles: .bordered
+// (default) / .compact
+DFQuantityStepper(value: $quantity, range: 0...10)
 ```
 
 ### Display Primitives
@@ -144,11 +148,43 @@ DFIcon("star.fill")
 DFIcon("star.fill", size: 28)           // plain CGFloat — no `.lg` size enum, no `color:` param
 DFText("Headline copy", scale: .headline)   // parameter is `scale:`, not `style:`
 DFDivider()
+
+// DFChip — styles: .filled (default) / .tinted / .outlined. isSelected: is a separate
+// param, not part of the variant. Variants: .label / .labelWithIcon / .dismissible(onDismiss:) / .selectable
+DFChip("Label")                         // convenience init — plain .label variant
+DFChip(.dismissible("Removable", onDismiss: { }))
+DFChip(.selectable("Option"), isSelected: true).dfChipStyle(.tinted)
+
+// DFRatingView — styles: .stars (default) / .numeric. mode: .readOnly (default) / .interactive(onChange:)
+DFRatingView(value: 4.5)                                // read-only, half-star fill
+DFRatingView(value: val, mode: .interactive(onChange: { val = $0 }))
+
+// DFPriceView — styles: .standard (default) / .compact. compareAtAmount renders a strikethrough price.
+DFPriceView(amount: 49.99)
+DFPriceView(amount: 34.99, compareAtAmount: 49.99).dfPriceViewStyle(.compact)
+
+// DFPriceSummaryView — [DFPriceLineItem] rows; emphasis: .normal (default) / .total renders a divider + headline row.
+DFPriceSummaryView(lineItems: [
+    DFPriceLineItem(label: "Subtotal", amount: 89.97),
+    DFPriceLineItem(label: "Total", amount: 94.96, emphasis: .total),
+])
 ```
 
 ### Layout
 ```swift
 DFCard { content }   // no padding: init parameter
+
+// DFEntityRow / DFEntityCard — themed "media + title/subtitle + trailing" summary rows/cards.
+// Distinct from DFListRow (plain structural row, arbitrary leading/trailing views, no styling) —
+// these use a fixed DFEntityMedia/DFEntityTrailing vocabulary for a consistent summary shape.
+DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevron)
+DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
+
+// DFGrid — themed LazyVGrid wrapper. columns: .fixed(Int) (default 2) or .adaptive(minWidth:)
+DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }
+
+// DFCarousel — themed horizontal ScrollView wrapper, no built-in paging/page-indicator
+DFCarousel { DFEntityCard(title: "Slide").frame(width: 140) }
 ```
 
 ### Lists & Tables
@@ -183,6 +219,9 @@ DFCalendarView(selection: $selectedDate, minimumDate: Date()) { date in
 // icon/title required; message/actionTitle/onAction independent optionals.
 DFEmptyState(icon: "tray", title: "No results", message: "Try a different filter.", actionTitle: "Clear", onAction: { clear() })
 // Both ship only one built-in style: .standard.
+// Two-choice/permission-prompt shape: secondaryActionTitle + onSecondaryAction add a second,
+// ghost-styled button — no separate "DFPermissionPromptView" exists, this is the same component.
+DFEmptyState(icon: "bell.badge", title: "Enable notifications", actionTitle: "Allow", onAction: { requestNotificationPermission() }, secondaryActionTitle: "Not Now", onSecondaryAction: { dismissPrompt() })
 ```
 
 ### Loading States
@@ -216,6 +255,10 @@ YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguratio
 // show(text:icon:duration:severity:) — first arg is `text:`, param is `severity:` not `style:`.
 DFToastQueue.shared.show(text: "Saved", severity: .success)   // .info / .success / .warning / .error
 ContentView().dfToast(queue: DFToastQueue.shared)              // root modifier
+
+// DFBanner — full-width, persistent, inline (NOT DFToastQueue-based — place directly in your
+// view hierarchy). severity: reuses DFToastSeverity, no separate enum.
+DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })
 
 // Overlays are View modifiers, NOT constructible views — there is no DFModal(isPresented:) etc.
 YourContentView()

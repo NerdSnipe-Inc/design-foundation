@@ -83,6 +83,7 @@ struct DFSidebarStyleTests {
     }
 
     @Test("AnyDFSidebarStyle wraps and invokes makeItemBody")
+    @MainActor
     func typeErasure() {
         let style = AnyDFSidebarStyle(DFStandardSidebarStyle())
         let item = DFSidebarItem(id: "a", label: "A")

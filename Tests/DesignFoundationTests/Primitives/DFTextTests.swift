@@ -7,8 +7,8 @@ struct DFTextScaleTests {
     @Test("all cases are distinct")
     func allCasesDistinct() {
         let all = DFTextScale.allCases
-        #expect(all.count == 6)
-        #expect(Set(all.map(\.rawValue)).count == 6)
+        #expect(all.count == 8)
+        #expect(Set(all.map(\.rawValue)).count == 8)
     }
 }
 

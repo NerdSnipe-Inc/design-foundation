@@ -23,8 +23,8 @@ public struct DFSidebarItemStyleConfiguration: Sendable {
 /// (background, section headers, scroll view) is always rendered by DFSidebar itself.
 public protocol DFSidebarStyle {
     associatedtype Body: View
-    @ViewBuilder func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> Body
-    func sidebarBackground(theme: DFTheme) -> AnyView
+    @MainActor @ViewBuilder func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> Body
+    @MainActor func sidebarBackground(theme: DFTheme) -> AnyView
 }
 
 public extension DFSidebarStyle {
@@ -36,18 +36,20 @@ public extension DFSidebarStyle {
 // MARK: - Type Erasure
 
 public struct AnyDFSidebarStyle: DFSidebarStyle, @unchecked Sendable {
-    private let _makeItemBody: (DFSidebarItemStyleConfiguration) -> AnyView
-    private let _sidebarBackground: (DFTheme) -> AnyView
+    private let _makeItemBody: @MainActor (DFSidebarItemStyleConfiguration) -> AnyView
+    private let _sidebarBackground: @MainActor (DFTheme) -> AnyView
 
     public init<S: DFSidebarStyle & Sendable>(_ style: S) {
         _makeItemBody = { AnyView(style.makeItemBody(configuration: $0)) }
         _sidebarBackground = { style.sidebarBackground(theme: $0) }
     }
 
+    @MainActor
     public func makeItemBody(configuration: DFSidebarItemStyleConfiguration) -> some View {
         _makeItemBody(configuration)
     }
 
+    @MainActor
     public func sidebarBackground(theme: DFTheme) -> AnyView {
         _sidebarBackground(theme)
     }

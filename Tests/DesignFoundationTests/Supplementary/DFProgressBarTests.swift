@@ -46,6 +46,7 @@ struct DFProgressBarStyleTests {
     }
 
     @Test("AnyDFProgressBarStyle wraps and invokes makeBody")
+    @MainActor
     func typeErasure() {
         let style = AnyDFProgressBarStyle(DFDefaultProgressBarStyle())
         let config = DFProgressBarStyleConfiguration(variant: .linear, value: 0.5, label: nil, theme: .default)

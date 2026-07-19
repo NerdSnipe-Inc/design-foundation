@@ -44,18 +44,19 @@ public struct DFSecureFieldStyleConfiguration {
 
 public protocol DFSecureFieldStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFSecureFieldStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFSecureFieldStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFSecureFieldStyle: DFSecureFieldStyle, @unchecked Sendable {
-    private let _makeBody: (DFSecureFieldStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFSecureFieldStyleConfiguration) -> AnyView
 
     public init<S: DFSecureFieldStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFSecureFieldStyleConfiguration) -> some View {
         _makeBody(configuration)
     }
@@ -91,6 +92,7 @@ public extension DFSecureFieldStyle where Self == DFFilledSecureFieldStyle {
 
 // MARK: - Private helper
 
+@MainActor
 private func revealButton(isRevealed: Bool, isDisabled: Bool, theme: DFTheme, action: @escaping () -> Void) -> some View {
     Button(action: action) {
         Image(systemName: isRevealed ? "eye.slash" : "eye")

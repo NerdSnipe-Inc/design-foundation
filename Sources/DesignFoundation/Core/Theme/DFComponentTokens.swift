@@ -108,6 +108,143 @@ public struct DFBadgeTokens: Sendable {
     public static let `default` = DFBadgeTokens()
 }
 
+// MARK: - Chip
+
+public struct DFChipTokens: Sendable {
+    public var cornerRadius: CGFloat?   // nil = inherit DFRadiusTokens.full
+    public var horizontalPadding: CGFloat?
+    public var verticalPadding: CGFloat?
+    public var iconSpacing: CGFloat?
+
+    public init(
+        cornerRadius: CGFloat? = nil,
+        horizontalPadding: CGFloat? = nil,
+        verticalPadding: CGFloat? = nil,
+        iconSpacing: CGFloat? = nil
+    ) {
+        self.cornerRadius = cornerRadius
+        self.horizontalPadding = horizontalPadding
+        self.verticalPadding = verticalPadding
+        self.iconSpacing = iconSpacing
+    }
+
+    public static let `default` = DFChipTokens()
+}
+
+// MARK: - Rating
+
+public struct DFRatingTokens: Sendable {
+    public var starSize: CGFloat?   // nil = 16
+    public var spacing: CGFloat?    // nil = inherit DFSpacingTokens.xs
+
+    public init(starSize: CGFloat? = nil, spacing: CGFloat? = nil) {
+        self.starSize = starSize
+        self.spacing = spacing
+    }
+
+    public static let `default` = DFRatingTokens()
+}
+
+// MARK: - Price
+
+public struct DFPriceTokens: Sendable {
+    public var spacing: CGFloat?    // nil = inherit DFSpacingTokens.xs, gap between amount and compare-at text
+
+    public init(spacing: CGFloat? = nil) {
+        self.spacing = spacing
+    }
+
+    public static let `default` = DFPriceTokens()
+}
+
+// MARK: - PriceSummary
+
+public struct DFPriceSummaryTokens: Sendable {
+    public var rowSpacing: CGFloat?   // nil = inherit DFSpacingTokens.xs
+
+    public init(rowSpacing: CGFloat? = nil) {
+        self.rowSpacing = rowSpacing
+    }
+
+    public static let `default` = DFPriceSummaryTokens()
+}
+
+// MARK: - EntityRow
+
+public struct DFEntityRowTokens: Sendable {
+    public var mediaSize: CGFloat?   // nil = 40
+
+    public init(mediaSize: CGFloat? = nil) {
+        self.mediaSize = mediaSize
+    }
+
+    public static let `default` = DFEntityRowTokens()
+}
+
+// MARK: - EntityCard
+
+public struct DFEntityCardTokens: Sendable {
+    public var mediaHeight: CGFloat?   // nil = 120
+
+    public init(mediaHeight: CGFloat? = nil) {
+        self.mediaHeight = mediaHeight
+    }
+
+    public static let `default` = DFEntityCardTokens()
+}
+
+// MARK: - Grid
+
+public struct DFGridTokens: Sendable {
+    public var spacing: CGFloat?   // nil = inherit DFSpacingTokens.sm
+
+    public init(spacing: CGFloat? = nil) {
+        self.spacing = spacing
+    }
+
+    public static let `default` = DFGridTokens()
+}
+
+// MARK: - Carousel
+
+public struct DFCarouselTokens: Sendable {
+    public var spacing: CGFloat?   // nil = inherit DFSpacingTokens.sm
+
+    public init(spacing: CGFloat? = nil) {
+        self.spacing = spacing
+    }
+
+    public static let `default` = DFCarouselTokens()
+}
+
+// MARK: - QuantityStepper
+
+public struct DFQuantityStepperTokens: Sendable {
+    public var buttonSize: CGFloat?     // nil = 28 (.bordered) / 24 (.compact)
+    public var cornerRadius: CGFloat?   // nil = inherit DFRadiusTokens.full
+
+    public init(buttonSize: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
+        self.buttonSize = buttonSize
+        self.cornerRadius = cornerRadius
+    }
+
+    public static let `default` = DFQuantityStepperTokens()
+}
+
+// MARK: - Banner
+
+public struct DFBannerTokens: Sendable {
+    public var cornerRadius: CGFloat?   // nil = inherit DFRadiusTokens.md
+    public var padding: CGFloat?        // nil = inherit DFSpacingTokens.md
+
+    public init(cornerRadius: CGFloat? = nil, padding: CGFloat? = nil) {
+        self.cornerRadius = cornerRadius
+        self.padding = padding
+    }
+
+    public static let `default` = DFBannerTokens()
+}
+
 // MARK: - Icon
 
 public struct DFIconTokens: Sendable {
@@ -239,6 +376,16 @@ public struct DFComponentTokens: Sendable {
     public var card: DFCardTokens
     public var avatar: DFAvatarTokens
     public var badge: DFBadgeTokens
+    public var chip: DFChipTokens
+    public var rating: DFRatingTokens
+    public var price: DFPriceTokens
+    public var priceSummary: DFPriceSummaryTokens
+    public var entityRow: DFEntityRowTokens
+    public var entityCard: DFEntityCardTokens
+    public var grid: DFGridTokens
+    public var carousel: DFCarouselTokens
+    public var quantityStepper: DFQuantityStepperTokens
+    public var banner: DFBannerTokens
     public var icon: DFIconTokens
     public var divider: DFDividerTokens
     public var progressBar: DFProgressBarTokens
@@ -254,6 +401,16 @@ public struct DFComponentTokens: Sendable {
         card: DFCardTokens = .default,
         avatar: DFAvatarTokens = .default,
         badge: DFBadgeTokens = .default,
+        chip: DFChipTokens = .default,
+        rating: DFRatingTokens = .default,
+        price: DFPriceTokens = .default,
+        priceSummary: DFPriceSummaryTokens = .default,
+        entityRow: DFEntityRowTokens = .default,
+        entityCard: DFEntityCardTokens = .default,
+        grid: DFGridTokens = .default,
+        carousel: DFCarouselTokens = .default,
+        quantityStepper: DFQuantityStepperTokens = .default,
+        banner: DFBannerTokens = .default,
         icon: DFIconTokens = .default,
         divider: DFDividerTokens = .default,
         progressBar: DFProgressBarTokens = .default,
@@ -268,6 +425,16 @@ public struct DFComponentTokens: Sendable {
         self.card = card
         self.avatar = avatar
         self.badge = badge
+        self.chip = chip
+        self.rating = rating
+        self.price = price
+        self.priceSummary = priceSummary
+        self.entityRow = entityRow
+        self.entityCard = entityCard
+        self.grid = grid
+        self.carousel = carousel
+        self.quantityStepper = quantityStepper
+        self.banner = banner
         self.icon = icon
         self.divider = divider
         self.progressBar = progressBar
