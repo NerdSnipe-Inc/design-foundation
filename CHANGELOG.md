@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-07-19 — Content & Commerce Components
+
 ### Added
 - **`DFCalendarView`:** a new themed month-grid calendar primitive (`Supplementary/Calendar/`) — single-date `selection: Binding<Date>`, optional external `displayedMonth` control, `minimumDate`/`maximumDate` bounds with disabled out-of-range days, and a generic `@ViewBuilder dayContent: (Date) -> Content` slot for event dots/badges. Respects `@Environment(\.calendar)`/`\.locale` — no hardcoded first-weekday assumption. Ships one built-in style, `.standard`.
 - **`DFEmptyState`:** a free-tier "no results" primitive (`Supplementary/EmptyState/`) — icon + title + optional message + optional action button, all independent optionals beyond the required icon/title. Previously this pattern only existed behind DesignFoundationPro's `DFEmptyStateBlock`.
