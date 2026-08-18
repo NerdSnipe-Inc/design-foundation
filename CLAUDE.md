@@ -110,7 +110,16 @@ DFButton("Delete", style: .ghost, role: .destructive) { action() }
 DFButton("Label") { }.disabled(condition)
 ```
 
-There is no `icon:` or `isLoading:` init parameter — compose an icon or spinner inside your own label view if you need one; `DFButton` itself only takes a `String` title.
+There is no `icon:` or `isLoading:` init parameter on `DFButton` itself — it only takes a `String` title. For an icon, spinner, or any custom content, brand a native `Button` directly with `.buttonStyle(.df(_:role:))` instead — it applies the same styles (`.filled`, `.outlined`, `.ghost`, `.tinted`, `.glass`) to the button's real content, so you keep native behavior (icons via `Label`, custom layouts) for free:
+
+```swift
+Button {
+    action()
+} label: {
+    Label("Save", systemImage: "checkmark")
+}
+.buttonStyle(.df(.outlined, role: .destructive))
+```
 
 ### Text Fields, Text Areas & Secure Fields
 ```swift

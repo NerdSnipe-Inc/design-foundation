@@ -92,7 +92,10 @@ DFButton("Label") { }.dfButtonStyle(.ghost)
 DFButton("Label") { }.dfButtonStyle(.tinted)
 DFButton("Label", style: .ghost, role: .destructive) { }
 DFButton("Label") { }.disabled(condition)
-// No icon: or isLoading: init parameter exists.
+// No icon: or isLoading: init parameter exists on DFButton — for an icon/spinner/custom
+// content, brand a native Button directly instead, which keeps its real content:
+Button { action() } label: { Label("Save", systemImage: "checkmark") }
+    .buttonStyle(.df(.outlined, role: .destructive))
 ```
 
 ### Text Fields & Secure Fields

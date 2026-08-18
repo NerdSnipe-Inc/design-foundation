@@ -6,7 +6,6 @@ public struct DFButton: View {
     private let role: DFButtonRole?
     private let styleOverride: AnyDFButtonStyle?
 
-    @Environment(\.dfTheme) private var theme
     @Environment(\.dfButtonStyle) private var envStyle
 
     public init(
@@ -40,34 +39,59 @@ public struct DFButton: View {
         // clicking a real, on-screen DFButton with a real mouse did not invoke `action` at all.
         // A native `Button` wrapped in a real `ButtonStyle` gets `configuration.isPressed` and
         // `.isEnabled` for free, and is the one thing macOS reliably delivers clicks to.
+        //
+        // The button's real content is `Text(label)` (not a zero-size placeholder) so that
+        // `DFBrandedButtonStyle` receives actual content via `configuration.label` — the same
+        // path a caller gets by applying `.buttonStyle(.df(...))` directly to their own `Button`,
+        // icon included.
         Button(action: action) {
-            Color.clear.frame(width: 0, height: 0)
+            Text(label)
         }
-        .buttonStyle(DFButtonStyleBridge(activeStyle: styleOverride ?? envStyle, label: label, role: role, theme: theme))
+        .buttonStyle(DFBrandedButtonStyle(styleOverride ?? envStyle, role: role))
     }
 }
 
 /// Bridges SwiftUI's own `ButtonStyle` (which supplies real `isPressed`/`isEnabled` state tied to
 /// an actual `Button`) to this package's `DFButtonStyle` protocol (which styles know how to draw).
-private struct DFButtonStyleBridge: ButtonStyle {
+///
+/// Public and usable directly on any native `Button` — not just `DFButton` — so branding can be
+/// applied via `.buttonStyle(.df(.outlined))` to a `Button` with arbitrary content (icons, `Label`,
+/// custom layouts), the same way `.buttonStyle(.bordered)` works on stock SwiftUI buttons.
+public struct DFBrandedButtonStyle: ButtonStyle {
     let activeStyle: AnyDFButtonStyle
-    let label: String
     let role: DFButtonRole?
-    let theme: DFTheme
 
+    @Environment(\.dfTheme) private var theme
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    func makeBody(configuration: Configuration) -> some View {
+    public init<S: DFButtonStyle & Sendable>(_ style: S, role: DFButtonRole? = nil) {
+        self.activeStyle = AnyDFButtonStyle(style)
+        self.role = role
+    }
+
+    init(_ style: AnyDFButtonStyle, role: DFButtonRole?) {
+        self.activeStyle = style
+        self.role = role
+    }
+
+    public func makeBody(configuration: Configuration) -> some View {
         let config = DFButtonStyleConfiguration(
-            label: AnyView(Text(label)),
+            label: AnyView(configuration.label),
             isPressed: configuration.isPressed && !reduceMotion,
             isDisabled: !isEnabled,
             role: role,
             theme: theme
         )
         activeStyle.makeBody(configuration: config)
-            .accessibilityLabel(label)
             .accessibilityHint(role == .destructive ? "Destructive action" : "")
+    }
+}
+
+public extension ButtonStyle where Self == DFBrandedButtonStyle {
+    /// Brands a native `Button` with a `DesignFoundation` style, preserving its real content
+    /// (icons, `Label`, custom layouts) — unlike `DFButton`, which only accepts a `String` title.
+    static func df<S: DFButtonStyle & Sendable>(_ style: S, role: DFButtonRole? = nil) -> DFBrandedButtonStyle {
+        DFBrandedButtonStyle(style, role: role)
     }
 }
