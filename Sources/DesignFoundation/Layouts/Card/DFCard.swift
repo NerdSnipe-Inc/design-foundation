@@ -24,17 +24,29 @@ public struct DFCard<Content: View>: View {
             isInteractive: action != nil,
             theme: theme
         )
-        style.makeBody(configuration: config)
-            .contentShape(Rectangle())
-            .onTapGesture {
-                if isEnabled { action?() }
-            }
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in if action != nil { isPressed = true } }
-                    .onEnded { _ in isPressed = false }
-            )
+        let styled = style.makeBody(configuration: config)
             .accessibilityElement(children: .contain)
             .accessibilityAddTraits(action != nil ? .isButton : [])
+
+        // Only attach tap/press gestures when the card is actually interactive. A
+        // `DragGesture(minimumDistance: 0)` — even one whose handlers no-op — still
+        // participates in gesture resolution, and at zero distance it can win against a
+        // parent ScrollView's own drag recognizer, silently blocking scrolling for every
+        // non-interactive card in a scrollable stack (confirmed: cards with no `action`
+        // swallowed scroll gestures until this was made conditional).
+        if let action {
+            styled
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if isEnabled { action() }
+                }
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { _ in isPressed = true }
+                        .onEnded { _ in isPressed = false }
+                )
+        } else {
+            styled
+        }
     }
 }
