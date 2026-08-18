@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.1] — 2026-08-18 — Button Branding & Card Scroll Fix
+
+### Added
+- **`DFBrandedButtonStyle`:** `DFButton`'s internal `ButtonStyle` bridge is now public, so any native `Button` can be branded directly with `.buttonStyle(.df(_:role:))` while keeping its real content — icons via `Label`, custom layouts, anything a plain `Button` supports. Previously only `DFButton`'s `String`-only title was stylable. (#3)
+
+### Fixed
+- **`DFCard` blocking scroll:** `DFCard` unconditionally attached `.onTapGesture` and a `simultaneousGesture(DragGesture(minimumDistance: 0))`, even when no `action` was provided. A zero-distance `DragGesture` still participates in gesture resolution regardless of what its handlers do, and was winning against a parent `ScrollView`'s own drag recognizer — silently blocking scrolling in any scrollable stack of non-interactive cards. Both gestures are now only attached when `action != nil`. (#2)
+
 ## [1.3.0] — 2026-07-19 — Content & Commerce Components
 
 ### Added
