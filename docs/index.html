@@ -807,6 +807,15 @@
     .<span class="fn">dfCardStyle</span>(.glass)
     .<span class="fn">dfTooltipStyle</span>(.glass)</pre>
 
+      <p>DF styles aren't limited to DF components — <code>DFButton</code>'s style bridge is public, so any native SwiftUI <code>Button</code> can be branded directly while keeping its real content (icons via <code>Label</code>, custom layouts, anything a plain <code>Button</code> supports):</p>
+
+      <pre><span class="type">Button</span> {
+    save()
+} <span class="kw">label</span>: {
+    <span class="type">Label</span>(<span class="str">"Save"</span>, systemImage: <span class="str">"checkmark"</span>)
+}
+.<span class="fn">buttonStyle</span>(.<span class="fn">df</span>(.outlined, role: .destructive))</pre>
+
       <p>Writing a custom style means implementing one function. All protocols are open; built-in styles are concrete structs you can copy and fork.</p>
 
       <pre><span class="kw">struct</span> <span class="type">MyButtonStyle</span>: <span class="type">DFButtonStyle</span> {

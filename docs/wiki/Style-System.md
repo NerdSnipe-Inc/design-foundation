@@ -191,6 +191,25 @@ The rule: the innermost `.dfButtonStyle(_:)` call wins. Leaf overrides beat pare
 
 > **Note on `DFTabBar`:** `DFTabBarStyle` is `@MainActor`-isolated. Custom tab bar styles and their containing structs must be `@MainActor` or `nonisolated init` as appropriate.
 
+> **Note on `DFButton`:** its style bridge doubles as a real SwiftUI `ButtonStyle` (`DFBrandedButtonStyle`, public) that you can apply to a native `Button` directly via `.buttonStyle(.df(_:role:))` — see [[#Branding a Native Button Directly]].
+
+---
+
+## Branding a Native Button Directly
+
+`DFButton` only accepts a `String` title — for an icon, spinner, or any other custom content, brand a native SwiftUI `Button` directly instead. `DFButton`'s internal style bridge is public as `DFBrandedButtonStyle`, and it reads the button's actual rendered content (`configuration.label`) rather than re-synthesizing a `Text` from a string, so a `Button` styled this way keeps everything SwiftUI gives it for free:
+
+```swift
+Button {
+    save()
+} label: {
+    Label("Save", systemImage: "checkmark")
+}
+.buttonStyle(.df(.outlined, role: .destructive))   // any DFButtonStyle: .filled .outlined .ghost .tinted .glass
+```
+
+`DFButton("Save") { }` is unaffected — it's implemented on top of the same `DFBrandedButtonStyle`, so both paths render identically for the plain-text case. Use `DFButton` when a string title is all you need; brand a native `Button` when you need icons or custom layouts.
+
 ---
 
 ## Writing Custom Styles
@@ -591,25 +610,24 @@ public extension EnvironmentValues {
 
 `defaultValue` is the style that applies when no `.dfButtonStyle(_:)` modifier appears anywhere in the ancestor hierarchy. Changing `defaultValue` changes what every un-styled component in the app looks like.
 
-Inside `DFButton` (or any component), the style is read from the environment and applied:
+Inside `DFButton` (or any component), the style is read from the environment and applied. `DFButton` specifically bridges through a real SwiftUI `ButtonStyle` (`DFBrandedButtonStyle`, public — see [[#Branding a Native Button Directly]]) rather than applying `makeBody` straight to a plain view, so it gets `isPressed`/`isEnabled` from an actual `Button` instead of a hand-rolled gesture:
 
 ```swift
 // Simplified internal component body
 struct DFButton: View {
-    @Environment(\.dfButtonStyle) private var style
-    @Environment(\.dfTheme)       private var theme
+    @Environment(\.dfButtonStyle) private var envStyle
 
     var body: some View {
-        let config = DFButtonStyleConfiguration(
-            label:      AnyView(labelView),
-            isPressed:  isPressed,
-            isDisabled: isDisabled,
-            role:       role,
-            theme:      theme          // injected here — not in the style
-        )
-        AnyView(style.makeBody(configuration: config))
+        Button(action: action) {
+            Text(label)                              // real content — configuration.label sees this
+        }
+        .buttonStyle(DFBrandedButtonStyle(styleOverride ?? envStyle, role: role))
     }
 }
+
+// DFBrandedButtonStyle reads dfTheme/isEnabled from @Environment itself and
+// constructs DFButtonStyleConfiguration(label: AnyView(configuration.label), ...)
+// before calling the active DFButtonStyle's makeBody(configuration:).
 ```
 
 The environment read gives you the nearest ancestor's value, which is exactly the cascade behavior described in [[#Style Cascade]].
