@@ -1,7 +1,7 @@
 name: Doc snippets compile
 
 # Compiles every ```swift fenced code block in CLAUDE.md, AGENTS.md, and the
-# Cursor rule against the real package (Scripts/check_doc_snippets.py). These
+# Cursor rule against the real package (scripts/check_doc_snippets.py). These
 # files are fed directly to AI coding agents as ground truth — a snippet that
 # doesn't compile means an agent using this repo will write broken code.
 
@@ -14,7 +14,7 @@ on:
       - "AGENTS.md"
       - ".cursor/rules/**"
       - "Sources/**"
-      - "Scripts/check_doc_snippets.py"
+      - "scripts/check_doc_snippets.py"
       - ".github/workflows/doc-snippets.yml"
 
 jobs:
@@ -27,4 +27,4 @@ jobs:
         run: sudo xcode-select -switch /Applications/Xcode_16.app/Contents/Developer
 
       - name: Compile-check documentation snippets
-        run: python3 Scripts/check_doc_snippets.py
+        run: python3 scripts/check_doc_snippets.py

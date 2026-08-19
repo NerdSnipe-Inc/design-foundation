@@ -5,9 +5,9 @@ docs against the real package, so a doc snippet that doesn't match the actual
 API fails CI instead of silently drifting (see CLAUDE.md's canonical-source note
 for why this exists).
 
-Usage: python3 Scripts/check_doc_snippets.py [--keep]
+Usage: python3 scripts/check_doc_snippets.py [--keep]
   --keep   leave the generated harness files on disk for inspection (default:
-           they're written fresh each run into Scripts/DocSnippetCheck/Generated,
+           they're written fresh each run into scripts/DocSnippetCheck/Generated,
            which is gitignored).
 
 Exit code is the underlying `swift build`'s exit code — 0 means every snippet
@@ -38,7 +38,7 @@ DOC_FILES = [
     ".cursor/rules/design-foundation.mdc",
 ]
 
-GENERATED_DIR = REPO_ROOT / "Scripts" / "DocSnippetCheck" / "Generated"
+GENERATED_DIR = REPO_ROOT / "scripts" / "DocSnippetCheck" / "Generated"
 FENCE_RE = re.compile(r"```swift\n(.*?)```", re.DOTALL)
 
 # Fences containing one of these at column 0 are treated as complete, standalone

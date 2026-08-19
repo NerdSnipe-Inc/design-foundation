@@ -25,14 +25,14 @@ let package = Package(
             path: "Tests/DesignFoundationTests"
         ),
         // Compiles every ```swift fence in CLAUDE.md/AGENTS.md/.cursor rules/docs against the
-        // real package — see Scripts/check_doc_snippets.py. Not part of the public library
+        // real package — see scripts/check_doc_snippets.py. Not part of the public library
         // product; only built by that script (locally or in CI) to catch doc/code drift.
         // A plain library target, not executable — the generated snippet files only need
         // to *compile* (function declarations), there's nothing to run.
         .target(
             name: "DocSnippetCheck",
             dependencies: ["DesignFoundation"],
-            path: "Scripts/DocSnippetCheck/Generated"
+            path: "scripts/DocSnippetCheck/Generated"
         )
     ]
 )

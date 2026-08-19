@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.2] — 2026-08-19 — SPM Resolution Fix
+
+### Fixed
+- **Package graph failed to resolve on a fresh checkout:** the `DocSnippetCheck` target's `path` (`Package.swift`) pointed at `Scripts/DocSnippetCheck/Generated`, a directory that was never actually committed — only its gitignored `snippet_*.swift` contents existed locally, and on this repo's case-insensitive dev machines that silently folded into the already-tracked lowercase `scripts/` directory, masking the problem. On a case-sensitive clone (Swift Package Index's builders included) `resolvePackageDependencies` failed outright with `invalid custom path 'Scripts/DocSnippetCheck/Generated' for target 'DocSnippetCheck'`, breaking `swift package resolve`/`swift build` for every consumer of the package — see the [1.3.1 SPI build log](https://swiftpackageindex.com/NerdSnipe-Inc/design-foundation/builds). Fixed by aligning every reference (`Package.swift`, `.gitignore`, `scripts/check_doc_snippets.py`, `.github/workflows/doc-snippets.yml`) to the one directory that actually exists — lowercase `scripts/` — and committing a tracked `Placeholder.swift` so `scripts/DocSnippetCheck/Generated` is never empty on a fresh checkout. No public API changes.
+
 ## [1.3.1] — 2026-08-18 — Button Branding & Card Scroll Fix
 
 ### Added
