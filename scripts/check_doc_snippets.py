@@ -142,6 +142,12 @@ HARNESS_STUBS = textwrap.dedent(
     let someImage = Image(systemName: "photo")
     func tabContent(for id: String) -> some View { EmptyView() }
     struct ToolbarItems: View { var body: some View { EmptyView() } }
+    let publishedDate = Date()
+    @State var sizeSelection: String = "sm"
+    @State var showGallery: Bool = false
+    let image1 = Image(systemName: "photo")
+    let image2 = Image(systemName: "photo.fill")
+    let image3 = Image(systemName: "photo.on.rectangle")
     """
 )
 

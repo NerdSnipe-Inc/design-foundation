@@ -118,6 +118,18 @@ DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevro
 DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
 DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }   // or .adaptive(minWidth:)
 DFCarousel { DFEntityCard(title: "Slide").frame(width: 140) }   // no built-in paging
+
+// Content & article primitives
+DFAuthorView(initials: "JL", name: "Jordan Lee", subtitle: "Staff Writer")   // avatar + name (+ subtitle)
+DFRelativeTimeTag(date: publishedDate)          // "3 hours ago" via RelativeDateTimeFormatter
+DFInlineTagView("Design")                       // decorative pill, distinct from DFChip (no selection/dismiss)
+DFMetadataRow(items: [DFMetadataItem(systemImage: "clock", label: "5 min read")])
+DFArticleRow(title: "SwiftUI in 2026", authorName: "Jordan Lee", authorInitials: "JL", date: publishedDate, tags: ["Swift"])
+
+// Bottom bar, radio picker, image gallery
+ScrollView { /* ... */ }.dfBottomBar { DFButton("Continue") { } }   // pins content to bottom on a themed surface
+DFRadioPickerView(options: [DFRadioPickerOption(id: "sm", label: "Small")], selection: $sizeSelection)   // inline list, vs DFPicker's menu/wheel
+YourView().dfImageGallery(isPresented: $showGallery, images: [image1, image2, image3])   // full-screen swipeable viewer
 ```
 
 ### Lists & Data

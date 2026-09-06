@@ -210,6 +210,29 @@ DFTable(data: contacts, columns: columns)          // param is `data:`, not `row
 DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
 ```
 
+### Content & Article Primitives, Bottom Container, Radio Picker, Image Gallery
+```swift
+// DFAuthorView — avatar + name (+ optional subtitle). DFRelativeTimeTag — "3 hours ago" via RelativeDateTimeFormatter.
+// DFInlineTagView — decorative pill, distinct from DFChip (no selection/dismiss state).
+// DFMetadataRow — row of icon+label metadata items.
+DFAuthorView(initials: "JL", name: "Jordan Lee", subtitle: "Staff Writer")
+DFRelativeTimeTag(date: publishedDate)
+DFInlineTagView("Design")
+DFMetadataRow(items: [DFMetadataItem(systemImage: "clock", label: "5 min read")])
+
+// DFArticleRow — title + author + relative time + tags, composes the four above.
+DFArticleRow(title: "SwiftUI in 2026", authorName: "Jordan Lee", authorInitials: "JL", date: publishedDate, tags: ["Swift"])
+
+// dfBottomBar — pins content (checkout totals, "Continue" CTA) to the bottom of a view on a themed surface.
+ScrollView { /* ... */ }.dfBottomBar { DFButton("Continue") { } }
+
+// DFRadioPickerView — single-select inline list of radio rows, distinct from DFPicker's menu/wheel presentation.
+DFRadioPickerView(options: [DFRadioPickerOption(id: "sm", label: "Small")], selection: $sizeSelection)
+
+// dfImageGallery — full-screen swipeable image viewer with page indicator.
+YourContentView().dfImageGallery(isPresented: $showGallery, images: [image1, image2, image3])
+```
+
 ### Calendar & Empty States
 ```swift
 // Respects @Environment(\.calendar)/\.locale. dayContent defaults to EmptyView().

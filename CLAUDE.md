@@ -306,6 +306,63 @@ DFCalendarView(
 // Only one built-in style ships: .standard (default via .dfCalendarViewStyle(_:)).
 ```
 
+### Content & Article Primitives
+```swift
+// DFAuthorView — avatar + name (+ optional subtitle), reusable standalone or inside DFArticleRow
+DFAuthorView(initials: "JL", name: "Jordan Lee", subtitle: "Staff Writer")
+DFAuthorView(image: Image("avatar"), name: "Jordan Lee")
+
+// DFRelativeTimeTag — "3 hours ago" style tag, formats via RelativeDateTimeFormatter
+DFRelativeTimeTag(date: publishedDate)
+
+// DFInlineTagView — decorative category pill, distinct from DFChip (no selection/dismiss state)
+DFInlineTagView("Design")
+
+// DFMetadataRow — row of small icon+label metadata items (read time, views, etc)
+DFMetadataRow(items: [
+    DFMetadataItem(systemImage: "clock", label: "5 min read"),
+    DFMetadataItem(systemImage: "eye", label: "1.2k views"),
+])
+
+// DFArticleRow — title + author + relative time + tags, for feeds/news/docs lists
+DFArticleRow(
+    title: "SwiftUI in 2026: What Changed",
+    authorName: "Jordan Lee",
+    authorInitials: "JL",
+    date: publishedDate,
+    tags: ["Swift", "iOS 26"]
+)
+```
+
+### Bottom Container
+```swift
+// dfBottomBar — pins content (checkout totals, a "Continue" CTA) to the bottom of a view on a themed surface
+ScrollView { /* ... */ }
+    .dfBottomBar {
+        DFButton("Continue") { }
+    }
+```
+
+### Radio Picker
+```swift
+// DFRadioPickerView — single-select inline list of labeled radio rows, distinct from
+// DFPicker's menu/wheel presentation
+DFRadioPickerView(
+    options: [
+        DFRadioPickerOption(id: "sm", label: "Small"),
+        DFRadioPickerOption(id: "lg", label: "Large"),
+    ],
+    selection: $sizeSelection
+)
+```
+
+### Image Gallery
+```swift
+// dfImageGallery — full-screen swipeable image viewer with page indicator
+YourContentView()
+    .dfImageGallery(isPresented: $showGallery, images: [image1, image2, image3])
+```
+
 ### Empty States
 ```swift
 // icon/title required; message/actionTitle/onAction all optional and independent of each other.
