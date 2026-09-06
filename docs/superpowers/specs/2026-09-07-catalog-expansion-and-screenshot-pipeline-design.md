@@ -62,7 +62,7 @@ Both add `swift-snapshot-testing` (pointfreeco's `swift-snapshot-testing` packag
 
 ### 5.3 Post-processing
 
-A new `Scripts/generate_screenshot_catalog.py` (Python 3 + Pillow) runs after the snapshot tests:
+A new `scripts/generate_screenshot_catalog.py` (Python 3 + Pillow) runs after the snapshot tests:
 1. Reads every PNG under both packages' `__Snapshots__/` directories.
 2. Composites each into an iPhone-framed PNG (`*.framed.png`) using standard device-chrome constants (iPhone 15 Pro frame, Dynamic Island, corner radii — these are simulator/device facts, not tied to any particular source).
 3. Groups framed shots by category into strip composites (`*.strip.png`, 5-per-row) for quick visual scanning.
