@@ -28,7 +28,7 @@ screen, shell layout, and composition example, split across
 **Confirm the user is at the machine and has authorized taking over the screen
 before running a live capture pass.** The capture mechanism
 (`scripts/generate_screenshot_catalog.py`) launches DFPlayground once per catalog
-entry (~114 entries), brings it frontmost via AppleScript, screenshots its window,
+entry (~117 entries), brings it frontmost via AppleScript, screenshots its window,
 then kills it and moves on — for ~15-20 minutes it will repeatedly raise and lower
 windows on the real, live desktop. If you were not explicitly told the user is
 present and OK with this, do not run a live capture — instead do the read-only

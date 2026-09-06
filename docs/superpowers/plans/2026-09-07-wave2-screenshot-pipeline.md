@@ -78,3 +78,12 @@ Instead: `DFPlayground` already ships headless-automation hooks (`Sources/DFPlay
 - [x] Frontmatter (`name`, `description` with usage examples, `tools`)
 - [x] Body: read-only checks always; live capture only when explicitly authorized; manifest-drift detection against DFPlayground's actual source; summary-not-wall-of-output reporting
 - [x] Commit: `feat: add df-screenshot-cataloger subagent`
+
+## Addendum: Wave 3 additions
+
+Wave 3 added three new composition-example apps (`DFBookingRootView`, `DFFoodRootView`,
+`DFNewsRootView`). The manifest in `scripts/generate_screenshot_catalog.py` (`_apps()`)
+was updated accordingly — the catalog now covers 117 entries (was 114), matching
+`CompositionExamplesGalleryView.swift`'s updated "12 Rooted Showcases" count. No other
+plan text in this file was rewritten; treat the "114"/"9 composition-example apps"
+figures above as accurate as of end-of-Wave-2, superseded by this note.
