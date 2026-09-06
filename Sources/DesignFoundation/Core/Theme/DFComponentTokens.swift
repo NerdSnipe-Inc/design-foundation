@@ -368,6 +368,32 @@ public struct DFTabBarTokens: Sendable {
     public static let `default` = DFTabBarTokens()
 }
 
+// MARK: - ArticleRow
+
+public struct DFArticleRowTokens: Sendable {
+    public var titleLines: Int?   // nil = 2
+
+    public init(titleLines: Int? = nil) {
+        self.titleLines = titleLines
+    }
+
+    public static let `default` = DFArticleRowTokens()
+}
+
+// MARK: - BottomContainer
+
+public struct DFBottomContainerTokens: Sendable {
+    public var padding: CGFloat?        // nil = inherit DFSpacingTokens.md
+    public var cornerRadius: CGFloat?   // nil = inherit DFRadiusTokens.lg
+
+    public init(padding: CGFloat? = nil, cornerRadius: CGFloat? = nil) {
+        self.padding = padding
+        self.cornerRadius = cornerRadius
+    }
+
+    public static let `default` = DFBottomContainerTokens()
+}
+
 // MARK: - Root
 
 public struct DFComponentTokens: Sendable {
@@ -394,6 +420,8 @@ public struct DFComponentTokens: Sendable {
     public var datePicker: DFDatePickerTokens
     public var sidebar: DFSidebarTokens
     public var tabBar: DFTabBarTokens
+    public var articleRow: DFArticleRowTokens
+    public var bottomContainer: DFBottomContainerTokens
 
     public init(
         button: DFButtonTokens = .default,
@@ -418,7 +446,9 @@ public struct DFComponentTokens: Sendable {
         toggle: DFToggleTokens = .default,
         datePicker: DFDatePickerTokens = .default,
         sidebar: DFSidebarTokens = .default,
-        tabBar: DFTabBarTokens = .default
+        tabBar: DFTabBarTokens = .default,
+        articleRow: DFArticleRowTokens = .default,
+        bottomContainer: DFBottomContainerTokens = .default
     ) {
         self.button = button
         self.textField = textField
@@ -443,6 +473,8 @@ public struct DFComponentTokens: Sendable {
         self.datePicker = datePicker
         self.sidebar = sidebar
         self.tabBar = tabBar
+        self.articleRow = articleRow
+        self.bottomContainer = bottomContainer
     }
 
     public static let `default` = DFComponentTokens()
