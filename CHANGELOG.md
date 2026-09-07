@@ -8,6 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-09-07 — Content Primitives & Screenshot Catalog
+
+### Added
+- **`DFArticleRow`, `DFAuthorView`, `DFRelativeTimeTag`, `DFInlineTagView`, `DFMetadataRow`** (`Supplementary/Article/`): a small family of content-row primitives for feeds/news/docs lists — title + author + relative time + tags, composable standalone or together. `DFRelativeTimeTag` formats via `RelativeDateTimeFormatter`; `DFInlineTagView` is a decorative pill distinct from `DFChip` (no selection/dismiss state).
+- **`DFBottomContainer` / `.dfBottomBar { }`** (`Layouts/BottomContainer/`): pins content (a checkout total, a "Continue" CTA) to the bottom of a view on a themed surface.
+- **`DFRadioPickerView`** (`Inputs/RadioPicker/`): single-select inline list of labeled radio rows, distinct from `DFPicker`'s menu/wheel presentation.
+- **`DFImageGallery` / `.dfImageGallery(isPresented:images:)`** (`Overlays/ImageGallery/`): full-screen swipeable image viewer with a page indicator.
+- **`DFComponentTokens` expanded:** two new per-component override structs — `DFArticleRowTokens`, `DFBottomContainerTokens`.
+- **Screenshot catalog** (`Content/index.md`, `scripts/generate_screenshot_catalog.py`): a framed, browsable screenshot of every DFPlayground screen/gallery, Pro block, Pro screen, and shell layout — 117 entries, grouped by category, cross-linked with a matching index in `DesignFoundationPro`. Regenerate with `python3 scripts/generate_screenshot_catalog.py` (drives the real desktop for several minutes; see the script's docstring for details). A `df-screenshot-cataloger` subagent (`.claude/agents/`) wraps the safety rules around running it.
+
+## [1.3.3] — 2026-08-20 — Logo Image Size
+
+### Fixed
+- Optimized the repo's logo image asset (`docs/images/design-foundation-logo.png`, ~405KB → ~186KB). No public API changes.
+
 ## [1.3.2] — 2026-08-19 — SPM Resolution Fix
 
 ### Fixed
