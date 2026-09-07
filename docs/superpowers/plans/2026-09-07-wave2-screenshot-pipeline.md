@@ -58,15 +58,17 @@ Instead: `DFPlayground` already ships headless-automation hooks (`Sources/DFPlay
 - [x] `.gitignore` excludes `Content/RawCaptures/`
 - [x] Commit: `feat: add screenshot catalog capture/framing/index pipeline`
 
-## Task 3: Live capture pass — NOT run this session
+## Task 3: Live capture pass — DONE (run with the user present and watching)
 
-**Status: DEFERRED, by deliberate judgment call, not an oversight.** While validating Task 1's hook, the capture technique (AppleScript `activate` + window position/size + `screencapture -R`) was proven to work against a real DFPlayground window. But the same test revealed this machine's desktop is the user's live, in-use session — other real apps (GitHub Desktop, among others) were open and at least one window from another app remained visually on top of DFPlayground's despite `frontmost` reporting correctly, meaning captures taken without a human watching risk contamination from whatever else is on screen, and 114 sequential launch/activate/kill cycles (~15-20 minutes of continuous window churn) is not something to run against someone's unattended desktop overnight.
+**Status: DONE**, after one fix discovered during the run. Initially deferred in this session pending explicit user authorization to take over the screen — see the superseded note below, kept for the record. Once authorized, the run confirmed the earlier concern was real: the first attempt captured a DFPlayground window with a terminal window's text bleeding into the left edge, even though `frontmost` correctly reported DFPlayground. `activate`/`frontmost` guarantee an app is *focused*, not that its window is unobstructed at every pixel of the rect a plain `screencapture -R` samples — another app's floating window can still occlude part of it.
 
-**To actually populate the catalog:** run `python3 scripts/generate_screenshot_catalog.py` from the `DesignFoundation` repo root while at the machine, not relying on other foreground windows for the duration. Or ask the `df-screenshot-cataloger` subagent to do it, once you've confirmed you're available to supervise.
+Fix: `hide_other_apps()`/`restore_apps()` (AppleScript `set visible of process ... to false/true`) now hide every other visible app for the duration of the capture pass and restore them afterward (wrapped in `try/finally` so a crash mid-run still restores). The window is also pinned to a fixed position (`{60, 60}`) before each capture so geometry is predictable regardless of where SwiftUI cascades it. Re-ran clean: all 117 targets captured, zero `SKIP`s, all 12 previously-visible apps confirmed restored afterward by comparing the visible-process list before and after.
 
-- [ ] Run `python3 scripts/generate_screenshot_catalog.py` while at the machine
-- [ ] Spot-check a handful of `Content/Frames/*.framed.png` show real, correct content
-- [ ] `git add Content/ ../DesignFoundationPro/Content/ && git commit`
+*Superseded note, kept for the record:* "DEFERRED, by deliberate judgment call... 114 sequential launch/activate/kill cycles (~15-20 minutes of continuous window churn) is not something to run against someone's unattended desktop overnight." — this stood until the user explicitly said to proceed in a later turn, at which point it was run with them present, per that original recommendation.
+
+- [x] Ran `python3 scripts/generate_screenshot_catalog.py` with the user present, after fixing the overlap bug
+- [x] Spot-checked several `Content/Frames/*.framed.png` (Foundation, Pro Screens, Pro Blocks, and specifically the three new Wave 3 verticals) — all show real, correct, uncontaminated content
+- [x] Committed: `feat: run first full screenshot catalog capture (117 entries)` (DesignFoundation, includes the hide/restore fix), `feat: add generated screenshot catalog index` (DesignFoundationPro)
 
 ## Task 4: `df-screenshot-cataloger` subagent
 
