@@ -219,6 +219,33 @@ def build_playground_once() -> None:
         raise SystemExit(f"DFPlayground build failed:\n{result.stdout}\n{result.stderr}")
 
 
+# MARK: - Other-app hide/restore (a rect capture at DFPlayground's own on-screen
+# position/size will show whatever's ON TOP at that spot, even when DFPlayground
+# reports itself as frontmost — another visible app's floating window can still
+# occlude it. Hiding every other visible app for the duration of the capture pass
+# removes that risk entirely; they're restored (not quit) afterward.)
+
+def get_visible_app_names() -> list[str]:
+    result = _run(["osascript", "-e",
+                   'tell application "System Events" to get name of every process '
+                   'whose visible is true and background only is false'])
+    if result.returncode != 0 or not result.stdout.strip():
+        return []
+    return [n.strip() for n in result.stdout.split(",") if n.strip()]
+
+
+def hide_other_apps(exclude: str) -> list[str]:
+    to_hide = [n for n in get_visible_app_names() if n != exclude]
+    for name in to_hide:
+        _run(["osascript", "-e", f'tell application "System Events" to set visible of process "{name}" to false'])
+    return to_hide
+
+
+def restore_apps(names: list[str]) -> None:
+    for name in names:
+        _run(["osascript", "-e", f'tell application "System Events" to set visible of process "{name}" to true'])
+
+
 def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
     env_overrides = {target.env_var: target.env_value}
     if target.hide_main:
@@ -233,6 +260,11 @@ def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
         _run(["osascript", "-e", 'tell application "DFPlayground" to activate'])
         _run(["osascript", "-e",
               'tell application "System Events" to set frontmost of process "DFPlayground" to true'])
+        # Pin to a known, on-screen position so geometry is predictable regardless
+        # of where SwiftUI decided to cascade the window.
+        _run(["osascript", "-e",
+              'tell application "System Events" to tell process "DFPlayground" to '
+              'set position of window 1 to {60, 60}'])
         time.sleep(ACTIVATE_SETTLE_SECONDS)
 
         pos = _run(["osascript", "-e",
@@ -271,9 +303,17 @@ def run_capture_pass(manifest: list[CaptureTarget]) -> None:
 
     print(f"Capturing {len(manifest)} targets — this drives the live desktop, do not use the machine "
           f"for other foreground work until it finishes.")
-    for i, target in enumerate(manifest, 1):
-        print(f"[{i}/{len(manifest)}] {target.category} / {target.name}")
-        capture_target(target, binary)
+
+    print("Hiding other visible apps for the duration of the capture pass (restored when it finishes)...")
+    hidden = hide_other_apps(exclude="DFPlayground")
+    print(f"  hid: {', '.join(hidden) if hidden else '(none were visible)'}")
+    try:
+        for i, target in enumerate(manifest, 1):
+            print(f"[{i}/{len(manifest)}] {target.category} / {target.name}")
+            capture_target(target, binary)
+    finally:
+        print("Restoring hidden apps...")
+        restore_apps(hidden)
 
 
 # MARK: - Framing + index generation
