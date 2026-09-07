@@ -25,3 +25,10 @@ Pro-tier entries (Pro Screens, Pro Blocks, Shell Layouts, Composition Examples) 
 | ![Forms & Validation](Frames/Foundation__Forms---Validation.framed.png) | Forms & Validation | `Sources/DFPlayground/Screens/FormsValidationScreen.swift` |
 | ![Data Tables](Frames/Foundation__Data-Tables.framed.png) | Data Tables | `Sources/DFPlayground/Screens/DataTablesScreen.swift` |
 | ![Themes](Frames/Foundation__Themes.framed.png) | Themes | `Sources/DFPlayground/ThemePickerView.swift` |
+
+## Pro Upgrade
+
+![Pro Index](Groups/Pro-Index.strip.png)
+![Pro Screens](Groups/Pro-Screens.strip.png)
+![Pro Blocks](Groups/Pro-Blocks.strip.png)
+
