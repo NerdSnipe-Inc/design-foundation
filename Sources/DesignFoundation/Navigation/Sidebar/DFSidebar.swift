@@ -61,6 +61,10 @@ public struct DFSidebar: View {
             .padding(.vertical, theme.spacing.xs)
         }
         .background(style.sidebarBackground(theme: theme))
+        // No-op unless this sits in a NavigationSplitView's sidebar column, in which case
+        // it guarantees enough width for real nav labels (rather than the system's narrow
+        // default) while keeping the column natively resizable by the user.
+        .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 340)
     }
 
     @ViewBuilder

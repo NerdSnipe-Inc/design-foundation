@@ -106,7 +106,7 @@ public struct DFFilledBadgeStyle: DFBadgeStyle, Sendable {
         if case .dot = configuration.variant {
             return AnyView(
                 Circle()
-                    .fill(theme.colors.destructive)
+                    .fill(theme.colors.primary)
                     .frame(width: 8, height: 8)
             )
         }
@@ -119,7 +119,7 @@ public struct DFFilledBadgeStyle: DFBadgeStyle, Sendable {
                 .padding(.horizontal, hPad)
                 .padding(.vertical, vPad)
                 .background(
-                    Capsule().fill(theme.colors.destructive)
+                    Capsule().fill(theme.colors.primary)
                 )
         )
     }

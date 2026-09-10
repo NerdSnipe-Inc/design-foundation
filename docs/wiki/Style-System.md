@@ -186,6 +186,14 @@ The rule: the innermost `.dfButtonStyle(_:)` call wins. Leaf overrides beat pare
 | `DFModal` | `DFModalStyle` | `DFModalStyleConfiguration` | `standard` (default), `glass`* |
 | `DFSheet` | `DFSheetStyle` | `DFSheetStyleConfiguration` | `standard` (default), `compact`, `glass`* |
 | `DFPopover` | `DFPopoverStyle` | `DFPopoverStyleConfiguration` | `arrow` (default), `compact`, `glass`* |
+| `DFChip` | `DFChipStyle` | `DFChipStyleConfiguration` | `filled` (default), `tinted`, `outlined` |
+| `DFRatingView` | `DFRatingViewStyle` | `DFRatingStyleConfiguration` | `stars` (default), `numeric` |
+| `DFCalendarView` | `DFCalendarViewStyle` | `DFCalendarViewStyleConfiguration` | `standard` (default) |
+| `DFEmptyState` | `DFEmptyStateStyle` | `DFEmptyStateStyleConfiguration` | `standard` (default) |
+| `DFBanner` | `DFBannerStyle` | `DFBannerStyleConfiguration` | `standard` (default) |
+| `DFCommandPalette` | `DFCommandPaletteStyle` | `DFCommandPaletteStyleConfiguration` | `standard` (default) |
+| `DFPriceView` | `DFPriceViewStyle` | `DFPriceStyleConfiguration` | `standard` (default), `compact` |
+| `DFQuantityStepper` | `DFQuantityStepperStyle` | `DFQuantityStepperStyleConfiguration` | `bordered` (default), `compact` |
 
 > **Note on `DFSidebar`:** `DFSidebarStyle` controls how individual item rows are rendered, not the sidebar's overall chrome. Its protocol is slightly different — it declares `makeItemBody(configuration:)` (not `makeBody`) and provides an optional `sidebarBackground(theme:) -> AnyView` method with a default implementation. See [[#Writing Custom Styles]] for details.
 
@@ -686,3 +694,24 @@ DFCard { content }
 The same pattern works for any style protocol. Call the base style's `makeBody`, receive its `some View` result, and wrap it in another `AnyView` if you need to apply further modifiers — or use a `@ViewBuilder` return to avoid the extra erasure.
 
 > **Tip:** If you only need to adjust opacity, shadow, or transforms on top of a built-in, prefer a plain view modifier on the `DFCard`/`DFButton`/etc. call site rather than a custom style. Reserve custom styles for cases where the core shape or layout needs to change.
+
+---
+
+## Enforcing Token Usage in Your Own Code
+
+Everything above describes how DesignFoundation's *own* components read from `DFTheme` — but nothing stops you from writing a custom view elsewhere in your app that calls `Color(red: 0.2, green: 0.4, blue: 0.9)` or `.font(.system(size: 14))` directly instead of reaching for `theme.colors.primary` or the type scale. This isn't a gap DesignFoundation can close with an API design — the Swift compiler has no concept of "this Color must come from a theme," so it will happily compile a raw literal sitting right next to a themed `DFButton`.
+
+What DesignFoundation ships instead is a drop-in SwiftLint rule set — `Tooling/swiftlint-design-foundation-tokens.yml` in the repo — that catches this at lint time rather than letting it drift silently:
+
+```yaml
+# In your own project's .swiftlint.yml
+custom_rules: !include Path/To/design-foundation/Tooling/swiftlint-design-foundation-tokens.yml
+```
+
+It flags:
+- Raw `Color(red:/hue:/white:/hex:)` initializers
+- Named `Color` literals (`Color.red`, `Color.gray`, `.primary`, `.secondary`, etc.)
+- Raw `.font(.system(...))` / `Font.system(...)` calls
+- Hardcoded `cornerRadius:` literals
+
+Every rule is a `warning`, not an error — these are regex-based `custom_rules`, not a real AST check, so they'll occasionally flag a legitimate raw value (a preview fixture, a debug-only overlay, a third-party API that requires a plain `Color`). Silence a specific false positive inline with `// swiftlint:disable:next <rule_id>` rather than disabling the rule for the whole project — that keeps the signal useful for the cases that actually matter.

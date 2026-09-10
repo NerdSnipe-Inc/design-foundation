@@ -185,7 +185,12 @@ public struct DFDataTable<Row: Identifiable & Sendable, EmptyContent: View>: Vie
         if columns.isEmpty {
             scrollableTable
         } else if columns.count <= 6 {
+            // `macOSTable` already draws its own sortable `headerRow` above this — a native
+            // `Table` always draws its own column-title header too, so without hiding it
+            // every static-column table on macOS showed two stacked headers (the second,
+            // default-styled one reading as a phantom data row).
             macOSStaticColumnTable
+                .tableColumnHeaders(.hidden)
         } else {
             scrollableTable
         }

@@ -1,0 +1,70 @@
+# DesignFoundation token-discipline lint rules
+#
+# DesignFoundation cannot stop a raw Color(...), .font(.system(...)), or a
+# hardcoded corner-radius literal from compiling inside your own views — that's
+# not something the Swift compiler can enforce for a components library. What
+# it CAN do is give you a drop-in SwiftLint rule set that catches the common
+# ways token usage gets bypassed, so drift shows up in `swiftlint` output (and
+# CI, if you wire it in) instead of silently accumulating.
+#
+# These are `custom_rules`, so they need no SwiftLint plugin — just SwiftLint
+# itself. They're regex-based, not AST-aware, so treat them as "warning," not
+# "compiler error": they will occasionally flag a legitimate raw value (a
+# preview fixture, a debug overlay, a third-party API that takes a plain
+# Color) — silence those inline with `// swiftlint:disable:next <rule_id>`
+# rather than disabling the rule project-wide.
+#
+# Usage — merge into your own project's .swiftlint.yml:
+#
+#   custom_rules:
+#     design_foundation_no_raw_color:
+#       ... (copy from below)
+#
+# Or pull the whole block in with SwiftLint's `!include`, if your setup
+# supports it:
+#
+#   custom_rules: !include Tooling/swiftlint-design-foundation-tokens.yml
+#
+# Every rule below excludes DesignFoundation's and DesignFoundationPro's own
+# sources and DFPlayground/test fixtures — the tokens themselves have to be
+# defined in terms of raw Color/Font somewhere, and that somewhere is here,
+# not in your app.
+
+custom_rules:
+  design_foundation_no_raw_color:
+    included: ".*\\.swift"
+    excluded: ".*/(Sources/DesignFoundation|Sources/DesignFoundationPro|DFPlayground|Preview Content|Tests)/.*"
+    regex: "\\bColor\\(\\s*(red:|hue:|white:|hex:)"
+    match_kinds:
+      - identifier
+      - argument
+    message: "Raw Color(...) bypasses DFTheme — use theme.colors.* (or a preset-derived value) so this view stays theme- and dark-mode-aware."
+    severity: warning
+
+  design_foundation_no_named_color_literal:
+    included: ".*\\.swift"
+    excluded: ".*/(Sources/DesignFoundation|Sources/DesignFoundationPro|DFPlayground|Preview Content|Tests)/.*"
+    regex: "\\bColor\\.(red|blue|green|yellow|orange|purple|pink|gray|black|white|primary|secondary)\\b"
+    match_kinds:
+      - identifier
+    message: "Named Color literals (Color.red, Color.gray, ...) don't move when the theme changes — use theme.colors.destructive/primary/secondary/etc from DFTheme instead."
+    severity: warning
+
+  design_foundation_no_raw_font:
+    included: ".*\\.swift"
+    excluded: ".*/(Sources/DesignFoundation|Sources/DesignFoundationPro|DFPlayground|Preview Content|Tests)/.*"
+    regex: "\\.font\\(\\s*\\.system\\(|\\bFont\\.system\\("
+    match_kinds:
+      - identifier
+      - argument
+    message: "Raw .font(.system(...)) bypasses the DFText scale system — use theme.typography.* or a DFText style instead, so type scales stay consistent and Dynamic Type-correct."
+    severity: warning
+
+  design_foundation_no_hardcoded_corner_radius:
+    included: ".*\\.swift"
+    excluded: ".*/(Sources/DesignFoundation|Sources/DesignFoundationPro|DFPlayground|Preview Content|Tests)/.*"
+    regex: "cornerRadius:\\s*[0-9]"
+    match_kinds:
+      - argument
+    message: "A literal corner-radius value won't track a theme's radius scale — use theme.radius.sm/md/lg/xl instead."
+    severity: warning

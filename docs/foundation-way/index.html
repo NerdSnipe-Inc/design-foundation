@@ -418,6 +418,88 @@
       </div>
     </article>
 
+    <!-- 6 Article feed row -->
+    <article class="compare">
+      <div class="compare-head">
+        <div class="compare-title">Article feed row</div>
+        <div class="compare-meta">Byline avatar · relative timestamp · tag pills</div>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-col old">
+          <div class="col-label"><span>The old way</span><span class="line-badge">55 lines</span></div>
+          <pre><span class="cm">// ArticleRow.swift — reusable feed row</span>
+<span class="kw">struct</span> <span class="type">ArticleRow</span>: <span class="type">View</span> {
+  <span class="kw">let</span> title: <span class="type">String</span>
+  <span class="kw">let</span> authorInitials: <span class="type">String</span>
+  <span class="kw">let</span> authorName: <span class="type">String</span>
+  <span class="kw">let</span> date: <span class="type">Date</span>
+  <span class="kw">let</span> tags: [<span class="type">String</span>]
+
+  <span class="kw">private var</span> relativeTime: <span class="type">String</span> {
+    <span class="kw">let</span> formatter = <span class="type">RelativeDateTimeFormatter</span>()
+    formatter.unitsStyle = .abbreviated
+    <span class="kw">return</span> formatter.<span class="fn">localizedString</span>(for: date, relativeTo: .now)
+  }
+
+  <span class="kw">var</span> body: <span class="kw">some</span> <span class="type">View</span> {
+    <span class="type">VStack</span>(alignment: .leading, spacing: <span class="num">6</span>) {
+      <span class="type">Text</span>(title)
+        .font(.headline)
+        .lineLimit(<span class="num">2</span>)
+
+      <span class="type">HStack</span>(spacing: <span class="num">6</span>) {
+        <span class="type">Circle</span>()
+          .fill(<span class="type">Color</span>.accentColor.opacity(<span class="num">0.15</span>))
+          .frame(width: <span class="num">24</span>, height: <span class="num">24</span>)
+          .overlay(
+            <span class="type">Text</span>(authorInitials)
+              .font(.caption2.bold())
+              .foregroundStyle(.accentColor)
+          )
+        <span class="type">Text</span>(authorName)
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        <span class="type">Text</span>(<span class="str">"·"</span>)
+          .foregroundStyle(.secondary)
+        <span class="type">Text</span>(relativeTime)
+          .font(.caption)
+          .foregroundStyle(.secondary)
+      }
+
+      <span class="kw">if</span> !tags.isEmpty {
+        <span class="type">HStack</span>(spacing: <span class="num">6</span>) {
+          <span class="type">ForEach</span>(tags, id: \.self) { tag <span class="kw">in</span>
+            <span class="type">Text</span>(tag)
+              .font(.caption2.bold())
+              .padding(.horizontal, <span class="num">8</span>)
+              .padding(.vertical, <span class="num">3</span>)
+              .background(<span class="type">Color</span>.secondary.opacity(<span class="num">0.12</span>))
+              .clipShape(<span class="type">Capsule</span>())
+          }
+        }
+      }
+    }
+  }
+}
+<span class="fade">// + dark mode contrast tuning, RTL layout, a11y labels…</span></pre>
+        </div>
+        <div class="compare-col new">
+          <div class="col-label"><span>The Foundation way</span><span class="line-badge">6 lines</span></div>
+          <pre><span class="type">DFArticleRow</span>(
+  title: <span class="str">"SwiftUI in 2026: What Changed"</span>,
+  authorName: <span class="str">"Jordan Lee"</span>,
+  authorInitials: <span class="str">"JL"</span>,
+  date: publishedDate,
+  tags: [<span class="str">"Swift"</span>, <span class="str">"iOS 26"</span>]
+)</pre>
+        </div>
+      </div>
+      <div class="savings-bar">
+        <span class="savings-pill">49 lines saved · ~89% less</span>
+        <span class="token-note">Byline avatar, relative-time formatting, and tag pills come free — no RelativeDateTimeFormatter boilerplate</span>
+      </div>
+    </article>
+
     <div class="callout">
       <strong>Methodology:</strong> “Old way” samples are representative production SwiftUI — themed, accessible, with validation and platform branches — not toy one-liners. “Foundation way” counts are what you type in <em>your</em> app module after adding the packages. Library implementation lives in DesignFoundation / Pro, tested once, shared everywhere.
     </div>

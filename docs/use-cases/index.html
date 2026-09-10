@@ -50,6 +50,7 @@
     .use-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
     .use-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color 0.15s; }
     .use-card:hover { border-color: rgba(99,102,241,0.35); }
+    .use-img { display: block; width: 100%; border-radius: calc(var(--radius) - 4px); border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface2); }
     .use-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; margin-top: 0; }
     .use-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px; }
     .use-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
@@ -212,7 +213,7 @@
       </div>
 
       <div class="use-card">
-        
+
         <div class="use-title">Settings &amp; account (any app)</div>
         <div class="use-tags"><span class="tag">Universal</span></div>
         <div class="use-desc">Every app needs account, security, billing, notifications, team, and danger zone — drop in six screens or the unified root.</div>
@@ -221,6 +222,45 @@
           <code>DFSettingsRootView</code> · <code>DFSettingsSecurityScreen</code> · <code>DFFormState</code>
           <br><br>
           <strong>Free + Pro</strong> validation via Foundation
+        </div>
+      </div>
+
+      <div class="use-card">
+        <img class="use-img" src="../images/compositions/Composition-Examples__DFBookingRootView.framed.png" alt="DFBookingRootView composition example — service selection, schedule, and confirmation screens" loading="lazy" />
+        <div class="use-title">Booking &amp; appointments</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Services</span></div>
+        <div class="use-desc">Service selection, schedule picker, confirmation, and my-bookings — the flow every appointment-based business needs, from salons and clinics to consultants, fitness studios, and home services.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFBookingRootView</code> · <code>DFRadioPickerView</code> · <code>DFCalendarView</code>
+          <br><br>
+          <strong>Theme</strong> Sage or Copper
+        </div>
+      </div>
+
+      <div class="use-card">
+        <img class="use-img" src="../images/compositions/Composition-Examples__DFFoodRootView.framed.png" alt="DFFoodRootView composition example — restaurant home, menu, and item detail screens" loading="lazy" />
+        <div class="use-title">Food &amp; restaurant ordering</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Food</span></div>
+        <div class="use-desc">Restaurant home, menu browsing, item detail with modifiers — ready for restaurant apps, food delivery, and ghost kitchens that need to ship an ordering flow, not design one.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFFoodRootView</code> · <code>DFQuantityStepper</code> · <code>DFPriceSummaryView</code>
+          <br><br>
+          <strong>Theme</strong> Copper or Garnet
+        </div>
+      </div>
+
+      <div class="use-card">
+        <img class="use-img" src="../images/compositions/Composition-Examples__DFNewsRootView.framed.png" alt="DFNewsRootView composition example — article list and article detail screens" loading="lazy" />
+        <div class="use-title">News &amp; content publishing</div>
+        <div class="use-tags"><span class="tag pro">Pro</span><span class="tag">Media</span></div>
+        <div class="use-desc">Article list and article detail, built on the free package's content primitives — bylines, relative timestamps, and tags out of the box. Fits publishers, blogs, newsletters, and media apps.</div>
+        <div class="use-picks">
+          <strong>Start here</strong>
+          <code>DFNewsRootView</code> · <code>DFArticleRow</code> · <code>DFAuthorView</code>
+          <br><br>
+          <strong>Free primitives</strong> <code>DFMetadataRow</code> · <code>DFInlineTagView</code> · <code>DFRelativeTimeTag</code>
         </div>
       </div>
 

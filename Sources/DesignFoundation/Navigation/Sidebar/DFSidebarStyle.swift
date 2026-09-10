@@ -106,6 +106,7 @@ public struct DFStandardSidebarStyle: DFSidebarStyle, Sendable {
                 .foregroundStyle(
                     configuration.isSelected ? theme.colors.primary : theme.colors.textPrimary
                 )
+                .lineLimit(1)
             Spacer()
         }
         .padding(.horizontal, theme.spacing.md)
@@ -143,6 +144,7 @@ public struct DFPlainSidebarStyle: DFSidebarStyle, Sendable {
                 .foregroundStyle(
                     configuration.isSelected ? theme.colors.primary : theme.colors.textPrimary
                 )
+                .lineLimit(1)
             Spacer()
         }
         .padding(.horizontal, theme.spacing.md)
@@ -186,6 +188,7 @@ public struct DFGlassSidebarStyle: DFSidebarStyle, Sendable {
                 .foregroundStyle(
                     configuration.isSelected ? theme.colors.primary : theme.colors.textPrimary
                 )
+                .lineLimit(1)
             Spacer()
         }
         .padding(.horizontal, theme.spacing.md)

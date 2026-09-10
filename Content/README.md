@@ -12,8 +12,7 @@ python3 scripts/generate_screenshot_catalog.py
 This drives the real desktop for ~15-20 minutes (it launches DFPlayground once per
 catalog entry, brings it frontmost, screenshots its window, and closes it) — run it
 only when you're at the machine and not relying on other foreground windows during
-that window. See the script's module docstring for details, and
-`docs/superpowers/plans/2026-09-07-wave2-screenshot-pipeline.md` for how it's wired
+that window. See the script's module docstring for details on how it's wired
 together.
 
 To iterate on the framing/index style without re-driving the GUI every time, reuse

@@ -5,11 +5,13 @@
 .swiftpm/xcode/xcuserdata/
 .claude/*
 !.claude/agents/
+.claude/agents/df-screenshot-cataloger.md
 docs/DFPlayground.app/
 
 # Internal product docs — kept locally, not published
 docs/product-description.md
 docs/product-roadmap.md
+docs/superpowers/
 
 # git-filter-repo safety backups (created by scripts/scrub-history.sh)
 .git.backup-*/

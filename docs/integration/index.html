@@ -164,6 +164,14 @@
           <tr><td>DFCRMRootView</td><td>Sales pipeline workspace (composition)</td></tr>
           <tr><td>DFSocialAppShell</td><td>Feed + profile consumer app (composition)</td></tr>
           <tr><td>DFSettingsRootView</td><td>Account &amp; preferences hub (composition)</td></tr>
+          <tr><td>DFPMRootView</td><td>Project management workspace — boards, lists, timeline, team (composition)</td></tr>
+          <tr><td>DFEcommerceRootView</td><td>Seller/store workspace — orders, products, revenue (composition)</td></tr>
+          <tr><td>DFAnalyticsRootView</td><td>Metrics dashboard — overview, events, revenue, users (composition)</td></tr>
+          <tr><td>DFAIChatRootView</td><td>Thread-first AI assistant workspace (composition)</td></tr>
+          <tr><td>DFOnboardingFlow</td><td>Multi-step sign-up / onboarding wizard (composition)</td></tr>
+          <tr><td>DFBookingRootView</td><td>Service-booking app — schedule and confirm appointments (composition)</td></tr>
+          <tr><td>DFFoodRootView</td><td>Restaurant ordering app — browse, menu, item detail (composition)</td></tr>
+          <tr><td>DFNewsRootView</td><td>News/article reading app (composition)</td></tr>
         </tbody>
       </table>
     </div>
@@ -174,7 +182,7 @@
 .<span class="fn">environment</span>(\.dfTheme, .workspace)
 .<span class="fn">environment</span>(\.dfUseDesktopDensity, <span class="type">DFLayout</span>.<span class="fn">useDesktopLayout</span>(horizontalSizeClass: sizeClass))
 .<span class="fn">dfToastHost</span>()</pre>
-    <p>See all 9 composition examples on the <a href="../pro/#composition">Pro page</a> and in DFPlayground.</p>
+    <p>See all 12 composition examples on the <a href="../pro/#composition">Pro page</a> and in DFPlayground.</p>
   </section>
 
   <section class="section" id="block">
@@ -247,7 +255,7 @@
       <li><code>dfUseDesktopDensity</code> on product-shaped roots</li>
       <li><code>.dfToastHost()</code> on composition roots</li>
       <li>Loading + empty states for data-driven screens</li>
-      <li>No hardcoded colors — theme + vertical DesignKit only</li>
+      <li>No hardcoded colors — theme + vertical DesignKit only (wire up the <a href="https://github.com/NerdSnipe-Inc/design-foundation/blob/main/Tooling/swiftlint-design-foundation-tokens.yml">drop-in SwiftLint rule</a> to catch drift automatically)</li>
     </ul>
     <div class="btn-row">
       <a class="btn btn-primary" href="../pro/">Browse Pro catalog →</a>

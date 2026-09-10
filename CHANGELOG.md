@@ -8,6 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.5.0] — 2026-09-10 — Token Lint Rules, Sidebar & Table Polish
+
+### Added
+- **`Tooling/swiftlint-design-foundation-tokens.yml`:** a drop-in SwiftLint `custom_rules` block for consuming apps. DesignFoundation can't make the compiler reject a raw `Color(...)`/`.font(.system(...))`/hardcoded corner-radius literal in a consumer's own views — there's no language mechanism for that — so this ships as an opt-in lint layer instead: flags raw `Color(red:/hue:/white:/hex:)`, named `Color` literals (`.red`, `.gray`, etc.), raw `.font(.system(...))`/`Font.system(...)`, and hardcoded `cornerRadius:` values, all as warnings (regex-based `custom_rules`, not an AST check, so false positives on legitimate raw values are expected and should be silenced per-line, not by disabling the rule). Documented in `CLAUDE.md`/`AGENTS.md`/`.cursor/rules/design-foundation.mdc`, `docs/wiki/Style-System.md`, and the integration checklist. Prompted by a developer question on whether token usage is enforced at compile time — it isn't, and can't be; this is the practical middle ground.
+
+### Fixed
+- **`DFElevatedCardStyle`:** a fill + shadow alone read as flat on themes where `surface` and `background` are nearly identical (e.g. `.workspace` on macOS). Added a hairline border and bumped the shadow from `theme.shadows.sm` to `theme.shadows.md` so elevation reads correctly regardless of how close a theme's surface/background tones are.
+- **`DFFilledBadgeStyle`:** the `.dot` variant and its capsule background hardcoded `theme.colors.destructive`, so every dot badge rendered red regardless of theme or intended severity. Both now read `theme.colors.primary`.
+- **`DFSidebar`:** added `.navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 340)` — previously a sidebar placed in a `NavigationSplitView` column fell back to the system's narrow default width instead of enough room for real nav labels, while still remaining user-resizable.
+- **`DFSidebarStyle`** (`.standard`, `.plain`, `.glass`): added `.lineLimit(1)` to item labels — long labels previously wrapped and threw off row height instead of truncating.
+- **`DFDataTable`:** `macOSStaticColumnTable` (≤6 columns) drew its own sortable header row, but a native `Table` also draws its own column-title header, so every static-column table on macOS showed two stacked headers — the second reading as a phantom data row. Hidden via `.tableColumnHeaders(.hidden)`.
+
+### Docs
+- Documentation for the 21 primitives shipped across 1.3.0/1.4.0 (calendar, chip, rating, price, entity row/card, grid, carousel, quantity stepper, banner, command palette, empty state, and the article/content-row family) was written but never landed on the published site — added to `docs/index.html`, along with the missing 5th `Garnet` theme preset on `docs/theme-presets/index.html`, missing composition roots and style-protocol rows on `docs/integration/index.html`/`docs/wiki/Style-System.md`, and new Booking/Food/News verticals plus corrected block/screen/vertical counts on `docs/pro/index.html`, `docs/use-cases/index.html`, and `docs/foundation-way/index.html`. A 117-shot screenshot catalog (generated in the prior release) is now embedded across these pages instead of sitting unused in `Content/`. Stale Pro stats (block/screen/vertical counts) in `CLAUDE.md`/`AGENTS.md`/`.cursor/rules/design-foundation.mdc` corrected to match.
+
 ## [1.4.0] — 2026-09-07 — Content Primitives & Screenshot Catalog
 
 ### Added
@@ -95,7 +110,7 @@ This patch rounds out the text input story with a proper multiline field and fil
 
 ### Docs & Housekeeping
 - Added `docs/wiki/Style-System.md` and `wiki/Text-and-Typography.md` — deep-dive references covering the full typography system, color token semantics, and spacing scale.
-- Cleaned up stale internal planning documents that had accumulated in `docs/superpowers/plans/`. No public-facing content was removed.
+- Cleaned up stale internal planning documents. No public-facing content was removed.
 - README updated to reflect current component inventory.
 
 ---

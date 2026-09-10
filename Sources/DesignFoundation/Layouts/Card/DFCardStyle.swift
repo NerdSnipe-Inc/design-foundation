@@ -87,17 +87,28 @@ public struct DFElevatedCardStyle: DFCardStyle, Sendable {
         let radius = theme.components.card.cornerRadius ?? theme.radius.lg
         let padding = theme.components.card.padding ?? theme.spacing.lg
 
+        // A fill + shadow alone reads as flat on themes where `surface` and the
+        // surrounding `background` are nearly identical by design (e.g. `DFTheme.workspace`
+        // on macOS: `controlBackgroundColor` vs. `textBackgroundColor`) — the shadow at
+        // `shadows.sm`'s 0.08 opacity isn't enough on its own to read as "elevated" there.
+        // A hairline border makes the card's edge legible regardless of how close the
+        // theme's surface/background tones are; `shadows.md` gives it real depth instead
+        // of "a rectangle that happens to be there."
         configuration.content
             .padding(padding)
             .background(
                 RoundedRectangle(cornerRadius: radius)
                     .fill(theme.colors.surface)
-                    .shadow(
-                        color: theme.shadows.sm.color,
-                        radius: theme.shadows.sm.radius,
-                        x: theme.shadows.sm.x,
-                        y: theme.shadows.sm.y
-                    )
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: radius)
+                    .strokeBorder(theme.colors.border.opacity(0.7), lineWidth: 1)
+            )
+            .shadow(
+                color: theme.shadows.md.color,
+                radius: theme.shadows.md.radius,
+                x: theme.shadows.md.x,
+                y: theme.shadows.md.y
             )
             .scaleEffect(configuration.isInteractive && configuration.isPressed ? 0.98 : 1.0)
             .animation(theme.animation.fast, value: configuration.isPressed)
