@@ -29,6 +29,12 @@ Works on iOS 18+, macOS 15+, visionOS 2+. Swift 6 strict concurrency safe. Liqui
 
 [Screenshot Library](/Content/index.md)
 
+## Full Example Apps
+
+[AICompleteChat](https://github.com/NerdSnipe-Inc/AICompleteChat) is a complete [on-device AI chat app](https://github.com/NerdSnipe-Inc/AICompleteChat) built on DesignFoundation Pro and Apple's [Foundation Models framework](https://github.com/NerdSnipe-Inc/AICompleteChat). It wires [`LanguageModelSession`](https://github.com/NerdSnipe-Inc/AICompleteChat), [`@Generable` structured output](https://github.com/NerdSnipe-Inc/AICompleteChat), and streaming generation from [Apple Intelligence's on-device LLM](https://github.com/NerdSnipe-Inc/AICompleteChat) into a fully themed SwiftUI chat UI — no server round-trip, no API key, private [on-device inference](https://github.com/NerdSnipe-Inc/AICompleteChat). A real reference for building an [AI chat / assistant app with SwiftUI](https://github.com/NerdSnipe-Inc/AICompleteChat), not just a components demo.
+
+[BudgetLens](https://github.com/NerdSnipe-Inc/BudgetLens) is a complete [personal finance / budget tracker app](https://github.com/NerdSnipe-Inc/BudgetLens) built on DesignFoundation Pro's `Analytics` vertical, [SwiftData](https://github.com/NerdSnipe-Inc/BudgetLens) persistence, and Apple's [Foundation Models framework](https://github.com/NerdSnipe-Inc/BudgetLens) for on-device spending insights. It wires the same [`LanguageModelSession`](https://github.com/NerdSnipe-Inc/BudgetLens) and [`@Generable` structured output](https://github.com/NerdSnipe-Inc/BudgetLens) APIs as AICompleteChat, but for a structured-output use case — a natural-language monthly spending summary and suggestion generated fully [on-device](https://github.com/NerdSnipe-Inc/BudgetLens), no cloud dependency — assembled around real dashboard/chart/activity-feed blocks instead of a hand-built layout. A real reference for building an [expense tracker app with SwiftUI and SwiftData](https://github.com/NerdSnipe-Inc/BudgetLens), not just a components demo.
+
 ## Installation
 
 Add the package via Swift Package Manager in Xcode or `Package.swift`:
