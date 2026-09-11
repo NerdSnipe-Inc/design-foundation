@@ -80,6 +80,10 @@ def _pro_screens() -> list[CaptureTarget]:
         ("DFAnalyticsEventsScreen", "Analytics/DFAnalyticsEventsScreen.swift"),
         ("DFAnalyticsRevenueScreen", "Analytics/DFAnalyticsRevenueScreen.swift"),
         ("DFAnalyticsUsersScreen", "Analytics/DFAnalyticsUsersScreen.swift"),
+        ("DFBookingServiceSelectionScreen", "Booking/DFBookingServiceSelectionScreen.swift"),
+        ("DFBookingScheduleScreen", "Booking/DFBookingScheduleScreen.swift"),
+        ("DFBookingConfirmationScreen", "Booking/DFBookingConfirmationScreen.swift"),
+        ("DFMyBookingsScreen", "Booking/DFMyBookingsScreen.swift"),
         ("DFCRMHomeScreen", "CRM/DFCRMHomeScreen.swift"),
         ("DFCRMContactsScreen", "CRM/DFCRMContactsScreen.swift"),
         ("DFCRMContactDetailScreen", "CRM/DFCRMContactDetailScreen.swift"),
@@ -94,6 +98,11 @@ def _pro_screens() -> list[CaptureTarget]:
         ("DFEcommerceOrderDetailScreen", "Ecommerce/OrderDetail/DFEcommerceOrderDetailScreen.swift"),
         ("DFEcommerceProductsScreen", "Ecommerce/Products/DFEcommerceProductsScreen.swift"),
         ("DFEcommerceRevenueScreen", "Ecommerce/Revenue/DFEcommerceRevenueScreen.swift"),
+        ("DFFoodHomeScreen", "Food/DFFoodHomeScreen.swift"),
+        ("DFFoodRestaurantDetailScreen", "Food/DFFoodRestaurantDetailScreen.swift"),
+        ("DFFoodItemDetailScreen", "Food/DFFoodItemDetailScreen.swift"),
+        ("DFNewsListScreen", "News/DFNewsListScreen.swift"),
+        ("DFNewsDetailScreen", "News/DFNewsDetailScreen.swift"),
         ("DFOnboardingFlow", "Onboarding/DFOnboardingFlow.swift"),
         ("DFPMHomeScreen", "ProjectManager/DFPMHomeScreen.swift"),
         ("DFPMBoardScreen", "ProjectManager/DFPMBoardScreen.swift"),
@@ -128,6 +137,7 @@ def _pro_blocks() -> list[CaptureTarget]:
         "DFEmptyStateBlock", "DFSearchResultsBlock", "DFBlockSkeletonBlock", "DFAddressBlock",
         "DFDateRangeBlock", "DFMultiStepFormBlock", "DFTagPickerBlock", "DFProfileHeaderBlock",
         "DFDataGrid",
+        "DFCommentThreadBlock",
     ]
     return [
         CaptureTarget("Pro Blocks", name, "DFP_BLOCK_ID", name, "Blocks/", is_pro=True, hide_main=True)
@@ -184,6 +194,7 @@ def _top_level_tabs() -> list[CaptureTarget]:
         ("Lists & Tables", "Foundation", "Sources/DFPlayground/Screens/ListsAndTablesScreen.swift"),
         ("Navigation", "Foundation", "Sources/DFPlayground/Screens/NavigationScreen.swift"),
         ("Content & Media", "Foundation", "Sources/DFPlayground/Screens/ContentPrimitivesScreen.swift"),
+        ("Commerce & Layout", "Foundation", "Sources/DFPlayground/Screens/CommerceAndLayoutScreen.swift"),
         ("Forms & Validation", "Foundation", "Sources/DFPlayground/Screens/FormsValidationScreen.swift"),
         ("Data Tables", "Foundation", "Sources/DFPlayground/Screens/DataTablesScreen.swift"),
         ("Pro Blocks", "Pro Index", "Sources/DFPlayground/ProBlocksGalleryView.swift"),
