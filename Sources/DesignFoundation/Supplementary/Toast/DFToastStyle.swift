@@ -17,18 +17,21 @@ public struct DFToastMessage: Identifiable, Sendable {
     public let icon: String?
     public let duration: TimeInterval
     public let severity: DFToastSeverity
+    public let position: DFPopupPosition
 
     public init(
         text: String,
         icon: String? = nil,
         duration: TimeInterval = 3.0,
-        severity: DFToastSeverity = .info
+        severity: DFToastSeverity = .info,
+        position: DFPopupPosition = .top
     ) {
         self.id = UUID()
         self.text = text
         self.icon = icon
         self.duration = duration
         self.severity = severity
+        self.position = position
     }
 }
 

@@ -282,6 +282,21 @@ YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguratio
 DFToastQueue.shared.show(text: "Saved", severity: .success)   // .info / .success / .warning / .error
 ContentView().dfToast(queue: DFToastQueue.shared)              // root modifier
 
+// Popups — one engine for toasts, floaters and centered cards. Modifiers, not constructible views.
+// DFPopupConfiguration: kind (.center/.toast/.floater), position (9 values: .topLeading … .bottomTrailing),
+// transition (.automatic/.slide/.scale/.fade/.none), autoDismissAfter, dismissOnTap/OutsideTap/Drag, dimsBackground.
+YourContentView()
+    .dfPopup(isPresented: $showPopup) { Text("Centered card") }
+    .dfPopup(isPresented: $showBanner, configuration: .toast(position: .bottom)) { Text("Flush to the bottom edge") }
+    .dfPopup(isPresented: $showFloater, configuration: .floater(position: .bottomTrailing)) { Text("Inset, drag to dismiss") }
+    .dfPopup(item: $selectedItem) { item in Text(item.title) }   // item must be Identifiable
+
+// Toasts accept a position too (default .top): show(text:icon:duration:severity:position:)
+DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
+
+// Restyle every popup in a subtree; per-component overrides live at theme.components.popup.
+YourContentView().dfPopupStyle(.standard)
+
 // DFBanner — full-width, persistent, inline (NOT DFToastQueue-based — place directly in your
 // view hierarchy). severity: reuses DFToastSeverity, no separate enum.
 DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })

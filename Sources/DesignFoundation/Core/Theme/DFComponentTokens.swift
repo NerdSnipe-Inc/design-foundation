@@ -1,5 +1,32 @@
 import Foundation
 
+// MARK: - Popup
+
+public struct DFPopupTokens: Sendable {
+    /// nil = inherit from DFRadiusTokens.lg
+    public var cornerRadius: CGFloat?
+    /// nil = inherit from DFSpacingTokens.lg
+    public var padding: CGFloat?
+    /// nil = 420
+    public var maxWidth: CGFloat?
+    /// nil = 0.35
+    public var backdropOpacity: Double?
+
+    public init(
+        cornerRadius: CGFloat? = nil,
+        padding: CGFloat? = nil,
+        maxWidth: CGFloat? = nil,
+        backdropOpacity: Double? = nil
+    ) {
+        self.cornerRadius = cornerRadius
+        self.padding = padding
+        self.maxWidth = maxWidth
+        self.backdropOpacity = backdropOpacity
+    }
+
+    public static let `default` = DFPopupTokens()
+}
+
 // MARK: - Button
 
 public struct DFButtonTokens: Sendable {
@@ -422,6 +449,7 @@ public struct DFComponentTokens: Sendable {
     public var tabBar: DFTabBarTokens
     public var articleRow: DFArticleRowTokens
     public var bottomContainer: DFBottomContainerTokens
+    public var popup: DFPopupTokens
 
     public init(
         button: DFButtonTokens = .default,
@@ -448,7 +476,8 @@ public struct DFComponentTokens: Sendable {
         sidebar: DFSidebarTokens = .default,
         tabBar: DFTabBarTokens = .default,
         articleRow: DFArticleRowTokens = .default,
-        bottomContainer: DFBottomContainerTokens = .default
+        bottomContainer: DFBottomContainerTokens = .default,
+        popup: DFPopupTokens = .default
     ) {
         self.button = button
         self.textField = textField
@@ -475,6 +504,7 @@ public struct DFComponentTokens: Sendable {
         self.tabBar = tabBar
         self.articleRow = articleRow
         self.bottomContainer = bottomContainer
+        self.popup = popup
     }
 
     public static let `default` = DFComponentTokens()

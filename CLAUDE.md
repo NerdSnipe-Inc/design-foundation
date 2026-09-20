@@ -456,6 +456,21 @@ DFToastQueue.shared.show(text: "Processing…", severity: .info)
 
 ContentView().dfToast(queue: DFToastQueue.shared)  // root modifier (or just .dfToast() — defaults to .shared)
 
+// Popups — one engine for toasts, floaters and centered cards. Modifiers, not constructible views.
+// DFPopupConfiguration: kind (.center/.toast/.floater), position (9 values: .topLeading … .bottomTrailing),
+// transition (.automatic/.slide/.scale/.fade/.none), autoDismissAfter, dismissOnTap/OutsideTap/Drag, dimsBackground.
+YourContentView()
+    .dfPopup(isPresented: $showPopup) { Text("Centered card") }
+    .dfPopup(isPresented: $showBanner, configuration: .toast(position: .bottom)) { Text("Flush to the bottom edge") }
+    .dfPopup(isPresented: $showFloater, configuration: .floater(position: .bottomTrailing)) { Text("Inset, drag to dismiss") }
+    .dfPopup(item: $selectedItem) { item in Text(item.title) }   // item must be Identifiable
+
+// Toasts accept a position too (default .top): show(text:icon:duration:severity:position:)
+DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
+
+// Restyle every popup in a subtree; per-component overrides live at theme.components.popup.
+YourContentView().dfPopupStyle(.standard)
+
 // DFBanner — full-width, persistent, inline banner. NOT built on DFToastQueue (different shape:
 // full-width/user-dismissed/inline-in-content vs toast's floating-capsule/auto-dismiss/overlay-queue).
 // It's a plain value-driven view — place it directly in your hierarchy, e.g. `if showBanner { DFBanner(...) }`.

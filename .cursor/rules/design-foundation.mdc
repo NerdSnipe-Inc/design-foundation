@@ -180,6 +180,12 @@ YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguratio
 ]))
 DFToastQueue.shared.show(text: "Saved", severity: .success)   // text:, severity: — not style:
 ContentView().dfToast(queue: DFToastQueue.shared)
+YourContentView()
+    .dfPopup(isPresented: $show) { Text("Centered card") }
+    .dfPopup(isPresented: $show, configuration: .toast(position: .bottom)) { Text("Edge toast") }
+    .dfPopup(isPresented: $show, configuration: .floater(position: .bottomTrailing)) { Text("Floater") }
+    .dfPopup(item: $selectedItem) { item in Text(item.title) }   // Identifiable item
+DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)   // position: 9 values, default .top
 DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })   // NOT DFToastQueue-based, place directly in hierarchy
 
 // Overlays are modifiers, not constructible views — no DFModal(isPresented:) etc.
