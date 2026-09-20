@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.6.0] — 2026-09-21 — Popups & Positioned Toasts
+
 ### Added
 - **`.dfPopup(isPresented:)` / `.dfPopup(item:)`:** a themed popup engine with three kinds (`.center`, `.toast`, `.floater`), nine `DFPopupPosition` values, slide/scale/fade/none transitions, auto-dismiss, tap / outside-tap / drag-to-dismiss and an optional dimmed backdrop. Configured through `DFPopupConfiguration` (with `.toast(...)` and `.floater(...)` presets), restyled through `DFPopupStyle` (`.dfPopupStyle(_:)`), and tunable per theme via `theme.components.popup` (`DFPopupTokens`). `DFPopupHost` is public for embedding the layer in custom containers.
 - **`DFToastMessage.position` / `DFToastQueue.show(...position:)`:** toasts can now appear at any of the nine positions (default `.top`).
