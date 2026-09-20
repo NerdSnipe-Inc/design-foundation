@@ -67,6 +67,8 @@ public struct DFPopupHost<Content: View>: View {
                 popup
             }
         }
+        // Fill the host so non-center positions rest at their edge/corner, not the middle.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: configuration.position.alignment)
         .animation(configuration.animation ?? theme.animation.default, value: isPresented)
         .onChange(of: isPresented) { _, presented in
             if !presented {
