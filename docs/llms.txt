@@ -15,6 +15,15 @@ All components handle platform differences internally. Consumers do not need `#i
 - [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
 - [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 47 full SwiftUI screens across 9 verticals + 29 UI blocks + 18 shell layouts + 9 wired composition examples. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
+## Popups & Toasts
+
+- [Popups & Toasts (animated demos)](https://nerdsnipe-inc.github.io/design-foundation/#popups): `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` — one popup engine for centered cards, edge-flush toasts and inset floaters.
+- `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:)`, presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`.
+- `DFPopupKind` (.center, .toast, .floater); `DFPopupPosition` (.topLeading .top .topTrailing .leading .center .trailing .bottomLeading .bottom .bottomTrailing); `DFPopupTransition` (.automatic .slide .scale .fade .none .asymmetric(insert:remove:)).
+- Restyle with `DFPopupStyle` / `.dfPopupStyle(_:)`; tune via `theme.components.popup` (`DFPopupTokens`: cornerRadius, padding, maxWidth, backdropOpacity); `DFPopupHost` embeds the layer in custom containers.
+- Toasts: `DFToastQueue.shared.show(text:icon:duration:severity:position:)` + `.dfToast()`; severities info/success/warning/error; one at a time; tap or swipe to dismiss.
+- [Advanced Popups (Pro)](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups): `dfScrollPopup` (drag-dismiss only at scroll top, `fromTop`), `dfPopupWindow` (window above sheets and nav bars, iOS), `DFPopupCenter` + `dfPopupCenter(_:)` + `DFPopupPriority` (priority queue, preemption, id de-duplication), `DFPopupMotion` (.snappy/.bouncy/.gentle/.custom, `.motion(_:enterFrom:exitTo:)`), `DFPopupCountdownBar`, `DFPopupHaptic`.
+
 ## Source
 
 - [GitHub Repository](https://github.com/NerdSnipe-Inc/design-foundation): Source code, releases, issues, and Swift Package Manager URL.

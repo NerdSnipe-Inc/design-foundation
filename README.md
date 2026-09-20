@@ -82,6 +82,20 @@ struct ContentView: View {
 }
 ```
 
+Popups and toasts share one engine:
+
+```swift
+ContentView()
+    .dfToast()   // once at the root
+    .dfPopup(isPresented: $showFloater, configuration: .floater(position: .bottomTrailing)) {
+        Text("Inset, drag to dismiss")
+    }
+
+DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
+```
+
+DesignFoundation Pro adds scroll popups, window presentation, a priority queue, spring motion and a countdown bar ([Advanced Popups](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups)).
+
 Five presets ship: `.slate`, `.aurora`, `.copper`, `.sage`, `.garnet`. Each swaps automatically for light and dark mode. Build your own from tokens if none of them fit, see the Theme System section below.
 
 ---
@@ -127,6 +141,7 @@ All input components share `DFValidationState` (`.idle / .valid / .error(String)
 | `DFSheet` | `.standard`, `.compact`, `.glass`¹ |
 | `DFPopover` | `.arrow`, `.compact`, `.glass`¹ |
 | `DFTooltip` | `.bubble`, `.glass`¹ |
+| `DFPopup` | `.dfPopup(isPresented:)` / `.dfPopup(item:)` — centered, toast and floater kinds, nine positions, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag/tap/outside-tap dismissal. Restyle with `.dfPopupStyle(.standard)`. [Animated demos](https://nerdsnipe-inc.github.io/design-foundation/#popups) |
 
 ### Navigation
 
