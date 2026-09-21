@@ -17,7 +17,7 @@ All components handle platform differences internally. Consumers do not need `#i
 
 ## Popups & Toasts
 
-- [Popups & Toasts (animated demos)](https://nerdsnipe-inc.github.io/design-foundation/#popups): `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` — one popup engine for centered cards, edge-flush toasts and inset floaters.
+- [Popups & Toasts](https://nerdsnipe-inc.github.io/design-foundation/#popups): `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` — one popup engine for centered cards, edge-flush toasts and inset floaters.
 - `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:)`, presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`.
 - `DFPopupKind` (.center, .toast, .floater); `DFPopupPosition` (.topLeading .top .topTrailing .leading .center .trailing .bottomLeading .bottom .bottomTrailing); `DFPopupTransition` (.automatic .slide .scale .fade .none .asymmetric(insert:remove:)).
 - Restyle with `DFPopupStyle` / `.dfPopupStyle(_:)`; tune via `theme.components.popup` (`DFPopupTokens`: cornerRadius, padding, maxWidth, backdropOpacity); `DFPopupHost` embeds the layer in custom containers.

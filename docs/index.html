@@ -266,7 +266,6 @@
     .floating-pg-icon { width: 27px; height: 27px; background: rgba(255,255,255,0.22); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     @media (max-width: 600px) { .floating-pg span.label { display: none; } }
   </style>
-  <link rel="stylesheet" href="assets/popups-demo.css" />
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -945,9 +944,6 @@
       <h2>Popups &amp; Toasts</h2>
       <p>One popup engine powers centered dialogs, edge-flush toasts and inset floaters. It is a view modifier — <code>.dfPopup(isPresented:)</code> or <code>.dfPopup(item:)</code> — configured with a plain <code>DFPopupConfiguration</code> value: a <strong>kind</strong>, one of <strong>nine positions</strong>, a <strong>transition</strong>, and the dismissal rules (auto-dismiss, tap, outside tap, drag, dimmed backdrop). <code>DFToastQueue</code> and <code>.dfToast()</code> are built on the same engine, so toasts can appear at any of the nine positions too.</p>
 
-      <div class="callout"><strong>Every demo below is an illustrative reproduction</strong> — HTML/CSS/JS built from the SwiftUI source (theme animation tokens are easeInOut 0.15 / 0.25 / 0.4s, drag-dismiss at 60pt, backdrop at 35%). They are not screen recordings. Each one loops while it is on screen, pauses when scrolled away, and stays on a still frame if you prefer reduced motion (press Play to run it).</div>
-      <div class="pd-toolbar" data-pd-toolbar></div>
-
       <div class="table-wrap">
         <table>
           <thead><tr><th>API</th><th>What it does</th></tr></thead>
@@ -966,11 +962,8 @@
       </div>
 
       <h3>Centered popup</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="centered" data-label="Centered popup with dimmed backdrop"></div>
-        <figcaption>
-          <p>The default <code>.centered</code> configuration: a card that scales in from 0.9 while fading, over a backdrop dimmed to 35%. Tapping outside dismisses it.</p>
-<pre class="pd-code"><code>struct DeleteDemo: View {
+      <p>The default <code>.centered</code> configuration: a card that scales in from 0.9 while fading, over a backdrop dimmed to 35%. Tapping outside dismisses it.</p>
+<pre><code>struct DeleteDemo: View {
     @State private var show = false
 
     var body: some View {
@@ -984,40 +977,25 @@
             }
     }
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Toast kind</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="toast" data-label="Toast popup sliding in from the top edge"></div>
-        <figcaption>
-          <p><code>.toast(position:)</code> is full-width and flush with its edge — its background extends under the status bar. It has no backdrop, dismisses itself after 3 seconds, and can be tapped or dragged away.</p>
-<pre class="pd-code"><code>.dfPopup(isPresented: $showSaved, configuration: .toast(position: .top)) {
+      <p><code>.toast(position:)</code> is full-width and flush with its edge — its background extends under the status bar. It has no backdrop, dismisses itself after 3 seconds, and can be tapped or dragged away.</p>
+<pre><code>.dfPopup(isPresented: $showSaved, configuration: .toast(position: .top)) {
     Label("Changes saved", systemImage: "checkmark.circle.fill")
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Floater kind</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="floater" data-label="Floater popup that lets touches pass through, then drags away"></div>
-        <figcaption>
-          <p><code>.floater(position:)</code> is inset from the edges by the popup padding token, with rounded corners. No backdrop, and touches fall through to the content underneath, so the screen stays usable while it is up. It stays until dismissed (or until you set <code>autoDismissAfter</code>).</p>
-<pre class="pd-code"><code>.dfPopup(isPresented: $showUndo, configuration: .floater(position: .bottom)) {
+      <p><code>.floater(position:)</code> is inset from the edges by the popup padding token, with rounded corners. No backdrop, and touches fall through to the content underneath, so the screen stays usable while it is up. It stays until dismissed (or until you set <code>autoDismissAfter</code>).</p>
+<pre><code>.dfPopup(isPresented: $showUndo, configuration: .floater(position: .bottom)) {
     HStack {
         Text("Photo archived")
         Button("Undo") { undo() }
     }
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>All nine positions</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="positions" data-label="Popup cycling through all nine positions"></div>
-        <figcaption>
-          <p>The demo cycles through every <code>DFPopupPosition</code>. Click a cell to jump to a position, and switch between the floater and toast kinds. Each popup enters from, and leaves toward, its <code>exitEdge</code>; <code>.center</code> scales instead.</p>
-<pre class="pd-code"><code>// DFPopupPosition — 9 values
+      <p>Both the floater and toast kinds work at every <code>DFPopupPosition</code>. Each popup enters from, and leaves toward, its <code>exitEdge</code>; <code>.center</code> scales instead.</p>
+<pre><code>// DFPopupPosition — 9 values
 // .topLeading    .top     .topTrailing
 // .leading       .center  .trailing
 // .bottomLeading .bottom  .bottomTrailing
@@ -1025,64 +1003,53 @@
 .dfPopup(isPresented: $show, configuration: .floater(position: .topTrailing)) {
     Text("Top trailing")
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Transitions</h3>
       <p>Set <code>transition</code> on the configuration. <code>.automatic</code> is the default: scale at <code>.center</code>, slide at every other position. Slide and scale also fade.</p>
-      <div class="pd-grid-cards">
-        <div class="pd-mini"><h4>.slide</h4><div class="pd-demo" data-size="sm" data-demo="tr-slide" data-label="Slide transition"></div><pre class="pd-code"><code>var config = DFPopupConfiguration
+<h4>.slide</h4>
+<pre><code>var config = DFPopupConfiguration
     .floater(position: .bottom)
-config.transition = .slide</code></pre></div>
-        <div class="pd-mini"><h4>.scale</h4><div class="pd-demo" data-size="sm" data-demo="tr-scale" data-label="Scale transition"></div><pre class="pd-code"><code>var config = DFPopupConfiguration
+config.transition = .slide</code></pre>
+        <h4>.scale</h4>
+<pre><code>var config = DFPopupConfiguration
     .floater(position: .bottom)
-config.transition = .scale</code></pre></div>
-        <div class="pd-mini"><h4>.fade</h4><div class="pd-demo" data-size="sm" data-demo="tr-fade" data-label="Fade transition"></div><pre class="pd-code"><code>var config = DFPopupConfiguration
+config.transition = .scale</code></pre>
+        <h4>.fade</h4>
+<pre><code>var config = DFPopupConfiguration
     .floater(position: .bottom)
-config.transition = .fade</code></pre></div>
-        <div class="pd-mini"><h4>.none</h4><div class="pd-demo" data-size="sm" data-demo="tr-none" data-label="No transition"></div><pre class="pd-code"><code>var config = DFPopupConfiguration
+config.transition = .fade</code></pre>
+        <h4>.none</h4>
+<pre><code>var config = DFPopupConfiguration
     .floater(position: .bottom)
-config.transition = .none</code></pre></div>
-        <div class="pd-mini"><h4>.asymmetric</h4><div class="pd-demo" data-size="sm" data-demo="tr-asym" data-label="Asymmetric transition, in from leading and out to trailing"></div><pre class="pd-code"><code>var config = DFPopupConfiguration
+config.transition = .none</code></pre>
+        <h4>.asymmetric</h4>
+<pre><code>var config = DFPopupConfiguration
     .floater(position: .bottom)
 config.transition = .asymmetric(
-    insert: .leading, remove: .trailing)</code></pre></div>
+    insert: .leading, remove: .trailing)</code></pre>
       </div>
 
       <h3>Auto-dismiss</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="auto" data-label="Popup dismissing itself after 2.5 seconds"></div>
-        <figcaption>
-          <p><code>autoDismissAfter</code> is a <code>TimeInterval?</code>; <code>nil</code> means the popup stays until dismissed. The <code>.toast</code> preset defaults to 3 seconds. The timer starts when the popup appears.</p>
-<pre class="pd-code"><code>.dfPopup(
+      <p><code>autoDismissAfter</code> is a <code>TimeInterval?</code>; <code>nil</code> means the popup stays until dismissed. The <code>.toast</code> preset defaults to 3 seconds. The timer starts when the popup appears.</p>
+<pre><code>.dfPopup(
     isPresented: $showCopied,
     configuration: .floater(position: .bottom, autoDismissAfter: 2.5)
 ) {
     Text("Link copied")
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Drag to dismiss</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="drag" data-label="Dragging a floater to dismiss it"></div>
-        <figcaption>
-          <p>With <code>dismissOnDrag</code> (on by default in the toast and floater presets) the popup follows your finger toward its exit edge. Dragging the other way is ignored. Release after 60pt of travel, or with enough velocity, to dismiss; otherwise it snaps back.</p>
-<pre class="pd-code"><code>.dfPopup(
+      <p>With <code>dismissOnDrag</code> (on by default in the toast and floater presets) the popup follows your finger toward its exit edge. Dragging the other way is ignored. Release after 60pt of travel, or with enough velocity, to dismiss; otherwise it snaps back.</p>
+<pre><code>.dfPopup(
     isPresented: $showDraft,
     configuration: .floater(position: .bottom, dismissOnDrag: true)
 ) {
     Text("Draft saved — drag me down")
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Tap to dismiss, outside tap and the dimmed backdrop</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="taps" data-label="Tap on popup, tap on backdrop, tap on toast"></div>
-        <figcaption>
-          <p>The centered default dims the host and dismisses on an outside tap, but not when you tap the popup itself. The toast preset flips that: no backdrop, <code>dismissOnTap</code> on. Set the flags yourself for anything in between. With a backdrop, touches to the host are blocked while the popup is up.</p>
-<pre class="pd-code"><code>// Center: dimmed backdrop, tap outside dismisses
+      <p>The centered default dims the host and dismisses on an outside tap, but not when you tap the popup itself. The toast preset flips that: no backdrop, <code>dismissOnTap</code> on. Set the flags yourself for anything in between. With a backdrop, touches to the host are blocked while the popup is up.</p>
+<pre><code>// Center: dimmed backdrop, tap outside dismisses
 .dfPopup(isPresented: $a) { Text("Discard changes?") }
 
 // Toast: no backdrop, tap the toast to dismiss
@@ -1094,15 +1061,10 @@ let config = DFPopupConfiguration(
     dismissOnOutsideTap: false,
     dimsBackground: true
 )</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Item-bound popup</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="item" data-label="Popup bound to a selected item"></div>
-        <figcaption>
-          <p><code>.dfPopup(item:)</code> presents while the binding is non-nil and hands the item to your content closure. Selecting a different item while it is up swaps the content and restarts the auto-dismiss timer; the item is kept alive through the exit transition.</p>
-<pre class="pd-code"><code>struct Order: Identifiable {
+      <p><code>.dfPopup(item:)</code> presents while the binding is non-nil and hands the item to your content closure. Selecting a different item while it is up swaps the content and restarts the auto-dismiss timer; the item is kept alive through the exit transition.</p>
+<pre><code>struct Order: Identifiable {
     let id: Int
     let title: String
 }
@@ -1118,15 +1080,10 @@ List(orders) { order in
 ) { order in
     Text(order.title)
 }</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Toast severities, positions and the queue</h3>
-      <figure class="pd-card">
-        <div class="pd-demo" data-demo="queue" data-label="Four queued toasts of different severity and position, shown one at a time"></div>
-        <figcaption>
-          <p><code>DFToastQueue</code> shows one toast at a time at each message's own <code>position</code> (default <code>.top</code>). Severities are <code>.info</code>, <code>.success</code>, <code>.warning</code> and <code>.error</code>. Toasts dismiss on a tap or by swiping toward their edge. Apply <code>.dfToast()</code> once at the scene root.</p>
-<pre class="pd-code"><code>ContentView().dfToast()   // root modifier
+      <p><code>DFToastQueue</code> shows one toast at a time at each message's own <code>position</code> (default <code>.top</code>). Severities are <code>.info</code>, <code>.success</code>, <code>.warning</code> and <code>.error</code>. Toasts dismiss on a tap or by swiping toward their edge. Apply <code>.dfToast()</code> once at the scene root.</p>
+<pre><code>ContentView().dfToast()   // root modifier
 
 DFToastQueue.shared.show(text: "Syncing…", icon: "arrow.triangle.2.circlepath",
                          severity: .info, position: .top)
@@ -1136,11 +1093,9 @@ DFToastQueue.shared.show(text: "Low storage", icon: "exclamationmark.triangle.fi
                          severity: .warning, position: .topTrailing)
 DFToastQueue.shared.show(text: "Upload failed", icon: "xmark.octagon.fill",
                          severity: .error, position: .bottomLeading)</code></pre>
-        </figcaption>
-      </figure>
 
       <h3>Theming and restyling</h3>
-<pre class="pd-code"><code>var theme = DFTheme.slateLight
+<pre><code>var theme = DFTheme.slateLight
 theme.components.popup = DFPopupTokens(cornerRadius: 24, padding: 20, maxWidth: 360, backdropOpacity: 0.5)
 
 // Replace the surface for a whole subtree by conforming to DFPopupStyle
@@ -1150,7 +1105,7 @@ YourContentView().dfPopupStyle(.standard)</code></pre>
       <div class="blocks-cta" style="margin-top:24px">
         <div class="blocks-cta-text">
           <h3>Need more? Advanced popups in Pro</h3>
-          <p>DesignFoundationPro adds a scrollable popup with drag-dismiss only at scroll top, window presentation above sheets and navigation bars, a priority queue with preemption and id de-duplication, spring motion presets with separate enter/exit edges, a countdown bar and haptics — each with its own animated demo.</p>
+          <p>DesignFoundationPro adds a scrollable popup with drag-dismiss only at scroll top, window presentation above sheets and navigation bars, a priority queue with preemption and id de-duplication, spring motion presets with separate enter/exit edges, a countdown bar and haptics.</p>
         </div>
         <a class="btn btn-primary" href="pro/#popups">See Advanced Popups →</a>
       </div>
@@ -1313,6 +1268,5 @@ YourContentView().dfPopupStyle(.standard)</code></pre>
       });
     });
   </script>
-<script src="assets/popups-demo.js" defer></script>
 </body>
 </html>

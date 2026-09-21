@@ -504,6 +504,7 @@
       font-family: "SF Mono", "Fira Code", Menlo, monospace;
       font-size: 13px; line-height: 1.7; margin: 24px 0;
     }
+    pre code { background: none; border: none; padding: 0; font-size: inherit; color: inherit; }
     .kw { color: #c678dd; }
     .type { color: #e5c07b; }
     .fn { color: #61afef; }
@@ -645,14 +646,6 @@
     .floating-pg:hover { opacity: 0.9; text-decoration: none !important; }
     .floating-pg-icon { width: 27px; height: 27px; background: rgba(255,255,255,0.22); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     @media (max-width: 720px) { .pg-inner { flex-direction: column; } .pg-window { flex: none; width: 100%; max-width: 320px; } .floating-pg span.label { display: none; } }
-  </style>
-  <link rel="stylesheet" href="../assets/popups-demo.css" />
-  <style>
-    /* ── Advanced popups demos ── */
-    .pd-note-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; margin: 0 0 16px; font-size: 14px; color: var(--text-secondary); }
-    .pd-note-box strong { color: var(--text); }
-    .pd-card { background: var(--surface); }
-    .pd-mini pre, .pd-card figcaption pre { background: var(--surface2); }
   </style>
 </head>
 <body>
@@ -1436,56 +1429,33 @@
     <h2>Beyond the free popup engine.</h2>
     <p class="section-sub">DesignFoundation's free <a href="../#popups"><code>.dfPopup</code> engine</a> covers centered cards, toasts and floaters. Pro adds the pieces production apps end up building next — all as extensions of the same <code>DFPopupConfiguration</code>, so nothing here changes how the free popups work.</p>
 
-    <div class="pd-note-box">
-      <strong>The demos below are illustrative reproductions</strong> — HTML/CSS/JS built from the Swift source (spring presets, drag thresholds, queue logic), not screen recordings. They loop while visible and stay on a still frame if you prefer reduced motion.
-    </div>
-    <div class="pd-toolbar" data-pd-toolbar></div>
-
     <h3>Scroll popup</h3>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="scroll-bottom" data-label="Scroll popup from the bottom: drag scrolls content, dismisses only at scroll top"></div>
-      <figcaption>
-        <p><code>dfScrollPopup</code> is a popup with a pinned header and scrolling body. Dragging the card dismisses it, <strong>but only when the scroll content is at its top</strong> — otherwise the same drag just scrolls, so the two gestures never fight. Whether the content was at the top is sampled when the drag begins, so scrolling back to the top mid-gesture does not grab the card. Dismissal takes 80pt of travel or a fast flick.</p>
-<pre class="pd-code"><code>.dfScrollPopup(isPresented: $show, maxHeightFraction: 0.6) {
+    <p><code>dfScrollPopup</code> is a popup with a pinned header and scrolling body. Dragging the card dismisses it, <strong>but only when the scroll content is at its top</strong> — otherwise the same drag just scrolls, so the two gestures never fight. Whether the content was at the top is sampled when the drag begins, so scrolling back to the top mid-gesture does not grab the card. Dismissal takes 80pt of travel or a fast flick.</p>
+<pre><code>.dfScrollPopup(isPresented: $show, maxHeightFraction: 0.6) {
     Text("Ticket #4821")          // pinned header
 } content: {
     ForEach(comments) { CommentRow($0) }
 }</code></pre>
-      </figcaption>
-    </figure>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="scroll-top" data-label="Scroll popup from the top edge, dismissed by dragging up"></div>
-      <figcaption>
-        <p>Pass <code>fromTop: true</code> to present from the top edge; the dismiss direction flips to up, and dragging the other way does nothing. <code>showsGrabber</code> and <code>maxHeightFraction</code> (clamped to 0.2–1) tune the card.</p>
-<pre class="pd-code"><code>.dfScrollPopup(isPresented: $show, fromTop: true) {
+    <p>Pass <code>fromTop: true</code> to present from the top edge; the dismiss direction flips to up, and dragging the other way does nothing. <code>showsGrabber</code> and <code>maxHeightFraction</code> (clamped to 0.2–1) tune the card.</p>
+<pre><code>.dfScrollPopup(isPresented: $show, fromTop: true) {
     Text("Ticket #4821")
 } content: {
     ForEach(comments) { CommentRow($0) }
 }</code></pre>
-      </figcaption>
-    </figure>
 
     <h3>Window presentation</h3>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="window" data-label="A popup appearing above a presented sheet using window presentation"></div>
-      <figcaption>
-        <p>An ordinary <code>.dfPopup</code> is an overlay on its view, so a sheet, full-screen cover or navigation bar can sit on top of it. <code>dfPopupWindow</code> presents in its own window above all of them. Toasts and floaters (no backdrop, no outside-tap dismissal) let touches fall through everywhere except on the popup. Window presentation is iOS-only; on macOS and visionOS it falls back to a regular overlay.</p>
-<pre class="pd-code"><code>.sheet(isPresented: $showEditor) { EditorView() }
+    <p>An ordinary <code>.dfPopup</code> is an overlay on its view, so a sheet, full-screen cover or navigation bar can sit on top of it. <code>dfPopupWindow</code> presents in its own window above all of them. Toasts and floaters (no backdrop, no outside-tap dismissal) let touches fall through everywhere except on the popup. Window presentation is iOS-only; on macOS and visionOS it falls back to a regular overlay.</p>
+<pre><code>.sheet(isPresented: $showEditor) { EditorView() }
 .dfPopupWindow(
     isPresented: $showSaved,
     configuration: .floater(position: .bottom, autoDismissAfter: 2)
 ) {
     Text("Draft saved")
 }</code></pre>
-      </figcaption>
-    </figure>
 
     <h3>Priority queue: DFPopupCenter</h3>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="center" data-label="Popup queue with priorities, preemption and id de-duplication"></div>
-      <figcaption>
-        <p><code>DFPopupCenter</code> puts many popups behind one presenter. One shows at a time; the rest wait by <code>DFPopupPriority</code> (<code>.low</code> &lt; <code>.normal</code> &lt; <code>.high</code> &lt; <code>.critical</code>), first-come first-served within a priority. A higher priority <strong>preempts</strong> the current popup, which returns to the queue. Presenting an <code>id</code> that is already showing or waiting <strong>replaces</strong> it instead of stacking a duplicate. The optional <code>haptic</code> plays when the popup takes over. When one popup hands over to the next the presenter stays up, so content swaps in place; it slides out when the queue is empty.</p>
-<pre class="pd-code"><code>@StateObject private var popups = DFPopupCenter()
+    <p><code>DFPopupCenter</code> puts many popups behind one presenter. One shows at a time; the rest wait by <code>DFPopupPriority</code> (<code>.low</code> &lt; <code>.normal</code> &lt; <code>.high</code> &lt; <code>.critical</code>), first-come first-served within a priority. A higher priority <strong>preempts</strong> the current popup, which returns to the queue. Presenting an <code>id</code> that is already showing or waiting <strong>replaces</strong> it instead of stacking a duplicate. The optional <code>haptic</code> plays when the popup takes over. When one popup hands over to the next the presenter stays up, so content swaps in place; it slides out when the queue is empty.</p>
+<pre><code>@StateObject private var popups = DFPopupCenter()
 
 RootView().dfPopupCenter(popups)
 
@@ -1498,39 +1468,31 @@ popups.present(id: "offline", priority: .high,
     Text("You're offline")
 }
 popups.dismiss(id: "offline")</code></pre>
-      </figcaption>
-    </figure>
 
     <h3>Motion: spring presets and separate enter/exit edges</h3>
-    <p style="font-size:14px;color:var(--text-secondary)"><code>DFPopupMotion</code> replaces the theme's easeInOut with a spring. Presets: <code>.snappy</code> (response 0.3, damping 0.85), <code>.bouncy</code> (0.45, 0.62), <code>.gentle</code> (0.6, 0.95), or <code>.custom(Animation)</code>. The curves below plot each spring's progress over time.</p>
-    <div class="pd-grid-cards">
-      <div class="pd-mini"><h4>.snappy</h4><div class="pd-demo" data-size="sm" data-demo="spring-snappy" data-label="Snappy spring"></div><pre class="pd-code"><code>.floater(position: .bottom)
-    .motion(.snappy)</code></pre></div>
-      <div class="pd-mini"><h4>.bouncy</h4><div class="pd-demo" data-size="sm" data-demo="spring-bouncy" data-label="Bouncy spring"></div><pre class="pd-code"><code>.floater(position: .bottom)
-    .motion(.bouncy)</code></pre></div>
-      <div class="pd-mini"><h4>.gentle</h4><div class="pd-demo" data-size="sm" data-demo="spring-gentle" data-label="Gentle spring"></div><pre class="pd-code"><code>.floater(position: .bottom)
-    .motion(.gentle)</code></pre></div>
+    <p style="font-size:14px;color:var(--text-secondary)"><code>DFPopupMotion</code> replaces the theme's easeInOut with a spring. Presets: <code>.snappy</code> (response 0.3, damping 0.85), <code>.bouncy</code> (0.45, 0.62), <code>.gentle</code> (0.6, 0.95), or <code>.custom(Animation)</code>.</p>
+<h4>.snappy</h4>
+<pre><code>.floater(position: .bottom)
+    .motion(.snappy)</code></pre>
+      <h4>.bouncy</h4>
+<pre><code>.floater(position: .bottom)
+    .motion(.bouncy)</code></pre>
+      <h4>.gentle</h4>
+<pre><code>.floater(position: .bottom)
+    .motion(.gentle)</code></pre>
     </div>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="edges" data-label="Bouncy popup entering from the bottom and leaving toward trailing"></div>
-      <figcaption>
-        <p><code>.motion(_:enterFrom:exitTo:)</code> also lets a popup enter from one edge and leave toward another. An edge left <code>nil</code> keeps the position's natural edge for that half.</p>
-<pre class="pd-code"><code>.dfPopup(
+    <p><code>.motion(_:enterFrom:exitTo:)</code> also lets a popup enter from one edge and leave toward another. An edge left <code>nil</code> keeps the position's natural edge for that half.</p>
+<pre><code>.dfPopup(
     isPresented: $show,
     configuration: .floater(position: .center)
         .motion(.bouncy, enterFrom: .bottom, exitTo: .trailing)
 ) {
     Text("In from the bottom…")
 }</code></pre>
-      </figcaption>
-    </figure>
 
     <h3>Countdown bar</h3>
-    <figure class="pd-card">
-      <div class="pd-demo" data-demo="countdown" data-label="Popup with a countdown bar draining over five seconds"></div>
-      <figcaption>
-        <p><code>DFPopupCountdownBar</code> is a thin bar that drains linearly over <code>duration</code>. Put it inside the popup with the same duration as <code>autoDismissAfter</code> so users can see how long they have left to hit Undo. It takes optional <code>tint</code> and <code>height</code>.</p>
-<pre class="pd-code"><code>.dfPopup(
+    <p><code>DFPopupCountdownBar</code> is a thin bar that drains linearly over <code>duration</code>. Put it inside the popup with the same duration as <code>autoDismissAfter</code> so users can see how long they have left to hit Undo. It takes optional <code>tint</code> and <code>height</code>.</p>
+<pre><code>.dfPopup(
     isPresented: $showUndo,
     configuration: .floater(position: .bottom, autoDismissAfter: 5)
 ) {
@@ -1539,8 +1501,6 @@ popups.dismiss(id: "offline")</code></pre>
         DFPopupCountdownBar(duration: 5)
     }
 }</code></pre>
-      </figcaption>
-    </figure>
 
     <p style="font-size:14px;color:var(--text-secondary)"><strong>Haptics.</strong> <code>DFPopupHaptic</code> (<code>.light</code>, <code>.medium</code>, <code>.selection</code>, <code>.success</code>, <code>.warning</code>, <code>.error</code>) plays a tactile cue when a popup appears — pass it as <code>haptic:</code> to <code>DFPopupCenter.present</code>, or call <code>.play()</code> yourself. It is a no-op on visionOS.</p>
   </section>
@@ -1693,6 +1653,5 @@ popups.dismiss(id: "offline")</code></pre>
       });
     });
   </script>
-<script src="../assets/popups-demo.js" defer></script>
 </body>
 </html>
