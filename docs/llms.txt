@@ -2,7 +2,7 @@
 
 > Production-grade SwiftUI component library and design system for iOS, macOS, and visionOS — free, open-source (MIT), distributed via Swift Package Manager.
 
-DesignFoundation gives Swift developers a token-based theming engine, 50+ SwiftUI components (primitives, inputs, layout, navigation, overlays, feedback, lists and tables), a popup engine for toasts, floaters, centered cards and bottom sheets, five opinionated visual identity presets (Slate, Aurora, Copper, Sage, Garnet), a style protocol for every styleable component (33) including Liquid Glass styles for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
+DesignFoundation gives Swift developers a token-based theming engine, 44 SwiftUI components (primitives, inputs, layout, navigation, overlays, feedback, lists and tables), a popup engine for toasts, floaters, centered cards and bottom sheets, 5 theme presets (10 light/dark themes: Slate, Aurora, Copper, Sage, Garnet), a style protocol for every styleable component (33 style protocols with 97 built-in styles) including Liquid Glass styles for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
 
 All components handle platform differences internally. Consumers do not need `#if os(macOS)` or `#if os(iOS)` guards to use DesignFoundation components — platform adaptation is automatic.
 
@@ -17,7 +17,7 @@ All components handle platform differences internally. Consumers do not need `#i
 
 ## Popups & Toasts
 
-Free (DesignFoundation 1.7.0). Docs with real recordings: https://nerdsnipe-inc.github.io/design-foundation/#popups . Clip index (file, what it shows, demo id, API): https://nerdsnipe-inc.github.io/design-foundation/videos/popups/MANIFEST.md . All clips are screen recordings of the DFPlayground Popup Lab on iOS 26.
+Free (DesignFoundation 1.7.1). Docs with real recordings: https://nerdsnipe-inc.github.io/design-foundation/#popups . Clip index (file, what it shows, demo id, API): https://nerdsnipe-inc.github.io/design-foundation/videos/popups/MANIFEST.md . All clips are screen recordings of the DFPlayground Popup Lab on iOS 26.
 
 - `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` (item is Identifiable): one engine for centered cards, edge-flush toasts, inset floaters and bottom sheets.
 - `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:backdrop:)`; presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`, `.sheet(dismissOnDrag:backdrop:dismissOnOutsideTap:)`.
@@ -27,7 +27,7 @@ Free (DesignFoundation 1.7.0). Docs with real recordings: https://nerdsnipe-inc.
 - Toasts: `DFToastQueue.shared.show(text:icon:duration:severity:position:title:actionTitle:action:)` + `.dfToast()`; severities info/success/warning/error; styles via `.dfToastStyle(_:)`: .default .tinted .filled .inverse .frosted .glass (26+) .banner .compact. Style with `.dfToast(style: .tinted)`; `.dfToast().dfToastStyle(_:)` also works, but `.dfToastStyle(_:).dfToast()` does not restyle toasts.
 - Tokens: `theme.components.popup = DFPopupTokens(cornerRadius:padding:maxWidth:backdropOpacity:)`; `DFPopupHost` embeds the layer in custom containers.
 
-Pro (DesignFoundationPro 2.3.0, requires DesignFoundation 1.7.0). Docs: https://nerdsnipe-inc.github.io/design-foundation/pro/#popups
+Pro (DesignFoundationPro 2.3.0, requires DesignFoundation 1.7.1 or later). Docs: https://nerdsnipe-inc.github.io/design-foundation/pro/#popups
 
 - `.dfPopupPresentation(isPresented:display:configuration:keyboard:scrim:motion:pausesOnHold:chrome:haptic:onDismiss:content:)`; display `.overlay | .sheet | .window`; keyboard `.avoid | .ignore`; `DFPopupScrim` `.dim(_:) .blur(_:) .custom{} .clear .passingTouches()`; `DFPopupDismissReason` `.timeout .tap .outsideTap .drag .programmatic .preempted`; `@Environment(\.dfPopupDismiss)`; `dfPopupWindow` shorthand.
 - `dfScrollPopup(isPresented:edge:detents:headerStyle:scrim:onDismiss:header:content:footer:)`, `fromTop:`; detents `.medium .large .fraction .height`; header styles `.plain .centered .prominent .closable`.
@@ -56,7 +56,7 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 
 - **License:** MIT (free for personal and commercial use)
 - **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation (package name `design-foundation`; product `DesignFoundation`, so depend on it with `.product(name: "DesignFoundation", package: "design-foundation")`)
-- **Current version:** 1.7.0
+- **Current version:** 1.7.1
 - **DesignFoundation Pro:** Commercial license — private GitHub access after purchase (not a public repository)
 - **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
 - **Swift version:** Swift 6 (strict concurrency enabled)
@@ -65,4 +65,4 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 - **Validation:** DFValidatedTextField with DFFieldValidator conformances (DFRequiredValidator, DFEmailValidator, DFMinLengthValidator, DFMaxLengthValidator, DFRegexValidator, or your own) and DFFormState for multi-field form management; DFValidationState is .none / .valid / .error(String)
 - **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); eight token namespaces (colors, typography, spacing, radius, shadows, animation, components, materials) are all overridable; 26 per-component override structs live at theme.components. Apply .dfTheme/.dfThemePreset and .dfPopupStyle/.dfToastStyle at or outside .dfPopup/.dfToast (popup and toast layers are overlays and read the environment from outside their modifier)
 - **Preset themes:** .slate, .aurora, .copper, .sage, .garnet — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
-- **Liquid Glass:** 18 `.glass` styles (buttons, cards, badges, avatars, text fields, secure fields, toggles, sliders, pickers, date pickers, sheets, popovers, tooltips, popups, toasts, sidebar, tab bar, navigation bar; modal glass is only available as `DFGlassModalStyle()`) — requires iOS 26+ / macOS 26+; opt out per theme with `theme.materials.preferLiquidGlass = false`
+- **Liquid Glass:** 19 glass styles, 18 of them via `.glass` (buttons, cards, badges, avatars, text fields, secure fields, toggles, sliders, pickers, date pickers, sheets, popovers, tooltips, popups, toasts, sidebar, tab bar, navigation bar) plus modal glass, which is only available as `DFGlassModalStyle()` — requires iOS 26+ / macOS 26+; opt out per theme with `theme.materials.preferLiquidGlass = false`

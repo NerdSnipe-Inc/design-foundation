@@ -15,9 +15,9 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 50+ SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 44 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
-Five presets, each with a light and a dark variant. A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
+5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
 ---
 
@@ -31,13 +31,13 @@ Five presets, each with a light and a dark variant. A style protocol for every s
 
 Add the package via Swift Package Manager.
 
-**Xcode:** File → Add Package Dependencies → `https://github.com/NerdSnipe-Inc/design-foundation` → Up to Next Major Version from `1.7.0`
+**Xcode:** File → Add Package Dependencies → `https://github.com/NerdSnipe-Inc/design-foundation` → Up to Next Major Version from `1.7.1`
 
 **Package.swift:**
 
 ```swift nocheck
 dependencies: [
-    .package(url: "https://github.com/NerdSnipe-Inc/design-foundation", from: "1.7.0")
+    .package(url: "https://github.com/NerdSnipe-Inc/design-foundation", from: "1.7.1")
 ],
 targets: [
     .target(
@@ -229,7 +229,7 @@ All text inputs share `DFValidationState` (`.none`, `.valid`, `.error(String)`) 
 
 ## Popups & toasts
 
-One engine, `.dfPopup(isPresented:)` / `.dfPopup(item:)`, presents centered cards, edge-flush toasts, inset floaters and bottom sheets, in nine positions, with slide, scale, fade or custom transitions, none / dim / blur backdrops, auto-dismiss, and tap, outside-tap or drag to dismiss. `DFToastQueue` and `.dfToast()` run on the same engine.
+One engine, `.dfPopup(isPresented:)` / `.dfPopup(item:)`, presents centered cards, edge-flush toasts, inset floaters and bottom sheets, in nine positions, with slide, scale, fade, none or asymmetric edge transitions, none / dim / blur backdrops, auto-dismiss, and tap, outside-tap or drag to dismiss. `DFToastQueue` and `.dfToast()` run on the same engine.
 
 ```swift
 HomeView()
@@ -255,7 +255,7 @@ Surface styles, toast styles, `DFPopupCard`, the bottom-sheet kind and `DFPopupB
 
 ## Style System
 
-Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 33 style protocols in all, each with built-in styles, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
+Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 33 style protocols with 97 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section
@@ -306,7 +306,7 @@ Five full, open-source example apps show what a real app looks like on top of De
 
 ## DesignFoundation Pro
 
-There's a paid tier that adds pre-built screens and blocks composed from these same primitives: 32 blocks (auth, dashboards and charts, forms, settings, feeds), 55 screens across 12 verticals (AI Chat, Analytics, Booking, CRM, Documents, E-commerce, Food, News, Onboarding, Project Manager, Settings, Social), 18 navigation shells, 12 composition roots, and advanced popups (unified overlay / sheet / window presentation, scroll popups with detents, a priority queue, celebration, permission, promo, rating, input, consent and action popups, undo and progress toasts, notification banners, a live capsule, coachmark tours, motion presets and haptics). DesignFoundationPro 2.3.0 requires DesignFoundation 1.7.0.
+There's a paid tier that adds pre-built screens and blocks composed from these same primitives: 30 blocks plus 2 AI Chat components (auth, dashboards and charts, forms, settings, feeds), 55 screens across 12 verticals (AI Chat, Analytics, Booking, CRM, Documents, E-commerce, Food, News, Onboarding, Project Manager, Settings, Social), 18 navigation shells, 12 composition roots, and advanced popups (unified overlay / sheet / window presentation, scroll popups with detents, a priority queue, celebration, permission, promo, rating, input, consent and action popups, undo and progress toasts, notification banners, a live capsule, coachmark tours, motion presets and haptics). DesignFoundationPro 2.3.0 requires DesignFoundation 1.7.1 or later.
 
 Details and purchase: [nerdsnipe-inc.github.io/design-foundation/pro](https://nerdsnipe-inc.github.io/design-foundation/pro/) ([advanced popups](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups)). It's optional. The primitives on this repo stay MIT and get maintained regardless.
 

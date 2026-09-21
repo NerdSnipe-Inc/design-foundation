@@ -155,7 +155,7 @@ Prefer `DFText` whenever the content is a plain `String`. Drop to raw tokens onl
 
 ## Dynamic Type
 
-`DFText` uses SwiftUI's scalable font system — the same underlying mechanism as `Font.body`, `Font.title`, and so on. All six style cases scale proportionally with the user's chosen text size in System Preferences / Accessibility Settings.
+`DFText` uses SwiftUI's scalable font system — the same underlying mechanism as `Font.body`, `Font.title`, and so on. All eight style cases scale proportionally with the user's chosen text size in System Preferences / Accessibility Settings.
 
 You do not need to opt in or configure anything. Scaling is on by default.
 
@@ -230,7 +230,7 @@ This pattern is useful for building muted detail panels where most content shoul
 
 ## Per-Preset Typography Differences
 
-While all presets share the same six style cases and the same SwiftUI font bases, the `DFTypographyTokens` values inside each token are tuned to match the preset's personality:
+While all presets share the same eight style cases and the same SwiftUI font bases, the `DFTypographyTokens` values inside each token are tuned to match the preset's personality:
 
 ### Default
 
