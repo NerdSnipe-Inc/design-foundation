@@ -2,7 +2,7 @@
 
 > Production-grade SwiftUI component library and design system for iOS, macOS, and visionOS — free, open-source (MIT), distributed via Swift Package Manager.
 
-DesignFoundation gives Swift developers a token-based theming engine, 25 accessible SwiftUI components plus 6 feedback/overlay modifiers (alert, toast, modal, sheet, popover, tooltip), five opinionated visual identity presets (Slate, Aurora, Copper, Sage, Garnet), Liquid Glass support for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
+DesignFoundation gives Swift developers a token-based theming engine, 50+ SwiftUI components (primitives, inputs, layout, navigation, overlays, feedback, lists and tables), a popup engine for toasts, floaters, centered cards and bottom sheets, five opinionated visual identity presets (Slate, Aurora, Copper, Sage, Garnet), a style protocol for every styleable component (33) including Liquid Glass styles for iOS 26 / macOS 26, and full Swift 6 concurrency safety — all in a single SPM dependency.
 
 All components handle platform differences internally. Consumers do not need `#if os(macOS)` or `#if os(iOS)` guards to use DesignFoundation components — platform adaptation is automatic.
 
@@ -12,8 +12,8 @@ All components handle platform differences internally. Consumers do not need `#i
 - [Integration Guide](https://nerdsnipe-inc.github.io/design-foundation/integration/): Five-step workflow for DesignFoundation + Pro — theme → shell → block → screen → your data. Target: first custom screen in under 15 minutes.
 - [The Foundation Way](https://nerdsnipe-inc.github.io/design-foundation/foundation-way/): Side-by-side line-count comparisons — hand-rolled SwiftUI vs composing the packages. Promo for less code in your repo and fewer AI coding tokens.
 - [Use Cases](https://nerdsnipe-inc.github.io/design-foundation/use-cases/): Who builds what — consumer social, SaaS, AI chat, notes, ecommerce, analytics, onboarding, PM, settings, and ops apps. Recommended roots and blocks per domain.
-- [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The four built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm). Each preset auto-switches light/dark.
-- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 47 full SwiftUI screens across 9 verticals + 29 UI blocks + 18 shell layouts + 9 wired composition examples. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
+- [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The five built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm), Garnet (bold saturated red). Each preset auto-switches light/dark.
+- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 55 full SwiftUI screens across 12 verticals + 32 UI blocks + 18 shell layouts + 12 composition roots + advanced popups. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
 ## Popups & Toasts
 
@@ -40,7 +40,9 @@ Pro (DesignFoundationPro 2.3.0, requires DesignFoundation 1.7.0). Docs: https://
 ## Source
 
 - [GitHub Repository](https://github.com/NerdSnipe-Inc/design-foundation): Source code, releases, issues, and Swift Package Manager URL.
-- [Latest Release — v1.1.0](https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/v1.1.0): Release notes for v1.1.0 (preset themes, resolve(for:) API, macOS token fixes, semantic typography).
+- [Latest release](https://github.com/NerdSnipe-Inc/design-foundation/releases/latest): Release notes. 1.7.0 adds popup surface styles, toast styles with title and action, `DFPopupCard`, the bottom-sheet popup kind and `DFPopupBackdrop`.
+- [Changelog](https://github.com/NerdSnipe-Inc/design-foundation/blob/master/CHANGELOG.md) and [Wiki](https://github.com/NerdSnipe-Inc/design-foundation/wiki).
+- [DFPlayground](https://nerdsnipe-inc.github.io/design-foundation/DFPlayground.dmg): free macOS 15+ app that browses every component, block, screen and theme, and includes the Popup Lab.
 
 ## AI Agent Guidance
 
@@ -53,14 +55,14 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 ## Key Facts
 
 - **License:** MIT (free for personal and commercial use)
-- **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation
-- **Current version:** 1.1.0
+- **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation (package name `design-foundation`; product `DesignFoundation`, so depend on it with `.product(name: "DesignFoundation", package: "design-foundation")`)
+- **Current version:** 1.7.0
 - **DesignFoundation Pro:** Commercial license — private GitHub access after purchase (not a public repository)
 - **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
 - **Swift version:** Swift 6 (strict concurrency enabled)
 - **Cross-platform:** All components adapt internally — no `#if os()` guards needed in consuming code
-- **Components:** DFButton, DFBadge, DFAvatar, DFCard, DFTextField, DFSecureField, DFValidatedTextField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFModal, DFSheet, DFPopover, DFTooltip, DFTabBar, DFNavigationBar, DFSidebar, DFToast, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid, DFDivider, DFText, DFIcon, DFAlert
-- **Validation:** DFValidatedTextField with DFFieldValidator (rules: .email, .minLength, .required, .custom) and DFFormState for multi-field form management
-- **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); all tokens (colors, typography, spacing, radius, shadow, animation) are overridable
+- **Components:** DFButton, DFText, DFIcon, DFBadge, DFAvatar, DFDivider, DFChip, DFRatingView, DFPriceView, DFTextField, DFSecureField, DFTextArea, DFValidatedTextField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox, DFQuantityStepper, DFRadioPickerView, DFCard, DFEntityRow, DFEntityCard, DFGrid, DFCarousel, DFPriceSummaryView, DFTabBar, DFNavigationBar, DFSidebar, DFBanner, DFEmptyState, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid, DFCalendarView, DFArticleRow, DFAuthorView, DFRelativeTimeTag, DFInlineTagView, DFMetadataRow, DFPopupCard, DFPopupHeader, DFPopupActions, DFPopupIconBadge, DFPopupHost; modifiers .dfModal, .dfFullscreenModal, .dfSheet, .dfPopover, .dfTooltip, .dfAlert, .dfToast, .dfPopup, .dfCommandPalette, .dfImageGallery, .dfBottomBar, .dfNavigationBar
+- **Validation:** DFValidatedTextField with DFFieldValidator conformances (DFRequiredValidator, DFEmailValidator, DFMinLengthValidator, DFMaxLengthValidator, DFRegexValidator, or your own) and DFFormState for multi-field form management; DFValidationState is .none / .valid / .error(String)
+- **Theming:** DFTheme struct injected via .dfTheme() modifier; preset themes via .dfThemePreset(); eight token namespaces (colors, typography, spacing, radius, shadows, animation, components, materials) are all overridable; 26 per-component override structs live at theme.components. Apply .dfTheme/.dfThemePreset and .dfPopupStyle/.dfToastStyle at or outside .dfPopup/.dfToast (popup and toast layers are overlays and read the environment from outside their modifier)
 - **Preset themes:** .slate, .aurora, .copper, .sage, .garnet — each ships light + dark DFTheme, apply with MyApp().dfThemePreset(.slate)
-- **Liquid Glass:** .glass styles on buttons, cards, badges, avatars, modals, sheets, popovers, tooltips, sidebar, tab bar — requires iOS 26+ / macOS 26+
+- **Liquid Glass:** 18 `.glass` styles (buttons, cards, badges, avatars, text fields, secure fields, toggles, sliders, pickers, date pickers, sheets, popovers, tooltips, popups, toasts, sidebar, tab bar, navigation bar; modal glass is only available as `DFGlassModalStyle()`) — requires iOS 26+ / macOS 26+; opt out per theme with `theme.materials.preferLiquidGlass = false`

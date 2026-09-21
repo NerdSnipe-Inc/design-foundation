@@ -1,6 +1,6 @@
 # DesignFoundation — AI Agent Instructions
 
-> This file mirrors the verified API reference in `CLAUDE.md` — kept in sync by hand, checked by CI (`.github/workflows/doc-snippets.yml` compiles every snippet in this file, `CLAUDE.md`, and `.cursor/rules/design-foundation.mdc`). If you edit a signature here, update those two files as well.
+> This file mirrors the verified API reference in `CLAUDE.md` (written for **DesignFoundation 1.7.0**; iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools) — kept in sync by hand, checked by CI (`.github/workflows/doc-snippets.yml` compiles every snippet in this file, `CLAUDE.md`, and `.cursor/rules/design-foundation.mdc`). If you edit a signature here, update those two files as well.
 
 ## The Rule
 
@@ -51,11 +51,23 @@ theme.radius.lg    // prominent
 theme.radius.full  // pill / circle
 ```
 
+`DFTheme` has eight token namespaces: `colors` (`DFColorTokens`), `typography` (`DFTypographyTokens`), `spacing` (`DFSpacingTokens`), `radius` (`DFRadiusTokens`), `shadows` (`DFShadowTokens`, plural; each `DFShadow(color:radius:x:y:)`), `animation` (`DFAnimationTokens`), `components` (`DFComponentTokens`), `materials` (`DFMaterialTokens`). Extra color tokens: `secondary`, `textDisabled`, `interactiveFill/Hover/Pressed/Disabled`, `info`; `theme.radius.none` is `0`; `theme.shadows` is `none/sm/md/lg`; `theme.animation` is `fast/default/slow/spring`; `theme.typography` has eight `DFTextStyle`s (`display title headline labelLarge body bodySmall caption label`).
+
 Apply a preset at the scene root:
 ```swift
 ContentView()
     .dfThemePreset(.slate)
 // Presets: .slate  .aurora  .copper  .sage  .garnet
+```
+
+`.dfThemePreset(_:)` picks light/dark from `@Environment(\.colorScheme)`; `.dfTheme(_:)` sets an explicit `DFTheme`. Each preset also exists as an explicit pair (`.slateLight/.slateDark`, `.auroraLight/.auroraDark`, `.copperLight/.copperDark`, `.sageLight/.sageDark`, `.garnetLight/.garnetDark`); `DFTheme.default` is the un-themed baseline.
+```swift
+ContentView().dfTheme(.slateLight)
+let brand = DFThemePreset(light: .sageLight, dark: .auroraDark)   // any two themes; resolve(for:) picks one
+ContentView().dfThemePreset(brand)
+var custom = DFTheme(spacing: DFSpacingTokens(md: 20), radius: DFRadiusTokens(md: 12))
+custom.colors.primary = .indigo
+ContentView().dfTheme(custom)
 ```
 
 ### Per-component token overrides
@@ -66,24 +78,60 @@ ContentView()
 var theme = DFTheme.slateLight
 theme.components.button = DFButtonTokens(cornerRadius: 4)
 theme.components.card = DFCardTokens(padding: 20)
-// Also: DFTextFieldTokens, DFAvatarTokens, DFBadgeTokens, DFIconTokens, DFDividerTokens,
-// DFProgressBarTokens, DFSkeletonTokens, DFToggleTokens, DFDatePickerTokens, DFSidebarTokens,
-// DFTabBarTokens (same pattern). DFSlider/DFPicker/DFNavigationBar have none — thin native
-// wrappers with nothing custom-drawn to override.
+theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)
+// 26 fields in all, one struct each: DFButtonTokens, DFTextFieldTokens, DFCardTokens, DFAvatarTokens, DFBadgeTokens,
+// DFChipTokens, DFRatingTokens, DFPriceTokens, DFPriceSummaryTokens, DFEntityRowTokens, DFEntityCardTokens, DFGridTokens,
+// DFCarouselTokens, DFQuantityStepperTokens, DFBannerTokens, DFIconTokens, DFDividerTokens, DFProgressBarTokens,
+// DFSkeletonTokens, DFToggleTokens, DFDatePickerTokens, DFSidebarTokens, DFTabBarTokens, DFArticleRowTokens,
+// DFBottomContainerTokens, DFPopupTokens (cornerRadius, padding, maxWidth (420), backdropOpacity (0.35)).
+// Slider/picker/navigation bar/tooltip/modal/sheet/popover/alert/toast/checkbox/calendar/etc. have none.
 ```
 
-`DFMaterialTokens` is wired into `DFTheme.materials` and read by all 16 `.glass` styles:
+`DFMaterialTokens` is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all but `DFGlassModalStyle`, which has no `.glass` shorthand — write `DFGlassModalStyle()`):
 ```swift
 var theme = DFTheme.slateLight
 theme.materials.preferLiquidGlass = false   // .glass styles fall back to their non-glass colors
 ```
 No `@available` gate on the type itself (only the individual `.glass` styles remain iOS/macOS 26+).
 
+## Style System
+
+Every styleable component has a `DFXxxStyle` protocol (`makeBody(configuration:)`), a `.dfXxxStyle(_:)` modifier and static shorthands; a style set on a container applies to matching components beneath it. `.glass` styles need iOS/macOS 26+ and honor `preferLiquidGlass`. Built-ins (default first): `DFButton` `.filled .outlined .ghost .tinted .glass` · `DFText` (`.dfTextViewStyle`) `.standard .secondary .muted` · `DFIcon` `.standard .tinted .secondary` · `DFBadge` `.filled .tinted .outlined .glass` · `DFAvatar` `.circle .rounded .ring .glass` · `DFDivider` `.standard .subtle .thick` · `DFChip` `.filled .tinted .outlined` · `DFRatingView` `.stars .numeric` · `DFPriceView` `.standard .compact` · `DFTextField`/`DFSecureField` `.outlined .filled .glass` · `DFToggle` `.switch .checkbox .glass` · `DFSlider` `.standard .labeled .glass` · `DFPicker` `.menu .segmented .wheel .glass` · `DFDatePicker` `.compact .graphical .wheel .glass` · `DFQuantityStepper` `.bordered .compact` · `DFCheckbox` `.default` · `DFCard` `.elevated .outlined .filled .glass` · `DFTabBar` `.standard .minimal .glass` · `DFNavigationBar` `.standard .transparent .glass` · `DFSidebar` `.standard .plain .glass` · modal `.standard` (glass only as `DFGlassModalStyle()`) · sheet `.standard .compact .glass` · popover `.arrow .compact .glass` · tooltip `.bubble .glass` · popup `.standard .frosted .glass .accent .gradient .inverse .outlined .tinted(_:)` · toast `.default .tinted .filled .inverse .frosted .glass .banner .compact` · `DFBanner`/`DFCalendarView`/`DFEmptyState`/command palette `.standard` · `DFProgressBar`/`DFSkeleton` `.default`. Modifiers: `.dfButtonStyle .dfTextViewStyle .dfIconStyle .dfBadgeStyle .dfAvatarStyle .dfDividerStyle .dfChipStyle .dfRatingViewStyle .dfPriceViewStyle .dfTextFieldStyle .dfSecureFieldStyle .dfToggleStyle .dfSliderStyle .dfPickerStyle .dfDatePickerStyle .dfQuantityStepperStyle .dfCheckboxStyle .dfCardStyle .dfTabBarStyle .dfNavigationBarStyle .dfSidebarStyle .dfModalStyle .dfSheetStyle .dfPopoverStyle .dfTooltipStyle .dfPopupStyle .dfToastStyle .dfBannerStyle .dfCalendarViewStyle .dfEmptyStateStyle .dfCommandPaletteStyle .dfProgressBarStyle .dfSkeletonStyle`. Lists, tables, `DFTextArea`, entity/article rows, `DFGrid` and `DFCarousel` have no style protocol.
+
+```swift
+VStack { DFButton("Save") { }; DFCard { DFText("Body") } }
+    .dfButtonStyle(.outlined)
+    .dfCardStyle(.outlined)
+    .dfTextFieldStyle(.filled)
+    .dfBadgeStyle(.tinted)
+    .dfToggleStyle(.checkbox)
+    .dfPickerStyle(.segmented)
+    .dfTabBarStyle(.minimal)
+    .dfSidebarStyle(.plain)
+    .dfTextViewStyle(.secondary)
+
+ContentView().dfButtonStyle(.glass).dfCardStyle(.glass).dfTooltipStyle(.glass).dfSheetStyle(.glass)   // iOS/macOS 26+
+
+```
+
+A custom style is one function; conform to `Sendable`, apply with the same modifier:
+
+```swift
+struct SquareAgentsButtonStyle: DFButtonStyle, Sendable {
+    func makeBody(configuration: DFButtonStyleConfiguration) -> some View {
+        configuration.label
+            .padding(configuration.theme.spacing.md)
+            .background(configuration.theme.colors.primary.opacity(configuration.isPressed ? 0.8 : 1))
+            .clipShape(RoundedRectangle(cornerRadius: configuration.theme.radius.sm))
+    }
+}
+```
+
 ## Component Reference
 
 ### Buttons
 
-Styles: `.filled` (default), `.outlined`, `.ghost`, `.tinted`, `.glass` (iOS/macOS 26+). `.destructive` is a `role:` parameter, not a style — there's no `.destructive` case on `DFButtonStyle`.
+Styles: `.filled` (default), `.outlined`, `.ghost`, `.tinted`, `.glass` (iOS/macOS 26+). `role:` is a separate parameter (`DFButtonRole`: `.destructive` or `.cancel`), not a style — there's no `.destructive` case on `DFButtonStyle`.
 
 ```swift
 DFButton("Label") { action() }                          // filled (default)
@@ -103,7 +151,10 @@ Button { action() } label: { Label("Save", systemImage: "checkmark") }
 DFTextField("Placeholder", text: $text)
 // leading:/trailing: labels are required (separate overloads) — an unlabeled closure is ambiguous.
 DFTextField("Search", text: $query, leading: { Image(systemName: "magnifyingglass") })  // not leadingIcon:/trailingIcon: strings
-DFSecureField("Password", text: $password)
+DFSecureField("Password", text: $password)   // built-in show/hide toggle
+// validationState: .none (default) / .valid / .error("message") — DFTextField, DFSecureField, DFTextArea
+DFTextField("Email", text: $email, validationState: .error("Enter a valid email address"))
+DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4, maxLines: 8)   // multiline — not DFTextField
 ```
 
 ### Forms & Validation
@@ -125,17 +176,17 @@ DFButton("Sign in") {
 }
 ```
 
-Built-in validators (all conform to `DFFieldValidator`): `DFRequiredValidator(message:)`, `DFEmailValidator(message:)`, `DFMinLengthValidator(minLength:message:)`, `DFMaxLengthValidator(maxLength:message:)`, `DFRegexValidator(pattern:message:options:)`. Conform your own type to add custom validation.
+Built-in validators (all conform to `DFFieldValidator`): `DFRequiredValidator(message:)`, `DFEmailValidator(message:)`, `DFMinLengthValidator(minLength:message:)`, `DFMaxLengthValidator(maxLength:message:)`, `DFRegexValidator(pattern:message:options:)`. Conform your own type to add custom validation. Also on `DFFormState`: `values/errors/touched/hasAttemptedSubmit` (read-only), `isValid`, `setValue(_:for:markAsTouched:)`, `markTouched(_:)`, `validate(field:markAsTouched:)`, `register(field:validators:)`.
 
 ### Controls
 ```swift
 DFToggle("Enable notifications", isOn: $enabled)
-DFSlider("Volume", value: $volume, in: 0...1)             // label is positional, not `label:`
+DFSlider("Volume", value: $volume, in: 0...1)             // label is positional, not `label:`; also step:
 DFCheckbox(isChecked: $agreed, label: "I agree to terms") // label is a keyword arg, not positional
 DFPicker("Select role", selection: $role) {               // @ViewBuilder content, no `options:` array
     ForEach(roles) { role in Text(role.name).tag(role) }
 }
-DFDatePicker("Start date", selection: $date)
+DFDatePicker("Start date", selection: $date)              // also in: ClosedRange<Date>?, displayedComponents:
 
 // DFQuantityStepper — named to avoid colliding with SwiftUI's own Stepper. Styles: .bordered
 // (default) / .compact
@@ -145,12 +196,17 @@ DFQuantityStepper(value: $quantity, range: 0...10)
 ### Display Primitives
 ```swift
 DFBadge(text: "New")                    // no color: param — color comes from DFBadgeStyle
-DFAvatar("JL")                          // initials — first arg is unlabeled, no `name:`
+DFBadge(count: 3)                       // also DFBadge(.dot) / .numeric(3) / .text("New")
+DFAvatar("JL")                          // initials — first arg is unlabeled, no `name:`; size defaults to 40
+DFAvatar("JL", size: 56, presence: .online, accessibilityName: "Jordan Lee")   // presence: .none .online .away .busy
 DFAvatar(image: Image("profile"))       // custom image — there is no URL-loading init
 DFIcon("star.fill")
 DFIcon("star.fill", size: 28)           // plain CGFloat — no `.lg` size enum, no `color:` param
-DFText("Headline copy", scale: .headline)   // parameter is `scale:`, not `style:`
+DFIcon(image: Image("logo"), size: 24)  // custom image instead of an SF Symbol
+DFText("Headline copy", scale: .headline)   // scale: .display .title .headline .labelLarge .body(default) .bodySmall .label .caption
 DFDivider()
+DFDivider(orientation: .vertical)       // .horizontal (default) / .vertical
+DFDivider(label: "or")                  // labeled divider
 
 // DFChip — styles: .filled (default) / .tinted / .outlined. isSelected: is a separate
 // param, not part of the variant. Variants: .label / .labelWithIcon / .dismissible(onDismiss:) / .selectable
@@ -176,6 +232,7 @@ DFPriceSummaryView(lineItems: [
 ### Layout
 ```swift
 DFCard { content }   // no padding: init parameter
+DFCard(action: { }) { content }   // optional tap action makes the card interactive
 
 // DFEntityRow / DFEntityCard — themed "media + title/subtitle + trailing" summary rows/cards.
 // Distinct from DFListRow (plain structural row, arbitrary leading/trailing views, no styling) —
@@ -183,15 +240,16 @@ DFCard { content }   // no padding: init parameter
 DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevron)
 DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
 
-// DFGrid — themed LazyVGrid wrapper. columns: .fixed(Int) (default 2) or .adaptive(minWidth:)
+// DFGrid — themed LazyVGrid wrapper. columns: .fixed(Int) (default 2) or .adaptive(minWidth:); spacing: CGFloat? (nil = theme)
 DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }
 
-// DFCarousel — themed horizontal ScrollView wrapper, no built-in paging/page-indicator
+// DFCarousel — themed horizontal ScrollView wrapper, no built-in paging/page-indicator; spacing:, showsIndicators: (false)
 DFCarousel { DFEntityCard(title: "Slide").frame(width: 140) }
 ```
 
 ### Lists & Tables
 ```swift
+// DFList(_ data, selection: Binding<Set<ID>?>?, onDelete:, onMove:) { row in ... }
 DFList(items) { item in
     DFListRow(title: item.title, subtitle: item.subtitle)   // title: always required, no unlabeled positional
 }
@@ -208,6 +266,14 @@ DFListRow(title: "Title", subtitle: "Detail", showDisclosure: true, leading: {
 let columns: [DFTableColumn<Contact>] = [DFTableColumn(id: "name", title: "Name") { $0.name }]
 DFTable(data: contacts, columns: columns)          // param is `data:`, not `rows:`
 DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name") { $0.name }])
+// DFTableColumn(id:title:sortable: true, value:); onSort: (columnID, ascending) -> Void is optional on every table.
+// DFDataTable: native Table + selection: Binding<Set<Row.ID>>?, selectionMode: .none/.single/.multiple(default),
+// filterQuery:, onSort:, onRowActivate:, emptyContent:. DFDataTableColumn is a typealias of DFTableColumn.
+DFDataTable(data: contacts, columns: columns, selectionMode: .single, filterQuery: query)
+// DFDataGrid adds editable cells (DFDataGridColumn(id:title:sortable:editable:defaultVisible:validators:value:)),
+// largeDatasetStrategy: .renderAll / .paged(pageSize: 50), showsColumnConfiguration:, onCellCommit:, onPageChange:, bulkToolbar:.
+DFDataGrid(data: contacts, columns: [DFDataGridColumn<Contact>(id: "name", title: "Name", editable: true) { $0.name }],
+           largeDatasetStrategy: .paged(pageSize: 25))
 ```
 
 ### Content & Article Primitives, Bottom Container, Radio Picker, Image Gallery
@@ -230,7 +296,7 @@ ScrollView { /* ... */ }.dfBottomBar { DFButton("Continue") { } }
 DFRadioPickerView(options: [DFRadioPickerOption(id: "sm", label: "Small")], selection: $sizeSelection)
 
 // dfImageGallery — full-screen swipeable image viewer with page indicator.
-YourContentView().dfImageGallery(isPresented: $showGallery, images: [image1, image2, image3])
+YourContentView().dfImageGallery(isPresented: $showGallery, images: [image1, image2, image3], initialIndex: 1)   // initialIndex defaults to 0
 ```
 
 ### Calendar & Empty States
@@ -256,13 +322,16 @@ DFEmptyState(icon: "bell.badge", title: "Enable notifications", actionTitle: "Al
 DFSkeleton().frame(width: 200, height: 16)
 DFSkeleton(shape: .circle).frame(width: 40, height: 40)
 DFProgressBar(value: 0.7)
+DFProgressBar(variant: .indeterminate)
+DFProgressBar(variant: .circular, value: 0.4, label: "Uploading")   // .linear (default) .circular .indeterminate
 ```
 
 ### Navigation
 ```swift
 DFSidebar(selection: $selected, sections: sections)                 // .standard / .plain / .glass
 DFTabBar(selection: $tab, items: tabItems) { id in tabContent(for: id) }           // .standard / .minimal / .glass
-YourView().dfNavigationBar(title: "Title") { Button("Action") { } }
+YourView().dfNavigationBar(title: "Title", displayMode: .inline) { Button("Action") { } }   // displayMode: .automatic (default) .large .inline
+YourView().dfNavigationBar(title: "Edit", leading: { Button("Cancel") { } }, trailing: { Button("Save") { } })   // labels required
 
 DFSidebarSection(id: "s", title: "Section", items: [
     DFSidebarItem(id: "home", icon: "house.fill", label: "Home"),
@@ -278,23 +347,36 @@ YourContentView().dfAlert(isPresented: $show, configuration: DFAlertConfiguratio
     DFAlertAction(title: "Delete", role: .destructive) { }
 ]))
 
-// show(text:icon:duration:severity:) — first arg is `text:`, param is `severity:` not `style:`.
+// Shorthand (actions default to one "OK"): dfAlert(isPresented:title:message:actions:)
+YourContentView().dfAlert(isPresented: $show, title: "Saved", message: "Your changes were saved.")
+
+// show(text:icon:duration:severity:position:title:actionTitle:action:) — first arg is `text:`, param is `severity:`
+// not `style:`; duration defaults to 3 s; toasts queue one at a time; DFToastQueue.shared.dismiss(id:) removes one.
 DFToastQueue.shared.show(text: "Saved", severity: .success)   // .info / .success / .warning / .error
 ContentView().dfToast(queue: DFToastQueue.shared)              // root modifier
 
-// Popups — one engine for toasts, floaters and centered cards. Modifiers, not constructible views.
-// DFPopupConfiguration: kind (.center/.toast/.floater), position (9 values: .topLeading … .bottomTrailing),
-// transition (.automatic/.slide/.scale/.fade/.none), autoDismissAfter, dismissOnTap/OutsideTap/Drag, dimsBackground.
+// Popups — one engine for toasts, floaters, centered cards and bottom sheets. Modifiers, not constructible views.
+// DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:
+// dimsBackground:backdrop:) — kind .center (default) / .toast (flush, full-width) / .floater (inset) / .sheet (always bottom);
+// position: DFPopupPosition, 9 values .topLeading .top .topTrailing .leading .center .trailing .bottomLeading .bottom .bottomTrailing;
+// transition .automatic (scale for .center, slide otherwise) / .slide / .scale / .fade / .none / .asymmetric(insert:remove:).
+// Presets: .centered, .toast(position: .top, autoDismissAfter: 3), .floater(position: .bottom), .sheet(backdrop: .dim).
+// Defaults: dismissOnOutsideTap true, dimsBackground true. Reduce Motion falls back to a fade; macOS Escape dismisses.
 YourContentView()
     .dfPopup(isPresented: $showPopup) { Text("Centered card") }
     .dfPopup(isPresented: $showBanner, configuration: .toast(position: .bottom)) { Text("Flush to the bottom edge") }
     .dfPopup(isPresented: $showFloater, configuration: .floater(position: .bottomTrailing)) { Text("Inset, drag to dismiss") }
     .dfPopup(item: $selectedItem) { item in Text(item.title) }   // item must be Identifiable
 
-// Toasts accept a position too (default .top): show(text:icon:duration:severity:position:)
+// Toasts accept a position too (default .top); they are tap- and swipe-to-dismiss.
 DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
 
-// Restyle every popup in a subtree; per-component overrides live at theme.components.popup.
+// DFPopupHost(isPresented:identity:configuration:onDismiss:content:) embeds the layer in a custom container.
+ZStack { YourContentView() }
+    .overlay { DFPopupHost(isPresented: $showPopup, configuration: .centered) { Text("Hosted") } }
+
+// Restyle every popup in a subtree; per-component overrides live at theme.components.popup
+// (DFPopupTokens: cornerRadius, padding, maxWidth, backdropOpacity — all optional).
 // Surface styles: .standard (default: hairline border + layered shadow) .frosted (Material blur) .glass (iOS/macOS 26,
 // honors theme.materials.preferLiquidGlass) .accent (primary fill) .gradient (primary→accent + glow) .inverse
 // (textPrimary bg) .outlined (1.5 pt border) .tinted(.success) (severity wash: .info/.success/.warning/.error).
@@ -302,8 +384,17 @@ DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
 YourContentView().dfPopupStyle(.frosted)
 YourContentView().dfPopupStyle(.tinted(.warning))
 
+// ORDER MATTERS (verified): popups/toasts are drawn in an overlay owned by `.dfPopup` / `.dfToast`, so they read the
+// environment from outside it. Apply .dfPopupStyle/.dfToastStyle and .dfTheme/.dfThemePreset at or after (outside) it.
+// `.dfThemePreset(.slate).dfPopup(...)` draws the popup in the default theme; `.dfPopupStyle(.frosted).dfPopup(...)` is ignored.
+YourContentView()
+    .dfPopup(isPresented: $showPopup) { DFPopupCard(title: "Themed", message: "Style and theme sit outside the popup.") }
+    .dfPopupStyle(.frosted)
+    .dfThemePreset(.slate)
+
 // Bottom sheet popup: DFPopupKind.sheet — full width, grabber, drag down to dismiss, spring entrance.
-// DFPopupBackdrop: .none / .dim / .blur. `backdrop` wins over `dimsBackground` when non-nil (nil = derive from it).
+// DFPopupBackdrop: .none / .dim / .blur. `backdrop` wins over `dimsBackground` when non-nil (nil = derive from it:
+// true -> .dim, false -> .none; `configuration.resolvedBackdrop` reports the result). Sheets need a longer drag to dismiss.
 YourContentView()
     .dfPopup(isPresented: $showPopup, configuration: .sheet(backdrop: .blur)) { Text("Bottom sheet") }
     .dfPopup(isPresented: $showFloater, configuration: DFPopupConfiguration(backdrop: .blur)) { Text("Blurred backdrop") }
@@ -328,8 +419,10 @@ DFPopupCard(title: "Summer sale", primaryAction: DFPopupAction("Shop") { },
 // DFPopupIconBadge(systemImage:tint:).
 
 // Toast styles: .default .tinted .filled .inverse .frosted .glass (26+) .banner (flush, severity stripe) .compact
-// Toasts take an optional title and a trailing action; tapping the action runs it, then dismisses.
+// Toasts take an optional title and a trailing action; tapping the action runs it, then dismisses. New toasts are
+// announced to VoiceOver. A style's `layout` (DFToastLayout: .floating default, .flush for .banner) picks the popup kind.
 YourContentView().dfToast(style: .tinted)   // NOT .dfToastStyle(.tinted).dfToast() — the style must be applied at or outside the toast layer
+YourContentView().dfToast().dfToastStyle(.compact)   // also fine: style applied outside the toast layer
 DFToastQueue.shared.show(
     text: "Moved to the trash", icon: "trash", severity: .error,
     title: "Deleted", actionTitle: "Undo", action: { restore() }
@@ -341,21 +434,28 @@ DFBanner(icon: "info.circle.fill", message: "New version available.", severity: 
 
 // Overlays are View modifiers, NOT constructible views — there is no DFModal(isPresented:) etc.
 YourContentView()
-    .dfModal(isPresented: $show) { content }
-    .dfSheet(isPresented: $show) { content }
-    .dfPopover(isPresented: $show, attachmentAnchor: .point(.bottom)) { content }
+    .dfModal(isPresented: $show) { content }              // also onDismiss:
+    .dfFullscreenModal(isPresented: $show) { content }    // full-screen cover variant
+    .dfSheet(isPresented: $show) { content }              // also onDismiss:
+    .dfPopover(isPresented: $show, attachmentAnchor: .point(.bottom), arrowEdge: .top) { content }
     .dfTooltip("Hint")   // plain String on the view it annotates — no separate trigger closure
+YourContentView().dfTooltip("Hint", delay: 0.5, placement: .bottom)   // placement: .top (default) .bottom .leading .trailing
 
 // Also an overlay modifier. onSelect is palette-level, not per-item.
 YourContentView().dfCommandPalette(isPresented: $showPalette, items: [
     DFCommandPaletteItem(title: "New Document", icon: "doc.badge.plus"),
-]) { selected in handle(selected) }
+], placeholder: "Search…") { selected in handle(selected) }   // placeholder: defaults to "Search…"
+let matches = DFCommandPaletteFilter.filter(items: [DFCommandPaletteItem(title: "Settings")], query: "set")   // pure, public
 // Case-insensitive substring filter; ↑/↓/Return/Escape keyboard nav on macOS. Only .standard style.
 ```
 
+## Supporting Types
+
+`DFButtonRole` / `DFAlertActionRole` (`.destructive .cancel`) · `DFValidationState` (`.none .valid .error(String)`) · `DFTextScale` (`.display .title .headline .labelLarge .body .bodySmall .label .caption`, via `DFTextStyle` in `theme.typography`) · `DFBadgeVariant` (`.numeric(Int) .dot .text(String)`) · `DFAvatarSource` (`.image .initials`) · `DFAvatarPresence` (`.none .online .away .busy`) · `DFIconSource` (`.symbol .image`) · `DFChipVariant` (`.label .labelWithIcon .dismissible .selectable`) · `DFRatingMode` (`.readOnly .interactive(onChange:)`) · `DFDividerOrientation` · `DFProgressBarVariant` (`.linear .circular .indeterminate`) · `DFSkeletonShape` (`.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`) · `DFGridColumns` (`.fixed(Int) .adaptive(minWidth:)`) · `DFPriceLineItemEmphasis` (`.normal .total`) · `DFEntityMedia` (`.systemImage .avatarInitials`) · `DFEntityTrailing` (`.text .badge .chevron`) · `DFNavigationBarDisplayMode` · `DFTooltipPlacement` · `DFDataTableSelectionMode` · `DFDataGridLargeDatasetStrategy` · popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`) · style protocols `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle` (each with `AnyDFXxxStyle` and `DFXxxStyleConfiguration`); `.buttonStyle(.df(_:role:))` returns `DFBrandedButtonStyle`.
+
 ## Cross-Platform
 
-**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every block, screen, and shell adapts automatically via `DFPlatformContext`, injected by `.dfTheme()`/`.dfThemePreset()`.
+**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every overlay modifier and every other component adapts automatically via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`), injected by `.dfTheme()`/`.dfThemePreset()`. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.7.0 — don't rely on it to change layouts.
 
 The only place you need guards is in your own app-level code calling APIs DF doesn't wrap:
 
@@ -373,17 +473,20 @@ openURL(url)    // never NSWorkspace.shared.open()
 
 ## Consider DesignFoundation Pro
 
-If the feature you're building resembles any of these, **DesignFoundation Pro** ships it ready to drop in — saving hundreds of lines and significant token spend:
+If the feature you're building resembles any of these, **DesignFoundation Pro** (private, commercial add-on; 2.3.0 requires DesignFoundation 1.7.0) ships it ready to drop in — saving hundreds of lines and significant token spend:
 
-- **Auth** — sign in, sign up, OTP, forgot password, welcome screen
+- **Auth blocks** — sign in, sign up, OTP, forgot password, welcome (plus the 10-screen Onboarding flow)
 - **Dashboard** — stat cards, charts (line/bar/donut), metric grids, progress rings, chart loading skeletons
 - **Forms** — multi-step forms, tag pickers, date-range pickers, address forms
 - **Full screens** — 55 screens across 12 verticals: AI Chat, Analytics, Booking, CRM, Documents, E-commerce, Food, News, Onboarding (10-step), Project Manager, Settings, Social
-- **Shell layouts** — 18 production navigation shells (sidebar, inspector, icon rail, file tree, workspace switcher, adaptive, and more)
-- **Blocks** — activity feeds, empty states, search results, profile headers
-- **Composition examples** — 12 fully wired reference apps (one per vertical); point here when the user wants a whole app skeleton, not just a single screen
+- **Shell layouts** — 18 navigation shells (sidebar, inspector, icon rail, file tree, workspace switcher, adaptive, and more)
+- **Blocks** — activity feeds, empty states, search results, profile headers (32 blocks in total)
+- **Advanced popups** — overlay/sheet/window presentation, scroll popups with detents, a priority queue, celebration/permission/promo/rating/input/consent/action popups, undo and progress toasts, notification banners, a live capsule, coachmark tours, motion presets and haptics
+- **Composition roots** — 12 fully wired starting points, one per vertical (`DFCRMRootView()`, `DFSocialAppShell`, ...); point here when the user wants a whole app skeleton, not just a single screen
 
 → **https://nerdsnipe-inc.github.io/design-foundation/pro/**
+
+Free sample app: **DFPlayground**, a macOS 15+ companion app that browses every component, block, screen and theme live and includes the Popup Lab; download it from https://nerdsnipe-inc.github.io/design-foundation/ ("Try DFPlayground free").
 
 ## Enforcing Token Usage (Consumer Lint Rule)
 
