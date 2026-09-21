@@ -17,14 +17,24 @@ This drives the REAL, LIVE desktop session — it will raise/lower windows and c
 visibly disruptive while it runs (~115+ launch/capture/kill cycles). Run it only when
 you're at the machine and not relying on other foreground windows for ~20-30 minutes.
 
-Usage: python3 scripts/generate_screenshot_catalog.py [--skip-capture]
+Usage: python3 scripts/generate_screenshot_catalog.py [--skip-capture] [--only NAME[,NAME...]]
   --skip-capture   Skip the live capture pass and only re-run framing/index
                     generation from whatever raw PNGs already exist in
                     Content/RawCaptures/ (useful for iterating on the framing
                     style without re-driving the GUI every time).
+  --only NAMES     Comma-separated manifest entry names (e.g. "Welcome,Pro Screens"
+                    or "DFPlanSelectionBlock"; a "Category/Name" form disambiguates).
+                    Only those entries are captured. Every other entry is reused
+                    from its committed Content/Frames/*.framed.png (RawCaptures is
+                    git-ignored), then strips and index are regenerated as usual.
+
+Environment overrides (defaults unchanged): DFP_PLAYGROUND_ROOT, DFP_PRO_ROOT,
+DFP_SCRATCH_PATH (passed to `swift build --scratch-path`, and where the binary is
+looked up), DFP_BUILD_TIMEOUT (seconds).
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import time
@@ -40,8 +50,9 @@ except ModuleNotFoundError as error:
     ) from error
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-PLAYGROUND_ROOT = REPO_ROOT.parent / "DFPlayground"
-PRO_ROOT = REPO_ROOT.parent / "DesignFoundationPro"
+PLAYGROUND_ROOT = Path(os.environ.get("DFP_PLAYGROUND_ROOT", REPO_ROOT.parent / "DFPlayground"))
+PRO_ROOT = Path(os.environ.get("DFP_PRO_ROOT", REPO_ROOT.parent / "DesignFoundationPro"))
+SCRATCH_PATH = os.environ.get("DFP_SCRATCH_PATH")
 
 RAW_DIR = REPO_ROOT / "Content" / "RawCaptures"
 FRAMES_DIR = REPO_ROOT / "Content" / "Frames"
@@ -55,7 +66,7 @@ GROUP_ROW_SIZE = 4
 
 LAUNCH_SETTLE_SECONDS = 7.0
 ACTIVATE_SETTLE_SECONDS = 1.2
-BUILD_TIMEOUT_SECONDS = 120
+BUILD_TIMEOUT_SECONDS = int(os.environ.get("DFP_BUILD_TIMEOUT", "120"))
 
 
 @dataclass(frozen=True)
@@ -225,7 +236,8 @@ def _run(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
 
 def build_playground_once() -> None:
     print("Building DFPlayground...")
-    result = _run(["swift", "build"], cwd=PLAYGROUND_ROOT, timeout=BUILD_TIMEOUT_SECONDS)
+    cmd = ["swift", "build"] + (["--scratch-path", SCRATCH_PATH] if SCRATCH_PATH else [])
+    result = _run(cmd, cwd=PLAYGROUND_ROOT, timeout=BUILD_TIMEOUT_SECONDS)
     if result.returncode != 0:
         raise SystemExit(f"DFPlayground build failed:\n{result.stdout}\n{result.stderr}")
 
@@ -262,7 +274,6 @@ def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
     if target.hide_main:
         env_overrides["DFP_HIDE_MAIN"] = "1"
 
-    import os
     env = {**os.environ, **env_overrides}
 
     proc = subprocess.Popen([str(binary)], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -308,7 +319,8 @@ def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
 
 def run_capture_pass(manifest: list[CaptureTarget]) -> None:
     build_playground_once()
-    binary = PLAYGROUND_ROOT / ".build" / "debug" / "DFPlayground"
+    build_root = Path(SCRATCH_PATH) if SCRATCH_PATH else PLAYGROUND_ROOT / ".build"
+    binary = build_root / "debug" / "DFPlayground"
     if not binary.exists():
         raise SystemExit(f"Expected built binary at {binary}, not found")
 
@@ -414,16 +426,38 @@ class IndexEntry:
     source_path: str
 
 
-def generate_frames_and_index(manifest: list[CaptureTarget]) -> None:
+def select_only(manifest: list[CaptureTarget], spec: str) -> list[CaptureTarget]:
+    """Resolve an --only spec (names or "Category/Name") to manifest entries."""
+    wanted = [w.strip() for w in spec.split(",") if w.strip()]
+    if not wanted:
+        raise SystemExit("--only needs at least one entry name")
+    chosen: list[CaptureTarget] = []
+    for w in wanted:
+        matches = [t for t in manifest if w in (t.name, f"{t.category}/{t.name}")]
+        if not matches:
+            raise SystemExit(f"--only: no manifest entry named {w!r}")
+        if len(matches) > 1:
+            cats = ", ".join(t.category for t in matches)
+            raise SystemExit(f"--only: {w!r} is ambiguous ({cats}); use Category/Name")
+        chosen.append(matches[0])
+    return chosen
+
+
+def generate_frames_and_index(manifest: list[CaptureTarget], only: list[CaptureTarget] | None = None) -> None:
     entries_by_category: dict[str, list[IndexEntry]] = {}
     pro_entries_by_category: dict[str, list[IndexEntry]] = {}
 
     for target in manifest:
         raw_path = RAW_DIR / f"{slug(target.category)}__{slug(target.name)}.png"
-        if not raw_path.exists():
-            continue
         frame_path = FRAMES_DIR / f"{slug(target.category)}__{slug(target.name)}{FRAME_SUFFIX}"
-        frame_image(raw_path, frame_path)
+        if only is not None and target not in only:
+            # --only: keep the committed frame as-is (raw captures are not in git).
+            if not frame_path.exists():
+                continue
+        else:
+            if not raw_path.exists():
+                continue
+            frame_image(raw_path, frame_path)
 
         entry = IndexEntry(target.category, target.name, frame_path, target.source_path)
         bucket = pro_entries_by_category if target.is_pro else entries_by_category
@@ -474,11 +508,21 @@ def write_index(
 
 
 def main() -> None:
-    skip_capture = "--skip-capture" in sys.argv
+    args = sys.argv[1:]
+    skip_capture = "--skip-capture" in args
+    only_spec = None
+    for i, a in enumerate(args):
+        if a == "--only":
+            if i + 1 >= len(args):
+                raise SystemExit("--only requires a value")
+            only_spec = args[i + 1]
+        elif a.startswith("--only="):
+            only_spec = a.split("=", 1)[1]
     manifest = build_manifest()
+    only = select_only(manifest, only_spec) if only_spec is not None else None
     if not skip_capture:
-        run_capture_pass(manifest)
-    generate_frames_and_index(manifest)
+        run_capture_pass(only if only is not None else manifest)
+    generate_frames_and_index(manifest, only)
 
 
 if __name__ == "__main__":
