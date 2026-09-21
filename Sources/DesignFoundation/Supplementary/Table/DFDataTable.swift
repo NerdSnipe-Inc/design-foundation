@@ -90,7 +90,10 @@ enum DFDataTableSupport {
         guard mode != .none, !rows.isEmpty, direction != 0 else { return current }
         let ids = rows.map(\.id)
         let anchorIndex: Int
-        if let selected = current.first, let index = ids.firstIndex(of: selected) {
+        // Anchor on the first selected row in table order. `Set` iteration order is
+        // arbitrary (and differs per process), so `current.first` picked a random row
+        // of a multi-selection.
+        if let index = ids.firstIndex(where: current.contains) {
             anchorIndex = index
         } else {
             anchorIndex = direction > 0 ? -1 : ids.count

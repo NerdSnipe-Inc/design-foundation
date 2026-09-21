@@ -269,6 +269,17 @@ struct DFDataTableKeyboardNavigationTests {
         #expect(selection == [2])
     }
 
+    @Test("multi-selection anchor is the first selected row in table order, every time")
+    func multiSelectionAnchorIsDeterministic() {
+        // Regression: the anchor used to be `Set.first`, which varies per process.
+        for _ in 0..<200 {
+            let down = DFDataTableSupport.keyboardMovedSelection(
+                direction: 1, rows: people, current: [3, 1], mode: .multiple
+            )
+            #expect(down == [2])
+        }
+    }
+
     @Test("none mode leaves selection unchanged")
     func noneModeUnchanged() {
         let selection = DFDataTableSupport.keyboardMovedSelection(
