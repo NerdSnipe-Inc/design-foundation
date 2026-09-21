@@ -64,6 +64,54 @@ struct DFContrastTests {
     }
 }
 
+@Suite("On-fill contrast across presets")
+@MainActor
+struct DFOnFillContrastTests {
+    private static let themes: [(String, DFTheme)] = [
+        ("slateLight", .slateLight), ("slateDark", .slateDark),
+        ("auroraLight", .auroraLight), ("auroraDark", .auroraDark),
+        ("copperLight", .copperLight), ("copperDark", .copperDark),
+        ("sageLight", .sageLight), ("sageDark", .sageDark),
+        ("garnetLight", .garnetLight), ("garnetDark", .garnetDark),
+    ]
+
+    private func check(_ stops: [Color], theme: DFTheme, _ name: String) {
+        let env = EnvironmentValues()
+        let dark = DFContrast.luminance(of: theme.colors.background, in: env) < 0.2
+        let r = DFContrast.resolve(stops: stops, darkScheme: dark, in: env)
+        let fg = DFContrast.luminance(of: r.foreground, in: env)
+        for stop in r.stops {
+            let ratio = DFContrast.ratio(fg, DFContrast.luminance(of: stop, in: env))
+            #expect(ratio >= 4.5, "\(name): \(ratio)")
+        }
+        if dark { #expect(r.foreground == .white, "\(name) dark uses light text") }
+    }
+
+    @Test("accent and gradient reach 4.5:1 on every stop in every preset")
+    func popups() {
+        for (name, theme) in Self.themes {
+            check([theme.colors.primary], theme: theme, name + " accent")
+            check([theme.colors.primary, theme.colors.accent], theme: theme, name + " gradient")
+        }
+    }
+
+    @Test("filled toast severity colors reach 4.5:1 in every preset")
+    func toasts() {
+        for (name, theme) in Self.themes {
+            for s in [DFToastSeverity.info, .success, .warning, .error] {
+                check([s.color(in: theme)], theme: theme, "\(name) \(s)")
+            }
+        }
+    }
+
+    @Test("gray resolves to gamma-encoded components")
+    func encoding() {
+        let env = EnvironmentValues()
+        let l = DFContrast.luminance(of: Color(red: 0.5, green: 0.5, blue: 0.5), in: env)
+        #expect(abs(l - 0.2140) < 0.01)
+    }
+}
+
 @Suite("DFPopupBackdrop")
 struct DFPopupBackdropTests {
     @Test("dimsBackground alone still decides the backdrop")

@@ -113,7 +113,7 @@ public struct DFFrostedPopupStyle: DFPopupStyle, Sendable {
     public func makeBody(configuration: DFPopupStyleConfiguration) -> some View {
         let theme = configuration.theme
         DFPopupChrome(configuration: configuration, appearance: DFPopupAppearance(
-            fills: [AnyShapeStyle(theme.materials.elevatedMaterial), AnyShapeStyle(theme.colors.surfaceElevated.opacity(0.4))],
+            fills: [AnyShapeStyle(theme.materials.elevatedMaterial), AnyShapeStyle(theme.colors.surfaceElevated.opacity(0.62))],
             rimHighlight: true,
             shadows: [theme.shadows.lg.scaled(0.8)],
             translucent: true
@@ -155,10 +155,11 @@ public struct DFAccentPopupStyle: DFPopupStyle, Sendable {
     public func makeBody(configuration: DFPopupStyleConfiguration) -> some View {
         let theme = configuration.theme
         DFPopupChrome(configuration: configuration, appearance: DFPopupAppearance(
-            fills: [AnyShapeStyle(theme.colors.primary)],
-            border: Color.white.opacity(0.18),
-            shadows: [theme.shadows.sm, DFShadow(color: theme.colors.primary.opacity(0.35), radius: 20, x: 0, y: 10)],
-            onFillColors: [theme.colors.primary]
+            fills: [],
+            border: Color.white.opacity(0.16),
+            shadows: [],
+            onFillColors: [theme.colors.primary],
+            glowOpacity: 0.35
         ))
     }
 }
@@ -172,13 +173,11 @@ public struct DFGradientPopupStyle: DFPopupStyle, Sendable {
     public func makeBody(configuration: DFPopupStyleConfiguration) -> some View {
         let theme = configuration.theme
         DFPopupChrome(configuration: configuration, appearance: DFPopupAppearance(
-            fills: [AnyShapeStyle(LinearGradient(
-                colors: [theme.colors.primary, theme.colors.accent],
-                startPoint: .topLeading, endPoint: .bottomTrailing
-            ))],
-            border: Color.white.opacity(0.18),
-            shadows: [theme.shadows.sm, DFShadow(color: theme.colors.primary.opacity(0.32), radius: 22, x: 0, y: 12)],
-            onFillColors: [theme.colors.primary, theme.colors.accent]
+            fills: [],
+            border: Color.white.opacity(0.16),
+            shadows: [],
+            onFillColors: [theme.colors.primary, theme.colors.accent],
+            glowOpacity: 0.32
         ))
     }
 }

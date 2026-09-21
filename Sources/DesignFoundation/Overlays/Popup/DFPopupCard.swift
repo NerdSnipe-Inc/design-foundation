@@ -164,6 +164,8 @@ public struct DFPopupActions: View {
     @Environment(\.dfTheme) private var theme
     @Environment(\.dfButtonStyle) private var envButtonStyle
     @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.dfOnFillLabel) private var onFillLabel
+    @Environment(\.self) private var environment
 
     public init(primary: DFPopupAction? = nil, secondary: DFPopupAction? = nil, tertiary: DFPopupAction? = nil) {
         self.primary = primary
@@ -176,29 +178,41 @@ public struct DFPopupActions: View {
             VStack(spacing: theme.spacing.sm) {
                 if let primary, let secondary, typeSize.isAccessibilitySize {
                     // Side-by-side buttons would hyphenate their labels at accessibility sizes.
-                    button(primary, envButtonStyle)
-                    button(secondary, AnyDFButtonStyle(DFTintedButtonStyle()))
+                    button(primary, primaryStyle(for: primary))
+                    button(secondary, AnyDFButtonStyle(DFPopupSecondaryButtonStyle()))
                 } else if let primary, let secondary {
                     ViewThatFits(in: .horizontal) {
                         HStack(spacing: theme.spacing.sm) {
-                            button(secondary, AnyDFButtonStyle(DFTintedButtonStyle()))
-                            button(primary, envButtonStyle)
+                            button(secondary, AnyDFButtonStyle(DFPopupSecondaryButtonStyle()))
+                            button(primary, primaryStyle(for: primary))
                         }
                         VStack(spacing: theme.spacing.sm) {
-                            button(primary, envButtonStyle)
-                            button(secondary, AnyDFButtonStyle(DFTintedButtonStyle()))
+                            button(primary, primaryStyle(for: primary))
+                            button(secondary, AnyDFButtonStyle(DFPopupSecondaryButtonStyle()))
                         }
                     }
                 } else if let primary {
-                    button(primary, envButtonStyle)
+                    button(primary, primaryStyle(for: primary))
                 } else if let secondary {
-                    button(secondary, AnyDFButtonStyle(DFTintedButtonStyle()))
+                    button(secondary, AnyDFButtonStyle(DFPopupSecondaryButtonStyle()))
                 }
                 if let tertiary {
-                    button(tertiary, AnyDFButtonStyle(DFGhostButtonStyle()))
+                    button(tertiary, AnyDFButtonStyle(DFPopupTertiaryButtonStyle()))
                 }
             }
         }
+    }
+
+    /// The primary style: the environment's, unless white text would not read on the
+    /// brand (or destructive) fill, in which case the label color is picked for contrast.
+    private func primaryStyle(for action: DFPopupAction) -> AnyDFButtonStyle {
+        guard onFillLabel == nil else { return envButtonStyle }
+        let fill = action.role == .destructive ? theme.colors.destructive : theme.colors.interactiveFill
+        let whiteRatio = DFContrast.ratio(1, DFContrast.luminance(of: fill, in: environment))
+        guard whiteRatio < DFContrast.bodyRatio else { return envButtonStyle }
+        // Vivid mid-tones are deepened a little so a white label passes; pastels get a dark label.
+        let resolved = DFContrast.resolve(stops: [fill], darkScheme: false, in: environment)
+        return AnyDFButtonStyle(DFPopupPrimaryButtonStyle(fill: resolved.stops[0], labelColor: resolved.foreground))
     }
 
     private func button(_ action: DFPopupAction, _ style: AnyDFButtonStyle) -> some View {

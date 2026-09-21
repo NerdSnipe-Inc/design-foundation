@@ -213,14 +213,14 @@ struct DFToastBody: View {
                 shadows: theme.layeredShadows,
                 foreground: theme.colors.textPrimary, secondary: theme.colors.textSecondary,
                 badgeFill: color.opacity(0.16), badgeGlyph: color,
-                action: theme.colors.primary, actionFill: theme.colors.primary.opacity(0.12),
+                action: theme.colors.textPrimary, actionFill: theme.colors.primary.opacity(0.16),
                 stripe: color)
         case .banner:
             return Palette(
                 fills: [], border: nil, shadows: [],
                 foreground: theme.colors.textPrimary, secondary: theme.colors.textSecondary,
                 badgeFill: color.opacity(0.16), badgeGlyph: color,
-                action: theme.colors.primary, actionFill: theme.colors.primary.opacity(0.12),
+                action: theme.colors.textPrimary, actionFill: theme.colors.primary.opacity(0.16),
                 stripe: color)
         case .tinted:
             return Palette(
@@ -229,18 +229,21 @@ struct DFToastBody: View {
                 shadows: [theme.shadows.sm, DFShadow(color: color.opacity(0.16), radius: 14, x: 0, y: 6)],
                 foreground: theme.colors.textPrimary, secondary: theme.colors.textSecondary,
                 badgeFill: color.opacity(0.22), badgeGlyph: color,
-                action: color, actionFill: color.opacity(0.14),
+                action: theme.colors.textPrimary, actionFill: color.opacity(0.18),
                 stripe: color)
         case .filled:
-            let fg = DFContrast.foreground(on: [color], in: environment)
+            let dark = DFContrast.luminance(of: theme.colors.background, in: environment) < 0.2
+            let resolved = DFContrast.resolve(stops: [color], darkScheme: dark, in: environment)
+            let fill = resolved.stops[0]
+            let fg = resolved.foreground
             return Palette(
-                fills: [AnyShapeStyle(color)],
-                border: Color.white.opacity(0.16),
-                shadows: [theme.shadows.sm, DFShadow(color: color.opacity(0.35), radius: 16, x: 0, y: 8)],
-                foreground: fg, secondary: fg.opacity(0.85),
+                fills: [AnyShapeStyle(fill)],
+                border: Color.white.opacity(0.14),
+                shadows: [theme.shadows.sm, DFShadow(color: fill.opacity(0.35), radius: 16, x: 0, y: 8)],
+                foreground: fg, secondary: fg.opacity(0.88),
                 badgeFill: fg.opacity(0.2), badgeGlyph: fg,
-                action: fg, actionFill: fg.opacity(0.2),
-                stripe: color)
+                action: fill, actionFill: fg,
+                stripe: fill)
         case .inverse:
             return Palette(
                 fills: [AnyShapeStyle(theme.colors.textPrimary)],
@@ -248,11 +251,11 @@ struct DFToastBody: View {
                 shadows: theme.layeredShadows,
                 foreground: theme.colors.background, secondary: theme.colors.background.opacity(0.75),
                 badgeFill: color, badgeGlyph: DFContrast.foreground(on: [color], in: environment),
-                action: theme.colors.background, actionFill: theme.colors.background.opacity(0.16),
+                action: theme.colors.textPrimary, actionFill: theme.colors.background,
                 stripe: color)
         case .frosted, .glass:
             return Palette(
-                fills: [AnyShapeStyle(theme.materials.elevatedMaterial), AnyShapeStyle(theme.colors.surfaceElevated.opacity(0.4))],
+                fills: [AnyShapeStyle(theme.materials.elevatedMaterial), AnyShapeStyle(theme.colors.surfaceElevated.opacity(0.62))],
                 border: nil,
                 shadows: [theme.shadows.lg.scaled(0.8)],
                 foreground: theme.colors.textPrimary, secondary: theme.colors.textPrimary.opacity(0.72),
