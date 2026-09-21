@@ -16,6 +16,8 @@ on:
       - ".cursor/rules/**"
       - "Sources/**"
       - "scripts/check_doc_snippets.py"
+      - "scripts/count_facts.py"
+      - "docs/llms.txt"
       - ".github/workflows/doc-snippets.yml"
 
 jobs:
@@ -29,3 +31,17 @@ jobs:
 
       - name: Compile-check documentation snippets
         run: python3 scripts/check_doc_snippets.py
+
+  # Every numeric claim in the agent-facing docs ("44 components", "5 presets", "8 popup styles", the
+  # DesignFoundation version numbers, ...) must equal what scripts/count_facts.py derives from Sources/.
+  # Pure Python, no Swift toolchain, so it is a cheap Linux job. Claims about Pro (screens, blocks, shells,
+  # verticals) are verified from the Pro repo's CI, which reads this script's --json output.
+  facts-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Numeric claims in docs match the code
+        run: |
+          python3 scripts/count_facts.py --strict --check \
+            README.md CLAUDE.md AGENTS.md '.cursor/rules/*.mdc' docs/llms.txt
