@@ -721,7 +721,7 @@
       <div class="pg-text">
         <p class="section-label">DFPlayground · Free · macOS</p>
         <h2 class="pg-title">See every block, screen, and shell before you buy.</h2>
-        <p class="pg-desc">DFPlayground is a free companion macOS app with the complete Pro catalog built in. Browse all 30 blocks, 55 screens, 18 shells, and 12 composition examples — live, interactive, and themeable. Open any screen in its own window. Switch between all 4 themes. Then decide.</p>
+        <p class="pg-desc">DFPlayground is a free companion macOS app with the complete Pro catalog built in. Browse all 30 blocks, 55 screens, 18 shells, and 12 composition examples — live, interactive, and themeable. Open any screen in its own window. Switch between all five theme presets. Then decide.</p>
         <a class="btn btn-primary btn-lg" href="../DFPlayground.dmg" download>⬇&nbsp; Download DFPlayground — Free · macOS · 14.6 MB</a>
       </div>
       <div class="pg-window" aria-hidden="true">
@@ -830,6 +830,7 @@
           <li>Forms — 4 blocks (tag picker, date range, address, multi-step)</li>
           <li>Feed, People, Lists, Loading, Empty State — 5 blocks</li>
           <li>Social — 1 block (nested comment thread)</li>
+          <li>Plus 2 AI Chat components (<code>DFAIThinkingView</code>, <code>DFAISummaryCard</code>) outside the 30</li>
         </ul>
       </div>
       <div class="overview-card">
@@ -1548,7 +1549,7 @@
 
 <div class="pop-sec" id="pro-popups-dismissal">
   <h3>Dismiss reasons, pause on hold and countdown</h3>
-  <p>Every Pro presenter delivers a <code>DFPopupDismissReason</code> (<code>.timeout .tap .outsideTap .drag .programmatic .preempted</code>) to <code>onDismiss</code>, and content can close its own popup through <code>@Environment(\.dfPopupDismiss)</code>. Resting a finger or pointer on an auto-dismissing popup pauses its timer. <code>DFPopupCountdownBar</code> and <code>DFPopupCountdownRing</code> follow the popup's live, pausable countdown.</p>
+  <p>The Pro presenters (<code>dfPopupPresentation</code>, <code>dfScrollPopup</code>, <code>DFPopupCenter.present</code> and the rich popups and toasts below, except the live capsule, coachmarks and notification banners) deliver a <code>DFPopupDismissReason</code> (<code>.timeout .tap .outsideTap .drag .programmatic .preempted</code>) to <code>onDismiss</code>. <code>dfPopupWindow</code> keeps a plain <code>() -&gt; Void</code> <code>onDismiss</code>, and notification banners report <code>(item, reason)</code>. Content can close its own popup through <code>@Environment(\.dfPopupDismiss)</code>. Resting a finger or pointer on an auto-dismissing popup pauses its timer. <code>DFPopupCountdownBar</code> and <code>DFPopupCountdownRing</code> follow the popup's live, pausable countdown.</p>
 <pre class="swift"><code><span class="kw">struct</span> <span class="type">CloseButton</span>: <span class="type">View</span> {
     <span class="kw">@Environment</span>(\.dfPopupDismiss) <span class="kw">private</span> <span class="kw">var</span> dismiss     <span class="cm">// no-op outside a Pro popup</span>
     <span class="kw">@Environment</span>(\.dfPopupCountdown) <span class="kw">private</span> <span class="kw">var</span> countdown <span class="cm">// the auto-dismiss timer, if any</span>
@@ -1737,7 +1738,7 @@ popups.<span class="fn">dismiss</span>(id: <span class="str">"offline"</span>)</
 
 <div class="pop-sec" id="pro-popups-prompts">
   <h3>Permission, promo, rating, input, consent and action popups</h3>
-  <p>Each is a public view plus a presenting modifier, accepts <code>display:</code> and <code>onDismiss:</code>, and (for the card-style ones) follows the environment <code>DFPopupStyle</code>. <strong>Permission prompt</strong>: pre-permission priming; you trigger the system prompt in <code>onAllow</code>. <strong>Promo</strong>: media area (<code>.symbol</code>, <code>.gradient</code>, <code>.image</code>), badge and CTA. <strong>Rating</strong>: stars, then a feedback step below the threshold or a review nudge at or above it. <strong>Input</strong>: validated, keyboard-aware, auto-focused. <strong>Consent</strong>: a sheet of toggleable categories. <strong>Action</strong>: rows with normal, destructive and cancel roles, centered, as a bottom sheet, or anchored to a view.</p>
+  <p>Each is a public view plus a presenting modifier. The celebration, permission, promo, rating, input, consent and action popups and the undo and progress toasts accept <code>display:</code> and a reason-style <code>onDismiss:</code>; the live capsule accepts <code>display:</code> but has no <code>onDismiss</code>; coachmarks and notification banners have neither <code>display:</code> nor the reason-style <code>onDismiss</code> (banners report <code>(item, reason)</code>). The card-style ones follow the environment <code>DFPopupStyle</code>. <strong>Permission prompt</strong>: pre-permission priming; you trigger the system prompt in <code>onAllow</code>. <strong>Promo</strong>: media area (<code>.symbol</code>, <code>.gradient</code>, <code>.image</code>), badge and CTA. <strong>Rating</strong>: stars, then a feedback step below the threshold or a review nudge at or above it. <strong>Input</strong>: validated, keyboard-aware, auto-focused. <strong>Consent</strong>: a sheet of toggleable categories. <strong>Action</strong>: rows with normal, destructive and cancel roles, centered, as a bottom sheet, or anchored to a view.</p>
 <pre class="swift"><code><span class="type">YourContentView</span>().<span class="fn">dfPermissionPrompt</span>(isPresented: $showPopup, kind: .notifications,
                                      onAllow: { /* trigger the system prompt */ }, onDecline: { })
 

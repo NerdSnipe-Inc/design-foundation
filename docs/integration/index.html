@@ -123,13 +123,13 @@
     <h2>Add both packages</h2>
     <p class="section-sub">Foundation is free (MIT). Pro is a commercial license with private GitHub access after purchase.</p>
     <pre><span class="kw">dependencies</span>: [
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>),
-    <span class="cm">// Pro: private repo URL provided with your license</span>
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.7.0"</span>),
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/DesignFoundationPro"</span>, from: <span class="str">"2.3.0"</span>),  <span class="cm">// private: access granted after purchase</span>
 ],
 <span class="kw">targets</span>: [
     .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [
-        <span class="str">"DesignFoundation"</span>,
-        <span class="str">"DesignFoundationPro"</span>
+        .<span class="fn">product</span>(name: <span class="str">"DesignFoundation"</span>, package: <span class="str">"design-foundation"</span>),
+        .<span class="fn">product</span>(name: <span class="str">"DesignFoundationPro"</span>, package: <span class="str">"DesignFoundationPro"</span>)
     ])
 ]</pre>
     <div class="callout"><strong>License access:</strong> Pro is not a public repository. After purchase you receive GitHub access for SPM. Questions: <a href="mailto:nerdsnipe.inc@gmail.com">nerdsnipe.inc@gmail.com</a></div>

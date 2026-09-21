@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.7.0] — 2026-09-21 — Popup Styles, Cards & Toast Styling
+
 ### Added
 - **Popup surface styles:** `.dfPopupStyle(_:)` now has `.standard` (upgraded: hairline border, layered soft shadow, continuous corners), `.frosted`, `.glass` (iOS/macOS 26, honors `theme.materials.preferLiquidGlass`), `.accent`, `.gradient`, `.inverse`, `.outlined` and `.tinted(_:)` (per `DFToastSeverity`). Colored styles (`.accent`, `.gradient`, filled toasts) resolve a foreground that reaches WCAG AA (4.5:1) on every fill stop, deepening the stops when no single foreground passes (dark schemes deepen pastel brand colors into rich tones), and re-point the subtree's theme and default `DFButton` at it (inverted primary pill, translucent secondary, plain-text tertiary), so plain content stays legible in every preset, light and dark. `DFPopupActions` picks a contrast-safe primary label on normal surfaces too.
 - **`DFPopupKind.sheet` / `DFPopupConfiguration.sheet(...)`:** a bottom-anchored, full-width popup with rounded top corners, a grabber and drag-to-dismiss. `DFPopupDrag` uses a longer commit distance for sheets.
@@ -17,6 +19,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **`DFToastMessage.title` / `actionTitle` / `action`** and matching `DFToastQueue.show(...)` parameters (all optional, existing calls unchanged). Tapping the action runs it, then dismisses the toast (`DFToastStyleConfiguration.performAction()`). New toasts are announced to VoiceOver.
 - **`DFAnimationTokens.spring`:** additive spring token used for popup entrances; Reduce Motion falls back to a short fade.
 - Escape key dismisses popups on macOS.
+- **`.dfToast(style:)`:** styles the toast layer directly. Toasts are drawn in an overlay owned by `.dfToast()`, so they read the environment from outside that modifier: `content.dfToastStyle(.tinted).dfToast()` does **not** restyle them, while `content.dfToast(style: .tinted)` and `content.dfToast().dfToastStyle(.tinted)` do.
+
+### Fixed
+- **`DFDataTable` keyboard selection anchor:** arrow-key movement from a multi-row selection anchored on `Set.first`, whose order is arbitrary and differs per process, so it could start from a random selected row. It now anchors on the first selected row in table order (regression test added).
+
+### Docs
+- **Popups and toasts documented with real recordings:** a Popups section on the docs site (free and Pro, including a clip index at `docs/videos/popups/MANIFEST.md`), captured from the DFPlayground Popup Lab on iOS 26; the earlier HTML/CSS/JS mock popup demos were removed.
+- **README rewritten:** correct install snippet (`.product(name: "DesignFoundation", package: "design-foundation")`; the bare `"DesignFoundation"` shorthand does not resolve against the GitHub URL), corrected counts and style lists and links, and new popup, Pro and sample-app sections.
+- **`CLAUDE.md` / `AGENTS.md` / `.cursor/rules` / `docs/llms.txt`:** document the full theme, style and token surface, the popup and toast styles and the `.dfToast(style:)` ordering rule, and corrected Pro counts.
+- **Installation and version references** on the docs site (install snippets, integration guide, structured data) now point at 1.7.0 and the `.product(...)` form; the Pro page states exactly which popups accept `display:` and a dismiss reason.
+- **Doc snippet checker** (`scripts/check_doc_snippets.py`, `.github/workflows/doc-snippets.yml`) now also compiles the Swift fences in `README.md`.
+- **Notarized DFPlayground** download (`docs/DFPlayground.dmg` / `.zip`) refreshed with the new Popup Lab.
 
 ## [1.6.0] — 2026-09-21 — Popups & Positioned Toasts
 

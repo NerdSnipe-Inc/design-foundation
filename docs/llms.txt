@@ -13,7 +13,7 @@ All components handle platform differences internally. Consumers do not need `#i
 - [The Foundation Way](https://nerdsnipe-inc.github.io/design-foundation/foundation-way/): Side-by-side line-count comparisons — hand-rolled SwiftUI vs composing the packages. Promo for less code in your repo and fewer AI coding tokens.
 - [Use Cases](https://nerdsnipe-inc.github.io/design-foundation/use-cases/): Who builds what — consumer social, SaaS, AI chat, notes, ecommerce, analytics, onboarding, PM, settings, and ops apps. Recommended roots and blocks per domain.
 - [SwiftUI Theme Presets](https://nerdsnipe-inc.github.io/design-foundation/theme-presets/): The five built-in visual identity presets: Slate (navy-slate professional), Aurora (electric violet creative), Copper (warm amber editorial), Sage (deep green calm), Garnet (bold saturated red). Each preset auto-switches light/dark.
-- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 55 full SwiftUI screens across 12 verticals + 32 UI blocks + 18 shell layouts + 12 composition roots + advanced popups. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
+- [DesignFoundation Pro — Screens & Blocks](https://nerdsnipe-inc.github.io/design-foundation/pro/): Paid commercial add-on (licensed private repository). 55 full SwiftUI screens across 12 verticals + 30 UI blocks (plus 2 AI Chat components) + 18 shell layouts (plus DFSocialAppShell) + 12 composition roots + advanced popups. Fully themeable, Swift 6, iOS 18+. One-time purchase from $149.
 
 ## Popups & Toasts
 

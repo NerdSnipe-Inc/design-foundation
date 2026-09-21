@@ -287,8 +287,8 @@
           "@type": "ComputerLanguage",
           "name": "Swift"
         },
-        "softwareVersion": "1.1.0",
-        "releaseNotes": "https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/v1.1.0",
+        "softwareVersion": "1.7.0",
+        "releaseNotes": "https://github.com/NerdSnipe-Inc/design-foundation/releases/tag/1.7.0",
         "softwareRequirements": "Xcode 16+, Swift 6, iOS 18 / macOS 15 / visionOS 2",
         "downloadUrl": "https://github.com/NerdSnipe-Inc/design-foundation",
         "codeRepository": "https://github.com/NerdSnipe-Inc/design-foundation",
@@ -403,7 +403,7 @@
             "name": "How do I install DesignFoundation via Swift Package Manager?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "In Xcode: File > Add Package Dependencies, enter https://github.com/NerdSnipe-Inc/design-foundation, select from version 1.1.0. Or add to Package.swift: .package(url: \"https://github.com/NerdSnipe-Inc/design-foundation\", from: \"1.1.0\")"
+              "text": "In Xcode: File > Add Package Dependencies, enter https://github.com/NerdSnipe-Inc/design-foundation, select from version 1.7.0. Or add to Package.swift: .package(url: \"https://github.com/NerdSnipe-Inc/design-foundation\", from: \"1.7.0\") and depend on .product(name: \"DesignFoundation\", package: \"design-foundation\")"
             }
           },
           {
@@ -571,16 +571,18 @@
     <section class="doc-section" id="installation">
       <h2>Installation</h2>
       <h3>Xcode</h3>
-      <p><strong>File → Add Package Dependencies</strong>, paste the URL below, and choose <em>Up to Next Major</em> from version <code>1.1.0</code>.</p>
+      <p><strong>File → Add Package Dependencies</strong>, paste the URL below, and choose <em>Up to Next Major</em> from version <code>1.7.0</code>.</p>
       <pre>https://github.com/NerdSnipe-Inc/design-foundation</pre>
 
       <h3>Package.swift</h3>
       <pre><span class="cm">// Package.swift</span>
 <span class="kw">dependencies</span>: [
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>)
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.7.0"</span>)
 ],
 <span class="kw">targets</span>: [
-    .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [<span class="str">"DesignFoundation"</span>])
+    .<span class="fn">target</span>(name: <span class="str">"YourApp"</span>, dependencies: [
+        .<span class="fn">product</span>(name: <span class="str">"DesignFoundation"</span>, package: <span class="str">"design-foundation"</span>)
+    ])
 ]</pre>
     </section>
 
@@ -1568,8 +1570,8 @@ config.transition = .<span class="fn">asymmetric</span>(insert: .leading, remove
       <p>Add DesignFoundation via SPM (free). Pro is a licensed add-on — private repo access provided after purchase:</p>
       <pre><span class="cm">// Package.swift — Foundation (public)</span>
 <span class="kw">dependencies</span>: [
-    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.1.0"</span>),
-    <span class="cm">// Pro: private SPM URL included with your license</span>
+    .<span class="fn">package</span>(url: <span class="str">"https://github.com/NerdSnipe-Inc/design-foundation"</span>, from: <span class="str">"1.7.0"</span>),
+    <span class="cm">// Pro: private repo, access granted after purchase (see the Pro page)</span>
 ]</pre>
       <p>
         <a href="integration/">Integration guide →</a> ·
