@@ -148,6 +148,7 @@ HARNESS_STUBS = textwrap.dedent(
     @State var showPopup: Bool = false
     @State var showBanner: Bool = false
     @State var showFloater: Bool = false
+    func restore() {}
     @State var selectedItem: Item? = nil
     let image1 = Image(systemName: "photo")
     let image2 = Image(systemName: "photo.fill")

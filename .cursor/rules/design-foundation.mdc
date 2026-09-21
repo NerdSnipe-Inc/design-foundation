@@ -186,6 +186,13 @@ YourContentView()
     .dfPopup(isPresented: $show, configuration: .floater(position: .bottomTrailing)) { Text("Floater") }
     .dfPopup(item: $selectedItem) { item in Text(item.title) }   // Identifiable item
 DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)   // position: 9 values, default .top
+YourContentView().dfPopupStyle(.frosted)   // .standard .frosted .glass(26+) .accent .gradient .inverse .outlined .tinted(.success)
+YourContentView().dfPopup(isPresented: $showPopup, configuration: .sheet(backdrop: .blur)) { Text("Sheet") }   // DFPopupBackdrop .none/.dim/.blur wins over dimsBackground
+YourContentView().dfPopup(isPresented: $showPopup) {
+    DFPopupCard(icon: "sparkles", title: "Upgrade", message: "Unlock Pro.", primaryAction: DFPopupAction("Upgrade") { }, secondaryAction: DFPopupAction("Later") { }, onClose: { showPopup = false })
+}   // hero: DFPopupCard(title:media:content:) — media bleeds to the edges
+YourContentView().dfToastStyle(.tinted)   // .default .tinted .filled .inverse .frosted .glass(26+) .banner .compact
+DFToastQueue.shared.show(text: "Moved to the trash", severity: .error, title: "Deleted", actionTitle: "Undo", action: { restore() })
 DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })   // NOT DFToastQueue-based, place directly in hierarchy
 
 // Overlays are modifiers, not constructible views — no DFModal(isPresented:) etc.

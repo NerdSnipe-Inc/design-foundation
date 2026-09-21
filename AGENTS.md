@@ -295,7 +295,45 @@ YourContentView()
 DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
 
 // Restyle every popup in a subtree; per-component overrides live at theme.components.popup.
-YourContentView().dfPopupStyle(.standard)
+// Surface styles: .standard (default: hairline border + layered shadow) .frosted (Material blur) .glass (iOS/macOS 26,
+// honors theme.materials.preferLiquidGlass) .accent (primary fill) .gradient (primary→accent + glow) .inverse
+// (textPrimary bg) .outlined (1.5 pt border) .tinted(.success) (severity wash: .info/.success/.warning/.error).
+// Colored styles adapt foreground + default DFButton so plain content stays legible.
+YourContentView().dfPopupStyle(.frosted)
+YourContentView().dfPopupStyle(.tinted(.warning))
+
+// Bottom sheet popup: DFPopupKind.sheet — full width, grabber, drag down to dismiss, spring entrance.
+// DFPopupBackdrop: .none / .dim / .blur. `backdrop` wins over `dimsBackground` when non-nil (nil = derive from it).
+YourContentView()
+    .dfPopup(isPresented: $showPopup, configuration: .sheet(backdrop: .blur)) { Text("Bottom sheet") }
+    .dfPopup(isPresented: $showFloater, configuration: DFPopupConfiguration(backdrop: .blur)) { Text("Blurred backdrop") }
+
+// DFPopupCard — composed popup content: icon badge / hero media, title, message, up to three actions
+// (primary filled, secondary tinted, tertiary text), optional close button. Alignment: .center / .leading.
+YourContentView().dfPopup(isPresented: $showPopup) {
+    DFPopupCard(
+        icon: "sparkles",                       // iconTint: .brand (default) / .soft / .severity(.error)
+        title: "Upgrade to Pro",
+        message: "Unlock unlimited projects.",
+        primaryAction: DFPopupAction("Upgrade") { },
+        secondaryAction: DFPopupAction("Later") { },
+        tertiaryAction: DFPopupAction("Delete", role: .destructive) { },
+        onClose: { showPopup = false }
+    )
+}
+// Hero media bleeds to the surface edges; content sits between message and actions.
+DFPopupCard(title: "Summer sale", primaryAction: DFPopupAction("Shop") { },
+            media: { Color.orange.frame(height: 120) }, content: { Text("40% off") })
+// Pieces: DFPopupHeader(icon:title:message:alignment:), DFPopupActions(primary:secondary:tertiary:),
+// DFPopupIconBadge(systemImage:tint:).
+
+// Toast styles: .default .tinted .filled .inverse .frosted .glass (26+) .banner (flush, severity stripe) .compact
+// Toasts take an optional title and a trailing action; tapping the action runs it, then dismisses.
+YourContentView().dfToastStyle(.tinted)
+DFToastQueue.shared.show(
+    text: "Moved to the trash", icon: "trash", severity: .error,
+    title: "Deleted", actionTitle: "Undo", action: { restore() }
+)
 
 // DFBanner — full-width, persistent, inline (NOT DFToastQueue-based — place directly in your
 // view hierarchy). severity: reuses DFToastSeverity, no separate enum.
