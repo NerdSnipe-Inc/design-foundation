@@ -309,7 +309,7 @@ YourContentView()
     .dfPopup(isPresented: $showFloater, configuration: DFPopupConfiguration(backdrop: .blur)) { Text("Blurred backdrop") }
 
 // DFPopupCard — composed popup content: icon badge / hero media, title, message, up to three actions
-// (primary filled, secondary tinted, tertiary text), optional close button. Alignment: .center / .leading.
+// (primary filled, secondary translucent, tertiary plain text), optional close button. Alignment: .center / .leading.
 YourContentView().dfPopup(isPresented: $showPopup) {
     DFPopupCard(
         icon: "sparkles",                       // iconTint: .brand (default) / .soft / .severity(.error)
