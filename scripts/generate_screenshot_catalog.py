@@ -29,6 +29,7 @@ Usage: python3 scripts/generate_screenshot_catalog.py [--skip-capture] [--only N
                     git-ignored), then strips and index are regenerated as usual.
 
 Environment overrides (defaults unchanged): DFP_PLAYGROUND_ROOT, DFP_PRO_ROOT,
+DFP_TAB_WINDOW_SIZE ("WxH" points; resizes top-level tab windows before capture),
 DFP_SCRATCH_PATH (passed to `swift build --scratch-path`, and where the binary is
 looked up), DFP_BUILD_TIMEOUT (seconds).
 """
@@ -269,6 +270,32 @@ def restore_apps(names: list[str]) -> None:
         _run(["osascript", "-e", f'tell application "System Events" to set visible of process "{name}" to true'])
 
 
+_WINDOW_ID_SWIFT = """
+import CoreGraphics
+import Foundation
+let pid = Int32(ProcessInfo.processInfo.environment["DFP_PID"] ?? "") ?? -1
+let list = (CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]]) ?? []
+for w in list where (w["kCGWindowOwnerPID"] as? Int32) == pid && (w["kCGWindowLayer"] as? Int) == 0 {
+    print(w["kCGWindowNumber"] ?? "")
+    break
+}
+"""
+
+
+def find_window_id(pid: int) -> str | None:
+    result = _run(["swift", "-e", _WINDOW_ID_SWIFT], env={**os.environ, "DFP_PID": str(pid)}, timeout=120)
+    out = result.stdout.strip()
+    return out if result.returncode == 0 and out.isdigit() else None
+
+
+def _normalize_to_points(path: Path, width: int, height: int) -> None:
+    """Window-ID captures come back at backing-store (Retina 2x) size; scale to the window's
+    point size so frames stay comparable with earlier captures."""
+    img = Image.open(path)
+    if width > 0 and height > 0 and img.width >= width * 1.5:
+        img.convert("RGBA").resize((width, height), Image.LANCZOS).save(path)
+
+
 def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
     env_overrides = {target.env_var: target.env_value}
     if target.hide_main:
@@ -287,6 +314,13 @@ def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
         _run(["osascript", "-e",
               'tell application "System Events" to tell process "DFPlayground" to '
               'set position of window 1 to {60, 60}'])
+        tab_size = os.environ.get("DFP_TAB_WINDOW_SIZE")  # e.g. "900x450"; top-level tab entries only
+        if tab_size and target.env_var == "DFP_TAB_ID":
+            tw, th = tab_size.lower().split("x")
+            _run(["osascript", "-e",
+                  'tell application "System Events" to tell process "DFPlayground" to '
+                  f'set size of window 1 to {{{int(tw)}, {int(th)}}}'])
+            time.sleep(ACTIVATE_SETTLE_SECONDS)
         time.sleep(ACTIVATE_SETTLE_SECONDS)
 
         pos = _run(["osascript", "-e",
@@ -302,7 +336,15 @@ def capture_target(target: CaptureTarget, binary: Path) -> Path | None:
 
         out_path = RAW_DIR / f"{slug(target.category)}__{slug(target.name)}.png"
         RAW_DIR.mkdir(parents=True, exist_ok=True)
-        capture = _run(["screencapture", f"-R{x},{y},{w},{h}", "-o", str(out_path)])
+        # Prefer capturing the window by ID: unlike a screen-rect grab it is immune to
+        # other apps' windows (browsers, other DFPlayground builds) drawn on top of it.
+        window_id = find_window_id(proc.pid)
+        if window_id is not None:
+            capture = _run(["screencapture", f"-l{window_id}", "-o", str(out_path)])
+            if capture.returncode == 0 and out_path.exists():
+                _normalize_to_points(out_path, int(float(w)), int(float(h)))
+        else:
+            capture = _run(["screencapture", f"-R{x},{y},{w},{h}", "-o", str(out_path)])
         if capture.returncode != 0 or not out_path.exists():
             print(f"  SKIP {target.category}/{target.name}: screencapture failed")
             return None
@@ -382,7 +424,10 @@ def frame_image(src: Path, dest: Path) -> None:
     # Screenshot, corner-clipped to sit inside the card
     mask = Image.new("L", (w, h), 0)
     ImageDraw.Draw(mask).rounded_rectangle([0, 0, w, h], radius=max(CARD_RADIUS - CARD_PADDING, 0), fill=255)
-    base.paste(shot, (shadow_pad + CARD_PADDING, shadow_pad + CARD_PADDING), mask)
+    # Window-ID captures carry transparent corners; flatten onto the card colour first.
+    flat = Image.new("RGBA", shot.size, CARD_BACKGROUND)
+    flat.alpha_composite(shot)
+    base.paste(flat, (shadow_pad + CARD_PADDING, shadow_pad + CARD_PADDING), mask)
 
     dest.parent.mkdir(parents=True, exist_ok=True)
     base.save(dest)
