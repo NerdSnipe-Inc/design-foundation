@@ -45,6 +45,21 @@ public enum DFPopupKind: Sendable {
     case toast
     /// Inset from the edges by the popup padding token, with rounded corners.
     case floater
+    /// Bottom-anchored, full-width card with rounded top corners and a grabber.
+    /// Always rests at the bottom edge regardless of `position`.
+    case sheet
+}
+
+// MARK: - Backdrop
+
+/// What is drawn between the host and the popup.
+public enum DFPopupBackdrop: Sendable, Equatable {
+    /// Nothing is drawn. Touches still reach a catcher if `dismissOnOutsideTap` is set.
+    case none
+    /// A translucent black scrim (opacity from `DFPopupTokens.backdropOpacity`).
+    case dim
+    /// A blurred Material over the host.
+    case blur
 }
 
 // MARK: - Transition
@@ -76,6 +91,9 @@ public struct DFPopupConfiguration: Sendable, Equatable {
     public var dismissOnDrag: Bool
     /// Dims the host behind the popup and blocks touches to it.
     public var dimsBackground: Bool
+    /// What is drawn behind the popup. nil (default) defers to `dimsBackground`:
+    /// `true` draws `.dim`, `false` draws `.none`. A non-nil value always wins.
+    public var backdrop: DFPopupBackdrop?
 
     public init(
         kind: DFPopupKind = .center,
@@ -86,7 +104,8 @@ public struct DFPopupConfiguration: Sendable, Equatable {
         dismissOnTap: Bool = false,
         dismissOnOutsideTap: Bool = true,
         dismissOnDrag: Bool = false,
-        dimsBackground: Bool = true
+        dimsBackground: Bool = true,
+        backdrop: DFPopupBackdrop? = nil
     ) {
         self.kind = kind
         self.position = position
@@ -97,6 +116,17 @@ public struct DFPopupConfiguration: Sendable, Equatable {
         self.dismissOnOutsideTap = dismissOnOutsideTap
         self.dismissOnDrag = dismissOnDrag
         self.dimsBackground = dimsBackground
+        self.backdrop = backdrop
+    }
+
+    /// The backdrop actually drawn: `backdrop` if set, otherwise derived from `dimsBackground`.
+    public var resolvedBackdrop: DFPopupBackdrop {
+        backdrop ?? (dimsBackground ? .dim : .none)
+    }
+
+    /// Where the popup rests. A `.sheet` is always bottom-anchored.
+    public var resolvedPosition: DFPopupPosition {
+        kind == .sheet ? .bottom : position
     }
 
     public static let centered = DFPopupConfiguration()
@@ -132,6 +162,23 @@ public struct DFPopupConfiguration: Sendable, Equatable {
             dismissOnOutsideTap: false,
             dismissOnDrag: dismissOnDrag,
             dimsBackground: false
+        )
+    }
+
+    /// Bottom sheet: full-width, grabber, spring entrance, drag down to dismiss.
+    public static func sheet(
+        dismissOnDrag: Bool = true,
+        backdrop: DFPopupBackdrop = .dim,
+        dismissOnOutsideTap: Bool = true
+    ) -> DFPopupConfiguration {
+        DFPopupConfiguration(
+            kind: .sheet,
+            position: .bottom,
+            dismissOnTap: false,
+            dismissOnOutsideTap: dismissOnOutsideTap,
+            dismissOnDrag: dismissOnDrag,
+            dimsBackground: backdrop != .none,
+            backdrop: backdrop
         )
     }
 }

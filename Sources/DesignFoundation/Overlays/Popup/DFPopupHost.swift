@@ -6,6 +6,12 @@ import SwiftUI
 enum DFPopupDrag {
     /// Points of travel toward the exit edge that commit a dismissal.
     static let dismissDistance: CGFloat = 60
+    /// Sheets are taller, so they need a longer pull before committing.
+    static let sheetDismissDistance: CGFloat = 100
+
+    static func dismissDistance(for kind: DFPopupKind) -> CGFloat {
+        kind == .sheet ? sheetDismissDistance : dismissDistance
+    }
 
     /// Restricts a drag to the axis and direction of the exit edge; dragging the
     /// other way is ignored so the popup can only be pushed off, not pulled inward.
@@ -24,9 +30,15 @@ enum DFPopupDrag {
         return abs(edge == .top || edge == .bottom ? c.height : c.width)
     }
 
-    static func shouldDismiss(translation: CGSize, predictedEnd: CGSize, toward edge: Edge) -> Bool {
-        travel(translation, toward: edge) >= dismissDistance
-            || travel(predictedEnd, toward: edge) >= dismissDistance * 2.5
+    static func shouldDismiss(
+        translation: CGSize,
+        predictedEnd: CGSize,
+        toward edge: Edge,
+        kind: DFPopupKind? = nil
+    ) -> Bool {
+        let distance = kind.map(dismissDistance(for:)) ?? dismissDistance
+        return travel(translation, toward: edge) >= distance
+            || travel(predictedEnd, toward: edge) >= distance * 2.5
     }
 }
 
@@ -44,6 +56,7 @@ public struct DFPopupHost<Content: View>: View {
 
     @Environment(\.dfTheme) private var theme
     @Environment(\.dfPopupStyle) private var style
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var dragOffset: CGSize = .zero
 
     public init(
@@ -61,15 +74,15 @@ public struct DFPopupHost<Content: View>: View {
     }
 
     public var body: some View {
-        ZStack(alignment: configuration.position.alignment) {
+        ZStack(alignment: configuration.resolvedPosition.alignment) {
             if isPresented {
                 backdrop
                 popup
             }
         }
         // Fill the host so non-center positions rest at their edge/corner, not the middle.
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: configuration.position.alignment)
-        .animation(configuration.animation ?? theme.animation.default, value: isPresented)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: configuration.resolvedPosition.alignment)
+        .animation(resolvedAnimation, value: isPresented)
         .onChange(of: isPresented) { _, presented in
             if !presented {
                 dragOffset = .zero
@@ -82,7 +95,8 @@ public struct DFPopupHost<Content: View>: View {
 
     @ViewBuilder
     private var backdrop: some View {
-        if configuration.dimsBackground {
+        switch configuration.resolvedBackdrop {
+        case .dim:
             Color.black
                 .opacity(theme.components.popup.backdropOpacity ?? 0.35)
                 .ignoresSafeArea()
@@ -90,23 +104,30 @@ public struct DFPopupHost<Content: View>: View {
                 .onTapGesture { if configuration.dismissOnOutsideTap { dismiss() } }
                 .transition(.opacity)
                 .accessibilityHidden(true)
-        } else if configuration.dismissOnOutsideTap {
-            Color.clear
+        case .blur:
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .overlay(Color.black.opacity(0.08))
                 .ignoresSafeArea()
                 .contentShape(Rectangle())
-                .onTapGesture { dismiss() }
+                .onTapGesture { if configuration.dismissOnOutsideTap { dismiss() } }
+                .transition(.opacity)
                 .accessibilityHidden(true)
+        case .none:
+            if configuration.dismissOnOutsideTap {
+                Color.clear
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture { dismiss() }
+                    .accessibilityHidden(true)
+            }
         }
     }
 
     private var popup: some View {
-        let edge = configuration.position.exitEdge
-        return style.makeBody(configuration: DFPopupStyleConfiguration(
-            content: AnyView(content),
-            kind: configuration.kind,
-            position: configuration.position,
-            theme: theme
-        ))
+        let edge = configuration.resolvedPosition.exitEdge
+        return popupBody
+        
         .frame(maxWidth: maxWidth)
         .padding(outerPadding)
         .offset(dragOffset)
@@ -121,11 +142,12 @@ public struct DFPopupHost<Content: View>: View {
                     if DFPopupDrag.shouldDismiss(
                         translation: value.translation,
                         predictedEnd: value.predictedEndTranslation,
-                        toward: edge
+                        toward: edge,
+                        kind: configuration.kind
                     ) {
                         dismiss()
                     } else {
-                        withAnimation(theme.animation.fast) { dragOffset = .zero }
+                        withAnimation(reduceMotion ? theme.animation.fast : theme.animation.spring) { dragOffset = .zero }
                     }
                 },
             including: configuration.dismissOnDrag ? .all : .subviews
@@ -136,35 +158,60 @@ public struct DFPopupHost<Content: View>: View {
             try? await Task.sleep(for: .seconds(seconds))
             if !Task.isCancelled { dismiss() }
         }
-        .accessibilityAddTraits(configuration.dimsBackground ? .isModal : [])
+        .accessibilityAddTraits(configuration.resolvedBackdrop != .none ? .isModal : [])
         .accessibilityAction(.escape) { dismiss() }
+        #if os(macOS)
+        .focusable()
+        .focusEffectDisabled()
+        .onExitCommand { dismiss() }
+        #endif
+    }
+
+    private var popupBody: some View {
+        style.makeBody(configuration: DFPopupStyleConfiguration(
+            content: AnyView(content),
+            kind: configuration.kind,
+            position: configuration.resolvedPosition,
+            theme: theme
+        ))
+    }
+
+    /// Explicit animation if given, else the theme spring. Reduce Motion swaps the spring
+    /// for a short fade-friendly ease.
+    private var resolvedAnimation: Animation {
+        if let custom = configuration.animation { return custom }
+        return reduceMotion ? theme.animation.fast : theme.animation.spring
     }
 
     // MARK: Layout
 
     private var maxWidth: CGFloat? {
         switch configuration.kind {
-        case .toast:   return .infinity
-        case .center:  return theme.components.popup.maxWidth ?? 420
-        case .floater: return nil
+        case .toast, .sheet: return .infinity
+        case .center:        return theme.components.popup.maxWidth ?? 420
+        case .floater:       return nil
         }
     }
 
     private var outerPadding: CGFloat {
         switch configuration.kind {
-        case .toast:   return 0
+        case .toast, .sheet: return 0
         case .center:  return theme.spacing.xl
         case .floater: return theme.components.popup.padding ?? theme.spacing.lg
         }
     }
 
     private var resolvedTransition: AnyTransition {
+        if reduceMotion { return .opacity }
+        if configuration.kind == .sheet && configuration.transition == .automatic {
+            return .move(edge: .bottom)
+        }
         let transition: DFPopupTransition = configuration.transition == .automatic
             ? (configuration.position == .center ? .scale : .slide)
             : configuration.transition
         switch transition {
         case .automatic, .slide:
-            return .move(edge: configuration.position.exitEdge).combined(with: .opacity)
+            return .move(edge: configuration.resolvedPosition.exitEdge).combined(with: .opacity)
         case .scale:
             return .scale(scale: 0.9).combined(with: .opacity)
         case .fade:
