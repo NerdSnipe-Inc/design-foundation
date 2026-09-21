@@ -23,19 +23,40 @@ private struct DFToastLayer: View {
                 set: { if !$0, let id = queue.messages.first?.id { queue.dismiss(id: id) } }
             ),
             identity: current.map { AnyHashable($0.id) },
-            configuration: .floater(
-                position: shown?.position ?? .top,
-                autoDismissAfter: current?.duration
-            ).tapToDismiss()
+            configuration: popupConfiguration(current: current, shown: shown)
         ) {
             if let shown {
-                style.makeBody(configuration: DFToastStyleConfiguration(message: shown, theme: theme))
+                style.makeBody(configuration: DFToastStyleConfiguration(
+                    message: shown,
+                    theme: theme,
+                    dismiss: { [weak queue] in queue?.dismiss(id: shown.id) }
+                ))
             }
         }
         .dfPopupStyle(DFBarePopupStyle())
         .onChange(of: current?.id, initial: true) {
-            if let current { lastMessage = current }
+            if let current {
+                lastMessage = current
+                announce(current)
+            }
         }
+    }
+
+    private func popupConfiguration(current: DFToastMessage?, shown: DFToastMessage?) -> DFPopupConfiguration {
+        let position = shown?.position ?? .top
+        let autoDismiss = current?.duration
+        switch style.layout {
+        case .floating:
+            return DFPopupConfiguration.floater(position: position, autoDismissAfter: autoDismiss).tapToDismiss()
+        case .flush:
+            return DFPopupConfiguration.toast(position: position, autoDismissAfter: autoDismiss)
+        }
+    }
+
+    /// Toasts appear without moving VoiceOver focus, so announce them.
+    private func announce(_ message: DFToastMessage) {
+        let text = [message.title, message.text].compactMap { $0 }.joined(separator: ". ")
+        AccessibilityNotification.Announcement(text).post()
     }
 }
 

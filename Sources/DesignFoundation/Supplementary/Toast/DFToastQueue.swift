@@ -12,8 +12,20 @@ public final class DFToastQueue: ObservableObject {
         messages.append(message)
     }
 
-    public func show(text: String, icon: String? = nil, duration: TimeInterval = 3.0, severity: DFToastSeverity = .info, position: DFPopupPosition = .top) {
-        show(DFToastMessage(text: text, icon: icon, duration: duration, severity: severity, position: position))
+    public func show(
+        text: String,
+        icon: String? = nil,
+        duration: TimeInterval = 3.0,
+        severity: DFToastSeverity = .info,
+        position: DFPopupPosition = .top,
+        title: String? = nil,
+        actionTitle: String? = nil,
+        action: (@MainActor @Sendable () -> Void)? = nil
+    ) {
+        show(DFToastMessage(
+            text: text, icon: icon, duration: duration, severity: severity, position: position,
+            title: title, actionTitle: actionTitle, action: action
+        ))
     }
 
     public func dismiss(id: UUID) {
