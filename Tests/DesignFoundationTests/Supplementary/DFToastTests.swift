@@ -73,3 +73,91 @@ struct DFToastQueueTests {
         #expect(queue.messages.isEmpty)
     }
 }
+
+@Suite("DFToastMessage additive fields")
+struct DFToastMessageAdditiveTests {
+    @Test("existing initializer calls keep working and default the new fields")
+    func defaults() {
+        let m = DFToastMessage(text: "Hi", icon: "star", duration: 2, severity: .success, position: .bottom)
+        #expect(m.title == nil)
+        #expect(m.actionTitle == nil)
+        #expect(m.action == nil)
+        #expect(!m.hasAction)
+    }
+
+    @Test("title and action are stored")
+    func stored() {
+        let m = DFToastMessage(text: "Moved", title: "Deleted", actionTitle: "Undo", action: {})
+        #expect(m.title == "Deleted")
+        #expect(m.actionTitle == "Undo")
+        #expect(m.hasAction)
+    }
+
+    @Test("an action title without a closure is not an action")
+    func incomplete() {
+        #expect(!DFToastMessage(text: "x", actionTitle: "Undo").hasAction)
+    }
+}
+
+@Suite("DFToastStyle built-ins")
+@MainActor
+struct DFToastBuiltInStyleTests {
+    private func render<S: DFToastStyle & Sendable>(_ style: S) {
+        let msg = DFToastMessage(text: "Saved", icon: "checkmark", severity: .success, title: "Done", actionTitle: "Undo", action: {})
+        _ = AnyDFToastStyle(style).makeBody(configuration: DFToastStyleConfiguration(message: msg, theme: .default))
+    }
+
+    @Test("every static member exists and renders")
+    func statics() {
+        render(.default); render(.tinted); render(.filled); render(.inverse)
+        render(.frosted); render(.banner); render(.compact)
+        if #available(iOS 26, macOS 26, *) { render(.glass) }
+    }
+
+    @Test("layouts: only banner is flush")
+    func layouts() {
+        #expect(DFDefaultToastStyle().layout == .floating)
+        #expect(DFCompactToastStyle().layout == .floating)
+        #expect(DFBannerToastStyle().layout == .flush)
+        #expect(AnyDFToastStyle(DFBannerToastStyle()).layout == .flush)
+        #expect(AnyDFToastStyle(DFTintedToastStyle()).layout == .floating)
+    }
+
+    @Test("styles are distinct types")
+    func distinct() {
+        let types: [Any.Type] = [
+            DFDefaultToastStyle.self, DFTintedToastStyle.self, DFFilledToastStyle.self, DFInverseToastStyle.self,
+            DFFrostedToastStyle.self, DFBannerToastStyle.self, DFCompactToastStyle.self,
+        ]
+        #expect(Set(types.map { ObjectIdentifier($0) }).count == types.count)
+    }
+}
+
+@Suite("DFToast action behavior")
+@MainActor
+struct DFToastActionTests {
+    @Test("performAction runs the action then dismisses")
+    func order() {
+        var log: [String] = []
+        let msg = DFToastMessage(text: "x", actionTitle: "Undo", action: { log.append("action") })
+        let cfg = DFToastStyleConfiguration(message: msg, theme: .default, dismiss: { log.append("dismiss") })
+        cfg.performAction()
+        #expect(log == ["action", "dismiss"])
+    }
+
+    @Test("performAction without an action still dismisses; default dismiss is a no-op")
+    func noAction() {
+        var dismissed = false
+        DFToastStyleConfiguration(message: DFToastMessage(text: "x"), theme: .default, dismiss: { dismissed = true }).performAction()
+        #expect(dismissed)
+        DFToastStyleConfiguration(message: DFToastMessage(text: "x"), theme: .default).performAction()
+    }
+
+    @Test("queue convenience forwards title and action")
+    func queue() {
+        let q = DFToastQueue()
+        q.show(text: "Moved", title: "Deleted", actionTitle: "Undo", action: {})
+        #expect(q.messages.first?.title == "Deleted")
+        #expect(q.messages.first?.hasAction == true)
+    }
+}
