@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Compiles every ```swift fenced code block in DesignFoundation's AI-agent-facing
-docs against the real package, so a doc snippet that doesn't match the actual
+docs and its README against the real package, so a doc snippet that doesn't match the actual
 API fails CI instead of silently drifting (see CLAUDE.md's canonical-source note
 for why this exists).
 
@@ -32,10 +32,17 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 # placeholder rather than real Swift. Handle by either concatenating a file's
 # fences in document order (opt-in per file) or adding a `{ ... }` -> `{ EmptyView() }`
 # preprocessing pass, then add them here.
+#
+# A fence whose info string is anything other than exactly `swift` (for example
+# ```swift nocheck, used for the Package.swift install snippet, which needs
+# PackageDescription and can't compile inside the DocSnippetCheck target) is skipped.
+# Each README fence must compile standalone; top-level declarations (`@main`, structs) in
+# one fence may be referenced by later fences because all snippets share one module.
 DOC_FILES = [
     "CLAUDE.md",
     "AGENTS.md",
     ".cursor/rules/design-foundation.mdc",
+    "README.md",
 ]
 
 GENERATED_DIR = REPO_ROOT / "scripts" / "DocSnippetCheck" / "Generated"
