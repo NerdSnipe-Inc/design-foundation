@@ -17,12 +17,25 @@ All components handle platform differences internally. Consumers do not need `#i
 
 ## Popups & Toasts
 
-- [Popups & Toasts](https://nerdsnipe-inc.github.io/design-foundation/#popups): `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` — one popup engine for centered cards, edge-flush toasts and inset floaters.
-- `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:)`, presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`.
-- `DFPopupKind` (.center, .toast, .floater); `DFPopupPosition` (.topLeading .top .topTrailing .leading .center .trailing .bottomLeading .bottom .bottomTrailing); `DFPopupTransition` (.automatic .slide .scale .fade .none .asymmetric(insert:remove:)).
-- Restyle with `DFPopupStyle` / `.dfPopupStyle(_:)`; tune via `theme.components.popup` (`DFPopupTokens`: cornerRadius, padding, maxWidth, backdropOpacity); `DFPopupHost` embeds the layer in custom containers.
-- Toasts: `DFToastQueue.shared.show(text:icon:duration:severity:position:)` + `.dfToast()`; severities info/success/warning/error; one at a time; tap or swipe to dismiss.
-- [Advanced Popups (Pro)](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups): `dfScrollPopup` (drag-dismiss only at scroll top, `fromTop`), `dfPopupWindow` (window above sheets and nav bars, iOS), `DFPopupCenter` + `dfPopupCenter(_:)` + `DFPopupPriority` (priority queue, preemption, id de-duplication), `DFPopupMotion` (.snappy/.bouncy/.gentle/.custom, `.motion(_:enterFrom:exitTo:)`), `DFPopupCountdownBar`, `DFPopupHaptic`.
+Free (DesignFoundation 1.7.0). Docs with real recordings: https://nerdsnipe-inc.github.io/design-foundation/#popups . Clip index (file, what it shows, demo id, API): https://nerdsnipe-inc.github.io/design-foundation/videos/popups/MANIFEST.md . All clips are screen recordings of the DFPlayground Popup Lab on iOS 26.
+
+- `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` (item is Identifiable): one engine for centered cards, edge-flush toasts, inset floaters and bottom sheets.
+- `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:backdrop:)`; presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`, `.sheet(dismissOnDrag:backdrop:dismissOnOutsideTap:)`.
+- `DFPopupKind` (.center .toast .floater .sheet); `DFPopupPosition` (.topLeading .top .topTrailing .leading .center .trailing .bottomLeading .bottom .bottomTrailing); `DFPopupTransition` (.automatic .slide .scale .fade .none .asymmetric(insert:remove:)); `DFPopupBackdrop` (.none .dim .blur; a non-nil `backdrop` wins over `dimsBackground`).
+- Surface styles via `.dfPopupStyle(_:)`: .standard .frosted .glass (iOS/macOS 26) .accent .gradient .inverse .outlined .tinted(_: DFToastSeverity). Colored styles resolve AA-contrast foregrounds.
+- Cards: `DFPopupCard(icon:iconTint:title:message:alignment:primaryAction:secondaryAction:tertiaryAction:onClose:)` (also with `media:` and `content:` builders), `DFPopupHeader`, `DFPopupActions`, `DFPopupIconBadge`, `DFPopupAction(_:role:action:)`.
+- Toasts: `DFToastQueue.shared.show(text:icon:duration:severity:position:title:actionTitle:action:)` + `.dfToast()`; severities info/success/warning/error; styles via `.dfToastStyle(_:)`: .default .tinted .filled .inverse .frosted .glass (26+) .banner .compact. Apply `.dfToast()` then `.dfToastStyle(_:)`.
+- Tokens: `theme.components.popup = DFPopupTokens(cornerRadius:padding:maxWidth:backdropOpacity:)`; `DFPopupHost` embeds the layer in custom containers.
+
+Pro (DesignFoundationPro 2.3.0, requires DesignFoundation 1.7.0). Docs: https://nerdsnipe-inc.github.io/design-foundation/pro/#popups
+
+- `.dfPopupPresentation(isPresented:display:configuration:keyboard:scrim:motion:pausesOnHold:chrome:haptic:onDismiss:content:)`; display `.overlay | .sheet | .window`; keyboard `.avoid | .ignore`; `DFPopupScrim` `.dim(_:) .blur(_:) .custom{} .clear .passingTouches()`; `DFPopupDismissReason` `.timeout .tap .outsideTap .drag .programmatic .preempted`; `@Environment(\.dfPopupDismiss)`; `dfPopupWindow` shorthand.
+- `dfScrollPopup(isPresented:edge:detents:headerStyle:scrim:onDismiss:header:content:footer:)`, `fromTop:`; detents `.medium .large .fraction .height`; header styles `.plain .centered .prominent .closable`.
+- `DFPopupCenter` + `.dfPopupCenter(_:)`, `present(id:priority:configuration:haptic:onDismiss:content:)`, `dismiss(id:)`; `DFPopupPriority` `.low .normal .high .critical`; preemption and id de-duplication.
+- Rich popups: `.dfCelebrationPopup`, `.dfPermissionPrompt` (`DFPermissionKind`), `.dfPromoPopup`, `.dfRatingPrompt`, `.dfInputPopup`, `.dfConsentSheet`, `.dfActionPopup`.
+- Toasts and status: `.dfUndoToast(indicator: .ring | .bar)`, `.dfProgressToast(state: .progress | .success | .failure)`, `.dfNotificationBanners(items:)`, `.dfLiveCapsule`.
+- Coachmarks: `DFCoachmarkTour`, `.dfCoachmarkTour(_:spotlight:)`, `.dfCoachmark`, `.dfPopupAnchor(_:)`.
+- Motion: `DFPopupMotion` `.snappy .bouncy .gentle .zoom .zoomOut .drop .slideFade .elastic .custom`, `.motion(_:enterFrom:exitTo:)`; `DFPopupCountdownBar`, `DFPopupCountdownRing`, `DFPopupHaptic`.
 
 ## Source
 

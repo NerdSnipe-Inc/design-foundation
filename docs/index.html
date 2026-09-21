@@ -38,6 +38,7 @@
   <meta name="twitter:description" content="Production-grade SwiftUI component library. Token-based theming, 43 accessible components + 9 feedback/overlay modifiers, preset themes, Liquid Glass, Swift 6. Free via SPM." />
   <meta name="twitter:image" content="https://nerdsnipe-inc.github.io/design-foundation/images/theme-default.png" />
   <meta name="twitter:image:alt" content="DesignFoundation SwiftUI components — light and dark mode" />
+  <link rel="stylesheet" href="assets/popups-media.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -323,7 +324,7 @@
           "DFModal, DFSheet, DFPopover, DFTooltip overlay components",
           "DFTabBar, DFNavigationBar, DFSidebar navigation components",
           "DFToast with queue management, DFSkeleton shimmer, DFProgressBar",
-          "DFPopup engine — .dfPopup(isPresented:) and .dfPopup(item:) with center/toast/floater kinds, nine positions, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag-to-dismiss and position-aware DFToastQueue toasts",
+          "DFPopup engine — .dfPopup(isPresented:) and .dfPopup(item:) with center/toast/floater/sheet kinds, nine positions, eight surface styles (standard, frosted, glass, accent, gradient, inverse, outlined, tinted), DFPopupCard, none/dim/blur backdrops, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag-to-dismiss, and DFToastQueue toasts with eight styles, titles and actions",
           "DFList with swipe-delete and reorder, DFTable with sortable columns",
           "Five preset themes: Slate, Aurora, Copper, Sage, Garnet",
           "Automatic light/dark switching via dfThemePreset() modifier",
@@ -447,7 +448,7 @@
           {"@type": "ListItem", "position": 1, "name": "Primitives", "description": "DFButton, DFText, DFIcon, DFBadge, DFAvatar, DFDivider"},
           {"@type": "ListItem", "position": 2, "name": "Inputs", "description": "DFTextField, DFSecureField, DFToggle, DFSlider, DFPicker, DFDatePicker, DFCheckbox"},
           {"@type": "ListItem", "position": 3, "name": "Layout", "description": "DFCard — elevated, outlined, filled, glass styles"},
-          {"@type": "ListItem", "position": 4, "name": "Overlays", "description": "DFModal, DFSheet, DFPopover, DFTooltip, DFPopup (centered, toast and floater popups at nine positions)"},
+          {"@type": "ListItem", "position": 4, "name": "Overlays", "description": "DFModal, DFSheet, DFPopover, DFTooltip, DFPopup (centered, toast, floater and sheet popups at nine positions, eight surface styles, DFPopupCard, eight toast styles)"},
           {"@type": "ListItem", "position": 5, "name": "Navigation", "description": "DFTabBar, DFNavigationBar, DFSidebar"},
           {"@type": "ListItem", "position": 6, "name": "Supplementary", "description": "Alert and toast modifiers, DFSkeleton, DFProgressBar, DFList, DFListRow, DFTable, DFDataTable, DFDataGrid"},
           {"@type": "ListItem", "position": 7, "name": "Theme Presets", "description": "Slate, Aurora, Copper, Sage, Garnet — each with automatic light/dark switching"}
@@ -505,6 +506,17 @@
       <a class="sidebar-link" href="#layout">Layout</a>
       <a class="sidebar-link" href="#overlays">Overlays</a>
       <a class="sidebar-link" href="#popups">Popups &amp; Toasts</a>
+      <a class="sidebar-link sub" href="#popups-styles">Surface styles</a>
+      <a class="sidebar-link sub" href="#popups-cards">Popup cards</a>
+      <a class="sidebar-link sub" href="#popups-toast-styles">Toast styles</a>
+      <a class="sidebar-link sub" href="#popups-toast-actions">Toast title, action and queue</a>
+      <a class="sidebar-link sub" href="#popups-positions">Nine positions</a>
+      <a class="sidebar-link sub" href="#popups-transitions">Transitions</a>
+      <a class="sidebar-link sub" href="#popups-backdrops">Backdrops</a>
+      <a class="sidebar-link sub" href="#popups-dismissal">Auto-dismiss, tap, outside tap and drag</a>
+      <a class="sidebar-link sub" href="#popups-item">Item-bound popups</a>
+      <a class="sidebar-link sub" href="#popups-sheet">Bottom sheet</a>
+      <a class="sidebar-link sub" href="#popups-tokens">Theming and tokens</a>
       <a class="sidebar-link" href="#navigation">Navigation</a>
       <a class="sidebar-link" href="#supplementary">Supplementary</a>
     </div>
@@ -930,7 +942,7 @@
             <tr><td>DFSheet</td><td><code>.standard</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFPopover</td><td><code>.arrow</code> <code>.compact</code> <code>.glass</code>¹</td></tr>
             <tr><td>DFTooltip</td><td><code>.bubble</code> <code>.glass</code>¹</td></tr>
-            <tr><td>DFPopup</td><td>Applied via <code>.dfPopup(isPresented:configuration:)</code> / <code>.dfPopup(item:configuration:)</code> — centered cards, edge-flush toasts and inset floaters at nine positions, with slide/scale/fade/none/asymmetric transitions, auto-dismiss, tap/outside-tap/drag dismissal and an optional dimmed backdrop. Restyle with <code>.dfPopupStyle(_:)</code> (<code>.standard</code>). <a href="#popups">Animated demos below →</a></td></tr>
+            <tr><td>DFPopup</td><td>Applied via <code>.dfPopup(isPresented:configuration:)</code> / <code>.dfPopup(item:configuration:)</code> — centered cards, edge-flush toasts, inset floaters and bottom sheets at nine positions, with eight surface styles (<code>.dfPopupStyle(_:)</code>), <code>DFPopupCard</code>, none/dim/blur backdrops, transitions and tap/outside-tap/drag dismissal. <a href="#popups">Real recordings below →</a></td></tr>
             <tr><td>DFImageGallery</td><td>Applied via <code>.dfImageGallery(isPresented:images:initialIndex:)</code> — full-screen swipeable image viewer with page indicator. No style variants.</td></tr>
             <tr><td>DFCommandPalette</td><td>Applied via <code>.dfCommandPalette(isPresented:items:placeholder:onSelect:)</code> — Cmd-K-style search overlay with a filtered results list and full keyboard navigation (↑/↓, Return, Escape). No style variants.</td></tr>
           </tbody>
@@ -939,177 +951,544 @@
       <p>² <code>DFGlassModalStyle</code> exists but has no <code>.glass</code> convenience accessor like the other overlay styles — construct it directly: <code>.dfModalStyle(DFGlassModalStyle())</code>.</p>
     </section>
 
-    <!-- Popups & Toasts -->
+    <!-- popups:begin (generated by scratchpad/gen/gen.py; edit content there) -->
     <section class="doc-section" id="popups">
-      <h2>Popups &amp; Toasts</h2>
-      <p>One popup engine powers centered dialogs, edge-flush toasts and inset floaters. It is a view modifier — <code>.dfPopup(isPresented:)</code> or <code>.dfPopup(item:)</code> — configured with a plain <code>DFPopupConfiguration</code> value: a <strong>kind</strong>, one of <strong>nine positions</strong>, a <strong>transition</strong>, and the dismissal rules (auto-dismiss, tap, outside tap, drag, dimmed backdrop). <code>DFToastQueue</code> and <code>.dfToast()</code> are built on the same engine, so toasts can appear at any of the nine positions too.</p>
-
+      <h2>Popups &amp; Toasts <span class="pop-badge">New in 1.7.0</span></h2>
+      <div class="pop-hero">
+        <div class="pop-hero-text">
+          <p>One popup engine powers centered cards, edge-flush toasts, inset floaters and bottom sheets. It is a view modifier, <code>.dfPopup(isPresented:)</code> or <code>.dfPopup(item:)</code>, configured with a plain <code>DFPopupConfiguration</code> value: a <strong>kind</strong>, one of <strong>nine positions</strong>, a <strong>transition</strong>, a <strong>backdrop</strong> and the dismissal rules. <code>DFToastQueue</code> and <code>.dfToast()</code> run on the same engine. Every recording below was captured from the real DFPlayground Popup Lab, not mocked up. Surface styles, toast styles, cards, the sheet kind and backdrops are <strong>new in 1.7.0</strong>.</p>
+          <p>The clip beside this text is the Theme Tour: all five presets, light and dark, with popups and toasts.</p>
+          <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+        </div>
+        <figure class="clip clip-hero" data-title="Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" poster="assets/popups/posters/free-theme-tour-all-presets.jpg" aria-label="Screen recording: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s)." width="390" height="848">
+      <source data-src="videos/popups/free-theme-tour-all-presets.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).">Play</button>
+  </div>
+  <figcaption>Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).</figcaption>
+</figure>
+      </div>
+      <nav class="pop-toc" aria-label="Popups and toasts on this page"><a href="#popups-styles">Surface styles</a><a href="#popups-cards">Popup cards</a><a href="#popups-toast-styles">Toast styles</a><a href="#popups-toast-actions">Toast title, action and queue</a><a href="#popups-positions">Nine positions</a><a href="#popups-transitions">Transitions</a><a href="#popups-backdrops">Backdrops</a><a href="#popups-dismissal">Auto-dismiss, tap, outside tap and drag</a><a href="#popups-item">Item-bound popups</a><a href="#popups-sheet">Bottom sheet</a><a href="#popups-tokens">Theming and tokens</a></nav>
       <div class="table-wrap">
         <table>
           <thead><tr><th>API</th><th>What it does</th></tr></thead>
           <tbody>
-            <tr><td>.dfPopup(isPresented:configuration:onDismiss:content:)</td><td>Present <code>content</code> in a popup over the view while a <code>Bool</code> binding is true.</td></tr>
-            <tr><td>.dfPopup(item:configuration:onDismiss:content:)</td><td>Present for an <code>Identifiable</code> item while it is non-nil; changing the item's <code>id</code> restarts auto-dismiss.</td></tr>
-            <tr><td>DFPopupConfiguration</td><td>Kind, position, transition, optional animation override, <code>autoDismissAfter</code>, <code>dismissOnTap</code>, <code>dismissOnOutsideTap</code>, <code>dismissOnDrag</code>, <code>dimsBackground</code>. Presets: <code>.centered</code>, <code>.toast(position:autoDismissAfter:dismissOnDrag:)</code>, <code>.floater(position:autoDismissAfter:dismissOnDrag:)</code>.</td></tr>
-            <tr><td>DFPopupKind</td><td><code>.center</code> (width-limited card, inset), <code>.toast</code> (full-width, flush with the edge, bleeds under the safe area), <code>.floater</code> (inset rounded card).</td></tr>
-            <tr><td>DFPopupPosition</td><td><code>.topLeading</code> <code>.top</code> <code>.topTrailing</code> <code>.leading</code> <code>.center</code> <code>.trailing</code> <code>.bottomLeading</code> <code>.bottom</code> <code>.bottomTrailing</code>. <code>exitEdge</code> is the edge a popup enters from and leaves toward (<code>.center</code> uses the bottom).</td></tr>
-            <tr><td>DFPopupTransition</td><td><code>.automatic</code> (scale at <code>.center</code>, slide elsewhere), <code>.slide</code>, <code>.scale</code>, <code>.fade</code>, <code>.none</code>, <code>.asymmetric(insert:remove:)</code>.</td></tr>
-            <tr><td>DFPopupStyle + .dfPopupStyle(_:)</td><td>Restyle the surface of every popup in a subtree. Ships <code>.standard</code>.</td></tr>
-            <tr><td>theme.components.popup</td><td><code>DFPopupTokens</code>: <code>cornerRadius</code>, <code>padding</code>, <code>maxWidth</code> (default 420), <code>backdropOpacity</code> (default 0.35). All optional, <code>nil</code> inherits.</td></tr>
-            <tr><td>DFPopupHost</td><td>The public host view, for embedding a popup layer in a custom container.</td></tr>
+            <tr><td><code>.dfPopup(isPresented:configuration:onDismiss:content:)</code></td><td>Present <code>content</code> in a popup over the view while a <code>Bool</code> binding is true.</td></tr>
+            <tr><td><code>.dfPopup(item:configuration:onDismiss:content:)</code></td><td>Present for an <code>Identifiable</code> item while it is non-nil; changing the item's <code>id</code> restarts auto-dismiss.</td></tr>
+            <tr><td><code>DFPopupConfiguration</code></td><td>Kind, position, transition, optional animation, <code>autoDismissAfter</code>, <code>dismissOnTap</code>, <code>dismissOnOutsideTap</code>, <code>dismissOnDrag</code>, <code>dimsBackground</code> and <code>backdrop</code>. Presets: <code>.centered</code>, <code>.toast(position:autoDismissAfter:dismissOnDrag:)</code>, <code>.floater(position:autoDismissAfter:dismissOnDrag:)</code>, <code>.sheet(dismissOnDrag:backdrop:dismissOnOutsideTap:)</code>.</td></tr>
+            <tr><td><code>DFPopupKind</code></td><td><code>.center</code>, <code>.toast</code> (full width, flush with the edge), <code>.floater</code> (inset rounded card), <code>.sheet</code> (bottom-anchored, grabber, drag down to dismiss).</td></tr>
+            <tr><td><code>DFPopupPosition</code></td><td><code>.topLeading</code> <code>.top</code> <code>.topTrailing</code> <code>.leading</code> <code>.center</code> <code>.trailing</code> <code>.bottomLeading</code> <code>.bottom</code> <code>.bottomTrailing</code>.</td></tr>
+            <tr><td><code>DFPopupTransition</code></td><td><code>.automatic</code>, <code>.slide</code>, <code>.scale</code>, <code>.fade</code>, <code>.none</code>, <code>.asymmetric(insert:remove:)</code>.</td></tr>
+            <tr><td><code>DFPopupBackdrop</code></td><td><code>.none</code>, <code>.dim</code>, <code>.blur</code>. A non-nil <code>configuration.backdrop</code> wins over <code>dimsBackground</code>.</td></tr>
+            <tr><td><code>DFPopupStyle</code> + <code>.dfPopupStyle(_:)</code></td><td>Eight surface styles: <code>.standard</code> <code>.frosted</code> <code>.glass</code> (iOS/macOS 26) <code>.accent</code> <code>.gradient</code> <code>.inverse</code> <code>.outlined</code> <code>.tinted(_:)</code>.</td></tr>
+            <tr><td><code>DFPopupCard</code>, <code>DFPopupHeader</code>, <code>DFPopupActions</code>, <code>DFPopupIconBadge</code>, <code>DFPopupAction</code></td><td>Ready-made popup content: icon badge or hero media, title, message, up to three actions, optional close button.</td></tr>
+            <tr><td><code>DFToastStyle</code> + <code>.dfToastStyle(_:)</code></td><td>Eight toast styles: <code>.default</code> <code>.tinted</code> <code>.filled</code> <code>.inverse</code> <code>.frosted</code> <code>.glass</code> (26+) <code>.banner</code> <code>.compact</code>.</td></tr>
+            <tr><td><code>DFToastQueue.show(text:icon:duration:severity:position:title:actionTitle:action:)</code></td><td>One toast at a time, at any of nine positions, with an optional title and trailing action.</td></tr>
+            <tr><td><code>theme.components.popup</code></td><td><code>DFPopupTokens</code>: <code>cornerRadius</code>, <code>padding</code>, <code>maxWidth</code> (default 420), <code>backdropOpacity</code> (default 0.35). All optional; <code>nil</code> inherits.</td></tr>
+            <tr><td><code>DFPopupHost</code></td><td>The public host view, for embedding a popup layer in a custom container.</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3>Centered popup</h3>
-      <p>The default <code>.centered</code> configuration: a card that scales in from 0.9 while fading, over a backdrop dimmed to 35%. Tapping outside dismisses it.</p>
-<pre><code>struct DeleteDemo: View {
-    @State private var show = false
-
-    var body: some View {
-        DFButton("Delete…") { show = true }
-            .dfPopup(isPresented: $show) {   // .centered by default
-                VStack(spacing: 12) {
-                    DFText("Delete this item?", scale: .headline)
-                    DFText("This can't be undone.", scale: .caption)
-                    DFButton("Delete", style: .ghost, role: .destructive) { show = false }
-                }
-            }
+<div class="pop-sec" id="popups-styles">
+  <h3>Surface styles</h3>
+  <p><code>.dfPopupStyle(_:)</code> restyles every popup in a subtree. Eight ship: <code>.standard</code> (hairline border, layered shadow), <code>.frosted</code>, <code>.glass</code> (iOS/macOS 26, honors <code>theme.materials.preferLiquidGlass</code>), <code>.accent</code>, <code>.gradient</code>, <code>.inverse</code>, <code>.outlined</code> and <code>.tinted(_:)</code> (a severity wash). Colored styles pick a foreground that reaches WCAG AA on every fill stop and re-point the default <code>DFButton</code> at the surface, so plain content stays legible in every preset, light and dark. Apply the style above the presenting modifier.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>()
+    .<span class="fn">dfPopup</span>(isPresented: $showPopup) {
+        <span class="type">DFPopupCard</span>(
+            icon: <span class="str">"sparkles"</span>,
+            title: <span class="str">"Orbit Pro"</span>,
+            message: <span class="str">"Unlimited projects and workspaces."</span>,
+            primaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Upgrade"</span>) { },
+            secondaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Not now"</span>) { showPopup = <span class="kw">false</span> }
+        )
     }
+    .<span class="fn">dfPopupStyle</span>(.gradient)</code></pre>
+<pre class="swift"><code><span class="cm">// .standard  .frosted  .glass  .accent  .gradient  .inverse  .outlined  .tinted(_:)</span>
+<span class="type">YourContentView</span>().<span class="fn">dfPopupStyle</span>(.frosted)
+<span class="type">YourContentView</span>().<span class="fn">dfPopupStyle</span>(.<span class="fn">tinted</span>(.warning))   <span class="cm">// .info .success .warning .error</span>
+
+<span class="kw">if</span> #available(iOS <span class="num">26</span>, macOS <span class="num">26</span>, *) {
+    <span class="type">YourContentView</span>().<span class="fn">dfPopupStyle</span>(.glass)
 }</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Style wall, Aurora light: the same DFPopupCard in all eight surface styles (tap a tile, hold, Not now).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-style-wall-aurora-light.jpg" aria-label="Screen recording: Style wall, Aurora light: the same DFPopupCard in all eight surface styles (tap a tile, hold, Not now)." width="390" height="848">
+      <source data-src="videos/popups/free-style-wall-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Style wall, Aurora light: the same DFPopupCard in all eight surface styles (tap a tile, hold, Not now).">Play</button>
+  </div>
+  <figcaption>Style wall, Aurora light: the same DFPopupCard in all eight surface styles (tap a tile, hold, Not now).</figcaption>
+</figure>
+<figure class="clip" data-title="Style wall, Copper dark: the same card in all eight surface styles.">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-style-wall-copper-dark.jpg" aria-label="Screen recording: Style wall, Copper dark: the same card in all eight surface styles." width="390" height="848">
+      <source data-src="videos/popups/free-style-wall-copper-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Style wall, Copper dark: the same card in all eight surface styles.">Play</button>
+  </div>
+  <figcaption>Style wall, Copper dark: the same card in all eight surface styles.</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
 
-      <h3>Toast kind</h3>
-      <p><code>.toast(position:)</code> is full-width and flush with its edge — its background extends under the status bar. It has no backdrop, dismisses itself after 3 seconds, and can be tapped or dragged away.</p>
-<pre><code>.dfPopup(isPresented: $showSaved, configuration: .toast(position: .top)) {
-    Label("Changes saved", systemImage: "checkmark.circle.fill")
+<div class="pop-sec" id="popups-cards">
+  <h3>Popup cards</h3>
+  <p><code>DFPopupCard</code> is composed popup content: an icon badge or edge-to-edge hero media, a title, a message, up to three actions (primary filled, secondary translucent, tertiary plain text) and an optional close button. <code>iconTint</code> is <code>.brand</code>, <code>.soft</code> or <code>.severity(_:)</code>; <code>alignment</code> is <code>.center</code> or <code>.leading</code>. Hero <code>media</code> bleeds to the surface edges and a <code>content</code> slot sits between the message and the actions.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>().<span class="fn">dfPopup</span>(isPresented: $showPopup) {
+    <span class="type">DFPopupCard</span>(
+        icon: <span class="str">"trash"</span>,
+        iconTint: .<span class="fn">severity</span>(.error),
+        title: <span class="str">"Delete “Q3 Roadmap”?"</span>,
+        message: <span class="str">"This project and its 14 tasks will be permanently removed."</span>,
+        primaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Delete"</span>, role: .destructive) { deleteProject() },
+        secondaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Cancel"</span>) { showPopup = <span class="kw">false</span> }
+    )
 }</code></pre>
+<pre class="swift"><code><span class="cm">// Three actions and a close button</span>
+<span class="type">DFPopupCard</span>(
+    icon: <span class="str">"bell.badge"</span>,
+    title: <span class="str">"Turn on notifications"</span>,
+    message: <span class="str">"Get a nudge when a teammate mentions you."</span>,
+    primaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Allow"</span>) { },
+    secondaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Not now"</span>) { },
+    tertiaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Ask me later"</span>) { },
+    onClose: { showPopup = <span class="kw">false</span> }
+)
 
-      <h3>Floater kind</h3>
-      <p><code>.floater(position:)</code> is inset from the edges by the popup padding token, with rounded corners. No backdrop, and touches fall through to the content underneath, so the screen stays usable while it is up. It stays until dismissed (or until you set <code>autoDismissAfter</code>).</p>
-<pre><code>.dfPopup(isPresented: $showUndo, configuration: .floater(position: .bottom)) {
-    HStack {
-        Text("Photo archived")
-        Button("Undo") { undo() }
-    }
-}</code></pre>
-
-      <h3>All nine positions</h3>
-      <p>Both the floater and toast kinds work at every <code>DFPopupPosition</code>. Each popup enters from, and leaves toward, its <code>exitEdge</code>; <code>.center</code> scales instead.</p>
-<pre><code>// DFPopupPosition — 9 values
-// .topLeading    .top     .topTrailing
-// .leading       .center  .trailing
-// .bottomLeading .bottom  .bottomTrailing
-
-.dfPopup(isPresented: $show, configuration: .floater(position: .topTrailing)) {
-    Text("Top trailing")
-}</code></pre>
-
-      <h3>Transitions</h3>
-      <p>Set <code>transition</code> on the configuration. <code>.automatic</code> is the default: scale at <code>.center</code>, slide at every other position. Slide and scale also fade.</p>
-<h4>.slide</h4>
-<pre><code>var config = DFPopupConfiguration
-    .floater(position: .bottom)
-config.transition = .slide</code></pre>
-        <h4>.scale</h4>
-<pre><code>var config = DFPopupConfiguration
-    .floater(position: .bottom)
-config.transition = .scale</code></pre>
-        <h4>.fade</h4>
-<pre><code>var config = DFPopupConfiguration
-    .floater(position: .bottom)
-config.transition = .fade</code></pre>
-        <h4>.none</h4>
-<pre><code>var config = DFPopupConfiguration
-    .floater(position: .bottom)
-config.transition = .none</code></pre>
-        <h4>.asymmetric</h4>
-<pre><code>var config = DFPopupConfiguration
-    .floater(position: .bottom)
-config.transition = .asymmetric(
-    insert: .leading, remove: .trailing)</code></pre>
-      </div>
-
-      <h3>Auto-dismiss</h3>
-      <p><code>autoDismissAfter</code> is a <code>TimeInterval?</code>; <code>nil</code> means the popup stays until dismissed. The <code>.toast</code> preset defaults to 3 seconds. The timer starts when the popup appears.</p>
-<pre><code>.dfPopup(
-    isPresented: $showCopied,
-    configuration: .floater(position: .bottom, autoDismissAfter: 2.5)
-) {
-    Text("Link copied")
-}</code></pre>
-
-      <h3>Drag to dismiss</h3>
-      <p>With <code>dismissOnDrag</code> (on by default in the toast and floater presets) the popup follows your finger toward its exit edge. Dragging the other way is ignored. Release after 60pt of travel, or with enough velocity, to dismiss; otherwise it snaps back.</p>
-<pre><code>.dfPopup(
-    isPresented: $showDraft,
-    configuration: .floater(position: .bottom, dismissOnDrag: true)
-) {
-    Text("Draft saved — drag me down")
-}</code></pre>
-
-      <h3>Tap to dismiss, outside tap and the dimmed backdrop</h3>
-      <p>The centered default dims the host and dismisses on an outside tap, but not when you tap the popup itself. The toast preset flips that: no backdrop, <code>dismissOnTap</code> on. Set the flags yourself for anything in between. With a backdrop, touches to the host are blocked while the popup is up.</p>
-<pre><code>// Center: dimmed backdrop, tap outside dismisses
-.dfPopup(isPresented: $a) { Text("Discard changes?") }
-
-// Toast: no backdrop, tap the toast to dismiss
-.dfPopup(isPresented: $b, configuration: .toast()) { Text("Tap to dismiss") }
-
-// Custom
-let config = DFPopupConfiguration(
-    dismissOnTap: true,
-    dismissOnOutsideTap: false,
-    dimsBackground: true
+<span class="cm">// Hero media plus a content slot</span>
+<span class="type">DFPopupCard</span>(
+    title: <span class="str">"Summer launch sale"</span>,
+    message: <span class="str">"Upgrade any plan this week."</span>,
+    primaryAction: <span class="type">DFPopupAction</span>(<span class="str">"Claim 40% off"</span>) { },
+    media: {
+        <span class="type">LinearGradient</span>(colors: [theme.colors.primary, theme.colors.accent],
+                       startPoint: .topLeading, endPoint: .bottomTrailing)
+            .<span class="fn">frame</span>(height: <span class="num">120</span>)
+    },
+    content: { <span class="type">Text</span>(<span class="str">"Ends Sunday"</span>) }
 )</code></pre>
-
-      <h3>Item-bound popup</h3>
-      <p><code>.dfPopup(item:)</code> presents while the binding is non-nil and hands the item to your content closure. Selecting a different item while it is up swaps the content and restarts the auto-dismiss timer; the item is kept alive through the exit transition.</p>
-<pre><code>struct Order: Identifiable {
-    let id: Int
-    let title: String
-}
-
-@State private var selected: Order?
-
-List(orders) { order in
-    Button(order.title) { selected = order }
-}
-.dfPopup(
-    item: $selected,
-    configuration: .floater(position: .bottom, autoDismissAfter: 3)
-) { order in
-    Text(order.title)
+<pre class="swift"><code><span class="cm">// The pieces, when you want your own layout</span>
+<span class="type">VStack</span>(spacing: <span class="num">16</span>) {
+    <span class="type">DFPopupIconBadge</span>(systemImage: <span class="str">"bell.badge"</span>, tint: .soft)
+    <span class="type">DFPopupHeader</span>(icon: <span class="str">"bell"</span>, title: <span class="str">"Stay in the loop"</span>, message: <span class="str">"Choose what you hear about."</span>, alignment: .leading)
+    <span class="type">DFPopupActions</span>(primary: <span class="type">DFPopupAction</span>(<span class="str">"Allow"</span>) { }, secondary: <span class="type">DFPopupAction</span>(<span class="str">"Not now"</span>) { })
 }</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Delete confirmation card: tap Delete, an Undo toast appears, tap Undo (Slate light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-card-delete-confirm-slate-light.jpg" aria-label="Screen recording: Delete confirmation card: tap Delete, an Undo toast appears, tap Undo (Slate light)." width="390" height="848">
+      <source data-src="videos/popups/free-card-delete-confirm-slate-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Delete confirmation card: tap Delete, an Undo toast appears, tap Undo (Slate light).">Play</button>
+  </div>
+  <figcaption>Delete confirmation card: tap Delete, an Undo toast appears, tap Undo (Slate light).</figcaption>
+</figure>
+<figure class="clip" data-title="Permission card with three actions: primary, secondary and a plain-text tertiary (Sage light, .frosted).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-card-permission-three-actions-sage-light.jpg" aria-label="Screen recording: Permission card with three actions: primary, secondary and a plain-text tertiary (Sage light, .frosted)." width="390" height="848">
+      <source data-src="videos/popups/free-card-permission-three-actions-sage-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Permission card with three actions: primary, secondary and a plain-text tertiary (Sage light, .frosted).">Play</button>
+  </div>
+  <figcaption>Permission card with three actions: primary, secondary and a plain-text tertiary (Sage light, .frosted).</figcaption>
+</figure>
+<figure class="clip" data-title="Promo card: gradient hero media, a content slot and two actions (Garnet light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-card-promo-gradient-hero-garnet-light.jpg" aria-label="Screen recording: Promo card: gradient hero media, a content slot and two actions (Garnet light)." width="390" height="848">
+      <source data-src="videos/popups/free-card-promo-gradient-hero-garnet-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Promo card: gradient hero media, a content slot and two actions (Garnet light).">Play</button>
+  </div>
+  <figcaption>Promo card: gradient hero media, a content slot and two actions (Garnet light).</figcaption>
+</figure>
+<figure class="clip" data-title="Upgrade card with a feature list in the content slot (Aurora dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-card-upgrade-aurora-dark.jpg" aria-label="Screen recording: Upgrade card with a feature list in the content slot (Aurora dark)." width="390" height="848">
+      <source data-src="videos/popups/free-card-upgrade-aurora-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Upgrade card with a feature list in the content slot (Aurora dark).">Play</button>
+  </div>
+  <figcaption>Upgrade card with a feature list in the content slot (Aurora dark).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
 
-      <h3>Toast severities, positions and the queue</h3>
-      <p><code>DFToastQueue</code> shows one toast at a time at each message's own <code>position</code> (default <code>.top</code>). Severities are <code>.info</code>, <code>.success</code>, <code>.warning</code> and <code>.error</code>. Toasts dismiss on a tap or by swiping toward their edge. Apply <code>.dfToast()</code> once at the scene root.</p>
-<pre><code>ContentView().dfToast()   // root modifier
+<div class="pop-sec" id="popups-toast-styles">
+  <h3>Toast styles</h3>
+  <p><code>.dfToastStyle(_:)</code> restyles every toast under the view it is applied to. Eight styles: <code>.default</code>, <code>.tinted</code>, <code>.filled</code>, <code>.inverse</code>, <code>.frosted</code>, <code>.glass</code> (26+), <code>.banner</code> (full width, flush with the edge, severity stripe) and <code>.compact</code>. Filled styles resolve an AA-contrast foreground. Severities are <code>.info</code>, <code>.success</code>, <code>.warning</code> and <code>.error</code>.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>()
+    .<span class="fn">dfToast</span>()                 <span class="cm">// once, at the scene root</span>
+    .<span class="fn">dfToastStyle</span>(.filled)     <span class="cm">// .default .tinted .filled .inverse .frosted .glass .banner .compact</span></code></pre>
+<pre class="swift"><code><span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(
+    text: <span class="str">"Alex commented on Brand refresh."</span>,
+    icon: <span class="str">"bubble.left.fill"</span>,
+    severity: .info,
+    title: <span class="str">"New comment"</span>
+)</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Toast matrix, Aurora light: every toast style crossed with every severity, each fired by a real tap.">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-matrix-aurora-light.jpg" aria-label="Screen recording: Toast matrix, Aurora light: every toast style crossed with every severity, each fired by a real tap." width="390" height="848">
+      <source data-src="videos/popups/free-toast-matrix-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Toast matrix, Aurora light: every toast style crossed with every severity, each fired by a real tap.">Play</button>
+  </div>
+  <figcaption>Toast matrix, Aurora light: every toast style crossed with every severity, each fired by a real tap.</figcaption>
+</figure>
+<figure class="clip" data-title="Toast matrix, Copper dark: the same styles and severities on a dark preset.">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-matrix-copper-dark.jpg" aria-label="Screen recording: Toast matrix, Copper dark: the same styles and severities on a dark preset." width="390" height="848">
+      <source data-src="videos/popups/free-toast-matrix-copper-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Toast matrix, Copper dark: the same styles and severities on a dark preset.">Play</button>
+  </div>
+  <figcaption>Toast matrix, Copper dark: the same styles and severities on a dark preset.</figcaption>
+</figure>
+<figure class="clip" data-title="The .banner (flush, severity stripe) and .compact toast styles (Sage light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-banner-compact-sage-light.jpg" aria-label="Screen recording: The .banner (flush, severity stripe) and .compact toast styles (Sage light)." width="390" height="848">
+      <source data-src="videos/popups/free-toast-banner-compact-sage-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: The .banner (flush, severity stripe) and .compact toast styles (Sage light).">Play</button>
+  </div>
+  <figcaption>The .banner (flush, severity stripe) and .compact toast styles (Sage light).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
 
-DFToastQueue.shared.show(text: "Syncing…", icon: "arrow.triangle.2.circlepath",
-                         severity: .info, position: .top)
-DFToastQueue.shared.show(text: "Saved", icon: "checkmark.circle.fill",
-                         severity: .success, position: .bottom)
-DFToastQueue.shared.show(text: "Low storage", icon: "exclamationmark.triangle.fill",
-                         severity: .warning, position: .topTrailing)
-DFToastQueue.shared.show(text: "Upload failed", icon: "xmark.octagon.fill",
-                         severity: .error, position: .bottomLeading)</code></pre>
+<div class="pop-sec" id="popups-toast-actions">
+  <h3>Toast title, action and queue</h3>
+  <p>A toast takes an optional <code>title</code> and a trailing action. Tapping the action runs it, then dismisses the toast. <code>DFToastQueue</code> shows one toast at a time at each message's own <code>position</code> (default <code>.top</code>); tapping a toast or swiping it toward its edge dismisses it, and new toasts are announced to VoiceOver.</p>
+<pre class="swift"><code><span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(
+    text: <span class="str">"Moved to the trash"</span>,
+    icon: <span class="str">"trash"</span>,
+    severity: .error,
+    title: <span class="str">"Deleted"</span>,
+    actionTitle: <span class="str">"Undo"</span>,
+    action: { restore() }
+)
 
-      <h3>Theming and restyling</h3>
-<pre><code>var theme = DFTheme.slateLight
-theme.components.popup = DFPopupTokens(cornerRadius: 24, padding: 20, maxWidth: 360, backdropOpacity: 0.5)
+<span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(text: <span class="str">"Saved"</span>, icon: <span class="str">"checkmark.circle.fill"</span>,
+                         severity: .success, position: .bottom)</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Toast with a title and an Undo action: tap Undo, the action runs and the toast dismisses (Slate dark, .inverse).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-undo-action-slate-dark.jpg" aria-label="Screen recording: Toast with a title and an Undo action: tap Undo, the action runs and the toast dismisses (Slate dark, .inverse)." width="390" height="848">
+      <source data-src="videos/popups/free-toast-undo-action-slate-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Toast with a title and an Undo action: tap Undo, the action runs and the toast dismisses (Slate dark, .inverse).">Play</button>
+  </div>
+  <figcaption>Toast with a title and an Undo action: tap Undo, the action runs and the toast dismisses (Slate dark, .inverse).</figcaption>
+</figure>
+<figure class="clip" data-title="Four toasts fired at once queue and show one at a time (Aurora light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-queue-burst-aurora-light.jpg" aria-label="Screen recording: Four toasts fired at once queue and show one at a time (Aurora light)." width="390" height="848">
+      <source data-src="videos/popups/free-toast-queue-burst-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Four toasts fired at once queue and show one at a time (Aurora light).">Play</button>
+  </div>
+  <figcaption>Four toasts fired at once queue and show one at a time (Aurora light).</figcaption>
+</figure>
+<figure class="clip" data-title="Severity queue: success, info, warning and error toasts in turn (Garnet dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-toast-queue-severities-garnet-dark.jpg" aria-label="Screen recording: Severity queue: success, info, warning and error toasts in turn (Garnet dark)." width="390" height="848">
+      <source data-src="videos/popups/free-toast-queue-severities-garnet-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Severity queue: success, info, warning and error toasts in turn (Garnet dark).">Play</button>
+  </div>
+  <figcaption>Severity queue: success, info, warning and error toasts in turn (Garnet dark).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
 
-// Replace the surface for a whole subtree by conforming to DFPopupStyle
-YourContentView().dfPopupStyle(.standard)</code></pre>
-      <p>Presentation and dismissal use the theme's animation tokens (<code>theme.animation.default</code>, easeInOut 0.25s) unless you set <code>animation</code> on the configuration.</p>
+<div class="pop-sec" id="popups-positions">
+  <h3>Nine positions</h3>
+  <p>Toasts, floaters and centered cards work at every <code>DFPopupPosition</code>. A popup enters from, and leaves toward, its <code>exitEdge</code>; <code>.center</code> scales instead. The three clips walk all nine positions in turn.</p>
+<pre class="swift"><code><span class="cm">// DFPopupPosition: 9 values</span>
+<span class="cm">// .topLeading    .top     .topTrailing</span>
+<span class="cm">// .leading       .center  .trailing</span>
+<span class="cm">// .bottomLeading .bottom  .bottomTrailing</span>
 
-      <div class="blocks-cta" style="margin-top:24px">
+<span class="type">YourContentView</span>()
+    .<span class="fn">dfPopup</span>(isPresented: $showPopup, configuration: .<span class="fn">floater</span>(position: .topTrailing)) {
+        <span class="type">Text</span>(<span class="str">"Top trailing"</span>)
+    }</code></pre>
+<pre class="swift"><code><span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(text: <span class="str">"Saved"</span>, severity: .success, position: .bottomLeading)
+<span class="kw">let</span> card = <span class="type">DFPopupConfiguration</span>(kind: .center, position: .bottomTrailing)</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Toast at all nine positions, top-leading to bottom-trailing (Aurora light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-positions-toast-aurora-light.jpg" aria-label="Screen recording: Toast at all nine positions, top-leading to bottom-trailing (Aurora light)." width="390" height="848">
+      <source data-src="videos/popups/free-positions-toast-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Toast at all nine positions, top-leading to bottom-trailing (Aurora light).">Play</button>
+  </div>
+  <figcaption>Toast at all nine positions, top-leading to bottom-trailing (Aurora light).</figcaption>
+</figure>
+<figure class="clip" data-title="Floater at all nine positions (Copper light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-positions-floater-copper-light.jpg" aria-label="Screen recording: Floater at all nine positions (Copper light)." width="390" height="848">
+      <source data-src="videos/popups/free-positions-floater-copper-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Floater at all nine positions (Copper light).">Play</button>
+  </div>
+  <figcaption>Floater at all nine positions (Copper light).</figcaption>
+</figure>
+<figure class="clip" data-title="Centered card popup placed at all nine positions (Sage dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-positions-card-sage-dark.jpg" aria-label="Screen recording: Centered card popup placed at all nine positions (Sage dark)." width="390" height="848">
+      <source data-src="videos/popups/free-positions-card-sage-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Centered card popup placed at all nine positions (Sage dark).">Play</button>
+  </div>
+  <figcaption>Centered card popup placed at all nine positions (Sage dark).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-transitions">
+  <h3>Transitions</h3>
+  <p>Set <code>transition</code> on the configuration. <code>.automatic</code> (the default) scales at <code>.center</code> and slides at every other position. Slide and scale also fade. <code>.asymmetric(insert:remove:)</code> enters from one edge and leaves toward another.</p>
+<pre class="swift"><code><span class="kw">var</span> config = <span class="type">DFPopupConfiguration</span>.<span class="fn">floater</span>(position: .bottom)
+config.transition = .slide     <span class="cm">// .automatic  .slide  .scale  .fade  .none</span>
+
+config.transition = .<span class="fn">asymmetric</span>(insert: .leading, remove: .trailing)</code></pre>
+  <div class="clips">
+<figure class="clip" data-title=".slide: the popup enters from and leaves toward its edge, presented twice (Slate light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-transition-slide-slate-light.jpg" aria-label="Screen recording: .slide: the popup enters from and leaves toward its edge, presented twice (Slate light)." width="390" height="848">
+      <source data-src="videos/popups/free-transition-slide-slate-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: .slide: the popup enters from and leaves toward its edge, presented twice (Slate light).">Play</button>
+  </div>
+  <figcaption>.slide: the popup enters from and leaves toward its edge, presented twice (Slate light).</figcaption>
+</figure>
+<figure class="clip" data-title=".scale: grows in from the anchor, presented twice (Aurora dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-transition-scale-aurora-dark.jpg" aria-label="Screen recording: .scale: grows in from the anchor, presented twice (Aurora dark)." width="390" height="848">
+      <source data-src="videos/popups/free-transition-scale-aurora-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: .scale: grows in from the anchor, presented twice (Aurora dark).">Play</button>
+  </div>
+  <figcaption>.scale: grows in from the anchor, presented twice (Aurora dark).</figcaption>
+</figure>
+<figure class="clip" data-title=".fade: opacity only, presented twice (Sage light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-transition-fade-sage-light.jpg" aria-label="Screen recording: .fade: opacity only, presented twice (Sage light)." width="390" height="848">
+      <source data-src="videos/popups/free-transition-fade-sage-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: .fade: opacity only, presented twice (Sage light).">Play</button>
+  </div>
+  <figcaption>.fade: opacity only, presented twice (Sage light).</figcaption>
+</figure>
+<figure class="clip" data-title=".none: the popup appears and disappears instantly (Garnet light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-transition-none-garnet-light.jpg" aria-label="Screen recording: .none: the popup appears and disappears instantly (Garnet light)." width="390" height="848">
+      <source data-src="videos/popups/free-transition-none-garnet-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: .none: the popup appears and disappears instantly (Garnet light).">Play</button>
+  </div>
+  <figcaption>.none: the popup appears and disappears instantly (Garnet light).</figcaption>
+</figure>
+<figure class="clip" data-title=".asymmetric: separate insert and remove edges (Copper dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-transition-asymmetric-copper-dark.jpg" aria-label="Screen recording: .asymmetric: separate insert and remove edges (Copper dark)." width="390" height="848">
+      <source data-src="videos/popups/free-transition-asymmetric-copper-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: .asymmetric: separate insert and remove edges (Copper dark).">Play</button>
+  </div>
+  <figcaption>.asymmetric: separate insert and remove edges (Copper dark).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-backdrops">
+  <h3>Backdrops</h3>
+  <p><code>DFPopupBackdrop</code> is what is drawn between the host and the popup: <code>.none</code>, <code>.dim</code> (opacity from <code>DFPopupTokens.backdropOpacity</code>) or <code>.blur</code> (a Material). <code>configuration.backdrop</code> is additive: when it is nil the backdrop is derived from <code>dimsBackground</code> as before, and when set it wins (<code>resolvedBackdrop</code> reports the result).</p>
+<pre class="swift"><code><span class="type">YourContentView</span>()
+    .<span class="fn">dfPopup</span>(isPresented: $showPopup, configuration: <span class="type">DFPopupConfiguration</span>(backdrop: .blur)) {
+        <span class="type">Text</span>(<span class="str">"Blurred backdrop"</span>)
+    }</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Backdrop .none: nothing is drawn behind the popup (Sage light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-backdrop-none-sage-light.jpg" aria-label="Screen recording: Backdrop .none: nothing is drawn behind the popup (Sage light)." width="390" height="848">
+      <source data-src="videos/popups/free-backdrop-none-sage-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Backdrop .none: nothing is drawn behind the popup (Sage light).">Play</button>
+  </div>
+  <figcaption>Backdrop .none: nothing is drawn behind the popup (Sage light).</figcaption>
+</figure>
+<figure class="clip" data-title="Backdrop .dim: a translucent scrim over the host (Slate dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-backdrop-dim-slate-dark.jpg" aria-label="Screen recording: Backdrop .dim: a translucent scrim over the host (Slate dark)." width="390" height="848">
+      <source data-src="videos/popups/free-backdrop-dim-slate-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Backdrop .dim: a translucent scrim over the host (Slate dark).">Play</button>
+  </div>
+  <figcaption>Backdrop .dim: a translucent scrim over the host (Slate dark).</figcaption>
+</figure>
+<figure class="clip" data-title="Backdrop .blur: a blurred material over the host (Aurora light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-backdrop-blur-aurora-light.jpg" aria-label="Screen recording: Backdrop .blur: a blurred material over the host (Aurora light)." width="390" height="848">
+      <source data-src="videos/popups/free-backdrop-blur-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Backdrop .blur: a blurred material over the host (Aurora light).">Play</button>
+  </div>
+  <figcaption>Backdrop .blur: a blurred material over the host (Aurora light).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-dismissal">
+  <h3>Auto-dismiss, tap, outside tap and drag</h3>
+  <p><code>autoDismissAfter</code> is a <code>TimeInterval?</code>; <code>nil</code> keeps the popup until dismissed (the toast preset defaults to 3 s). <code>dismissOnTap</code> and <code>dismissOnOutsideTap</code> are independent flags. With <code>dismissOnDrag</code> (on in the toast and floater presets) the popup follows your finger toward its exit edge and dismisses past a distance threshold or with enough velocity; otherwise it snaps back. The Escape key dismisses popups on macOS.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>()
+    .<span class="fn">dfPopup</span>(
+        isPresented: $showPopup,
+        configuration: .<span class="fn">floater</span>(position: .bottom, autoDismissAfter: <span class="num">2.5</span>, dismissOnDrag: <span class="kw">true</span>)
+    ) {
+        <span class="type">Text</span>(<span class="str">"Link copied"</span>)
+    }</code></pre>
+<pre class="swift"><code><span class="cm">// Centered default: dim backdrop, outside tap dismisses</span>
+<span class="kw">let</span> discard = <span class="type">DFPopupConfiguration</span>.centered
+<span class="cm">// Toast: no backdrop, tap the toast to dismiss</span>
+<span class="kw">let</span> toast = <span class="type">DFPopupConfiguration</span>.<span class="fn">toast</span>()
+<span class="cm">// Anything in between</span>
+<span class="kw">let</span> custom = <span class="type">DFPopupConfiguration</span>(dismissOnTap: <span class="kw">true</span>, dismissOnOutsideTap: <span class="kw">false</span>, dimsBackground: <span class="kw">true</span>)</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="A toast that dismisses itself after autoDismissAfter, with no touch (Sage dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-auto-dismiss-toast-sage-dark.jpg" aria-label="Screen recording: A toast that dismisses itself after autoDismissAfter, with no touch (Sage dark)." width="390" height="848">
+      <source data-src="videos/popups/free-auto-dismiss-toast-sage-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: A toast that dismisses itself after autoDismissAfter, with no touch (Sage dark).">Play</button>
+  </div>
+  <figcaption>A toast that dismisses itself after autoDismissAfter, with no touch (Sage dark).</figcaption>
+</figure>
+<figure class="clip" data-title="Dismiss by tapping the popup, then by tapping outside it (Slate light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-dismiss-tap-and-outside-slate-light.jpg" aria-label="Screen recording: Dismiss by tapping the popup, then by tapping outside it (Slate light)." width="390" height="848">
+      <source data-src="videos/popups/free-dismiss-tap-and-outside-slate-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Dismiss by tapping the popup, then by tapping outside it (Slate light).">Play</button>
+  </div>
+  <figcaption>Dismiss by tapping the popup, then by tapping outside it (Slate light).</figcaption>
+</figure>
+<figure class="clip" data-title="Drag to dismiss: a 35 pt drag snaps back, a 160 pt drag dismisses (Copper dark).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-dismiss-drag-floater-copper-dark.jpg" aria-label="Screen recording: Drag to dismiss: a 35 pt drag snaps back, a 160 pt drag dismisses (Copper dark)." width="390" height="848">
+      <source data-src="videos/popups/free-dismiss-drag-floater-copper-dark.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Drag to dismiss: a 35 pt drag snaps back, a 160 pt drag dismisses (Copper dark).">Play</button>
+  </div>
+  <figcaption>Drag to dismiss: a 35 pt drag snaps back, a 160 pt drag dismisses (Copper dark).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-item">
+  <h3>Item-bound popups</h3>
+  <p><code>.dfPopup(item:)</code> presents while the binding is non-nil and hands the item to your content closure. Choosing a different item while it is up swaps the content and restarts the auto-dismiss timer; the item is kept alive through the exit transition.</p>
+<pre class="swift"><code><span class="kw">struct</span> <span class="type">Order</span>: <span class="type">Identifiable</span> {
+    <span class="kw">let</span> id: <span class="type">Int</span>
+    <span class="kw">let</span> title: <span class="type">String</span>
+}
+
+<span class="kw">struct</span> <span class="type">OrderList</span>: <span class="type">View</span> {
+    <span class="kw">let</span> orders: [<span class="type">Order</span>]
+    <span class="kw">@State</span> <span class="kw">private</span> <span class="kw">var</span> selected: <span class="type">Order</span>?
+
+    <span class="kw">var</span> body: <span class="kw">some</span> <span class="type">View</span> {
+        <span class="type">List</span>(orders) { order <span class="kw">in</span>
+            <span class="type">Button</span>(order.title) { selected = order }
+        }
+        .<span class="fn">dfPopup</span>(item: $selected, configuration: .<span class="fn">floater</span>(position: .bottom, autoDismissAfter: <span class="num">3</span>)) { order <span class="kw">in</span>
+            <span class="type">Text</span>(order.title)
+        }
+    }
+}</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Item-bound popup: choosing another item swaps the content in place (Garnet light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-item-bound-swap-garnet-light.jpg" aria-label="Screen recording: Item-bound popup: choosing another item swaps the content in place (Garnet light)." width="390" height="848">
+      <source data-src="videos/popups/free-item-bound-swap-garnet-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Item-bound popup: choosing another item swaps the content in place (Garnet light).">Play</button>
+  </div>
+  <figcaption>Item-bound popup: choosing another item swaps the content in place (Garnet light).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-sheet">
+  <h3>Bottom sheet</h3>
+  <p><code>DFPopupKind.sheet</code> is a bottom-anchored, full-width popup with rounded top corners, a grabber, a spring entrance and drag-down-to-dismiss. It always rests at the bottom edge and needs a longer drag to commit than a floater.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>()
+    .<span class="fn">dfPopup</span>(isPresented: $showPopup, configuration: .<span class="fn">sheet</span>(backdrop: .dim)) {
+        <span class="type">VStack</span>(spacing: <span class="num">12</span>) {
+            <span class="type">DFText</span>(<span class="str">"Share project"</span>, scale: .headline)
+            <span class="type">DFText</span>(<span class="str">"Q3 Roadmap, 14 tasks"</span>, scale: .caption)
+        }
+    }</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Share sheet: a small drag snaps back, a large drag dismisses (Copper light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-sheet-share-drag-dismiss-copper-light.jpg" aria-label="Screen recording: Share sheet: a small drag snaps back, a large drag dismisses (Copper light)." width="390" height="848">
+      <source data-src="videos/popups/free-sheet-share-drag-dismiss-copper-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Share sheet: a small drag snaps back, a large drag dismisses (Copper light).">Play</button>
+  </div>
+  <figcaption>Share sheet: a small drag snaps back, a large drag dismisses (Copper light).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+<div class="pop-sec" id="popups-tokens">
+  <h3>Theming and tokens</h3>
+  <p>Per-component tokens live at <code>theme.components.popup</code>. Every field is optional and <code>nil</code> inherits from the theme. Presentation uses the theme's animation tokens, and popup entrances use the additive <code>DFAnimationTokens.spring</code> token; with Reduce Motion they fall back to a short fade.</p>
+<pre class="swift"><code><span class="type">YourContentView</span>().<span class="fn">dfTheme</span>({
+    <span class="kw">var</span> theme = <span class="type">DFTheme</span>.slateLight
+    theme.components.popup = <span class="type">DFPopupTokens</span>(cornerRadius: <span class="num">24</span>, padding: <span class="num">20</span>, maxWidth: <span class="num">360</span>, backdropOpacity: <span class="num">0.5</span>)
+    <span class="kw">return</span> theme
+}())</code></pre>
+  <div class="clips">
+<figure class="clip" data-title="Token sliders (cornerRadius, padding, maxWidth) applied to the live popup (Aurora light).">
+  <div class="clip-frame">
+    <video class="clip-video" muted loop playsinline preload="none" data-poster="assets/popups/posters/free-tokens-live-sliders-aurora-light.jpg" aria-label="Screen recording: Token sliders (cornerRadius, padding, maxWidth) applied to the live popup (Aurora light)." width="390" height="848">
+      <source data-src="videos/popups/free-tokens-live-sliders-aurora-light.mp4" type="video/mp4">
+    </video>
+    <button class="clip-toggle" type="button" aria-label="Play: Token sliders (cornerRadius, padding, maxWidth) applied to the live popup (Aurora light).">Play</button>
+  </div>
+  <figcaption>Token sliders (cornerRadius, padding, maxWidth) applied to the live popup (Aurora light).</figcaption>
+</figure>
+  </div>
+  <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
+</div>
+
+      <div class="blocks-cta" style="margin-top:44px">
         <div class="blocks-cta-text">
           <h3>Need more? Advanced popups in Pro</h3>
-          <p>DesignFoundationPro adds a scrollable popup with drag-dismiss only at scroll top, window presentation above sheets and navigation bars, a priority queue with preemption and id de-duplication, spring motion presets with separate enter/exit edges, a countdown bar and haptics.</p>
+          <p>DesignFoundationPro 2.3.0 adds unified presentation (overlay, sheet, window), dismiss reasons, scrims, motion presets, scroll popups with detents, a priority queue, celebration, permission, promo, rating, input, consent and action popups, undo and progress toasts, notification banners, a live capsule and coachmark tours.</p>
         </div>
         <a class="btn btn-primary" href="pro/#popups">See Advanced Popups →</a>
       </div>
     </section>
+    <!-- popups:end -->
 
     <!-- Navigation -->
     <section class="doc-section" id="navigation">
@@ -1134,7 +1513,7 @@ YourContentView().dfPopupStyle(.standard)</code></pre>
           <thead><tr><th>Component</th><th>Notes</th></tr></thead>
           <tbody>
             <tr><td>DFAlertConfiguration + .dfAlert()</td><td>Convenience wrapper over native SwiftUI alert</td></tr>
-            <tr><td>DFToastQueue + .dfToast()</td><td>Queue management and auto-dismiss, one toast at a time. Built on the popup engine: each toast takes a <code>position</code> (nine values, default <code>.top</code>) and dismisses on tap or swipe. <a href="#popups">See Popups &amp; Toasts →</a></td></tr>
+            <tr><td>DFToastQueue + .dfToast()</td><td>Queue management and auto-dismiss, one toast at a time. Built on the popup engine: nine positions, eight styles (<code>.dfToastStyle(_:)</code>), an optional title and a trailing action such as Undo, tap or swipe to dismiss. <a href="#popups-toast-styles">See toast styles →</a></td></tr>
             <tr><td>DFSkeleton</td><td>Shimmer animation placeholder</td></tr>
             <tr><td>DFProgressBar</td><td>Linear, circular, and indeterminate variants</td></tr>
             <tr><td>DFListRow</td><td>Leading/trailing slots and disclosure indicator</td></tr>
@@ -1171,7 +1550,7 @@ YourContentView().dfPopupStyle(.standard)</code></pre>
       <div class="blocks-cta" style="margin-top:24px">
         <div class="blocks-cta-text">
           <h3>DesignFoundationPro</h3>
-          <p>30 drop-in blocks, 55 production screens across 12 verticals, 18 shell layouts, 12 wired composition examples, and <a href="pro/#popups">advanced popups</a> (scroll popups, window presentation, priority queue, spring motion). All components adapt to iOS, macOS, and visionOS automatically — no platform guards required.</p>
+          <p>30 drop-in blocks, 55 production screens across 12 verticals, 18 shell layouts, 12 wired composition examples, and <a href="pro/#popups">advanced popups</a> (unified overlay/sheet/window presentation, scroll popups with detents, priority queue, celebration, permission, rating, input, consent and action popups, undo and progress toasts, notification banners, live capsule, coachmark tours, motion presets). All components adapt to iOS, macOS, and visionOS automatically — no platform guards required.</p>
         </div>
         <a class="btn btn-primary" href="pro/">Browse Pro →</a>
       </div>
@@ -1268,5 +1647,6 @@ YourContentView().dfPopupStyle(.standard)</code></pre>
       });
     });
   </script>
+<script defer src="assets/popups-media.js"></script>
 </body>
 </html>

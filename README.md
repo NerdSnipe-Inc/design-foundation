@@ -92,9 +92,13 @@ ContentView()
     }
 
 DFToastQueue.shared.show(text: "Saved", severity: .success, position: .bottom)
+DFToastQueue.shared.show(text: "Moved to the trash", severity: .error, title: "Deleted",
+                         actionTitle: "Undo", action: { restore() })
 ```
 
-DesignFoundation Pro adds scroll popups, window presentation, a priority queue, spring motion and a countdown bar ([Advanced Popups](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups)).
+New in 1.7.0: eight popup surface styles (`.dfPopupStyle(.frosted)`, `.glass`, `.accent`, `.gradient`, `.inverse`, `.outlined`, `.tinted(_:)`), `DFPopupCard` (icon or hero media, title, message, up to three actions), a bottom-sheet kind (`.sheet(backdrop:)`), `DFPopupBackdrop` (`.none`, `.dim`, `.blur`), and eight toast styles (`.dfToastStyle(.tinted)`, `.filled`, `.inverse`, `.frosted`, `.glass`, `.banner`, `.compact`) with an optional title and action. See the [popup docs with real recordings](https://nerdsnipe-inc.github.io/design-foundation/#popups).
+
+DesignFoundation Pro 2.3.0 adds unified overlay/sheet/window presentation, scroll popups with detents, a priority queue, celebration, permission, promo, rating, input, consent and action popups, undo and progress toasts, notification banners, a live capsule, coachmark tours, motion presets and haptics ([Advanced Popups](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups)).
 
 Five presets ship: `.slate`, `.aurora`, `.copper`, `.sage`, `.garnet`. Each swaps automatically for light and dark mode. Build your own from tokens if none of them fit, see the Theme System section below.
 
@@ -141,7 +145,7 @@ All input components share `DFValidationState` (`.idle / .valid / .error(String)
 | `DFSheet` | `.standard`, `.compact`, `.glass`¹ |
 | `DFPopover` | `.arrow`, `.compact`, `.glass`¹ |
 | `DFTooltip` | `.bubble`, `.glass`¹ |
-| `DFPopup` | `.dfPopup(isPresented:)` / `.dfPopup(item:)` — centered, toast and floater kinds, nine positions, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag/tap/outside-tap dismissal. Restyle with `.dfPopupStyle(.standard)`. [Animated demos](https://nerdsnipe-inc.github.io/design-foundation/#popups) |
+| `DFPopup` | `.dfPopup(isPresented:)` / `.dfPopup(item:)` — centered, toast, floater and sheet kinds, nine positions, eight surface styles via `.dfPopupStyle(_:)`, `DFPopupCard`, none/dim/blur backdrops, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag/tap/outside-tap dismissal. [Real recordings](https://nerdsnipe-inc.github.io/design-foundation/#popups) |
 
 ### Navigation
 
@@ -156,7 +160,7 @@ All input components share `DFValidationState` (`.idle / .valid / .error(String)
 | Component | Notes |
 |---|---|
 | `DFAlert` | Convenience wrapper over the native SwiftUI alert |
-| `DFToast` | Queue management and auto-dismiss |
+| `DFToast` | Queue management and auto-dismiss, nine positions, eight styles via `.dfToastStyle(_:)`, optional title and action (Undo) |
 | `DFSkeleton` | Shimmer animation |
 | `DFProgressBar` | Linear, circular, and indeterminate variants |
 | `DFList` | Swipe-delete, reorder, and multi-select |

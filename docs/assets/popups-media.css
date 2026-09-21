@@ -1,0 +1,58 @@
+/* Popup docs: recordings, montage, code highlighting. Uses each page's own CSS variables. */
+.pop-hero { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; margin: 4px 0 8px; }
+.pop-hero-text { flex: 1 1 320px; min-width: 0; }
+.pop-hero-text p { font-size: 15px; }
+.pop-toc { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 28px; }
+.pop-toc a { font-size: 12px; line-height: 1.4; padding: 3px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-secondary); text-decoration: none; }
+.pop-toc a:hover { color: var(--text); border-color: var(--primary); text-decoration: none; }
+.pop-sec { scroll-margin-top: 84px; margin-top: 44px; }
+.pop-sec > h3 { margin-top: 0; font-size: 18px; }
+.pop-sec > p { max-width: 720px; }
+.pop-note { font-size: 12px; color: var(--text-secondary); margin: 2px 0 0; opacity: .85; }
+.sidebar-link.sub { padding-left: 20px; font-size: 12px; }
+.pop-badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; background: var(--primary-glow, rgba(99,102,241,.25)); color: var(--primary); margin-left: 8px; vertical-align: middle; }
+
+pre.swift { margin: 16px 0; }
+pre.swift .kw { color: #c792ea; }
+pre.swift .str { color: #c3e88d; }
+pre.swift .cm { color: #7f8ea3; font-style: italic; }
+pre.swift .fn { color: #82aaff; }
+pre.swift .type { color: #ffcb6b; }
+pre.swift .num { color: #f78c6c; }
+
+/* Clips */
+.clips { display: flex; flex-wrap: wrap; gap: 20px 22px; margin: 18px 0 8px; }
+figure.clip { width: min(280px, 100%); margin: 0; }
+figure.clip.clip-hero { width: min(300px, 100%); }
+.clip-frame { position: relative; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); background: #0d0d14; aspect-ratio: 390 / 848; }
+.clip-video { display: block; width: 100%; height: 100%; object-fit: cover; background: #0d0d14; }
+.clip-toggle {
+  position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(255,255,255,.28); background: rgba(10,10,15,.72); color: #fff; font: 600 12px/1 -apple-system, "Segoe UI", sans-serif;
+  padding: 8px 12px; min-height: 32px; border-radius: 999px; cursor: pointer; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; transition: opacity .15s; }
+.clip-frame:hover .clip-toggle, .clip-toggle:focus-visible, .clip.is-paused .clip-toggle { opacity: 1; }
+@media (hover: none) { .clip-toggle { opacity: .9; } }
+.clip-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.clip.is-paused .clip-toggle { right: 50%; bottom: 50%; transform: translate(50%, 50%); padding: 12px 18px; font-size: 14px; }
+figure.clip figcaption { font-size: 12.5px; line-height: 1.45; color: var(--text-secondary); margin-top: 9px; }
+
+/* Montage (Pro) */
+.montage { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 8px 0 12px; }
+.mt { position: relative; display: block; width: 100%; padding: 0; margin: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: #0d0d14; cursor: pointer; color: inherit; font: inherit; text-align: left; }
+.mt:hover, .mt:focus-visible { border-color: var(--primary); }
+.mt:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.mt-media { position: relative; display: block; aspect-ratio: 390 / 848; background: #0d0d14; }
+.mt-media img, .mt-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.mt-label { display: block; font-size: 11.5px; line-height: 1.3; padding: 7px 9px 8px; color: var(--text-secondary); background: var(--surface, #13131a); }
+.mt.is-playing .mt-label { color: var(--text); }
+.mt-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%; background: rgba(10,10,15,.7); border: 1px solid rgba(255,255,255,.3); display: grid; place-items: center; transition: opacity .15s; }
+.mt-play::before { content: ""; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent #fff; margin-left: 2px; }
+.mt.is-playing .mt-play { opacity: 0; }
+@media (max-width: 720px) {
+  .montage { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 8px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+  .mt { flex: 0 0 112px; scroll-snap-align: start; }
+  .pop-hero { gap: 20px; }
+  figure.clip, figure.clip.clip-hero { width: min(280px, 100%); }
+}
+@media (prefers-reduced-motion: reduce) { .clip-toggle, .mt-play { transition: none; } }
