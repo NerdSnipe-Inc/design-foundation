@@ -146,46 +146,57 @@ struct DFToastBody: View {
 
     @ViewBuilder
     private func surface<S: InsettableShape>(_ shape: S, theme: DFTheme, palette: Palette, hairline: CGFloat) -> some View {
+        #if compiler(>=6.2)
+        // Liquid Glass needs the iOS/macOS 26 SDK (Xcode 26+); older toolchains can't compile it.
         if look == .glass, #available(iOS 26, macOS 26, *) {
             shape.fill(Color.clear)
                 .glassEffect(.regular.tint(palette.stripe.opacity(0.14)), in: shape)
                 .shadow(color: theme.shadows.md.color.opacity(0.6), radius: theme.shadows.md.radius, x: 0, y: theme.shadows.md.y)
         } else {
-            let translucent = look == .frosted
-            ZStack {
-                if translucent {
-                    ForEach(Array(palette.shadows.enumerated()), id: \.offset) { _, s in
-                        shape.fill(Color.black).shadow(color: s.color, radius: s.radius, x: s.x, y: s.y)
-                    }
-                    .mask {
-                        ZStack {
-                            Rectangle().padding(-160)
-                            shape.blendMode(.destinationOut)
-                        }
-                        .compositingGroup()
-                    }
-                } else if let base = palette.fills.first {
-                    ForEach(Array(palette.shadows.enumerated()), id: \.offset) { _, s in
-                        shape.fill(base).shadow(color: s.color, radius: s.radius, x: s.x, y: s.y)
-                    }
+            filledSurface(shape, theme: theme, palette: palette, hairline: hairline)
+        }
+        #else
+        filledSurface(shape, theme: theme, palette: palette, hairline: hairline)
+        #endif
+    }
+
+    @ViewBuilder
+    private func filledSurface<S: InsettableShape>(_ shape: S, theme: DFTheme, palette: Palette, hairline: CGFloat) -> some View {
+        let translucent = look == .frosted
+        ZStack {
+            if translucent {
+                ForEach(Array(palette.shadows.enumerated()), id: \.offset) { _, s in
+                    shape.fill(Color.black).shadow(color: s.color, radius: s.radius, x: s.x, y: s.y)
                 }
-                ForEach(Array(palette.fills.enumerated()), id: \.offset) { _, fill in
-                    shape.fill(fill)
+                .mask {
+                    ZStack {
+                        Rectangle().padding(-160)
+                        shape.blendMode(.destinationOut)
+                    }
+                    .compositingGroup()
+                }
+            } else if let base = palette.fills.first {
+                ForEach(Array(palette.shadows.enumerated()), id: \.offset) { _, s in
+                    shape.fill(base).shadow(color: s.color, radius: s.radius, x: s.x, y: s.y)
                 }
             }
-            .overlay {
-                if let border = palette.border {
-                    shape.strokeBorder(border, lineWidth: hairline)
-                }
-                if look == .frosted {
-                    shape.strokeBorder(
-                        LinearGradient(colors: [Color.white.opacity(0.45), Color.white.opacity(0.05), theme.colors.border.opacity(0.6)],
-                                       startPoint: .top, endPoint: .bottom),
-                        lineWidth: max(hairline, 1)
-                    )
-                }
+            ForEach(Array(palette.fills.enumerated()), id: \.offset) { _, fill in
+                shape.fill(fill)
             }
         }
+        .overlay {
+            if let border = palette.border {
+                shape.strokeBorder(border, lineWidth: hairline)
+            }
+            if look == .frosted {
+                shape.strokeBorder(
+                    LinearGradient(colors: [Color.white.opacity(0.45), Color.white.opacity(0.05), theme.colors.border.opacity(0.6)],
+                                   startPoint: .top, endPoint: .bottom),
+                    lineWidth: max(hairline, 1)
+                )
+            }
+        }
+
     }
 
     // MARK: Palette

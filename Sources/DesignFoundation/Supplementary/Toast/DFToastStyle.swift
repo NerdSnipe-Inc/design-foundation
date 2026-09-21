@@ -212,10 +212,15 @@ public struct DFFrostedToastStyle: DFToastStyle, Sendable {
 public struct DFGlassToastStyle: DFToastStyle, Sendable {
     public init() {}
     public func makeBody(configuration: DFToastStyleConfiguration) -> some View {
+        #if compiler(>=6.2)
         DFToastBody(
             configuration: configuration,
             look: configuration.theme.materials.preferLiquidGlass ? .glass : .frosted
         )
+        #else
+        // Built with an SDK older than iOS/macOS 26: no Liquid Glass API, use the frosted look.
+        DFToastBody(configuration: configuration, look: .frosted)
+        #endif
     }
 }
 
