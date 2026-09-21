@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.7.1] — 2026-09-21 — Xcode 16 Build Fix
+
+### Fixed
+- **Popups now build on Xcode 16 / Swift 6.0** (the minimum this package documents). 1.7.0 referenced the iOS/macOS 26 SDK's `Glass` type and a struct `nonisolated(unsafe) let`, neither of which the Xcode 16 toolchain accepts, so 1.7.0 failed to compile there. The Liquid Glass path is now compiled only with the Xcode 26 SDK (`#if compiler(>=6.2)`), and older toolchains render `.glass` popups with the frosted appearance. No API changes. If you resolved 1.7.0 on Xcode 26, nothing changes for you.
+
 ## [1.7.0] — 2026-09-21 — Popup Styles, Cards & Toast Styling
 
 ### Added

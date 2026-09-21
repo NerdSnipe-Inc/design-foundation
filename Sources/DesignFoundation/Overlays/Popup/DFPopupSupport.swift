@@ -339,19 +339,30 @@ struct DFPopupAppearance {
     var usesGlass: Bool = false
 }
 
+/// Carries a value that is only ever touched on the main actor across a nonisolated boundary.
+struct UncheckedSendableBox<Value>: @unchecked Sendable {
+    let value: Value
+    init(_ value: Value) { self.value = value }
+}
+
 /// Environment-aware renderer shared by all popup styles.
 struct DFPopupChrome: View {
-    // Written once in the nonisolated init and only read on the main actor by `body`.
-    nonisolated(unsafe) let configuration: DFPopupStyleConfiguration
-    nonisolated(unsafe) let base: DFPopupAppearance
+    // Set once in the nonisolated init and only read on the main actor by `body`. The
+    // configuration holds an `AnyView` (not Sendable), so it travels in an unchecked box: a
+    // plain `let` of a Sendable type can be initialized from a nonisolated init on every
+    // supported compiler (`nonisolated(unsafe)` on a struct `let` is rejected by Swift 6.0).
+    private let configurationBox: UncheckedSendableBox<DFPopupStyleConfiguration>
+    let base: DFPopupAppearance
 
     @Environment(\.self) private var environment
     @Environment(\.displayScale) private var displayScale
 
     nonisolated init(configuration: DFPopupStyleConfiguration, appearance: DFPopupAppearance) {
-        self.configuration = configuration
+        self.configurationBox = UncheckedSendableBox(configuration)
         self.base = appearance
     }
+
+    private var configuration: DFPopupStyleConfiguration { configurationBox.value }
 
     /// The style's appearance with on-fill stops resolved for contrast.
     private var appearance: DFPopupAppearance {
@@ -447,6 +458,9 @@ struct DFPopupChrome: View {
 
     @ViewBuilder
     private func surface<S: InsettableShape>(_ shape: S, theme: DFTheme, hairline: CGFloat) -> some View {
+        #if compiler(>=6.2)
+        // Liquid Glass needs the iOS/macOS 26 SDK (Xcode 26+). Older toolchains can't compile
+        // `Glass`/`glassEffect`, so they always take the material fill path below.
         if appearance.usesGlass, #available(iOS 26, macOS 26, *) {
             // An even surface tint under the glass keeps busy content behind the popup from
             // showing through as blobs, so labels always sit on a calm ground.
@@ -462,14 +476,22 @@ struct DFPopupChrome: View {
                 .overlay { border(shape, theme: theme, hairline: hairline) }
                 .shadow(color: theme.shadows.md.color.opacity(0.6), radius: theme.shadows.md.radius, x: theme.shadows.md.x, y: theme.shadows.md.y)
         } else {
-            ZStack {
-                shadowLayer(shape)
-                ForEach(Array(appearance.fills.enumerated()), id: \.offset) { _, fill in
-                    shape.fill(fill)
-                }
-            }
-            .overlay { border(shape, theme: theme, hairline: hairline) }
+            filledSurface(shape, theme: theme, hairline: hairline)
         }
+        #else
+        filledSurface(shape, theme: theme, hairline: hairline)
+        #endif
+    }
+
+    @ViewBuilder
+    private func filledSurface<S: InsettableShape>(_ shape: S, theme: DFTheme, hairline: CGFloat) -> some View {
+        ZStack {
+            shadowLayer(shape)
+            ForEach(Array(appearance.fills.enumerated()), id: \.offset) { _, fill in
+                shape.fill(fill)
+            }
+        }
+        .overlay { border(shape, theme: theme, hairline: hairline) }
     }
 
     @ViewBuilder

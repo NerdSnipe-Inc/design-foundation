@@ -131,6 +131,7 @@ public struct DFGlassPopupStyle: DFPopupStyle, Sendable {
 
     public func makeBody(configuration: DFPopupStyleConfiguration) -> some View {
         let theme = configuration.theme
+        #if compiler(>=6.2)
         if theme.materials.preferLiquidGlass {
             DFPopupChrome(configuration: configuration, appearance: DFPopupAppearance(
                 fills: [],
@@ -142,6 +143,10 @@ public struct DFGlassPopupStyle: DFPopupStyle, Sendable {
         } else {
             DFFrostedPopupStyle().makeBody(configuration: configuration)
         }
+        #else
+        // Built with an SDK older than iOS/macOS 26: no Liquid Glass API, use the frosted look.
+        DFFrostedPopupStyle().makeBody(configuration: configuration)
+        #endif
     }
 }
 
