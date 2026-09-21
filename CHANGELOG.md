@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- **Documentation counts are now derived from code.** README, CLAUDE.md, AGENTS.md, the Cursor rule, `docs/llms.txt` and the docs site (including JSON-LD, meta and Open Graph descriptions) state the same figures: 44 components, 12 presentation and layout modifiers, 33 style protocols with 97 built-in styles, 5 theme presets (10 light/dark themes). Replaced the loose "50+" and the outdated "43 components + 9 modifiers". Pro figures quoted in the free docs are 30 blocks (plus 2 AI Chat components), 55 screens across 12 verticals, 18 shells, 12 composition roots.
+- Install snippets, `softwareVersion` and release-note links now say 1.7.1; Pro 2.3.0 is documented as requiring DesignFoundation 1.7.1 or later.
+- Liquid Glass wording in `docs/llms.txt` is exact: 19 glass styles, 18 through `.glass` plus `DFGlassModalStyle()`. The typography wiki page says eight `DFTextScale` cases, not six. The popup transition list in the README names the real cases (slide, scale, fade, none, asymmetric).
+
+### Added
+- `scripts/count_facts.py` computes every documented number from `Sources/` and can `--check` docs for wrong numeric claims. A `facts-check` CI job runs it over the agent docs, the docs site and the wiki pages.
+
 ## [1.7.1] — 2026-09-21 — Xcode 16 Build Fix
 
 ### Fixed

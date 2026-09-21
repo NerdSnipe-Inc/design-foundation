@@ -18,6 +18,9 @@ on:
       - "scripts/check_doc_snippets.py"
       - "scripts/count_facts.py"
       - "docs/llms.txt"
+      - "docs/**/*.html"
+      - "docs/wiki/**"
+      - "wiki/**"
       - ".github/workflows/doc-snippets.yml"
 
 jobs:
@@ -44,4 +47,7 @@ jobs:
       - name: Numeric claims in docs match the code
         run: |
           python3 scripts/count_facts.py --strict --check \
-            README.md CLAUDE.md AGENTS.md '.cursor/rules/*.mdc' docs/llms.txt
+            README.md CLAUDE.md AGENTS.md '.cursor/rules/*.mdc' docs/llms.txt \
+            docs/index.html docs/pro/index.html docs/integration/index.html \
+            docs/foundation-way/index.html docs/use-cases/index.html docs/theme-presets/index.html \
+            'docs/wiki/*.md' 'wiki/*.md'
