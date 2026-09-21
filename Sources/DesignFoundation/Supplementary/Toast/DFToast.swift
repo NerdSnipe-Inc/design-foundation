@@ -79,9 +79,16 @@ private struct DFBarePopupStyle: DFPopupStyle, Sendable {
 
 private struct DFToastModifier: ViewModifier {
     @ObservedObject var queue: DFToastQueue
+    let style: AnyDFToastStyle?
 
     func body(content: Content) -> some View {
-        content.overlay { DFToastLayer(queue: queue) }
+        content.overlay {
+            if let style {
+                DFToastLayer(queue: queue).environment(\.dfToastStyle, style)
+            } else {
+                DFToastLayer(queue: queue)
+            }
+        }
     }
 }
 
@@ -91,6 +98,16 @@ private struct DFToastModifier: ViewModifier {
 public extension View {
     /// Shows queued toasts one at a time at each message's `position` (top by default).
     func dfToast(queue: DFToastQueue = .shared) -> some View {
-        modifier(DFToastModifier(queue: queue))
+        modifier(DFToastModifier(queue: queue, style: nil))
+    }
+
+    /// Shows queued toasts in `style`.
+    ///
+    /// Prefer this over `.dfToastStyle(_:)` when you style the toast layer itself. Toasts are
+    /// drawn in an overlay owned by `.dfToast()`, so they read the environment from *outside*
+    /// this modifier: `content.dfToastStyle(.tinted).dfToast()` does NOT restyle them, while
+    /// `content.dfToast(style: .tinted)` and `content.dfToast().dfToastStyle(.tinted)` do.
+    func dfToast<S: DFToastStyle & Sendable>(queue: DFToastQueue = .shared, style: S) -> some View {
+        modifier(DFToastModifier(queue: queue, style: AnyDFToastStyle(style)))
     }
 }

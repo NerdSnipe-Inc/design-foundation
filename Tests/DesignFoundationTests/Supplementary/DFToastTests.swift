@@ -161,3 +161,19 @@ struct DFToastActionTests {
         #expect(q.messages.first?.hasAction == true)
     }
 }
+
+@Suite("dfToast(style:)")
+@MainActor
+struct DFToastStyleModifierTests {
+    @Test("style parameter compiles for every built-in toast style")
+    func styleOverload() {
+        let queue = DFToastQueue()
+        _ = Color.clear.dfToast(queue: queue, style: .default)
+        _ = Color.clear.dfToast(queue: queue, style: .tinted)
+        _ = Color.clear.dfToast(queue: queue, style: .filled)
+        _ = Color.clear.dfToast(queue: queue, style: .inverse)
+        _ = Color.clear.dfToast(queue: queue, style: .frosted)
+        _ = Color.clear.dfToast(queue: queue, style: .banner)
+        _ = Color.clear.dfToast(queue: queue, style: .compact)
+    }
+}

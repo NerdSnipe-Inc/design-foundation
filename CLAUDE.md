@@ -503,7 +503,7 @@ DFPopupCard(title: "Summer sale", primaryAction: DFPopupAction("Shop") { },
 
 // Toast styles: .default .tinted .filled .inverse .frosted .glass (26+) .banner (flush, severity stripe) .compact
 // Toasts take an optional title and a trailing action; tapping the action runs it, then dismisses.
-YourContentView().dfToastStyle(.tinted)
+YourContentView().dfToast(style: .tinted)   // style at the toast layer. `.dfToast().dfToastStyle(.tinted)` also works; `.dfToastStyle(.tinted).dfToast()` does NOT restyle toasts
 DFToastQueue.shared.show(
     text: "Moved to the trash", icon: "trash", severity: .error,
     title: "Deleted", actionTitle: "Undo", action: { restore() }

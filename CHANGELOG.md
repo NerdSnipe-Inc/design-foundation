@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **`DFPopupKind.sheet` / `DFPopupConfiguration.sheet(...)`:** a bottom-anchored, full-width popup with rounded top corners, a grabber and drag-to-dismiss. `DFPopupDrag` uses a longer commit distance for sheets.
 - **`DFPopupBackdrop` (`.none` / `.dim` / `.blur`)** via the additive `DFPopupConfiguration.backdrop`. `nil` (default) keeps deriving from `dimsBackground`; a non-nil value wins. `resolvedBackdrop` reports the result.
 - **`DFPopupCard`, `DFPopupHeader`, `DFPopupActions`, `DFPopupIconBadge`, `DFPopupAction`:** ready-made popup content with an icon badge or edge-to-edge hero media, title, message, up to three actions and an optional close button.
-- **Toast styles:** `.dfToastStyle(_:)` gains `.tinted`, `.filled`, `.inverse`, `.frosted`, `.glass` (26+), `.banner` (full-width, flush, severity stripe) and `.compact`; `.default` is upgraded. `DFToastStyle.layout` (default `.floating`) lets a style ask for a flush host.
+- **Toast styles:** `.dfToast(style:)` and `.dfToastStyle(_:)` gain `.tinted`, `.filled`, `.inverse`, `.frosted`, `.glass` (26+), `.banner` (full-width, flush, severity stripe) and `.compact`; `.default` is upgraded. `DFToastStyle.layout` (default `.floating`) lets a style ask for a flush host.
 - **`DFToastMessage.title` / `actionTitle` / `action`** and matching `DFToastQueue.show(...)` parameters (all optional, existing calls unchanged). Tapping the action runs it, then dismisses the toast (`DFToastStyleConfiguration.performAction()`). New toasts are announced to VoiceOver.
 - **`DFAnimationTokens.spring`:** additive spring token used for popup entrances; Reduce Motion falls back to a short fade.
 - Escape key dismisses popups on macOS.

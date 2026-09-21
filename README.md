@@ -96,7 +96,7 @@ DFToastQueue.shared.show(text: "Moved to the trash", severity: .error, title: "D
                          actionTitle: "Undo", action: { restore() })
 ```
 
-New in 1.7.0: eight popup surface styles (`.dfPopupStyle(.frosted)`, `.glass`, `.accent`, `.gradient`, `.inverse`, `.outlined`, `.tinted(_:)`), `DFPopupCard` (icon or hero media, title, message, up to three actions), a bottom-sheet kind (`.sheet(backdrop:)`), `DFPopupBackdrop` (`.none`, `.dim`, `.blur`), and eight toast styles (`.dfToastStyle(.tinted)`, `.filled`, `.inverse`, `.frosted`, `.glass`, `.banner`, `.compact`) with an optional title and action. See the [popup docs with real recordings](https://nerdsnipe-inc.github.io/design-foundation/#popups).
+New in 1.7.0: eight popup surface styles (`.dfPopupStyle(.frosted)`, `.glass`, `.accent`, `.gradient`, `.inverse`, `.outlined`, `.tinted(_:)`), `DFPopupCard` (icon or hero media, title, message, up to three actions), a bottom-sheet kind (`.sheet(backdrop:)`), `DFPopupBackdrop` (`.none`, `.dim`, `.blur`), and eight toast styles (`.dfToast(style: .tinted)`, `.filled`, `.inverse`, `.frosted`, `.glass`, `.banner`, `.compact`) with an optional title and action. See the [popup docs with real recordings](https://nerdsnipe-inc.github.io/design-foundation/#popups).
 
 DesignFoundation Pro 2.3.0 adds unified overlay/sheet/window presentation, scroll popups with detents, a priority queue, celebration, permission, promo, rating, input, consent and action popups, undo and progress toasts, notification banners, a live capsule, coachmark tours, motion presets and haptics ([Advanced Popups](https://nerdsnipe-inc.github.io/design-foundation/pro/#popups)).
 

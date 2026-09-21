@@ -191,7 +191,7 @@ YourContentView().dfPopup(isPresented: $showPopup, configuration: .sheet(backdro
 YourContentView().dfPopup(isPresented: $showPopup) {
     DFPopupCard(icon: "sparkles", title: "Upgrade", message: "Unlock Pro.", primaryAction: DFPopupAction("Upgrade") { }, secondaryAction: DFPopupAction("Later") { }, onClose: { showPopup = false })
 }   // hero: DFPopupCard(title:media:content:) — media bleeds to the edges
-YourContentView().dfToastStyle(.tinted)   // .default .tinted .filled .inverse .frosted .glass(26+) .banner .compact
+YourContentView().dfToast(style: .tinted)   // (not .dfToastStyle(_:).dfToast()) // .default .tinted .filled .inverse .frosted .glass(26+) .banner .compact
 DFToastQueue.shared.show(text: "Moved to the trash", severity: .error, title: "Deleted", actionTitle: "Undo", action: { restore() })
 DFBanner(icon: "info.circle.fill", message: "New version available.", severity: .info, isDismissible: true, onDismiss: { })   // NOT DFToastQueue-based, place directly in hierarchy
 

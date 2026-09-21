@@ -1123,8 +1123,8 @@
   <h3>Toast styles</h3>
   <p><code>.dfToastStyle(_:)</code> restyles every toast under the view it is applied to. Eight styles: <code>.default</code>, <code>.tinted</code>, <code>.filled</code>, <code>.inverse</code>, <code>.frosted</code>, <code>.glass</code> (26+), <code>.banner</code> (full width, flush with the edge, severity stripe) and <code>.compact</code>. Filled styles resolve an AA-contrast foreground. Severities are <code>.info</code>, <code>.success</code>, <code>.warning</code> and <code>.error</code>.</p>
 <pre class="swift"><code><span class="type">YourContentView</span>()
-    .<span class="fn">dfToast</span>()                 <span class="cm">// once, at the scene root</span>
-    .<span class="fn">dfToastStyle</span>(.filled)     <span class="cm">// .default .tinted .filled .inverse .frosted .glass .banner .compact</span></code></pre>
+    .<span class="fn">dfToast</span>(style: .filled)   <span class="cm">// once, at the scene root: .default .tinted .filled .inverse .frosted .glass .banner .compact</span></code></pre>
+<p>Apply the style at the toast layer, as above, or after it (<code>.dfToast().dfToastStyle(.filled)</code>). <code>.dfToastStyle(.filled).dfToast()</code> does not restyle toasts, because they are drawn in an overlay owned by <code>.dfToast()</code>.</p>
 <pre class="swift"><code><span class="type">DFToastQueue</span>.shared.<span class="fn">show</span>(
     text: <span class="str">"Alex commented on Brand refresh."</span>,
     icon: <span class="str">"bubble.left.fill"</span>,
