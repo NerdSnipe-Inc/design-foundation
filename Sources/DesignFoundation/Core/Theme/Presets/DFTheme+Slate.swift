@@ -38,7 +38,17 @@ private extension DFColorTokens {
     }
 
     static var slateDark: DFColorTokens {
-        let fill = Color(red: 0.392, green: 0.710, blue: 0.965)
+        // NOTE: interactiveFill must clear WCAG AA 4.5:1 contrast against the white
+        // text DFFilledButtonStyle renders on top of it (see DFButtonStyle.swift).
+        // (0.392, 0.710, 0.965) — the light sky-blue used for `primary`/`accent` —
+        // only computes to ~2.21:1 against white, well under the 4.5:1 floor.
+        // This darker, more saturated value in the same sky-blue family computes to
+        // ~4.97:1 (verified via WCAG relative-luminance formula: gamma-correct each
+        // channel, L = 0.2126R + 0.7152G + 0.0722B, ratio = (L_lighter+0.05)/(L_darker+0.05)).
+        // interactiveHover/interactivePressed derive from this via .opacity() below,
+        // and since they composite over the (even darker) slateDark background, their
+        // effective contrast against white text is only ever higher than resting state.
+        let fill = Color(red: 0.251, green: 0.456, blue: 0.620)
         return DFColorTokens(
             primary:             Color(red: 0.392, green: 0.710, blue: 0.965),
             secondary:           Color(red: 0.471, green: 0.565, blue: 0.612),
