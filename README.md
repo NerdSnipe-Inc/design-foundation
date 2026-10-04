@@ -19,6 +19,12 @@ DesignFoundation gives you a token-based theming engine and 44 SwiftUI component
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
+<p align="center">
+  <img alt="The same card, text field, buttons and badges in the Slate, Aurora, Copper and Sage theme presets, each shown in light and dark" src="docs/images/themes-grid.png" width="100%" />
+</p>
+
+<p align="center"><sub>One component set, four theme presets, each in light and dark. Only the theme changed.</sub></p>
+
 ---
 
 [![Sponsor NerdSnipe-Inc](https://img.shields.io/badge/Sponsor-NerdSnipe--Inc-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/NerdSnipe-Inc)
