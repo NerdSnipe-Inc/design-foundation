@@ -127,6 +127,7 @@ public struct DFOutlinedTextFieldStyle: DFTextFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: theme.radius.md)
                     .fill(theme.colors.surface)
@@ -185,6 +186,7 @@ public struct DFFilledTextFieldStyle: DFTextFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: theme.radius.md)
                     .fill(
@@ -268,6 +270,7 @@ public struct DFGlassTextFieldStyle: DFTextFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
             .overlay(

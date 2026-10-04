@@ -64,6 +64,7 @@ public struct DFTextArea: View {
                 }
 
                 TextEditor(text: $text)
+                    .accessibilityLabel(label.isEmpty ? placeholder : label)
                     .focused($isFocused)
                     .font(theme.typography.body.font)
                     .foregroundStyle(isEnabled ? theme.colors.textPrimary : theme.colors.textDisabled)
@@ -93,7 +94,6 @@ public struct DFTextArea: View {
         }
         .opacity(isEnabled ? 1 : 0.5)
         .animation(theme.animation.fast, value: isFocused)
-        .accessibilityLabel(label.isEmpty ? placeholder : label)
     }
 
     // Approximate line height based on the body font + line spacing

@@ -26,8 +26,8 @@ public struct DFSecureField: View {
 
     public var body: some View {
         let fieldContent: AnyView = isRevealed
-            ? AnyView(TextField(placeholder, text: $text).textFieldStyle(.plain).focused($isFocused).focusEffectDisabled())
-            : AnyView(SecureField(placeholder, text: $text).textFieldStyle(.plain).focused($isFocused).focusEffectDisabled())
+            ? AnyView(TextField(placeholder, text: $text).textFieldStyle(.plain).focused($isFocused).focusEffectDisabled().accessibilityLabel(label.isEmpty ? placeholder : label))
+            : AnyView(SecureField(placeholder, text: $text).textFieldStyle(.plain).focused($isFocused).focusEffectDisabled().accessibilityLabel(label.isEmpty ? placeholder : label))
 
         let config = DFSecureFieldStyleConfiguration(
             label: label,
@@ -41,6 +41,9 @@ public struct DFSecureField: View {
             theme: theme
         )
         style.makeBody(configuration: config)
-            .accessibilityLabel(label.isEmpty ? placeholder : label)
+            #if os(iOS)
+            .contentShape(Rectangle())
+            .onTapGesture { isFocused = true }
+            #endif
     }
 }

@@ -16,6 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 - `scripts/count_facts.py` computes every documented number from `Sources/` and can `--check` docs for wrong numeric claims. A `facts-check` CI job runs it over the agent docs, the docs site and the wiki pages.
 
+### Changed (iOS only; macOS and visionOS rendering is unchanged)
+- **Touch targets.** `DFTextField`, `DFSecureField` and every `DFButton` style are now at least 44pt tall on iOS (previously about 37–42pt), and the whole box responds to touches. Tapping anywhere in a text or secure field (its padding or label) now focuses it.
+- **`DFEntityRow`** trailing `.text` values use the body-small font on iOS instead of caption.
+
+### Fixed
+- **Validation messages and field labels for assistive technology (all platforms, not visual).** `DFTextField`, `DFSecureField` and `DFTextArea` put `.accessibilityLabel` on the whole styled container, which overwrote the label of every child, so an `.error(message)` was read as the field's own name and the message was never exposed. The label is now on the field itself and the message keeps its own label.
+
 ## [1.7.1] — 2026-09-21 — Xcode 16 Build Fix
 
 ### Fixed

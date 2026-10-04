@@ -107,6 +107,7 @@ public struct DFFilledButtonStyle: DFButtonStyle, Sendable {
             .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : .white)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: radius)
                     .fill(configuration.isDisabled
@@ -137,6 +138,7 @@ public struct DFOutlinedButtonStyle: DFButtonStyle, Sendable {
             .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : color)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: radius)
                     .stroke(configuration.isDisabled ? theme.colors.border : color, lineWidth: 1.5)
@@ -165,6 +167,7 @@ public struct DFGhostButtonStyle: DFButtonStyle, Sendable {
             .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : color)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
+            .dfMinimumTouchHeight()
             .opacity(configuration.isPressed ? 0.6 : (configuration.isDisabled ? 0.5 : 1.0))
             .animation(theme.animation.fast, value: configuration.isPressed)
     }
@@ -189,6 +192,7 @@ public struct DFTintedButtonStyle: DFButtonStyle, Sendable {
             .foregroundStyle(configuration.isDisabled ? theme.colors.textDisabled : color)
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: radius)
                     .fill(configuration.isDisabled
@@ -231,6 +235,7 @@ public struct DFGlassButtonStyle: DFButtonStyle, Sendable {
             )
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
+            .dfMinimumTouchHeight()
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: radius))
             .overlay {

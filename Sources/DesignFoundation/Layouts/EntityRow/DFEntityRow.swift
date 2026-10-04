@@ -84,7 +84,11 @@ public struct DFEntityRow: View {
         switch trailing {
         case .text(let text):
             Text(text)
+                #if os(iOS)
+                .font(theme.typography.bodySmall.font)
+                #else
                 .font(theme.typography.caption.font)
+                #endif
                 .foregroundStyle(theme.colors.textSecondary)
         case .badge(let text):
             DFBadge(text: text)

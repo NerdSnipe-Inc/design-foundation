@@ -86,6 +86,9 @@ public struct DFTextField: View {
                     .textFieldStyle(.plain)
                     .focused($isFocused)
                     .focusEffectDisabled()
+                    // The label belongs on the field itself. Put on the whole styled container it overwrote the
+                    // label of every child, so a validation message was read as the field's own name.
+                    .accessibilityLabel(label.isEmpty ? placeholder : label)
             ),
             leadingContent: leading,
             trailingContent: trailing,
@@ -95,6 +98,10 @@ public struct DFTextField: View {
             theme: theme
         )
         style.makeBody(configuration: config)
-            .accessibilityLabel(label.isEmpty ? placeholder : label)
+            #if os(iOS)
+            // Tapping anywhere in the control (its padding or label), not only on the text, focuses it.
+            .contentShape(Rectangle())
+            .onTapGesture { isFocused = true }
+            #endif
     }
 }

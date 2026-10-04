@@ -21,6 +21,10 @@ DesignFoundation gives you a token-based theming engine and 44 SwiftUI component
 
 ---
 
+[![Sponsor NerdSnipe-Inc](https://img.shields.io/badge/Sponsor-NerdSnipe--Inc-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/NerdSnipe-Inc)
+
+> DesignFoundation is free and open source. If it saved you time, [sponsoring NerdSnipe Inc](https://github.com/sponsors/NerdSnipe-Inc) pays for the maintenance, bug fixes and new releases that keep it working.
+
 ## Requirements
 
 - iOS 18+, macOS 15+, visionOS 2+
@@ -335,3 +339,10 @@ Feedback and issues are welcome, especially on the theme API. If something's rou
 ## License
 
 MIT © 2026 NerdSnipe Inc. See [LICENSE](LICENSE).
+
+## Support this project
+
+DesignFoundation is built and maintained by [NerdSnipe Inc](https://nerdsnipe.cc), a small independent studio in Ottawa. Sponsorship funds new components and keeping up with each new OS release.
+
+- [Sponsor on GitHub](https://github.com/sponsors/NerdSnipe-Inc), from $5/month or a one-time amount
+- [More about what we fund](https://nerdsnipe.cc/sponsor)

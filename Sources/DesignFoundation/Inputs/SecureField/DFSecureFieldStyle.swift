@@ -142,6 +142,7 @@ public struct DFOutlinedSecureFieldStyle: DFSecureFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: theme.radius.md)
                     .fill(theme.colors.surface)
@@ -199,6 +200,7 @@ public struct DFFilledSecureFieldStyle: DFSecureFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(
                 RoundedRectangle(cornerRadius: theme.radius.md)
                     .fill(
@@ -284,6 +286,7 @@ public struct DFGlassSecureFieldStyle: DFSecureFieldStyle, Sendable {
             }
             .padding(.horizontal, theme.spacing.md)
             .padding(.vertical, theme.spacing.sm)
+            .dfMinimumTouchHeight()
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius.md))
             .overlay(
