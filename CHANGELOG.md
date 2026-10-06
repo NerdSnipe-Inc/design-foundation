@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Liquid Glass wording in `docs/llms.txt` is exact: 19 glass styles, 18 through `.glass` plus `DFGlassModalStyle()`. The typography wiki page says eight `DFTextScale` cases, not six. The popup transition list in the README names the real cases (slide, scale, fade, none, asymmetric).
 
 ### Added
+- **`DFMenu` and `.dfContextMenu(sections:)`.** A themed menu: a trigger button plus a popover-style list built on `.dfPopover` (stays a popover on iPhone), driven by `DFMenuSection` / `DFMenuItem` values (title, optional SF Symbol, `.destructive` role, `isSelected` checkmark, `isDisabled`, `@MainActor` action). Rows are buttons with selected and destructive accessibility, 44pt on iOS, Escape dismisses on macOS. Style system `DFMenuStyle` / `DFMenuStyleConfiguration` / `.dfMenuStyle(_:)` with `.standard` (default), `.compact` and `.glass` (iOS/macOS 26+, honors `theme.materials.preferLiquidGlass`). `.dfContextMenu` builds a native `.contextMenu` from the same sections; native context menus cannot be themed. Pure helpers in `DFMenuLogic`.
 - `scripts/count_facts.py` computes every documented number from `Sources/` and can `--check` docs for wrong numeric claims. A `facts-check` CI job runs it over the agent docs, the docs site and the wiki pages.
 
 ### Changed (iOS only; macOS and visionOS rendering is unchanged)

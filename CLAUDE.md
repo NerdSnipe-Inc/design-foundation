@@ -86,9 +86,9 @@ theme.components.card = DFCardTokens(padding: 20)                  // roomier ca
 theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)   // popups (and toasts) only
 ```
 
-`DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
+`DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, menu, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
 
-`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
+`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 19 of the 20 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
 
 ```swift
 var theme = DFTheme.slateLight
@@ -129,6 +129,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `.dfModal` | `.dfModalStyle` | `.standard` (a glass variant exists only as `DFGlassModalStyle()`, no `.glass` shorthand) |
 | `.dfSheet` | `.dfSheetStyle` | `.standard` `.compact` `.glass` |
 | `.dfPopover` | `.dfPopoverStyle` | `.arrow` `.compact` `.glass` |
+| `DFMenu` | `.dfMenuStyle` | `.standard` `.compact` `.glass` |
 | `.dfTooltip` | `.dfTooltipStyle` | `.bubble` `.glass` |
 | `.dfPopup` | `.dfPopupStyle` | `.standard` `.frosted` `.glass` `.accent` `.gradient` `.inverse` `.outlined` `.tinted(_:)` |
 | `.dfToast` | `.dfToastStyle` / `.dfToast(style:)` | `.default` `.tinted` `.filled` `.inverse` `.frosted` `.glass` `.banner` `.compact` |
@@ -684,6 +685,35 @@ YourContentView()
 YourContentView().dfTooltip("Hint", delay: 0.5, placement: .bottom)   // placement: .top (default) .bottom .leading .trailing
 ```
 
+### Menus
+```swift
+// DFMenu(_ title: String, systemImage: String? = nil, sections: [DFMenuSection]) — a trigger button plus a themed list
+// presented through .dfPopover (iOS, macOS, visionOS). On iPhone it stays a popover (presentationCompactAdaptation(.popover)),
+// not a sheet. The trigger is a DFButton and follows .dfButtonStyle; with systemImage it is a native Button using .df(.filled).
+// DFMenuItem(id:title:systemImage:role:isSelected:isDisabled:action:) — role is nil or .destructive (DFMenuItemRole);
+// isSelected shows a trailing checkmark and the "Selected" accessibility value; action is @MainActor @Sendable (like DFAlertAction).
+// DFMenuSection(id:title:items:) — title is optional; empty sections are dropped; sections are separated by a divider.
+let menuSections: [DFMenuSection] = [
+    DFMenuSection(title: "Sort by", items: [
+        DFMenuItem(title: "Name", systemImage: "textformat", isSelected: true) { },
+        DFMenuItem(title: "Size", isDisabled: true),
+    ]),
+    DFMenuSection(items: [
+        DFMenuItem(title: "Delete", systemImage: "trash", role: .destructive) { },
+    ]),
+]
+DFMenu("Options", sections: menuSections)
+DFMenu("More", systemImage: "ellipsis.circle", sections: menuSections).dfMenuStyle(.compact)   // .standard (default) .compact .glass (26+)
+
+// .dfContextMenu(sections:) — a native .contextMenu built from the same sections. The system draws native context menus,
+// so the theme and .dfMenuStyle do NOT apply; a selected item shows a checkmark in place of its own icon.
+Text("Press and hold").dfContextMenu(sections: menuSections)
+
+// Pure helpers: DFMenuLogic.filter(sections:query:), .visibleSections(_:), .enabledItems(in:), .selectedItems(in:), .activate(_:)
+let visible = DFMenuLogic.filter(sections: menuSections, query: "name")
+```
+Rows are buttons at least 44pt tall on iOS, destructive items announce "Destructive action", disabled items are skipped, and Escape dismisses the menu on macOS. There is no `DFMenu` component-token struct.
+
 ### Command Palette
 ```swift
 // Also an overlay modifier, not a constructible view. Selection is reported via a single
@@ -712,10 +742,10 @@ Value types you pass to the components above, with their cases:
 - `DFChipVariant`: `.label` `.labelWithIcon(_:systemImage:)` `.dismissible(_:onDismiss:)` `.selectable` · `DFRatingMode`: `.readOnly` `.interactive(onChange:)`
 - `DFDividerOrientation`: `.horizontal .vertical` · `DFProgressBarVariant`: `.linear .circular .indeterminate` · `DFSkeletonShape`: `.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`
 - `DFGridColumns`: `.fixed(Int)` `.adaptive(minWidth:)` · `DFPriceLineItemEmphasis`: `.normal .total` · `DFEntityMedia`: `.systemImage(String)` `.avatarInitials(String)` · `DFEntityTrailing`: `.text(String)` `.badge(String)` `.chevron`
-- `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing`
+- `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing` · `DFMenuItemRole`: `.destructive`
 - `DFDataTableSelectionMode`: `.none .single .multiple` · `DFDataGridLargeDatasetStrategy`: `.renderAll` `.paged(pageSize:)`
 - Popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`)
-- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
+- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFMenuStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
 
 ## Cross-Platform
 
