@@ -34,7 +34,7 @@ DesignFoundation gives you a token-based theming engine and 54 SwiftUI component
 ## Requirements
 
 - iOS 18+, macOS 15+, visionOS 2+
-- Xcode 16+ (Swift tools 6.0)
+- Xcode 26+ (Swift tools 6.0; deploys to iOS 18+, macOS 15+, visionOS 2+)
 - Liquid Glass (`.glass`) styles only take effect on iOS/macOS 26+. Everything else works on the minimums above.
 
 ## Installation

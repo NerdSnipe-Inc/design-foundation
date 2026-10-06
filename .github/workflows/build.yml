@@ -1,13 +1,16 @@
 name: Build matrix
 
-# Builds the package with the oldest and newest Xcode this repository supports, for the macOS host AND for
-# iOS and visionOS (`swift build` alone only exercises macOS, so the UIKit paths would never compile), and
-# runs the tests on the newest Xcode.
+# Builds the package with Xcode 26.6 for the macOS host AND for iOS and visionOS (`swift build` alone only
+# exercises macOS, so the UIKit paths would never compile), and runs the tests.
+#
+# Xcode 26 is the minimum toolchain: App Store Connect has required Xcode 26 or later for uploads since
+# 2026-04-28, so every app that ships with this package already builds with it. The deployment targets stay at
+# iOS 18 / macOS 15 / visionOS 2; the iOS 26 glass styles are availability-gated.
 #
 # This is also the guard for SDK-gated code such as the iPhone Duo support (Xcode 27.1+): those APIs are
-# wrapped in `#if compiler(>=6.4) && canImport(SwiftUI, _version: 8.1)` so they are compiled out on every
-# older SDK. GitHub-hosted runners have no Xcode 27 yet, so these jobs prove the gate keeps that code out of
-# the builds that must keep working (Xcode 16 and 26).
+# wrapped in `#if compiler(>=6.4) && canImport(SwiftUI, _version: 8.1)` so they are compiled out of every
+# earlier SDK. GitHub-hosted runners have no Xcode 27 yet, so these jobs prove the gate keeps that code out of
+# the Xcode 26 build. Add an Xcode 27.x entry to the matrix once the runner images ship it.
 
 on:
   push:
@@ -21,16 +24,13 @@ on:
 
 jobs:
   build:
-    name: build (${{ matrix.xcode }})
+    name: build (${{ matrix.xcode }}, ${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: macos-15
-            xcode: Xcode_16.4
-          - runner: macos-26
-            xcode: Xcode_26.6
-    runs-on: ${{ matrix.runner }}
+        xcode: [Xcode_26.6]
+        platform: [macOS, iOS, visionOS]
+    runs-on: macos-26
     env:
       DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
     steps:
@@ -42,13 +42,12 @@ jobs:
           xcrun --sdk iphoneos --show-sdk-version
 
       - name: Build (macOS host)
+        if: matrix.platform == 'macOS'
         run: swift build
 
-      - name: Build (iOS)
-        run: xcodebuild build -scheme DesignFoundation -destination 'generic/platform=iOS' -skipPackagePluginValidation CODE_SIGNING_ALLOWED=NO
-
-      - name: Build (visionOS)
-        run: xcodebuild build -scheme DesignFoundation -destination 'generic/platform=visionOS' -skipPackagePluginValidation CODE_SIGNING_ALLOWED=NO
+      - name: Build (iOS, visionOS)
+        if: matrix.platform != 'macOS'
+        run: xcodebuild build -scheme DesignFoundation -destination 'generic/platform=${{ matrix.platform }}' -skipPackagePluginValidation CODE_SIGNING_ALLOWED=NO
 
   test:
     name: test (Xcode_26.6)

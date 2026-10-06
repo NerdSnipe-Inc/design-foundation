@@ -142,4 +142,4 @@ If you write your own iPhone Duo code in an app, use the same condition. If the 
 - Give toolbar items an icon and a title; avoid custom views in toolbar slots that must also work vertically.
 - Use `TabView` when you want the system tab bar to follow the device; `DFTabBar` stays at the bottom.
 - Decide layout from size classes and geometry; never from `UIScreen.main`.
-- Rebuild with Xcode 26 and Xcode 16 to confirm nothing else changed.
+- Rebuild with Xcode 26 to confirm nothing else changed.

@@ -117,7 +117,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `DFTextField` | `.dfTextFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSecureField` | `.dfSecureFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSearchField` | `.dfSearchFieldStyle` | `.outlined` `.filled` `.glass` |
-| `DFOTPField` | `.dfOTPFieldStyle` | `.outlined` `.filled` `.underlined` `.glass` (`.glass` needs the Xcode 26 toolchain; it is not compiled on Xcode 16) |
+| `DFOTPField` | `.dfOTPFieldStyle` | `.outlined` `.filled` `.underlined` `.glass` (`.glass` needs iOS/macOS 26+) |
 | `DFToggle` | `.dfToggleStyle` | `.switch` `.checkbox` `.glass` |
 | `DFSlider` | `.dfSliderStyle` | `.standard` `.labeled` `.glass` |
 | `DFPicker` | `.dfPickerStyle` | `.menu` `.segmented` `.wheel` `.glass` |
@@ -982,7 +982,7 @@ Value types you pass to the components above, with their cases:
 
 ## Cross-Platform
 
-DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+ (Swift tools 6.0, Xcode 16+, Swift 6 strict concurrency).
+DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+ (Swift tools 6.0, built and tested with Xcode 26+, Swift 6 strict concurrency).
 
 **You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required. `DFPlatformContext` (read with `@Environment(\.dfPlatformContext)`) exposes `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable` and `toolbarVerticalEdge` (iPhone Duo; `nil` before Xcode 27.1) if a custom style needs them. `DFPlatformVariant` (`automatic/compact/expanded/immersive`) is declared but not consumed by any built-in component in 1.7.1 — it does not change layouts, so don't rely on it.
 
