@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Liquid Glass wording in `docs/llms.txt` is exact: 19 glass styles, 18 through `.glass` plus `DFGlassModalStyle()`. The typography wiki page says eight `DFTextScale` cases, not six. The popup transition list in the README names the real cases (slide, scale, fade, none, asymmetric).
 
 ### Added
+- **`DFSearchField`**: themed search input with a leading magnifier, a clear button while the text is non-empty, an optional cancel button, an `onSubmit` callback, an optional `isFocused` binding for two-way focus control, separate VoiceOver labels for the field and the clear button, and a 44pt minimum height on iOS. Styled through the new `DFSearchFieldStyle` protocol (`DFSearchFieldStyleConfiguration`, `\.dfSearchFieldStyle`, `.dfSearchFieldStyle(_:)`) with built-in `.outlined` (default), `.filled` and `.glass` (iOS/macOS 26+, honors `theme.materials.preferLiquidGlass`) styles.
 - `scripts/count_facts.py` computes every documented number from `Sources/` and can `--check` docs for wrong numeric claims. A `facts-check` CI job runs it over the agent docs, the docs site and the wiki pages.
 
 ### Changed (iOS only; macOS and visionOS rendering is unchanged)

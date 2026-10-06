@@ -15,7 +15,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 44 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 45 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
@@ -176,6 +176,7 @@ HomeView().dfTheme(tweaked)
 |---|---|
 | `DFTextField` | `.outlined`, `.filled`, `.glass`¹; optional leading / trailing views |
 | `DFSecureField` | `.outlined`, `.filled`, `.glass`¹; show/hide toggle built in |
+| `DFSearchField` | `.outlined`, `.filled`, `.glass`¹; magnifier, clear and cancel buttons, onSubmit, focus binding |
 | `DFTextArea` | Multiline text with min / max lines |
 | `DFToggle` | `.switch`, `.checkbox`, `.glass`¹ |
 | `DFSlider` | `.standard`, `.labeled`, `.glass`¹ |
@@ -265,7 +266,7 @@ Surface styles, toast styles, `DFPopupCard`, the bottom-sheet kind and `DFPopupB
 
 ## Style System
 
-Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 33 style protocols with 97 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
+Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 34 style protocols with 100 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section

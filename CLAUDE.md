@@ -88,7 +88,7 @@ theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)   // pop
 
 `DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
 
-`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
+`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 19 of the 20 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
 
 ```swift
 var theme = DFTheme.slateLight
@@ -116,6 +116,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `DFPriceView` | `.dfPriceViewStyle` | `.standard` `.compact` |
 | `DFTextField` | `.dfTextFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSecureField` | `.dfSecureFieldStyle` | `.outlined` `.filled` `.glass` |
+| `DFSearchField` | `.dfSearchFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFToggle` | `.dfToggleStyle` | `.switch` `.checkbox` `.glass` |
 | `DFSlider` | `.dfSliderStyle` | `.standard` `.labeled` `.glass` |
 | `DFPicker` | `.dfPickerStyle` | `.menu` `.segmented` `.wheel` `.glass` |
@@ -227,6 +228,28 @@ DFTextField("Email", text: $email, validationState: .error("Enter a valid email 
 // Multiline — use DFTextArea, not DFTextField
 // DFTextArea(_ label: String, text: Binding<String>, placeholder: String = "", minLines: Int = 3, maxLines: Int = 8, validationState: DFValidationState = .none)
 DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4)
+```
+
+### Search Field
+```swift
+// DFSearchField(_ label: String = "Search", text: Binding<String>, placeholder: String = "Search",
+//               isFocused: Binding<Bool>? = nil, showsCancelButton: Bool = false, cancelTitle: String = "Cancel",
+//               clearAccessibilityLabel: String = "Clear search", onSubmit: (() -> Void)? = nil, onCancel: (() -> Void)? = nil)
+// Leading magnifier, a clear (x) button while the text is non-empty, optional trailing Cancel button
+// (clears the text, drops focus, then calls onCancel), and the Return/Search key calls onSubmit.
+// `label` is the field's VoiceOver label (falls back to the placeholder); the clear button has its own label.
+// At least 44pt tall on iOS. Styles: .outlined (default) / .filled / .glass (iOS/macOS 26+, honors preferLiquidGlass).
+@State var isSearching = false
+DFSearchField(text: $query)
+DFSearchField(
+    "Contacts",
+    text: $query,
+    placeholder: "Search contacts",
+    isFocused: $isSearching,            // optional two-way focus; omit and the field manages its own focus
+    showsCancelButton: isSearching,
+    onSubmit: action
+)
+DFSearchField(text: $query).dfSearchFieldStyle(.filled)
 ```
 
 ### Forms & Validation
@@ -715,7 +738,7 @@ Value types you pass to the components above, with their cases:
 - `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing`
 - `DFDataTableSelectionMode`: `.none .single .multiple` · `DFDataGridLargeDatasetStrategy`: `.renderAll` `.paged(pageSize:)`
 - Popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`)
-- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
+- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFSearchFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
 
 ## Cross-Platform
 
