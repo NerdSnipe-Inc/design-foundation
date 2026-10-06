@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// How `DFArrangement` places its two views.
-public enum DFArrangementKind: Sendable, Hashable {
+public enum DFArrangementKind: Sendable, Equatable {
     /// Let the system decide. Currently resolves to `.split`.
     case automatic
     /// Primary and secondary side by side when the space is wider than tall, stacked when taller than wide.

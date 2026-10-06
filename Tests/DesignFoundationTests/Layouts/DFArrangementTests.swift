@@ -35,7 +35,7 @@ struct DFArrangementRulesTests {
         #expect(DFArrangementRules.axes(for: .overlay).isEmpty)
     }
 
-    @Test("kinds are hashable values")
+    @Test("kinds are comparable values")
     func kindsAreValues() {
         #expect(DFArrangementKind.split() == DFArrangementKind.split(axes: [.horizontal, .vertical]))
         #expect(DFArrangementKind.overlay != DFArrangementKind.automatic)
