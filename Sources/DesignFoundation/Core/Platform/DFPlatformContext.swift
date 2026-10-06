@@ -15,28 +15,40 @@ public struct DFPlatformContext: Sendable {
     #endif
     public let horizontalSizeClass: UserInterfaceSizeClass
     public let isLiquidGlassAvailable: Bool
+    /// The edge the system puts a vertical navigation bar, toolbar or tab bar on, or `nil` when the current context
+    /// never shows one. On iPhone Duo (outer display, and some inner-display positions) bars run down a side
+    /// instead of across the top and bottom. Always `nil` on SDKs before Xcode 27.1 and on devices without
+    /// vertical bars. Mirrors SwiftUI's `EnvironmentValues.toolbarVerticalEdge`.
+    public let toolbarVerticalEdge: HorizontalEdge?
 
     #if canImport(UIKit)
     public init(
         idiom: UIUserInterfaceIdiom,
         horizontalSizeClass: UserInterfaceSizeClass,
-        isLiquidGlassAvailable: Bool
+        isLiquidGlassAvailable: Bool,
+        toolbarVerticalEdge: HorizontalEdge? = nil
     ) {
         self.idiom = idiom
         self.horizontalSizeClass = horizontalSizeClass
         self.isLiquidGlassAvailable = isLiquidGlassAvailable
+        self.toolbarVerticalEdge = toolbarVerticalEdge
     }
     #else
     public init(
         idiom: Int,
         horizontalSizeClass: UserInterfaceSizeClass,
-        isLiquidGlassAvailable: Bool
+        isLiquidGlassAvailable: Bool,
+        toolbarVerticalEdge: HorizontalEdge? = nil
     ) {
         self.idiom = idiom
         self.horizontalSizeClass = horizontalSizeClass
         self.isLiquidGlassAvailable = isLiquidGlassAvailable
+        self.toolbarVerticalEdge = toolbarVerticalEdge
     }
     #endif
+
+    /// Whether the system is showing bars vertically here (iPhone Duo outer display and some inner positions).
+    public var hasVerticalToolbar: Bool { toolbarVerticalEdge != nil }
 
     /// Returns a DFPlatformContext resolved for the current process environment.
     ///
