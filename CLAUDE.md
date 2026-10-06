@@ -86,9 +86,9 @@ theme.components.card = DFCardTokens(padding: 20)                  // roomier ca
 theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)   // popups (and toasts) only
 ```
 
-`DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
+`DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, OTP field, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
 
-`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
+`DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 19 of the 20 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
 
 ```swift
 var theme = DFTheme.slateLight
@@ -116,6 +116,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `DFPriceView` | `.dfPriceViewStyle` | `.standard` `.compact` |
 | `DFTextField` | `.dfTextFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSecureField` | `.dfSecureFieldStyle` | `.outlined` `.filled` `.glass` |
+| `DFOTPField` | `.dfOTPFieldStyle` | `.outlined` `.filled` `.underlined` `.glass` (`.glass` needs the Xcode 26 toolchain; it is not compiled on Xcode 16) |
 | `DFToggle` | `.dfToggleStyle` | `.switch` `.checkbox` `.glass` |
 | `DFSlider` | `.dfSliderStyle` | `.standard` `.labeled` `.glass` |
 | `DFPicker` | `.dfPickerStyle` | `.menu` `.segmented` `.wheel` `.glass` |
@@ -221,12 +222,78 @@ DFTextField("Search", text: $query, leading: { Image(systemName: "magnifyingglas
 
 DFSecureField("Password", text: $password)              // built-in show/hide (eye) toggle
 
-// validationState: .none (default) / .valid / .error("message") — shared by DFTextField, DFSecureField, DFTextArea
+// validationState: .none (default) / .valid / .error("message") — shared by DFTextField, DFSecureField, DFTextArea, DFOTPField
 DFTextField("Email", text: $email, validationState: .error("Enter a valid email address"))
 
 // Multiline — use DFTextArea, not DFTextField
 // DFTextArea(_ label: String, text: Binding<String>, placeholder: String = "", minLines: Int = 3, maxLines: Int = 8, validationState: DFValidationState = .none)
 DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4)
+```
+
+### One-Time Code Field
+
+`DFOTPField` is the segmented verification-code input (SMS / email / authenticator codes). It is a single hidden, real text input driving `length` visual cells, so pasting a whole code, the system one-time-code autofill (`.textContentType(.oneTimeCode)` is already set), backspace and VoiceOver all work off one `text` binding. This is the free primitive; DesignFoundation Pro ships complete OTP verification screens built on the same idea.
+
+```swift
+// DFOTPField(_ label: String, text: Binding<String>, length: Int = 6, validationState: DFValidationState = .none,
+//            allowedCharacters: DFOTPCharacterSet = .digits, onComplete: ((String) -> Void)? = nil)
+DFOTPField("Verification code", text: $text)
+DFOTPField("PIN", text: $text, length: 4)
+DFOTPField("Recovery code", text: $text, length: 8, allowedCharacters: .alphanumeric)
+DFOTPField("Verification code", text: $text, validationState: .error("That code is incorrect"))
+
+// onComplete is the trailing closure. It fires exactly once when the text reaches `length` and re-arms when the
+// text is edited below `length` again. An initial, already-full value does not fire it.
+DFOTPField("Verification code", text: $text) { fullCode in
+    action()
+}
+
+DFOTPField("Verification code", text: $text)
+    .dfOTPFieldStyle(.underlined)   // .outlined (default) .filled .underlined (.glass on the Xcode 26 toolchain, iOS/macOS 26+)
+```
+
+Behavior to rely on: input is filtered to `allowedCharacters` (`.digits` default, `.letters`, `.alphanumeric`, `.custom(Set<Character>)`; ASCII only for the first three) and clamped to `length`, so a pasted `"123 456"` or `"123-456"` becomes `"123456"` and an overflowing paste keeps the first `length` characters. `.digits` selects the numeric keyboard on iOS; other sets use the ASCII keyboard. The active cell is highlighted while focused. On `.error(message)` the cells turn destructive-colored and the message shows below; the accessibility label sits on the input and the message keeps its own label (same as `DFTextField`). Cells are at least 44pt tall on iOS. It has no per-component token struct (theme tokens only).
+
+With `DFFormState`, use `DFValidatedOTPField` (reads/writes the named field and shows its validation state), or `.binding(for:)` directly:
+
+```swift
+let formState = DFFormState(fields: [
+    "otp": [DFRequiredValidator(), DFMinLengthValidator(minLength: 6, message: "Enter all 6 digits")],
+])
+DFValidatedOTPField("Verification code", field: "otp", form: formState)   // also length:, allowedCharacters:, onComplete:
+
+DFOTPField(
+    "Verification code",
+    text: formState.binding(for: "otp"),
+    validationState: formState.validationState(for: "otp")
+)
+```
+
+The sanitizing, clamping, cell layout and completion logic is a pure, SwiftUI-free value type you can unit-test or reuse:
+
+```swift
+let code = DFOTPCode("123-456", length: 6)                 // text "123456", isComplete true, activeIndex 5
+let cells: [DFOTPCode.Cell] = code.cells(isFocused: true)  // 6 cells: index, character?, isActive, isFilled
+let clean = DFOTPCode.sanitize("12 34 56 78", length: 6)   // "123456"
+let result = DFOTPCode.evaluate("123456", length: 6, wasComplete: false)   // text, isComplete, didComplete (true once)
+```
+
+A custom style overlays `configuration.fieldContent` (the real input) on its row of cells and hides the cells from VoiceOver. `DFOTPFieldStyleConfiguration` carries `label`, `fieldContent`, `cells`, `isFocused`, `isDisabled`, `validationState` and `theme`:
+
+```swift
+struct DotDocOTPStyle: DFOTPFieldStyle, Sendable {
+    func makeBody(configuration: DFOTPFieldStyleConfiguration) -> some View {
+        HStack(spacing: configuration.theme.spacing.md) {
+            ForEach(configuration.cells) { cell in
+                Circle()
+                    .fill(cell.isFilled ? configuration.theme.colors.primary : configuration.theme.colors.border)
+                    .frame(width: 12, height: 12)
+            }
+        }
+        .accessibilityHidden(true)
+        .overlay { configuration.fieldContent }
+    }
+}
 ```
 
 ### Forms & Validation
@@ -707,6 +774,7 @@ let matches = DFCommandPaletteFilter.filter(items: [DFCommandPaletteItem(title: 
 Value types you pass to the components above, with their cases:
 
 - `DFButtonRole`: `.destructive` `.cancel` · `DFAlertActionRole`: `.destructive` `.cancel` · `DFValidationState`: `.none` `.valid` `.error(String)`
+- `DFOTPCharacterSet`: `.digits` `.letters` `.alphanumeric` `.custom(Set<Character>)` · `DFOTPCode` (pure logic: `Cell`, `Evaluation`, `sanitize`, `evaluate`, `cells(isFocused:)`)
 - `DFTextScale`: `.display .title .headline .labelLarge .body .bodySmall .label .caption` (resolved through `DFTextStyle` in `theme.typography`)
 - `DFBadgeVariant`: `.numeric(Int)` `.dot` `.text(String)` · `DFAvatarSource`: `.image(Image)` `.initials(String)` · `DFAvatarPresence`: `.none .online .away .busy` · `DFIconSource`: `.symbol(String)` `.image(Image)`
 - `DFChipVariant`: `.label` `.labelWithIcon(_:systemImage:)` `.dismissible(_:onDismiss:)` `.selectable` · `DFRatingMode`: `.readOnly` `.interactive(onChange:)`
@@ -715,7 +783,7 @@ Value types you pass to the components above, with their cases:
 - `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing`
 - `DFDataTableSelectionMode`: `.none .single .multiple` · `DFDataGridLargeDatasetStrategy`: `.renderAll` `.paged(pageSize:)`
 - Popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`)
-- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
+- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFOTPFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
 
 ## Cross-Platform
 

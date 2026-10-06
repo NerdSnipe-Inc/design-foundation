@@ -87,7 +87,7 @@ theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)
 // Slider/picker/navigation bar/tooltip/modal/sheet/popover/alert/toast/checkbox/calendar/etc. have none.
 ```
 
-`DFMaterialTokens` is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all but `DFGlassModalStyle`, which has no `.glass` shorthand — write `DFGlassModalStyle()`):
+`DFMaterialTokens` is wired into `DFTheme.materials` and read by 19 of the 20 `.glass` styles (all but `DFGlassModalStyle`, which has no `.glass` shorthand — write `DFGlassModalStyle()`):
 ```swift
 var theme = DFTheme.slateLight
 theme.materials.preferLiquidGlass = false   // .glass styles fall back to their non-glass colors
@@ -96,7 +96,7 @@ No `@available` gate on the type itself (only the individual `.glass` styles rem
 
 ## Style System
 
-Every styleable component has a `DFXxxStyle` protocol (`makeBody(configuration:)`), a `.dfXxxStyle(_:)` modifier and static shorthands; a style set on a container applies to matching components beneath it. `.glass` styles need iOS/macOS 26+ and honor `preferLiquidGlass`. Built-ins (default first): `DFButton` `.filled .outlined .ghost .tinted .glass` · `DFText` (`.dfTextViewStyle`) `.standard .secondary .muted` · `DFIcon` `.standard .tinted .secondary` · `DFBadge` `.filled .tinted .outlined .glass` · `DFAvatar` `.circle .rounded .ring .glass` · `DFDivider` `.standard .subtle .thick` · `DFChip` `.filled .tinted .outlined` · `DFRatingView` `.stars .numeric` · `DFPriceView` `.standard .compact` · `DFTextField`/`DFSecureField` `.outlined .filled .glass` · `DFToggle` `.switch .checkbox .glass` · `DFSlider` `.standard .labeled .glass` · `DFPicker` `.menu .segmented .wheel .glass` · `DFDatePicker` `.compact .graphical .wheel .glass` · `DFQuantityStepper` `.bordered .compact` · `DFCheckbox` `.default` · `DFCard` `.elevated .outlined .filled .glass` · `DFTabBar` `.standard .minimal .glass` · `DFNavigationBar` `.standard .transparent .glass` · `DFSidebar` `.standard .plain .glass` · modal `.standard` (glass only as `DFGlassModalStyle()`) · sheet `.standard .compact .glass` · popover `.arrow .compact .glass` · tooltip `.bubble .glass` · popup `.standard .frosted .glass .accent .gradient .inverse .outlined .tinted(_:)` · toast `.default .tinted .filled .inverse .frosted .glass .banner .compact` · `DFBanner`/`DFCalendarView`/`DFEmptyState`/command palette `.standard` · `DFProgressBar`/`DFSkeleton` `.default`. Modifiers: `.dfButtonStyle .dfTextViewStyle .dfIconStyle .dfBadgeStyle .dfAvatarStyle .dfDividerStyle .dfChipStyle .dfRatingViewStyle .dfPriceViewStyle .dfTextFieldStyle .dfSecureFieldStyle .dfToggleStyle .dfSliderStyle .dfPickerStyle .dfDatePickerStyle .dfQuantityStepperStyle .dfCheckboxStyle .dfCardStyle .dfTabBarStyle .dfNavigationBarStyle .dfSidebarStyle .dfModalStyle .dfSheetStyle .dfPopoverStyle .dfTooltipStyle .dfPopupStyle .dfToastStyle .dfBannerStyle .dfCalendarViewStyle .dfEmptyStateStyle .dfCommandPaletteStyle .dfProgressBarStyle .dfSkeletonStyle`. Lists, tables, `DFTextArea`, entity/article rows, `DFGrid` and `DFCarousel` have no style protocol.
+Every styleable component has a `DFXxxStyle` protocol (`makeBody(configuration:)`), a `.dfXxxStyle(_:)` modifier and static shorthands; a style set on a container applies to matching components beneath it. `.glass` styles need iOS/macOS 26+ and honor `preferLiquidGlass`. Built-ins (default first): `DFButton` `.filled .outlined .ghost .tinted .glass` · `DFText` (`.dfTextViewStyle`) `.standard .secondary .muted` · `DFIcon` `.standard .tinted .secondary` · `DFBadge` `.filled .tinted .outlined .glass` · `DFAvatar` `.circle .rounded .ring .glass` · `DFDivider` `.standard .subtle .thick` · `DFChip` `.filled .tinted .outlined` · `DFRatingView` `.stars .numeric` · `DFPriceView` `.standard .compact` · `DFTextField`/`DFSecureField` `.outlined .filled .glass` · `DFOTPField` `.outlined .filled .underlined .glass` · `DFToggle` `.switch .checkbox .glass` · `DFSlider` `.standard .labeled .glass` · `DFPicker` `.menu .segmented .wheel .glass` · `DFDatePicker` `.compact .graphical .wheel .glass` · `DFQuantityStepper` `.bordered .compact` · `DFCheckbox` `.default` · `DFCard` `.elevated .outlined .filled .glass` · `DFTabBar` `.standard .minimal .glass` · `DFNavigationBar` `.standard .transparent .glass` · `DFSidebar` `.standard .plain .glass` · modal `.standard` (glass only as `DFGlassModalStyle()`) · sheet `.standard .compact .glass` · popover `.arrow .compact .glass` · tooltip `.bubble .glass` · popup `.standard .frosted .glass .accent .gradient .inverse .outlined .tinted(_:)` · toast `.default .tinted .filled .inverse .frosted .glass .banner .compact` · `DFBanner`/`DFCalendarView`/`DFEmptyState`/command palette `.standard` · `DFProgressBar`/`DFSkeleton` `.default`. Modifiers: `.dfButtonStyle .dfTextViewStyle .dfIconStyle .dfBadgeStyle .dfAvatarStyle .dfDividerStyle .dfChipStyle .dfRatingViewStyle .dfPriceViewStyle .dfTextFieldStyle .dfSecureFieldStyle .dfOTPFieldStyle .dfToggleStyle .dfSliderStyle .dfPickerStyle .dfDatePickerStyle .dfQuantityStepperStyle .dfCheckboxStyle .dfCardStyle .dfTabBarStyle .dfNavigationBarStyle .dfSidebarStyle .dfModalStyle .dfSheetStyle .dfPopoverStyle .dfTooltipStyle .dfPopupStyle .dfToastStyle .dfBannerStyle .dfCalendarViewStyle .dfEmptyStateStyle .dfCommandPaletteStyle .dfProgressBarStyle .dfSkeletonStyle`. Lists, tables, `DFTextArea`, entity/article rows, `DFGrid` and `DFCarousel` have no style protocol.
 
 ```swift
 VStack { DFButton("Save") { }; DFCard { DFText("Body") } }
@@ -152,9 +152,52 @@ DFTextField("Placeholder", text: $text)
 // leading:/trailing: labels are required (separate overloads) — an unlabeled closure is ambiguous.
 DFTextField("Search", text: $query, leading: { Image(systemName: "magnifyingglass") })  // not leadingIcon:/trailingIcon: strings
 DFSecureField("Password", text: $password)   // built-in show/hide toggle
-// validationState: .none (default) / .valid / .error("message") — DFTextField, DFSecureField, DFTextArea
+// validationState: .none (default) / .valid / .error("message") — DFTextField, DFSecureField, DFTextArea, DFOTPField
 DFTextField("Email", text: $email, validationState: .error("Enter a valid email address"))
 DFTextArea("Bio", text: $bio, placeholder: "Tell your story…", minLines: 4, maxLines: 8)   // multiline — not DFTextField
+```
+
+One-time code (verification code) input — `DFOTPField` is a segmented field driven by ONE hidden real text input (paste, `.oneTimeCode` autofill, backspace and VoiceOver all work off the `text` binding; do not hand-roll N `DFTextField`s):
+
+```swift
+// DFOTPField(_ label: String, text: Binding<String>, length: Int = 6, validationState: DFValidationState = .none,
+//            allowedCharacters: DFOTPCharacterSet = .digits, onComplete: ((String) -> Void)? = nil)
+DFOTPField("Verification code", text: $text)
+DFOTPField("PIN", text: $text, length: 4)
+DFOTPField("Recovery code", text: $text, length: 8, allowedCharacters: .alphanumeric)   // .digits (default) .letters .alphanumeric .custom(Set<Character>)
+DFOTPField("Verification code", text: $text, validationState: .error("That code is incorrect"))
+// onComplete is the trailing closure: fires exactly once at full length, re-arms when edited below `length`; an initial full value does not fire it.
+DFOTPField("Verification code", text: $text) { fullCode in
+    action()
+}
+DFOTPField("Verification code", text: $text)
+    .dfOTPFieldStyle(.underlined)   // .outlined (default) .filled .underlined; .glass only on the Xcode 26 toolchain (iOS/macOS 26+)
+```
+
+Input is filtered to `allowedCharacters` and clamped to `length` (pasted `"123 456"` / `"123-456"` becomes `"123456"`); `.digits` selects the numeric keyboard on iOS; cells are at least 44pt tall on iOS; no per-component token struct. With `DFFormState` use `DFValidatedOTPField` (also `length:`, `allowedCharacters:`, `onComplete:`) or `.binding(for:)`:
+
+```swift
+let formState = DFFormState(fields: ["otp": [DFRequiredValidator(), DFMinLengthValidator(minLength: 6)]])
+DFValidatedOTPField("Verification code", field: "otp", form: formState)
+DFOTPField("Verification code", text: formState.binding(for: "otp"), validationState: formState.validationState(for: "otp"))
+```
+
+The logic is a pure, unit-testable value type (`DFOTPCode`): `DFOTPCode("123-456", length: 6).text`, `.cells(isFocused:)` (`DFOTPCode.Cell`: `index`, `character`, `isActive`, `isFilled`), `DFOTPCode.sanitize(_:length:)` and `DFOTPCode.evaluate(_:length:wasComplete:)` (`text`, `isComplete`, `didComplete`). A custom `DFOTPFieldStyle` (configuration: `label`, `fieldContent`, `cells`, `isFocused`, `isDisabled`, `validationState`, `theme`) must overlay `configuration.fieldContent` on its cells and hide the cells from VoiceOver:
+
+```swift
+struct DotAgentsOTPStyle: DFOTPFieldStyle, Sendable {
+    func makeBody(configuration: DFOTPFieldStyleConfiguration) -> some View {
+        HStack(spacing: configuration.theme.spacing.md) {
+            ForEach(configuration.cells) { cell in
+                Circle()
+                    .fill(cell.isFilled ? configuration.theme.colors.primary : configuration.theme.colors.border)
+                    .frame(width: 12, height: 12)
+            }
+        }
+        .accessibilityHidden(true)
+        .overlay { configuration.fieldContent }
+    }
+}
 ```
 
 ### Forms & Validation
@@ -451,7 +494,7 @@ let matches = DFCommandPaletteFilter.filter(items: [DFCommandPaletteItem(title: 
 
 ## Supporting Types
 
-`DFButtonRole` / `DFAlertActionRole` (`.destructive .cancel`) · `DFValidationState` (`.none .valid .error(String)`) · `DFTextScale` (`.display .title .headline .labelLarge .body .bodySmall .label .caption`, via `DFTextStyle` in `theme.typography`) · `DFBadgeVariant` (`.numeric(Int) .dot .text(String)`) · `DFAvatarSource` (`.image .initials`) · `DFAvatarPresence` (`.none .online .away .busy`) · `DFIconSource` (`.symbol .image`) · `DFChipVariant` (`.label .labelWithIcon .dismissible .selectable`) · `DFRatingMode` (`.readOnly .interactive(onChange:)`) · `DFDividerOrientation` · `DFProgressBarVariant` (`.linear .circular .indeterminate`) · `DFSkeletonShape` (`.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`) · `DFGridColumns` (`.fixed(Int) .adaptive(minWidth:)`) · `DFPriceLineItemEmphasis` (`.normal .total`) · `DFEntityMedia` (`.systemImage .avatarInitials`) · `DFEntityTrailing` (`.text .badge .chevron`) · `DFNavigationBarDisplayMode` · `DFTooltipPlacement` · `DFDataTableSelectionMode` · `DFDataGridLargeDatasetStrategy` · popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`) · style protocols `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle` (each with `AnyDFXxxStyle` and `DFXxxStyleConfiguration`); `.buttonStyle(.df(_:role:))` returns `DFBrandedButtonStyle`.
+`DFButtonRole` / `DFAlertActionRole` (`.destructive .cancel`) · `DFValidationState` (`.none .valid .error(String)`) · `DFOTPCharacterSet` (`.digits .letters .alphanumeric .custom(Set<Character>)`) · `DFTextScale` (`.display .title .headline .labelLarge .body .bodySmall .label .caption`, via `DFTextStyle` in `theme.typography`) · `DFBadgeVariant` (`.numeric(Int) .dot .text(String)`) · `DFAvatarSource` (`.image .initials`) · `DFAvatarPresence` (`.none .online .away .busy`) · `DFIconSource` (`.symbol .image`) · `DFChipVariant` (`.label .labelWithIcon .dismissible .selectable`) · `DFRatingMode` (`.readOnly .interactive(onChange:)`) · `DFDividerOrientation` · `DFProgressBarVariant` (`.linear .circular .indeterminate`) · `DFSkeletonShape` (`.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`) · `DFGridColumns` (`.fixed(Int) .adaptive(minWidth:)`) · `DFPriceLineItemEmphasis` (`.normal .total`) · `DFEntityMedia` (`.systemImage .avatarInitials`) · `DFEntityTrailing` (`.text .badge .chevron`) · `DFNavigationBarDisplayMode` · `DFTooltipPlacement` · `DFDataTableSelectionMode` · `DFDataGridLargeDatasetStrategy` · popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`) · style protocols `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle` (each with `AnyDFXxxStyle` and `DFXxxStyleConfiguration`); `.buttonStyle(.df(_:role:))` returns `DFBrandedButtonStyle`.
 
 ## Cross-Platform
 
