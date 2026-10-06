@@ -1,6 +1,6 @@
 # DesignFoundation — AI Agent Instructions
 
-> This file mirrors the verified API reference in `CLAUDE.md` (written for **DesignFoundation 1.7.1**; iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools) — kept in sync by hand, checked by CI (`.github/workflows/doc-snippets.yml` compiles every snippet in this file, `CLAUDE.md`, and `.cursor/rules/design-foundation.mdc`). If you edit a signature here, update those two files as well.
+> This file mirrors the verified API reference in `CLAUDE.md` (written for **DesignFoundation 1.8.0**; iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools) — kept in sync by hand, checked by CI (`.github/workflows/doc-snippets.yml` compiles every snippet in this file, `CLAUDE.md`, and `.cursor/rules/design-foundation.mdc`). If you edit a signature here, update those two files as well.
 
 ## The Rule
 
@@ -604,7 +604,7 @@ let matches = DFCommandPaletteFilter.filter(items: [DFCommandPaletteItem(title: 
 
 ## Cross-Platform
 
-**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every overlay modifier and every other component adapts automatically via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`, `toolbarVerticalEdge` (iPhone Duo, nil before Xcode 27.1)), injected by `.dfTheme()`/`.dfThemePreset()`. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.7.1 — don't rely on it to change layouts.
+**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every overlay modifier and every other component adapts automatically via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`, `toolbarVerticalEdge` (iPhone Duo, nil before Xcode 27.1)), injected by `.dfTheme()`/`.dfThemePreset()`. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.8.0 — don't rely on it to change layouts.
 
 The only place you need guards is in your own app-level code calling APIs DF doesn't wrap:
 

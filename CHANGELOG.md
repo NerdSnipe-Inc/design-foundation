@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+---
+
+## [1.8.0] — 2026-10-06 — iPhone Duo Basics, Search, Accordion, Menu, OTP Field and Steps
+
+Highlights: five new components (`DFSearchField`, `DFAccordion`/`DFAccordionGroup`, `DFMenu`, `DFOTPField`/`DFValidatedOTPField`, `DFStepIndicator`/`DFTimeline`), iPhone Duo basics (`DFArrangement`, `DFReservedRegionReader`) behind an SDK gate, Xcode 26 as the minimum toolchain, and the first working visionOS build.
+
 ### Changed
 - **Documentation counts are now derived from code.** README, CLAUDE.md, AGENTS.md, the Cursor rule, `docs/llms.txt` and the docs site (including JSON-LD, meta and Open Graph descriptions) state the same figures: 52 components, 13 presentation and layout modifiers, 39 style protocols with 115 built-in styles, 5 theme presets (10 light/dark themes). Replaced the loose "50+" and the outdated "43 components + 9 modifiers". Pro figures quoted in the free docs are 30 blocks (plus 2 AI Chat components), 55 screens across 12 verticals, 18 shells, 12 composition roots.
-- Install snippets, `softwareVersion` and release-note links now say 1.7.1; Pro 2.3.0 is documented as requiring DesignFoundation 1.7.1 or later.
+- Install snippets, `softwareVersion` and release-note links are checked against the newest `CHANGELOG.md` heading; Pro 2.3.0 is documented as requiring DesignFoundation 1.7.1 or later.
 - Liquid Glass wording in `docs/llms.txt` is exact: 22 glass styles, 21 through `.glass` plus `DFGlassModalStyle()`. The typography wiki page says eight `DFTextScale` cases, not six. The popup transition list in the README names the real cases (slide, scale, fade, none, asymmetric).
 
 ### Fixed
