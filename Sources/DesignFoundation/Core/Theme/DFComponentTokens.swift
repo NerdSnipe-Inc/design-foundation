@@ -272,6 +272,20 @@ public struct DFBannerTokens: Sendable {
     public static let `default` = DFBannerTokens()
 }
 
+// MARK: - Accordion
+
+public struct DFAccordionTokens: Sendable {
+    public var headerPadding: CGFloat?    // nil = inherit DFSpacingTokens.md (vertical header padding)
+    public var contentPadding: CGFloat?   // nil = inherit DFSpacingTokens.md (space below expanded content)
+
+    public init(headerPadding: CGFloat? = nil, contentPadding: CGFloat? = nil) {
+        self.headerPadding = headerPadding
+        self.contentPadding = contentPadding
+    }
+
+    public static let `default` = DFAccordionTokens()
+}
+
 // MARK: - Icon
 
 public struct DFIconTokens: Sendable {
@@ -450,6 +464,7 @@ public struct DFComponentTokens: Sendable {
     public var articleRow: DFArticleRowTokens
     public var bottomContainer: DFBottomContainerTokens
     public var popup: DFPopupTokens
+    public var accordion: DFAccordionTokens
 
     public init(
         button: DFButtonTokens = .default,
@@ -477,7 +492,8 @@ public struct DFComponentTokens: Sendable {
         tabBar: DFTabBarTokens = .default,
         articleRow: DFArticleRowTokens = .default,
         bottomContainer: DFBottomContainerTokens = .default,
-        popup: DFPopupTokens = .default
+        popup: DFPopupTokens = .default,
+        accordion: DFAccordionTokens = .default
     ) {
         self.button = button
         self.textField = textField
@@ -505,6 +521,7 @@ public struct DFComponentTokens: Sendable {
         self.articleRow = articleRow
         self.bottomContainer = bottomContainer
         self.popup = popup
+        self.accordion = accordion
     }
 
     public static let `default` = DFComponentTokens()
