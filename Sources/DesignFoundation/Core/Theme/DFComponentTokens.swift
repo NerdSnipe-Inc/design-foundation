@@ -421,6 +421,38 @@ public struct DFBottomContainerTokens: Sendable {
     public static let `default` = DFBottomContainerTokens()
 }
 
+// MARK: - StepIndicator
+
+public struct DFStepIndicatorTokens: Sendable {
+    /// nil = 28 (DFStepIndicator marker diameter, in points; the `.minimal` style draws its dots in half of this)
+    public var markerSize: CGFloat?
+    /// nil = 2 (thickness of the connector line between markers)
+    public var connectorThickness: CGFloat?
+
+    public init(markerSize: CGFloat? = nil, connectorThickness: CGFloat? = nil) {
+        self.markerSize = markerSize
+        self.connectorThickness = connectorThickness
+    }
+
+    public static let `default` = DFStepIndicatorTokens()
+}
+
+// MARK: - Timeline
+
+public struct DFTimelineTokens: Sendable {
+    /// nil = 28 (DFTimeline marker diameter, in points; `.compact` uses 20 when unset)
+    public var markerSize: CGFloat?
+    /// nil = 2 (thickness of the connector line between markers)
+    public var connectorThickness: CGFloat?
+
+    public init(markerSize: CGFloat? = nil, connectorThickness: CGFloat? = nil) {
+        self.markerSize = markerSize
+        self.connectorThickness = connectorThickness
+    }
+
+    public static let `default` = DFTimelineTokens()
+}
+
 // MARK: - Root
 
 public struct DFComponentTokens: Sendable {
@@ -450,6 +482,8 @@ public struct DFComponentTokens: Sendable {
     public var articleRow: DFArticleRowTokens
     public var bottomContainer: DFBottomContainerTokens
     public var popup: DFPopupTokens
+    public var stepIndicator: DFStepIndicatorTokens
+    public var timeline: DFTimelineTokens
 
     public init(
         button: DFButtonTokens = .default,
@@ -477,7 +511,9 @@ public struct DFComponentTokens: Sendable {
         tabBar: DFTabBarTokens = .default,
         articleRow: DFArticleRowTokens = .default,
         bottomContainer: DFBottomContainerTokens = .default,
-        popup: DFPopupTokens = .default
+        popup: DFPopupTokens = .default,
+        stepIndicator: DFStepIndicatorTokens = .default,
+        timeline: DFTimelineTokens = .default
     ) {
         self.button = button
         self.textField = textField
@@ -505,6 +541,8 @@ public struct DFComponentTokens: Sendable {
         self.articleRow = articleRow
         self.bottomContainer = bottomContainer
         self.popup = popup
+        self.stepIndicator = stepIndicator
+        self.timeline = timeline
     }
 
     public static let `default` = DFComponentTokens()
