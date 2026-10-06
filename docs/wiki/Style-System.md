@@ -168,6 +168,7 @@ The rule: the innermost `.dfButtonStyle(_:)` call wins. Leaf overrides beat pare
 | `DFCard` | `DFCardStyle` | `DFCardStyleConfiguration` | `elevated` (default), `outlined`, `filled`, `glass`* |
 | `DFTextField` | `DFTextFieldStyle` | `DFTextFieldStyleConfiguration` | `outlined` (default), `filled`, `glass`* |
 | `DFSecureField` | `DFSecureFieldStyle` | `DFSecureFieldStyleConfiguration` | `outlined` (default), `filled`, `glass`* |
+| `DFSearchField` | `DFSearchFieldStyle` | `DFSearchFieldStyleConfiguration` | `outlined` (default), `filled`, `glass`* |
 | `DFToggle` | `DFToggleStyle` | `DFToggleStyleConfiguration` | `switch` (default), `checkbox`, `glass`* |
 | `DFSlider` | `DFSliderStyle` | `DFSliderStyleConfiguration` | `standard` (default), `labeled`, `glass`* |
 | `DFPicker` | `DFPickerStyle` | `DFPickerStyleConfiguration` | `menu` (default), `segmented`, `wheel`, `glass`* |
