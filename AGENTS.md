@@ -450,7 +450,7 @@ let panes = DFReservedRegions([fold]).panes(in: CGRect(x: 0, y: 0, width: 800, h
 ```swift
 // iPhone Duo shows system bars vertically (outer display, some inner positions). DFPlatformContext.toolbarVerticalEdge: HorizontalEdge?
 // (nil where no vertical bar, and before 27.1) and hasVerticalToolbar report it.
-struct DuoAwareRow: View {
+struct DuoBarsRow: View {
     @Environment(\.dfPlatformContext) private var platform
     var body: some View { Text(platform.hasVerticalToolbar ? "Bars run down a side" : "Bars run across the top and bottom") }
 }
