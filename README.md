@@ -15,7 +15,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 45 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 52 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
@@ -105,7 +105,7 @@ struct HomeView: View {
 
 ## Theme System
 
-One `DFTheme` struct sits in SwiftUI's environment and drives every component. Set it at the app root, override it anywhere below. It has eight token namespaces: `colors`, `typography`, `spacing`, `radius`, `shadows`, `animation`, `components` (26 per-component override structs such as `DFButtonTokens`, `DFCardTokens`, `DFPopupTokens`) and `materials`.
+One `DFTheme` struct sits in SwiftUI's environment and drives every component. Set it at the app root, override it anywhere below. It has eight token namespaces: `colors`, `typography`, `spacing`, `radius`, `shadows`, `animation`, `components` (29 per-component override structs such as `DFButtonTokens`, `DFCardTokens`, `DFPopupTokens`) and `materials`.
 
 ```swift
 // Build a theme from tokens; anything you leave out keeps its default
@@ -176,7 +176,9 @@ HomeView().dfTheme(tweaked)
 |---|---|
 | `DFTextField` | `.outlined`, `.filled`, `.glass`¹; optional leading / trailing views |
 | `DFSecureField` | `.outlined`, `.filled`, `.glass`¹; show/hide toggle built in |
+| `DFSearchField` | `.outlined`, `.filled`, `.glass`¹; magnifier, clear and cancel buttons, onSubmit, focus binding |
 | `DFTextArea` | Multiline text with min / max lines |
+| `DFOTPField` | Segmented one-time-code field: `.outlined`, `.filled`, `.underlined`, `.glass`¹; paste, autofill, `onComplete` |
 | `DFToggle` | `.switch`, `.checkbox`, `.glass`¹ |
 | `DFSlider` | `.standard`, `.labeled`, `.glass`¹ |
 | `DFPicker` | `.menu`, `.segmented`, `.wheel`, `.glass`¹ |
@@ -228,6 +230,8 @@ All text inputs share `DFValidationState` (`.none`, `.valid`, `.error(String)`) 
 | `DFEmptyState` | Icon, title, message and up to two actions |
 | `DFSkeleton` | Shimmer animation in rectangle, rounded rectangle, circle or capsule |
 | `DFProgressBar` | Linear, circular, and indeterminate variants |
+| `DFStepIndicator` | Progress steps with checkmark, current and upcoming states, horizontal (collapses to numbers when tight) or vertical; standard, minimal and numbered styles |
+| `DFTimeline` | Value-driven vertical activity and order-tracking timeline; standard and compact styles |
 | `DFList` / `DFListRow` | Selection, swipe-delete and reorder; leading / trailing slots and disclosure indicator |
 | `DFTable` / `DFDataTable` / `DFDataGrid` | Sortable columns; selection and filtering; editable cells, column visibility and paging |
 | `DFCalendarView` | Month grid with min / max dates and per-day content |
@@ -265,7 +269,7 @@ Surface styles, toast styles, `DFPopupCard`, the bottom-sheet kind and `DFPopupB
 
 ## Style System
 
-Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 34 style protocols with 100 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
+Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 39 style protocols with 115 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section
