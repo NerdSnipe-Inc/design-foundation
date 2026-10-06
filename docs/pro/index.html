@@ -1316,6 +1316,37 @@
 
 <hr class="divider" />
 
+<div class="container">
+  <section class="section" id="duo">
+    <p class="section-label">iPhone Duo <span class="pop-badge">New in Pro 2.4.0</span></p>
+    <h2>List beside detail, around the fold.</h2>
+    <p class="section-sub">Four ready-made layouts for iPhone Duo and any wide space, all built on one public container, <code>DFDuoMasterDetail</code>, and the free <code>DFArrangement</code>. With Xcode 27.1 or later the two panes divide around the fold; on every earlier SDK they sit in a plain stack, so nothing needs an availability guard. On a phone held upright they show one pane at a time with a back button. Requires DesignFoundation 1.8.0 or later.</p>
+
+    <div class="contract">
+      <ul class="contract-list">
+        <li><strong><code>DFNewsDuoLayout</code></strong> — the article list beside the selected article</li>
+        <li><strong><code>DFCRMDuoLayout</code></strong> — the contacts list beside the selected contact</li>
+        <li><strong><code>DFEcommerceOrdersDuoLayout</code></strong> — the orders list beside the selected order, with ship, label and refund actions</li>
+        <li><strong><code>DFPMDuoLayout</code></strong> — the task list beside the selected task; it takes a <code>Binding</code> to your tasks so edits flow back</li>
+      </ul>
+    </div>
+
+    <pre><span class="type">DFNewsDuoLayout</span>()
+<span class="type">DFPMDuoLayout</span>(tasks: <span class="fn">$tasks</span>)
+
+<span class="cm">// Your own screens, same behavior:</span>
+<span class="type">DFDuoMasterDetail</span>(hasSelection: selected != <span class="kw">nil</span>, onBack: { selected = <span class="kw">nil</span> }) {
+    <span class="type">ItemList</span>()
+} detail: {
+    <span class="type">ItemDetail</span>()
+}</pre>
+
+    <p class="section-sub">Documents and AI Chat are left out on purpose: their screens already own a multi-column split. The fold itself needs the iPhone Duo simulator in Xcode 27.1 or later; hosted CI runners do not have Xcode 27 yet, so the Xcode 26 path is what CI proves.</p>
+  </section>
+</div>
+
+<hr class="divider" />
+
 <!-- ── Technical contract ── -->
 <div class="container">
   <section class="section">
@@ -1452,7 +1483,7 @@
   <section class="section" id="popups">
     <p class="section-label">Advanced popups <span class="pop-badge">New in Pro 2.3.0</span></p>
     <h2>A complete popup system.</h2>
-    <p class="section-sub">DesignFoundation's free <a href="../#popups"><code>.dfPopup</code> engine</a> covers cards, toasts, floaters and sheets. Pro layers a complete popup system on top of it: a unified presentation API, dismiss reasons, keyboard and scrim control, motion presets, a priority queue, scroll popups, and a set of finished rich popups. Card-style rich popups are built on the free <code>DFPopupCard</code> and follow the environment <code>DFPopupStyle</code>. <strong>New in Pro 2.3.0</strong>, which requires DesignFoundation 1.7.1 or later. Every clip is a real recording.</p>
+    <p class="section-sub">DesignFoundation's free <a href="../#popups"><code>.dfPopup</code> engine</a> covers cards, toasts, floaters and sheets. Pro layers a complete popup system on top of it: a unified presentation API, dismiss reasons, keyboard and scrim control, motion presets, a priority queue, scroll popups, and a set of finished rich popups. Card-style rich popups are built on the free <code>DFPopupCard</code> and follow the environment <code>DFPopupStyle</code>. <strong>New in Pro 2.3.0.</strong> Pro 2.4.0 requires DesignFoundation 1.8.0 or later. Every clip is a real recording.</p>
     <div class="montage" role="group" aria-label="Popup recordings montage. Hover or tap a tile to play it.">
 <button class="mt" type="button" data-src="../videos/popups/pro-celebration-confetti-aurora-light.mp4" aria-label="Play recording: Celebration. Celebration popup with a confetti burst (Aurora light).">
   <span class="mt-media"><img src="../assets/popups/thumbs/pro-celebration-confetti-aurora-light.jpg" alt="" loading="lazy" width="200" height="434"><span class="mt-play" aria-hidden="true"></span></span>
