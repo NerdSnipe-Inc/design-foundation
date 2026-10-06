@@ -1,6 +1,6 @@
 # DesignFoundation — AI Agent Instructions
 
-> **Canonical source.** This file is the verified source of truth for DesignFoundation's public API (written for **DesignFoundation 1.7.1**; requires iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools). `AGENTS.md` and `.cursor/rules/design-foundation.mdc` must describe the same API surface as this file — if you change a signature here, update those two as well. All three are compile-checked in CI (see `.github/workflows/doc-snippets.yml`); a snippet that doesn't compile fails the build.
+> **Canonical source.** This file is the verified source of truth for DesignFoundation's public API (written for **DesignFoundation 1.8.0**; requires iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools). `AGENTS.md` and `.cursor/rules/design-foundation.mdc` must describe the same API surface as this file — if you change a signature here, update those two as well. All three are compile-checked in CI (see `.github/workflows/doc-snippets.yml`); a snippet that doesn't compile fails the build.
 
 ## The Rule
 
@@ -984,7 +984,7 @@ Value types you pass to the components above, with their cases:
 
 DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+ (Swift tools 6.0, built and tested with Xcode 26+, Swift 6 strict concurrency).
 
-**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required. `DFPlatformContext` (read with `@Environment(\.dfPlatformContext)`) exposes `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable` and `toolbarVerticalEdge` (iPhone Duo; `nil` before Xcode 27.1) if a custom style needs them. `DFPlatformVariant` (`automatic/compact/expanded/immersive`) is declared but not consumed by any built-in component in 1.7.1 — it does not change layouts, so don't rely on it.
+**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required. `DFPlatformContext` (read with `@Environment(\.dfPlatformContext)`) exposes `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable` and `toolbarVerticalEdge` (iPhone Duo; `nil` before Xcode 27.1) if a custom style needs them. `DFPlatformVariant` (`automatic/compact/expanded/immersive`) is declared but not consumed by any built-in component in 1.8.0 — it does not change layouts, so don't rely on it.
 
 The only place you need platform guards is in your **own app-level code** that calls APIs DF doesn't wrap — such as `WindowGroup` with multiple IDs, `.windowStyle(.titleBar)`, or `@Environment(\.openWindow)`:
 

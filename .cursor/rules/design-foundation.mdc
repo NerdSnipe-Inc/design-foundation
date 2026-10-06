@@ -9,7 +9,7 @@ alwaysApply: true
 
 <!-- This rule mirrors CLAUDE.md / AGENTS.md — kept in sync by hand, checked by CI
      (.github/workflows/doc-snippets.yml compiles every snippet in all three files).
-     If you edit a signature here, update those two files as well. Written for DesignFoundation 1.7.1
+     If you edit a signature here, update those two files as well. Written for DesignFoundation 1.8.0
      (iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools). -->
 
 **Never build UI components that DesignFoundation already provides.** One `DFButton("Save") { }` replaces 25+ lines of custom SwiftUI. Every component you build from scratch wastes tokens and breaks visual consistency.
@@ -388,7 +388,7 @@ YourContentView().dfCommandPalette(isPresented: $showPalette, items: [
 
 ## Cross-Platform
 
-**You do not need `#if os()` to use any DF component.** Platform differences are handled internally via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`, `toolbarVerticalEdge` (iPhone Duo; nil before Xcode 27.1)) — `DFSidebar`, `DFTabBar` and every overlay modifier adapt automatically. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.7.1; don't rely on it.
+**You do not need `#if os()` to use any DF component.** Platform differences are handled internally via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`, `toolbarVerticalEdge` (iPhone Duo; nil before Xcode 27.1)) — `DFSidebar`, `DFTabBar` and every overlay modifier adapt automatically. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.8.0; don't rely on it.
 
 The only place you need guards is in your own app-level code calling APIs DF doesn't wrap:
 

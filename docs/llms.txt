@@ -17,7 +17,7 @@ All components handle platform differences internally. Consumers do not need `#i
 
 ## Popups & Toasts
 
-Free (DesignFoundation 1.7.1). Docs with real recordings: https://nerdsnipe-inc.github.io/design-foundation/#popups . Clip index (file, what it shows, demo id, API): https://nerdsnipe-inc.github.io/design-foundation/videos/popups/MANIFEST.md . All clips are screen recordings of the DFPlayground Popup Lab on iOS 26.
+Free (DesignFoundation 1.8.0). Docs with real recordings: https://nerdsnipe-inc.github.io/design-foundation/#popups . Clip index (file, what it shows, demo id, API): https://nerdsnipe-inc.github.io/design-foundation/videos/popups/MANIFEST.md . All clips are screen recordings of the DFPlayground Popup Lab on iOS 26.
 
 - `.dfPopup(isPresented:configuration:onDismiss:content:)` and `.dfPopup(item:configuration:onDismiss:content:)` (item is Identifiable): one engine for centered cards, edge-flush toasts, inset floaters and bottom sheets.
 - `DFPopupConfiguration(kind:position:transition:animation:autoDismissAfter:dismissOnTap:dismissOnOutsideTap:dismissOnDrag:dimsBackground:backdrop:)`; presets `.centered`, `.toast(position:autoDismissAfter:dismissOnDrag:)`, `.floater(position:autoDismissAfter:dismissOnDrag:)`, `.sheet(dismissOnDrag:backdrop:dismissOnOutsideTap:)`.
@@ -56,7 +56,7 @@ The core rule in all files: never build UI that DesignFoundation or DesignFounda
 
 - **License:** MIT (free for personal and commercial use)
 - **SPM URL:** https://github.com/NerdSnipe-Inc/design-foundation (package name `design-foundation`; product `DesignFoundation`, so depend on it with `.product(name: "DesignFoundation", package: "design-foundation")`)
-- **Current version:** 1.7.1
+- **Current version:** 1.8.0
 - **DesignFoundation Pro:** Commercial license — private GitHub access after purchase (not a public repository)
 - **Platforms:** iOS 18.0+, macOS 15.0+, visionOS 2.0+
 - **Swift version:** Swift 6 (strict concurrency enabled)

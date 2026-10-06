@@ -41,13 +41,13 @@ DesignFoundation gives you a token-based theming engine and 54 SwiftUI component
 
 Add the package via Swift Package Manager.
 
-**Xcode:** File → Add Package Dependencies → `https://github.com/NerdSnipe-Inc/design-foundation` → Up to Next Major Version from `1.7.1`
+**Xcode:** File → Add Package Dependencies → `https://github.com/NerdSnipe-Inc/design-foundation` → Up to Next Major Version from `1.8.0`
 
 **Package.swift:**
 
 ```swift nocheck
 dependencies: [
-    .package(url: "https://github.com/NerdSnipe-Inc/design-foundation", from: "1.7.1")
+    .package(url: "https://github.com/NerdSnipe-Inc/design-foundation", from: "1.8.0")
 ],
 targets: [
     .target(
