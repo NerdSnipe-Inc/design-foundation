@@ -39,18 +39,19 @@ public struct DFOTPFieldStyleConfiguration {
 
 public protocol DFOTPFieldStyle {
     associatedtype Body: View
-    @ViewBuilder func makeBody(configuration: DFOTPFieldStyleConfiguration) -> Body
+    @MainActor @ViewBuilder func makeBody(configuration: DFOTPFieldStyleConfiguration) -> Body
 }
 
 // MARK: - Type Erasure
 
 public struct AnyDFOTPFieldStyle: DFOTPFieldStyle, @unchecked Sendable {
-    private let _makeBody: (DFOTPFieldStyleConfiguration) -> AnyView
+    private let _makeBody: @MainActor (DFOTPFieldStyleConfiguration) -> AnyView
 
     public init<S: DFOTPFieldStyle & Sendable>(_ style: S) {
         _makeBody = { AnyView(style.makeBody(configuration: $0)) }
     }
 
+    @MainActor
     public func makeBody(configuration: DFOTPFieldStyleConfiguration) -> some View {
         _makeBody(configuration)
     }
