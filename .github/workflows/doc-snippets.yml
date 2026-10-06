@@ -25,12 +25,12 @@ on:
 
 jobs:
   doc-snippets:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
 
       - name: Select Xcode
-        run: sudo xcode-select -switch /Applications/Xcode_16.app/Contents/Developer
+        run: sudo xcode-select -switch /Applications/Xcode_26.6.app/Contents/Developer
 
       - name: Compile-check documentation snippets
         run: python3 scripts/check_doc_snippets.py

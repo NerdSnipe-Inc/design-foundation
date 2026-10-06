@@ -458,7 +458,7 @@ struct DFPopupChrome: View {
 
     @ViewBuilder
     private func surface<S: InsettableShape>(_ shape: S, theme: DFTheme, hairline: CGFloat) -> some View {
-        #if compiler(>=6.2)
+        #if compiler(>=6.2) && !os(visionOS)
         // Liquid Glass needs the iOS/macOS 26 SDK (Xcode 26+). Older toolchains can't compile
         // `Glass`/`glassEffect`, so they always take the material fill path below.
         if appearance.usesGlass, #available(iOS 26, macOS 26, *) {

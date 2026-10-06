@@ -36,7 +36,7 @@ import SwiftUI
 
 #Preview("DFTabBar — Glass (iOS 26+)") {
     @Previewable @State var selection = "home"
-    if #available(iOS 26, macOS 26, *) {
+    if #available(iOS 26, macOS 26, visionOS 26, *) {
         let items = [
             DFTabItem(id: "home", icon: "house", label: "Home"),
             DFTabItem(id: "search", icon: "magnifyingglass", label: "Search"),

@@ -289,7 +289,6 @@ public struct DFUnderlinedOTPFieldStyle: DFOTPFieldStyle, Sendable {
 
 // MARK: - Built-in: Glass (iOS/macOS 26+)
 
-#if compiler(>=6.2)
 @available(iOS 26, macOS 26, *)
 public extension DFOTPFieldStyle where Self == DFGlassOTPFieldStyle {
     static var glass: DFGlassOTPFieldStyle { DFGlassOTPFieldStyle() }
@@ -314,7 +313,7 @@ public struct DFGlassOTPFieldStyle: DFOTPFieldStyle, Sendable {
                 if useGlass {
                     DFOTPCellContent(cell: cell, configuration: configuration)
                         .background {
-                            shape.fill(Color.clear).glassEffect(.regular, in: shape)
+                            DFOTPGlassCellBackground(shape: shape, fallback: theme.colors.surface)
                         }
                         .overlay {
                             shape.stroke(
@@ -333,4 +332,20 @@ public struct DFGlassOTPFieldStyle: DFOTPFieldStyle, Sendable {
         }
     }
 }
-#endif
+
+/// The translucent cell background of `DFGlassOTPFieldStyle`. SwiftUI's `glassEffect` needs the iOS/macOS 26 SDK and does
+/// not exist on visionOS, so other toolchains and visionOS fill with the surface color instead.
+@available(iOS 26, macOS 26, *)
+private struct DFOTPGlassCellBackground<S: InsettableShape>: View {
+    let shape: S
+    let fallback: Color
+
+    var body: some View {
+        #if compiler(>=6.2) && !os(visionOS)
+        shape.fill(Color.clear).glassEffect(.regular, in: shape)
+        #else
+        shape.fill(fallback)
+        #endif
+    }
+}
+

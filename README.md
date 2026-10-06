@@ -15,7 +15,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 52 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 54 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
@@ -34,7 +34,7 @@ DesignFoundation gives you a token-based theming engine and 52 SwiftUI component
 ## Requirements
 
 - iOS 18+, macOS 15+, visionOS 2+
-- Xcode 16+ (Swift tools 6.0)
+- Xcode 26+ (Swift tools 6.0; deploys to iOS 18+, macOS 15+, visionOS 2+)
 - Liquid Glass (`.glass`) styles only take effect on iOS/macOS 26+. Everything else works on the minimums above.
 
 ## Installation
@@ -232,6 +232,8 @@ All text inputs share `DFValidationState` (`.none`, `.valid`, `.error(String)`) 
 | `DFProgressBar` | Linear, circular, and indeterminate variants |
 | `DFStepIndicator` | Progress steps with checkmark, current and upcoming states, horizontal (collapses to numbers when tight) or vertical; standard, minimal and numbered styles |
 | `DFTimeline` | Value-driven vertical activity and order-tracking timeline; standard and compact styles |
+| `DFArrangement` | Two-pane layout: side by side, stacked or layered. Fold-aware on iPhone Duo (Xcode 27.1+), a plain adaptive stack on every older SDK |
+| `DFReservedRegionReader` | Reads the fold and camera regions (`DFReservedRegions`) that intersect a view; always empty before the iPhone Duo SDK |
 | `DFList` / `DFListRow` | Selection, swipe-delete and reorder; leading / trailing slots and disclosure indicator |
 | `DFTable` / `DFDataTable` / `DFDataGrid` | Sortable columns; selection and filtering; editable cells, column visibility and paging |
 | `DFCalendarView` | Month grid with min / max dates and per-day content |

@@ -37,7 +37,7 @@ import SwiftUI
 }
 
 #Preview("Glass (iOS 26+)") {
-    if #available(iOS 26, macOS 26, *) {
+    if #available(iOS 26, macOS 26, visionOS 26, *) {
         VStack(spacing: 12) {
             DFButton("Glass Button") {}.dfButtonStyle(.glass)
             DFButton("Glass Disabled") {}.dfButtonStyle(.glass).disabled(true)

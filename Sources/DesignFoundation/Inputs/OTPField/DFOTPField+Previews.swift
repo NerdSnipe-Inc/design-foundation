@@ -58,7 +58,7 @@ private struct DFOTPFieldInteractivePreview: View {
 
 #if compiler(>=6.2)
 #Preview("Glass") {
-    if #available(iOS 26, macOS 26, *) {
+    if #available(iOS 26, macOS 26, visionOS 26, *) {
         VStack(alignment: .leading, spacing: 24) {
             DFOTPField("Verification code", text: .constant("123"))
             DFOTPField("Error", text: .constant("123456"), validationState: .error("That code is incorrect"))

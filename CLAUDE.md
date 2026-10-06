@@ -117,7 +117,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `DFTextField` | `.dfTextFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSecureField` | `.dfSecureFieldStyle` | `.outlined` `.filled` `.glass` |
 | `DFSearchField` | `.dfSearchFieldStyle` | `.outlined` `.filled` `.glass` |
-| `DFOTPField` | `.dfOTPFieldStyle` | `.outlined` `.filled` `.underlined` `.glass` (`.glass` needs the Xcode 26 toolchain; it is not compiled on Xcode 16) |
+| `DFOTPField` | `.dfOTPFieldStyle` | `.outlined` `.filled` `.underlined` `.glass` (`.glass` needs iOS/macOS 26+) |
 | `DFToggle` | `.dfToggleStyle` | `.switch` `.checkbox` `.glass` |
 | `DFSlider` | `.dfSliderStyle` | `.standard` `.labeled` `.glass` |
 | `DFPicker` | `.dfPickerStyle` | `.menu` `.segmented` `.wheel` `.glass` |
@@ -702,6 +702,57 @@ DFTimeline(items: [
 // Neither component animates, so both are Reduce Motion safe; state is carried by shape (check, ring, outline, "!") as well as color.
 ```
 
+### Two-Pane Layouts & iPhone Duo
+
+`DFArrangement` is a two-pane layout that follows the device: primary and secondary side by side when the space is wider than tall, stacked when taller, or layered with `.overlay`. On Xcode 27.1 and later (iOS, macOS and visionOS 27.1) it is SwiftUI's `ArrangementView`, so it divides around the fold of **iPhone Duo**. On every other SDK and OS version it is a plain stack that follows the same `.split` rule. The API is identical everywhere, so write it once; the iPhone Duo symbols are compiled out of older toolchains (`#if compiler(>=6.4) && canImport(SwiftUI, _version: 8.1)`), so no guards are needed in your code.
+
+```swift
+// DFArrangement(_ kind: DFArrangementKind = .automatic, primary:, secondary:) — both closures are @ViewBuilder.
+// kind: .automatic (resolves to .split) / .split(axes: Axis.Set = [.horizontal, .vertical]) / .overlay
+DFArrangement {
+    Text("Inbox")
+} secondary: {
+    Text("Message")
+}
+DFArrangement(.split(axes: .horizontal)) { Text("List") } secondary: { Text("Detail") }   // never stack
+DFArrangement(.overlay) { Text("Controls") } secondary: { Text("Canvas") }                // primary over secondary
+```
+
+Do not place a `DFArrangement` inside a navigation split view, list or scroll view. It fills the space it is given.
+
+The fold and camera are exposed as geometry, not as a "pose" enum: there is none. Read them with `DFReservedRegionReader`, which hands its content a `DFReservedRegions` (always `.none` before the 27.1 SDK). Frames are in the reader's own coordinate space and are mirrored for right-to-left layouts.
+
+```swift
+// DFReservedRegions: regions, divisions (active folds), occlusions (active cameras), activeDivision, isSplit,
+// splitAxis (.horizontal = panes side by side, .vertical = stacked, nil = not split),
+// panes(in: CGRect) -> (first: CGRect, second: CGRect)? and intersects(_:kind:) -> Bool.
+DFReservedRegionReader { regions in
+    VStack {
+        Text(regions.isSplit ? "Folded" : "Flat")
+        if let axis = regions.splitAxis {
+            Text(axis == .horizontal ? "Panes sit side by side" : "Panes are stacked")
+        }
+    }
+}
+
+// The helpers are pure value logic, so they are easy to test with made-up regions.
+let fold = DFReservedRegion(kind: .division, frame: CGRect(x: 396, y: 0, width: 8, height: 600))
+let panes = DFReservedRegions([fold]).panes(in: CGRect(x: 0, y: 0, width: 800, height: 600))   // two 396pt-wide rects
+```
+
+On iPhone Duo the outer display (and some inner-display positions) shows navigation bars, toolbars and tab bars vertically down a side. `DFPlatformContext.toolbarVerticalEdge` (a `HorizontalEdge?`, mirroring SwiftUI's `toolbarVerticalEdge`) says which side, and is `nil` where the system shows no vertical bar and on every SDK before 27.1. `hasVerticalToolbar` is the same as a Bool.
+
+```swift
+struct DuoAwareRow: View {
+    @Environment(\.dfPlatformContext) private var platform
+    var body: some View {
+        Text(platform.hasVerticalToolbar ? "Bars run down a side" : "Bars run across the top and bottom")
+    }
+}
+```
+
+How the DF navigation components behave: `DFNavigationBar` uses native toolbar placements, so the system lays its bars out, but the system shows only toolbar items that have an icon and a title and are not custom views, so prefer `Button("Save", systemImage: "checkmark")` or a `Label` over a bare title or a hand-built view in `leading:`/`trailing:`. `DFTabBar` is a custom bar pinned to the bottom edge and stays horizontal on every device; use SwiftUI's own `TabView` when you want the system tab bar that moves to the side. Size classes on iPhone Duo: the inner display is regular by regular; the outer display is regular vertical and compact horizontal in portrait, compact by compact in landscape. Use size classes, container geometry and reserved regions, never `UIScreen.main`. Safe areas are asymmetric, and an app built with Xcode 26 or earlier does not extend under the status bar and camera.
+
 ### Navigation
 ```swift
 // Sidebar (macOS / iPad regular)
@@ -923,6 +974,7 @@ Value types you pass to the components above, with their cases:
 - `DFStepState`: `.complete .current .upcoming .error` (shared by `DFStepIndicator` and `DFTimeline`) · `DFStep` · `DFTimelineItem` (its `trailing` is a `DFEntityTrailing`)
 - `DFGridColumns`: `.fixed(Int)` `.adaptive(minWidth:)` · `DFPriceLineItemEmphasis`: `.normal .total` · `DFEntityMedia`: `.systemImage(String)` `.avatarInitials(String)` · `DFEntityTrailing`: `.text(String)` `.badge(String)` `.chevron`
 - `DFAccordionGroupState`: pure `Sendable, Equatable` value type behind `DFAccordionGroup` (`isExpanded(_:)`, `toggle(_:)`, `expand(_:)`, `collapse(_:)`, `collapseAll()`, `setExpanded(_:for:)`)
+- `DFArrangementKind`: `.automatic` `.split(axes:)` `.overlay` · `DFReservedRegionKind`: `.division` `.occlusion` · `DFReservedRegion` (`id kind frame margins isActive`) · `DFReservedRegions` (pure helpers, see Two-Pane Layouts)
 - `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing` · `DFMenuItemRole`: `.destructive`
 - `DFDataTableSelectionMode`: `.none .single .multiple` · `DFDataGridLargeDatasetStrategy`: `.renderAll` `.paged(pageSize:)`
 - Popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`)
@@ -930,9 +982,9 @@ Value types you pass to the components above, with their cases:
 
 ## Cross-Platform
 
-DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+ (Swift tools 6.0, Xcode 16+, Swift 6 strict concurrency).
+DesignFoundation targets iOS 18+, macOS 15+, visionOS 2+ (Swift tools 6.0, built and tested with Xcode 26+, Swift 6 strict concurrency).
 
-**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required. `DFPlatformContext` (read with `@Environment(\.dfPlatformContext)`) exposes `idiom`, `horizontalSizeClass` and `isLiquidGlassAvailable` if a custom style needs them. `DFPlatformVariant` (`automatic/compact/expanded/immersive`) is declared but not consumed by any built-in component in 1.7.1 — it does not change layouts, so don't rely on it.
+**You do not need `#if os(macOS)` or `#if os(iOS)` to use any DF component.** Platform differences are handled internally via `DFPlatformContext`, injected automatically by the `.dfTheme()`/`.dfThemePreset()` modifiers. `DFSidebar`, `DFTabBar`, every overlay modifier, and every other DF component just work across all platforms — no guards required. `DFPlatformContext` (read with `@Environment(\.dfPlatformContext)`) exposes `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable` and `toolbarVerticalEdge` (iPhone Duo; `nil` before Xcode 27.1) if a custom style needs them. `DFPlatformVariant` (`automatic/compact/expanded/immersive`) is declared but not consumed by any built-in component in 1.7.1 — it does not change layouts, so don't rely on it.
 
 The only place you need platform guards is in your **own app-level code** that calls APIs DF doesn't wrap — such as `WindowGroup` with multiple IDs, `.windowStyle(.titleBar)`, or `@Environment(\.openWindow)`:
 

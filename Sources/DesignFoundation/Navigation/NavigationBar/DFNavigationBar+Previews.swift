@@ -26,7 +26,7 @@ import SwiftUI
 }
 
 #Preview("DFNavigationBar — Glass (iOS 26+)") {
-    if #available(iOS 26, macOS 26, *) {
+    if #available(iOS 26, macOS 26, visionOS 26, *) {
         NavigationStack {
             ZStack {
                 LinearGradient(

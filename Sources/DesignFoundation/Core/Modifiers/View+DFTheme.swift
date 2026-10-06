@@ -59,7 +59,42 @@ private struct DFThemeModifier: ViewModifier {
         )
 
         return content
+            .modifier(DFDuoPlatformModifier())
             .environment(\.dfTheme, theme)
             .environment(\.dfPlatformContext, context)
     }
 }
+
+/// Fills in the platform facts that only exist on the iPhone Duo SDK (Xcode 27.1+). Applied inside the scope that
+/// `.dfTheme` populates, so it sees the context the theme modifier just built. A no-op everywhere else.
+private struct DFDuoPlatformModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        #if compiler(>=6.4) && canImport(SwiftUI, _version: 8.1) && !targetEnvironment(macCatalyst)
+        if #available(iOS 27.1, macOS 27.1, visionOS 27.1, *) {
+            content.modifier(DFToolbarVerticalEdgeInjector())
+        } else {
+            content
+        }
+        #else
+        content
+        #endif
+    }
+}
+
+#if compiler(>=6.4) && canImport(SwiftUI, _version: 8.1) && !targetEnvironment(macCatalyst)
+/// Copies SwiftUI's `toolbarVerticalEdge` into `DFPlatformContext` for everything below it.
+@available(iOS 27.1, macOS 27.1, visionOS 27.1, *)
+private struct DFToolbarVerticalEdgeInjector: ViewModifier {
+    @Environment(\.toolbarVerticalEdge) private var toolbarVerticalEdge
+    @Environment(\.dfPlatformContext) private var context
+
+    func body(content: Content) -> some View {
+        content.environment(\.dfPlatformContext, DFPlatformContext(
+            idiom: context.idiom,
+            horizontalSizeClass: context.horizontalSizeClass,
+            isLiquidGlassAvailable: context.isLiquidGlassAvailable,
+            toolbarVerticalEdge: toolbarVerticalEdge
+        ))
+    }
+}
+#endif
