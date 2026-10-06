@@ -1,5 +1,5 @@
 import SwiftUI
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
 import UIKit
 #else
 import AppKit
@@ -43,7 +43,7 @@ public struct DFColorTokens: Sendable {
     /// Setting to false locks components to the token values regardless of dark/light mode.
     public var respectsColorScheme: Bool
 
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
     public init(
         primary: Color = Color(red: 0.0, green: 0.478, blue: 1.0),
         secondary: Color = Color(white: 0.55),
