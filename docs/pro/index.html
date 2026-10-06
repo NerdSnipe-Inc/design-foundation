@@ -528,6 +528,29 @@
     .tier-free { color: var(--success); font-weight: 600; }
     .tier-paid { color: var(--primary); font-weight: 600; }
 
+    /* ── API tables (advanced popups section) ──
+       Fixed layout so a long modifier signature wraps inside its column instead of stretching it
+       and squeezing the description column. */
+    .table-wrap { overflow-x: auto; margin: 20px 0 28px; }
+    .table-wrap table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+    .table-wrap th {
+      text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-secondary);
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+    }
+    .table-wrap th:first-child, .table-wrap td:first-child { width: 48%; }
+    .table-wrap td {
+      padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-secondary); vertical-align: top; overflow-wrap: anywhere;
+    }
+    .table-wrap td:first-child { color: var(--text); font-size: 13px; line-height: 1.9; }
+    .table-wrap td code { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+    .table-wrap tr:last-child td { border-bottom: none; }
+    .table-wrap tr:hover td { background: var(--surface2); }
+    @media (max-width: 640px) {
+      .table-wrap table { table-layout: auto; min-width: 560px; }
+    }
+
     /* ── Pricing ── */
     .pricing-grid {
       display: grid;
