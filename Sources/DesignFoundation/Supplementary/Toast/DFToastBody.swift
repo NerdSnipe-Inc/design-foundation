@@ -146,7 +146,7 @@ struct DFToastBody: View {
 
     @ViewBuilder
     private func surface<S: InsettableShape>(_ shape: S, theme: DFTheme, palette: Palette, hairline: CGFloat) -> some View {
-        #if compiler(>=6.2)
+        #if compiler(>=6.2) && !os(visionOS)
         // Liquid Glass needs the iOS/macOS 26 SDK (Xcode 26+); older toolchains can't compile it.
         if look == .glass, #available(iOS 26, macOS 26, *) {
             shape.fill(Color.clear)

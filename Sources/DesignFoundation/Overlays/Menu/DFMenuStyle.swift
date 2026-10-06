@@ -109,7 +109,7 @@ public struct DFGlassMenuStyle: DFMenuStyle, Sendable {
 
     public func makeBody(configuration: DFMenuStyleConfiguration) -> some View {
         let theme = configuration.theme
-        #if compiler(>=6.2)
+        #if compiler(>=6.2) && !os(visionOS)
         if theme.materials.preferLiquidGlass {
             configuration.content
                 .padding(.vertical, theme.spacing.xs)
