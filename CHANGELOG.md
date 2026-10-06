@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Docs
-- Pro is now described as **DesignFoundationPro 2.5.0, which requires DesignFoundation 1.8.0 or later**, in the README, `CLAUDE.md`, `AGENTS.md`, the Cursor rule, `docs/llms.txt`, the docs site and the integration guide's install snippet. Pro 2.4.0 and 2.5.0 add 6 iPhone Duo layouts (`DFNewsDuoLayout`, `DFCRMDuoLayout`, `DFEcommerceOrdersDuoLayout`, `DFPMDuoLayout`, `DFDocumentsDuoLayout`, `DFAIChatDuoLayout`) on a public `DFDuoMasterDetail` container, built on this package's `DFArrangement`; the Pro page has a new iPhone Duo section and the agent docs list the layouts. Pro also builds for visionOS.
+- Pro is now described as **DesignFoundationPro 2.4.0, which requires DesignFoundation 1.8.0 or later**, in the README, `CLAUDE.md`, `AGENTS.md`, the Cursor rule, `docs/llms.txt`, the docs site and the integration guide's install snippet. Pro 2.4.0 adds 4 iPhone Duo layouts and the next release adds `DFDocumentsDuoLayout` and `DFAIChatDuoLayout`, 6 in total (`DFNewsDuoLayout`, `DFCRMDuoLayout`, `DFEcommerceOrdersDuoLayout`, `DFPMDuoLayout`, `DFDocumentsDuoLayout`, `DFAIChatDuoLayout`) on a public `DFDuoMasterDetail` container, built on this package's `DFArrangement`; the Pro page has a new iPhone Duo section and the agent docs list the layouts. Pro also builds for visionOS.
 
 ---
 
