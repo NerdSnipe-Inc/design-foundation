@@ -23,7 +23,7 @@ DesignFoundation gives you a token-based theming engine and 46 SwiftUI component
   <img alt="The same card, text field, buttons and badges in the Slate, Aurora, Copper and Sage theme presets, each shown in light and dark" src="docs/images/themes-grid.png" width="100%" />
 </p>
 
-<p align="center"><sub>One component set, five theme presets, each in light and dark. Only the theme changed.</sub></p>
+<p align="center"><sub>One component set in the Slate, Aurora, Copper and Sage presets (Garnet not shown), each in light and dark. Only the theme changed.</sub></p>
 
 ---
 
