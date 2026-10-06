@@ -296,6 +296,9 @@ DFReservedRegionReader { regions in
 }
 let fold = DFReservedRegion(kind: .division, frame: CGRect(x: 396, y: 0, width: 8, height: 600))
 let panes = DFReservedRegions([fold]).panes(in: CGRect(x: 0, y: 0, width: 800, height: 600))
+```
+
+```swift
 // System bars run vertically on iPhone Duo (outer display, some inner positions): DFPlatformContext.toolbarVerticalEdge (HorizontalEdge?, nil before 27.1), hasVerticalToolbar.
 struct DuoAwareRow: View {
     @Environment(\.dfPlatformContext) private var platform
