@@ -15,7 +15,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 51 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 52 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
@@ -269,7 +269,7 @@ Surface styles, toast styles, `DFPopupCard`, the bottom-sheet kind and `DFPopupB
 
 ## Style System
 
-Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 38 style protocols with 102 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
+Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 39 style protocols with 115 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section
