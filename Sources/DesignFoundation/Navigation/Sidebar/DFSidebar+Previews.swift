@@ -36,7 +36,7 @@ import SwiftUI
 
 #Preview("DFSidebar — Glass (iOS 26+)") {
     @Previewable @State var selection: String? = "home"
-    if #available(iOS 26, macOS 26, *) {
+    if #available(iOS 26, macOS 26, visionOS 26, *) {
         let sections: [DFSidebarSection] = [
             DFSidebarSection(id: "nav", title: "Navigation", items: [
                 DFSidebarItem(id: "home", icon: "house", label: "Home"),
