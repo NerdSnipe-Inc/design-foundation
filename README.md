@@ -15,7 +15,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 ---
 
-DesignFoundation gives you a token-based theming engine and 44 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
+DesignFoundation gives you a token-based theming engine and 46 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
 5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
@@ -23,7 +23,7 @@ DesignFoundation gives you a token-based theming engine and 44 SwiftUI component
   <img alt="The same card, text field, buttons and badges in the Slate, Aurora, Copper and Sage theme presets, each shown in light and dark" src="docs/images/themes-grid.png" width="100%" />
 </p>
 
-<p align="center"><sub>One component set, four theme presets, each in light and dark. Only the theme changed.</sub></p>
+<p align="center"><sub>One component set, five theme presets, each in light and dark. Only the theme changed.</sub></p>
 
 ---
 
@@ -105,7 +105,7 @@ struct HomeView: View {
 
 ## Theme System
 
-One `DFTheme` struct sits in SwiftUI's environment and drives every component. Set it at the app root, override it anywhere below. It has eight token namespaces: `colors`, `typography`, `spacing`, `radius`, `shadows`, `animation`, `components` (26 per-component override structs such as `DFButtonTokens`, `DFCardTokens`, `DFPopupTokens`) and `materials`.
+One `DFTheme` struct sits in SwiftUI's environment and drives every component. Set it at the app root, override it anywhere below. It has eight token namespaces: `colors`, `typography`, `spacing`, `radius`, `shadows`, `animation`, `components` (27 per-component override structs such as `DFButtonTokens`, `DFCardTokens`, `DFPopupTokens`) and `materials`.
 
 ```swift
 // Build a theme from tokens; anything you leave out keeps its default
@@ -265,7 +265,7 @@ Surface styles, toast styles, `DFPopupCard`, the bottom-sheet kind and `DFPopupB
 
 ## Style System
 
-Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 33 style protocols with 97 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
+Every styleable component exposes a `makeBody(configuration:)` style protocol, the same pattern SwiftUI uses for `ButtonStyle`: 34 style protocols with 100 built-in styles in all, a `.dfXxxStyle(_:)` modifier and an environment key. Styles compose, propagate through the environment, and apply hierarchically.
 
 ```swift
 // Apply a style to an entire section

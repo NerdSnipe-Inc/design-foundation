@@ -86,7 +86,7 @@ theme.components.card = DFCardTokens(padding: 20)                  // roomier ca
 theme.components.popup = DFPopupTokens(cornerRadius: 24, maxWidth: 360)   // popups (and toasts) only
 ```
 
-`DFComponentTokens` has 26 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
+`DFComponentTokens` has 27 fields, one per struct, all following the same "every field optional, nil inherits" pattern: `button` (`DFButtonTokens`), `textField` (`DFTextFieldTokens`), `card` (`DFCardTokens`), `avatar` (`DFAvatarTokens`), `badge` (`DFBadgeTokens`), `chip` (`DFChipTokens`), `rating` (`DFRatingTokens`), `price` (`DFPriceTokens`), `priceSummary` (`DFPriceSummaryTokens`), `entityRow` (`DFEntityRowTokens`), `entityCard` (`DFEntityCardTokens`), `grid` (`DFGridTokens`), `carousel` (`DFCarouselTokens`), `quantityStepper` (`DFQuantityStepperTokens`), `banner` (`DFBannerTokens`), `icon` (`DFIconTokens`), `divider` (`DFDividerTokens`), `progressBar` (`DFProgressBarTokens`), `skeleton` (`DFSkeletonTokens`), `toggle` (`DFToggleTokens`), `datePicker` (`DFDatePickerTokens`), `sidebar` (`DFSidebarTokens`), `tabBar` (`DFTabBarTokens`), `articleRow` (`DFArticleRowTokens`), `bottomContainer` (`DFBottomContainerTokens`), `accordion` (`DFAccordionTokens`: `headerPadding`, `contentPadding`) and `popup` (`DFPopupTokens`: `cornerRadius`, `padding`, `maxWidth` (default 420), `backdropOpacity` (default 0.35)). Components not in that list (slider, picker, navigation bar, tooltip, modal, sheet, popover, alert, toast, checkbox, calendar, empty state, command palette, list, table, ...) have no component-token struct — they are thin native-control wrappers, or their look lives in their style, with nothing custom-drawn to override.
 
 `DFMaterialTokens` (`surfaceMaterial`/`elevatedMaterial`/`preferLiquidGlass`) is wired into `DFTheme.materials` and read by 18 of the 19 `.glass` styles (all except `DFGlassModalStyle`, which is a plain `.regularMaterial` and has no `.glass` shorthand — write `DFGlassModalStyle()`):
 
@@ -133,6 +133,7 @@ Every styleable component follows SwiftUI's `ButtonStyle` pattern: a `DFXxxStyle
 | `.dfPopup` | `.dfPopupStyle` | `.standard` `.frosted` `.glass` `.accent` `.gradient` `.inverse` `.outlined` `.tinted(_:)` |
 | `.dfToast` | `.dfToastStyle` / `.dfToast(style:)` | `.default` `.tinted` `.filled` `.inverse` `.frosted` `.glass` `.banner` `.compact` |
 | `DFBanner` | `.dfBannerStyle` | `.standard` |
+| `DFAccordion` | `.dfAccordionStyle` | `.standard` `.card` `.plain` |
 | `DFCalendarView` | `.dfCalendarViewStyle` | `.standard` |
 | `DFEmptyState` | `.dfEmptyStateStyle` | `.standard` |
 | `.dfCommandPalette` | `.dfCommandPaletteStyle` | `.standard` |
@@ -502,6 +503,57 @@ DFEmptyState(
 )
 ```
 
+### Accordion
+```swift
+// DFAccordion — header (title, optional subtitle + leading SF Symbol icon, rotating chevron) over collapsible content.
+// Controlled: DFAccordion(_ title:, subtitle:, icon:, isExpanded: Binding<Bool>) { content }
+DFAccordion("Shipping", subtitle: "2-4 business days", icon: "shippingbox", isExpanded: $flag) {
+    DFText("Free standard shipping on orders over $50.")
+}
+
+// Uncontrolled: owns its own state. isInitiallyExpanded defaults to false.
+DFAccordion("Returns", isInitiallyExpanded: true) {
+    DFText("Return any item within 30 days.")
+}
+
+// DFAccordionGroup coordinates its members, which join with `id:` (a String). Default is exclusive-open:
+// opening one closes the other. allowsMultipleExpanded: true lets several stay open; initiallyExpanded seeds the open ids.
+DFAccordionGroup(initiallyExpanded: ["a"]) {
+    DFAccordion("First", id: "a") { DFText("One open at a time.") }
+    DFAccordion("Second", id: "b", icon: "star") { DFText("Opening this closes the first.") }
+}
+.dfAccordionStyle(.card)
+
+DFAccordionGroup(allowsMultipleExpanded: true) {
+    DFAccordion("Alpha", id: "alpha") { DFText("Any number can be open.") }
+    DFAccordion("Beta", id: "beta") { DFText("Independent of Alpha.") }
+}
+
+// Styles: .standard (default, divider-separated rows) .card (each accordion wrapped in a DFCard, so it follows
+// .dfCardStyle) .plain (no divider or surface). Per-component tokens: theme.components.accordion
+// (DFAccordionTokens: headerPadding, contentPadding — both optional).
+// The expand/collapse bookkeeping is a pure value type, usable and testable without any view:
+var state = DFAccordionGroupState(allowsMultipleExpanded: false)
+state.toggle("a")
+state.toggle("b")                          // exclusive: "b" is open, "a" was closed
+let bIsOpen: Bool = state.isExpanded("b")
+```
+Accessibility is built in: the header is a button whose VoiceOver value is "Expanded"/"Collapsed" with a hint, at least 44pt tall on iOS. Under Reduce Motion the slide is replaced by a short fade (`theme.animation.fast`); otherwise `theme.animation.default` is used.
+
+A custom style implements `DFAccordionStyle`. `DFAccordionStyleConfiguration` carries `title`, `subtitle`, `isExpanded`, `label` (icon + title + subtitle, without the chevron), `content`, `contentTransition`, `toggle` (call it from your header's button) and `theme`. Show `content` only while `isExpanded`, and give it `.transition(configuration.contentTransition)`:
+```swift
+struct FlatAccordionDocStyle: DFAccordionStyle, Sendable {
+    func makeBody(configuration: DFAccordionStyleConfiguration) -> some View {
+        VStack(alignment: .leading) {
+            Button(configuration.title) { configuration.toggle() }
+            if configuration.isExpanded {
+                configuration.content.transition(configuration.contentTransition)
+            }
+        }
+    }
+}
+```
+
 ### Loading States
 ```swift
 // DFSkeleton — shimmer placeholder. Size via .frame(), shape via init param.
@@ -712,10 +764,11 @@ Value types you pass to the components above, with their cases:
 - `DFChipVariant`: `.label` `.labelWithIcon(_:systemImage:)` `.dismissible(_:onDismiss:)` `.selectable` · `DFRatingMode`: `.readOnly` `.interactive(onChange:)`
 - `DFDividerOrientation`: `.horizontal .vertical` · `DFProgressBarVariant`: `.linear .circular .indeterminate` · `DFSkeletonShape`: `.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`
 - `DFGridColumns`: `.fixed(Int)` `.adaptive(minWidth:)` · `DFPriceLineItemEmphasis`: `.normal .total` · `DFEntityMedia`: `.systemImage(String)` `.avatarInitials(String)` · `DFEntityTrailing`: `.text(String)` `.badge(String)` `.chevron`
+- `DFAccordionGroupState`: pure `Sendable, Equatable` value type behind `DFAccordionGroup` (`isExpanded(_:)`, `toggle(_:)`, `expand(_:)`, `collapse(_:)`, `collapseAll()`, `setExpanded(_:for:)`)
 - `DFNavigationBarDisplayMode`: `.automatic .large .inline` · `DFTooltipPlacement`: `.top .bottom .leading .trailing`
 - `DFDataTableSelectionMode`: `.none .single .multiple` · `DFDataGridLargeDatasetStrategy`: `.renderAll` `.paged(pageSize:)`
 - Popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`)
-- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
+- Style protocols (conform to add a style; each has an `AnyDFXxxStyle` type eraser and a `DFXxxStyleConfiguration` value): `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFAccordionStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFProgressBarStyle`, `DFSkeletonStyle`. `DFBrandedButtonStyle` is what `.buttonStyle(.df(_:role:))` returns.
 
 ## Cross-Platform
 
