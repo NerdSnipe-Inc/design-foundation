@@ -426,6 +426,34 @@ DFTimeline(items: [
 .dfTimelineStyle(.compact)
 ```
 
+### Two-Pane Layouts & iPhone Duo
+```swift
+// DFArrangement(_ kind: DFArrangementKind = .automatic, primary:, secondary:) — two panes that follow the device. kind: .automatic (= .split)
+// / .split(axes: Axis.Set = [.horizontal, .vertical]) (side by side when wider than tall, stacked when taller) / .overlay (primary over secondary).
+// On Xcode 27.1+ (iOS/macOS/visionOS 27.1) it is SwiftUI's ArrangementView and divides around the iPhone Duo fold; on every older SDK/OS it is a
+// plain stack with the same rule. Same API everywhere, no guards. Do not put it inside a navigation split view, list or scroll view.
+DFArrangement { Text("Inbox") } secondary: { Text("Message") }
+DFArrangement(.split(axes: .horizontal)) { Text("List") } secondary: { Text("Detail") }
+DFArrangement(.overlay) { Text("Controls") } secondary: { Text("Canvas") }
+
+// The fold and camera are geometry, not a pose enum (there is none). DFReservedRegionReader gives its content a DFReservedRegions
+// (always .none before the 27.1 SDK): regions, divisions (active folds), occlusions (active cameras), activeDivision, isSplit,
+// splitAxis (.horizontal = side by side, .vertical = stacked, nil = not split), panes(in: CGRect) -> (first:, second:)?, intersects(_:kind:).
+DFReservedRegionReader { regions in
+    Text(regions.splitAxis == .horizontal ? "Side by side" : "Flat or stacked")
+}
+let fold = DFReservedRegion(kind: .division, frame: CGRect(x: 396, y: 0, width: 8, height: 600))   // pure value types: test with made-up regions
+let panes = DFReservedRegions([fold]).panes(in: CGRect(x: 0, y: 0, width: 800, height: 600))
+
+// iPhone Duo shows system bars vertically (outer display, some inner positions). DFPlatformContext.toolbarVerticalEdge: HorizontalEdge?
+// (nil where no vertical bar, and before 27.1) and hasVerticalToolbar report it.
+struct DuoAwareRow: View {
+    @Environment(\.dfPlatformContext) private var platform
+    var body: some View { Text(platform.hasVerticalToolbar ? "Bars run down a side" : "Bars run across the top and bottom") }
+}
+```
+`DFNavigationBar` uses native toolbar placements, so the system lays out its bars; the system shows only toolbar items that have an icon and a title and are not custom views, so prefer `Button("Save", systemImage: "checkmark")` or a `Label` in `leading:`/`trailing:`. `DFTabBar` is a custom bottom bar and stays horizontal; use SwiftUI's `TabView` for the system tab bar that moves to the side. iPhone Duo size classes: inner display regular x regular; outer display regular vertical and compact horizontal in portrait, compact x compact in landscape. Use size classes, container geometry and reserved regions, never `UIScreen.main`. Safe areas are asymmetric; apps built with Xcode 26 or earlier do not extend under the status bar and camera.
+
 ### Navigation
 ```swift
 DFSidebar(selection: $selected, sections: sections)                 // .standard / .plain / .glass
@@ -569,11 +597,11 @@ let matches = DFCommandPaletteFilter.filter(items: [DFCommandPaletteItem(title: 
 
 ## Supporting Types
 
-`DFButtonRole` / `DFAlertActionRole` (`.destructive .cancel`) · `DFValidationState` (`.none .valid .error(String)`) · `DFOTPCharacterSet` (`.digits .letters .alphanumeric .custom(Set<Character>)`) · `DFTextScale` (`.display .title .headline .labelLarge .body .bodySmall .label .caption`, via `DFTextStyle` in `theme.typography`) · `DFBadgeVariant` (`.numeric(Int) .dot .text(String)`) · `DFAvatarSource` (`.image .initials`) · `DFAvatarPresence` (`.none .online .away .busy`) · `DFIconSource` (`.symbol .image`) · `DFChipVariant` (`.label .labelWithIcon .dismissible .selectable`) · `DFRatingMode` (`.readOnly .interactive(onChange:)`) · `DFDividerOrientation` · `DFProgressBarVariant` (`.linear .circular .indeterminate`) · `DFSkeletonShape` (`.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`) · `DFStepState` (`.complete .current .upcoming .error`; shared by `DFStepIndicator`/`DFTimeline`) · `DFStep` · `DFTimelineItem` · `DFGridColumns` (`.fixed(Int) .adaptive(minWidth:)`) · `DFPriceLineItemEmphasis` (`.normal .total`) · `DFEntityMedia` (`.systemImage .avatarInitials`) · `DFEntityTrailing` (`.text .badge .chevron`) · `DFNavigationBarDisplayMode` · `DFTooltipPlacement` · `DFMenuItemRole` (`.destructive`) · `DFDataTableSelectionMode` · `DFDataGridLargeDatasetStrategy` · popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`) · `DFAccordionGroupState` (pure value type behind `DFAccordionGroup`: `isExpanded(_:) toggle(_:) expand(_:) collapse(_:) collapseAll() setExpanded(_:for:)`) · style protocols `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFSearchFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFAccordionStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFMenuStyle`, `DFProgressBarStyle`, `DFSkeletonStyle` (each with `AnyDFXxxStyle` and `DFXxxStyleConfiguration`); `.buttonStyle(.df(_:role:))` returns `DFBrandedButtonStyle`.
+`DFButtonRole` / `DFAlertActionRole` (`.destructive .cancel`) · `DFValidationState` (`.none .valid .error(String)`) · `DFArrangementKind` (`.automatic .split(axes:) .overlay`) · `DFReservedRegionKind` (`.division .occlusion`) · `DFReservedRegion` · `DFReservedRegions` · `DFOTPCharacterSet` (`.digits .letters .alphanumeric .custom(Set<Character>)`) · `DFTextScale` (`.display .title .headline .labelLarge .body .bodySmall .label .caption`, via `DFTextStyle` in `theme.typography`) · `DFBadgeVariant` (`.numeric(Int) .dot .text(String)`) · `DFAvatarSource` (`.image .initials`) · `DFAvatarPresence` (`.none .online .away .busy`) · `DFIconSource` (`.symbol .image`) · `DFChipVariant` (`.label .labelWithIcon .dismissible .selectable`) · `DFRatingMode` (`.readOnly .interactive(onChange:)`) · `DFDividerOrientation` · `DFProgressBarVariant` (`.linear .circular .indeterminate`) · `DFSkeletonShape` (`.rectangle .roundedRectangle(cornerRadius:) .circle .capsule`) · `DFStepState` (`.complete .current .upcoming .error`; shared by `DFStepIndicator`/`DFTimeline`) · `DFStep` · `DFTimelineItem` · `DFGridColumns` (`.fixed(Int) .adaptive(minWidth:)`) · `DFPriceLineItemEmphasis` (`.normal .total`) · `DFEntityMedia` (`.systemImage .avatarInitials`) · `DFEntityTrailing` (`.text .badge .chevron`) · `DFNavigationBarDisplayMode` · `DFTooltipPlacement` · `DFMenuItemRole` (`.destructive`) · `DFDataTableSelectionMode` · `DFDataGridLargeDatasetStrategy` · popups: `DFPopupKind`, `DFPopupPosition`, `DFPopupTransition`, `DFPopupBackdrop`, `DFPopupCardAlignment` (`.center .leading`), `DFPopupIconTint` (`.brand .soft .severity(_:)`), `DFToastSeverity`, `DFToastMessage`, `DFToastLayout` (`.floating .flush`) · `DFAccordionGroupState` (pure value type behind `DFAccordionGroup`: `isExpanded(_:) toggle(_:) expand(_:) collapse(_:) collapseAll() setExpanded(_:for:)`) · style protocols `DFButtonStyle`, `DFTextViewStyle`, `DFIconStyle`, `DFBadgeStyle`, `DFAvatarStyle`, `DFDividerStyle`, `DFChipStyle`, `DFRatingViewStyle`, `DFPriceViewStyle`, `DFTextFieldStyle`, `DFSecureFieldStyle`, `DFSearchFieldStyle`, `DFToggleStyle`, `DFSliderStyle`, `DFPickerStyle`, `DFDatePickerStyle`, `DFQuantityStepperStyle`, `DFCheckboxStyle`, `DFCardStyle`, `DFTabBarStyle`, `DFNavigationBarStyle`, `DFSidebarStyle`, `DFModalStyle`, `DFSheetStyle`, `DFPopoverStyle`, `DFTooltipStyle`, `DFPopupStyle`, `DFToastStyle`, `DFBannerStyle`, `DFAccordionStyle`, `DFCalendarViewStyle`, `DFEmptyStateStyle`, `DFCommandPaletteStyle`, `DFMenuStyle`, `DFProgressBarStyle`, `DFSkeletonStyle` (each with `AnyDFXxxStyle` and `DFXxxStyleConfiguration`); `.buttonStyle(.df(_:role:))` returns `DFBrandedButtonStyle`.
 
 ## Cross-Platform
 
-**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every overlay modifier and every other component adapts automatically via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`), injected by `.dfTheme()`/`.dfThemePreset()`. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.7.1 — don't rely on it to change layouts.
+**You do not need `#if os()` to use any DF component.** Platform differences are handled internally — `DFSidebar`, `DFTabBar`, every overlay modifier and every other component adapts automatically via `DFPlatformContext` (`@Environment(\.dfPlatformContext)`: `idiom`, `horizontalSizeClass`, `isLiquidGlassAvailable`, `toolbarVerticalEdge` (iPhone Duo, nil before Xcode 27.1)), injected by `.dfTheme()`/`.dfThemePreset()`. `DFPlatformVariant` is declared but not consumed by any built-in component in 1.7.1 — don't rely on it to change layouts.
 
 The only place you need guards is in your own app-level code calling APIs DF doesn't wrap:
 
