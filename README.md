@@ -12,6 +12,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 ![visionOS 2+](https://img.shields.io/badge/visionOS-2%2B-blue?logo=apple)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![SPM](https://img.shields.io/badge/SPM-compatible-brightgreen)
+[![Roadmap](https://img.shields.io/badge/roadmap-GitHub%20Projects-blue)](https://github.com/orgs/NerdSnipe-Inc/projects/1)
 
 ---
 
