@@ -318,8 +318,13 @@ public struct DFDataGrid<
             Button {
                 changePage(by: -1)
             } label: {
-                Label("Previous", systemImage: "chevron.left")
-                    .font(theme.typography.caption.font)
+                Label {
+                    Text("Previous")
+                } icon: {
+                    Image(systemName: "chevron.left")
+                        .flipsForRightToLeftLayoutDirection(true)
+                }
+                .font(theme.typography.caption.font)
             }
             .buttonStyle(.plain)
             .disabled(windowedRows.pageIndex <= 0)
@@ -331,8 +336,13 @@ public struct DFDataGrid<
             Button {
                 changePage(by: 1)
             } label: {
-                Label("Next", systemImage: "chevron.right")
-                    .font(theme.typography.caption.font)
+                Label {
+                    Text("Next")
+                } icon: {
+                    Image(systemName: "chevron.right")
+                        .flipsForRightToLeftLayoutDirection(true)
+                }
+                .font(theme.typography.caption.font)
             }
             .buttonStyle(.plain)
             .disabled(windowedRows.pageIndex >= windowedRows.pageCount - 1)

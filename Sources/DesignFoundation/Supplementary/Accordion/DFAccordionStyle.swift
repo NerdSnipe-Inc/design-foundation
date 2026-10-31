@@ -117,6 +117,7 @@ struct DFAccordionHeader: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 Image(systemName: "chevron.right")
+                    .flipsForRightToLeftLayoutDirection(true)
                     .font(theme.typography.caption.font.weight(.semibold))
                     .foregroundStyle(theme.colors.textSecondary)
                     .rotationEffect(.degrees(configuration.isExpanded ? 90 : 0))

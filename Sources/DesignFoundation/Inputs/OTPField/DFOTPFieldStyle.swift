@@ -152,11 +152,15 @@ struct DFOTPCellRow<Cell: View>: View {
     var body: some View {
         let spacing = configuration.theme.spacing.sm
         let count = CGFloat(configuration.cells.count)
+        // Codes (digits or otherwise) read left-to-right by convention regardless of the app's
+        // locale, the same way phone numbers and verification codes do on every platform — so the
+        // cell order is pinned to LTR instead of mirroring with the surrounding RTL layout.
         HStack(spacing: spacing) {
             ForEach(configuration.cells) { item in
                 cell(item)
             }
         }
+        .environment(\.layoutDirection, .leftToRight)
         .accessibilityHidden(true)
         .overlay { configuration.fieldContent }
         .frame(

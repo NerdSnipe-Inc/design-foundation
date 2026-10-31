@@ -166,6 +166,7 @@ public struct DFStandardCalendarViewStyle: DFCalendarViewStyle, Sendable {
         HStack {
             Button(action: onPreviousMonth) {
                 Image(systemName: "chevron.left")
+                    .flipsForRightToLeftLayoutDirection(true)
                     .foregroundStyle(theme.colors.textPrimary)
             }
             .buttonStyle(.plain)
@@ -182,6 +183,7 @@ public struct DFStandardCalendarViewStyle: DFCalendarViewStyle, Sendable {
 
             Button(action: onNextMonth) {
                 Image(systemName: "chevron.right")
+                    .flipsForRightToLeftLayoutDirection(true)
                     .foregroundStyle(theme.colors.textPrimary)
             }
             .buttonStyle(.plain)
