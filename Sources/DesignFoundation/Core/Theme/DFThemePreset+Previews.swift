@@ -145,15 +145,23 @@ private struct PresetColumn: View {
 #Preview("All presets — light") {
     ScrollView(.horizontal, showsIndicators: false) {
         HStack(alignment: .top, spacing: 0) {
-            PresetColumn(label: "Default",    theme: .default,     scheme: .light)
+            PresetColumn(label: "Default",    theme: .default,       scheme: .light)
             Divider()
-            PresetColumn(label: "Slate",      theme: .slateLight,  scheme: .light)
+            PresetColumn(label: "Slate",      theme: .slateLight,    scheme: .light)
             Divider()
-            PresetColumn(label: "Aurora",     theme: .auroraLight, scheme: .light)
+            PresetColumn(label: "Aurora",     theme: .auroraLight,   scheme: .light)
             Divider()
-            PresetColumn(label: "Copper",     theme: .copperLight, scheme: .light)
+            PresetColumn(label: "Copper",     theme: .copperLight,   scheme: .light)
             Divider()
-            PresetColumn(label: "Sage",       theme: .sageLight,   scheme: .light)
+            PresetColumn(label: "Sage",       theme: .sageLight,     scheme: .light)
+            Divider()
+            PresetColumn(label: "Garnet",     theme: .garnetLight,   scheme: .light)
+            Divider()
+            PresetColumn(label: "Midnight",   theme: .midnightLight, scheme: .light)
+            Divider()
+            PresetColumn(label: "Neumorph",   theme: .neumorphLight, scheme: .light)
+            Divider()
+            PresetColumn(label: "Ember",      theme: .emberLight,    scheme: .light)
         }
     }
 }
@@ -161,16 +169,66 @@ private struct PresetColumn: View {
 #Preview("All presets — dark") {
     ScrollView(.horizontal, showsIndicators: false) {
         HStack(alignment: .top, spacing: 0) {
-            PresetColumn(label: "Default",    theme: .default,    scheme: .dark)
+            PresetColumn(label: "Default",    theme: .default,      scheme: .dark)
             Divider()
-            PresetColumn(label: "Slate",      theme: .slateDark,  scheme: .dark)
+            PresetColumn(label: "Slate",      theme: .slateDark,    scheme: .dark)
             Divider()
-            PresetColumn(label: "Aurora",     theme: .auroraDark, scheme: .dark)
+            PresetColumn(label: "Aurora",     theme: .auroraDark,   scheme: .dark)
             Divider()
-            PresetColumn(label: "Copper",     theme: .copperDark, scheme: .dark)
+            PresetColumn(label: "Copper",     theme: .copperDark,   scheme: .dark)
             Divider()
-            PresetColumn(label: "Sage",       theme: .sageDark,   scheme: .dark)
+            PresetColumn(label: "Sage",       theme: .sageDark,     scheme: .dark)
+            Divider()
+            PresetColumn(label: "Garnet",     theme: .garnetDark,   scheme: .dark)
+            Divider()
+            PresetColumn(label: "Midnight",   theme: .midnightDark, scheme: .dark)
+            Divider()
+            PresetColumn(label: "Neumorph",   theme: .neumorphDark, scheme: .dark)
+            Divider()
+            PresetColumn(label: "Ember",      theme: .emberDark,    scheme: .dark)
         }
+    }
+}
+
+#Preview("Midnight — light and dark") {
+    HStack(spacing: 0) {
+        ThemeShowcase()
+            .dfTheme(.midnightLight)
+            .environment(\.colorScheme, .light)
+            .frame(maxWidth: .infinity)
+        Divider()
+        ThemeShowcase()
+            .dfTheme(.midnightDark)
+            .environment(\.colorScheme, .dark)
+            .frame(maxWidth: .infinity)
+    }
+}
+
+#Preview("Neumorph — light and dark") {
+    HStack(spacing: 0) {
+        ThemeShowcase()
+            .dfTheme(.neumorphLight)
+            .environment(\.colorScheme, .light)
+            .frame(maxWidth: .infinity)
+        Divider()
+        ThemeShowcase()
+            .dfTheme(.neumorphDark)
+            .environment(\.colorScheme, .dark)
+            .frame(maxWidth: .infinity)
+    }
+}
+
+#Preview("Ember — light and dark") {
+    HStack(spacing: 0) {
+        ThemeShowcase()
+            .dfTheme(.emberLight)
+            .environment(\.colorScheme, .light)
+            .frame(maxWidth: .infinity)
+        Divider()
+        ThemeShowcase()
+            .dfTheme(.emberDark)
+            .environment(\.colorScheme, .dark)
+            .frame(maxWidth: .infinity)
     }
 }
 

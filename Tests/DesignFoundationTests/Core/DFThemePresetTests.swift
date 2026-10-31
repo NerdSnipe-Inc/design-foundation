@@ -42,6 +42,24 @@ struct DFThemePresetTests {
         #expect(preset.light.colors.primary != preset.dark.colors.primary)
     }
 
+    @Test("midnight preset light and dark primaries differ")
+    func midnightPresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.midnight
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
+
+    @Test("neumorph preset light and dark primaries differ")
+    func neumorphPresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.neumorph
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
+
+    @Test("ember preset light and dark primaries differ")
+    func emberPresetHasTwoDistinctThemes() {
+        let preset = DFThemePreset.ember
+        #expect(preset.light.colors.primary != preset.dark.colors.primary)
+    }
+
     @Test("preset light theme matches named DFTheme static")
     func presetLightMatchesNamedStatic() {
         #expect(DFThemePreset.slate.light.radius.md == DFTheme.slateLight.radius.md)

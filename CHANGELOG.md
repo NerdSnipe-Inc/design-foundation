@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- **Three new theme presets: `.midnight`, `.neumorph`, `.ember`** — 8 shipped presets in total (`.slate`, `.aurora`, `.copper`, `.sage`, `.garnet`, `.midnight`, `.neumorph`, `.ember`), each with explicit `Light`/`Dark` `DFTheme` statics plus a `DFThemePreset`. `.midnight` is dark-mode-native: a bright cyan-teal accent over a true-black (OLED-tuned) dark variant, with lighter shadow/radius tuning for dark UIs. `.neumorph` is a soft neumorphic indigo preset — background and surface colors sit close in value (separation comes from large radii and large-blur, low-opacity shadows, not a hard surface/background split) rather than a sharp border. `.ember` is a bold, energetic orange-red preset with tight radii and punchy shadows. All three follow the existing preset pattern (per-preset `DFColorTokens`/`DFRadiusTokens`/`DFShadowTokens`, `respectsColorScheme: false`, a muted `interactiveFill` distinct from the brighter `primary` so white button labels keep WCAG AA contrast on dark variants) and ship with the same preview/test coverage as `.slate`/`.aurora`/`.copper`/`.sage`.
+
 ### Docs
 - Pro is now described as **DesignFoundationPro 2.4.0, which requires DesignFoundation 1.8.0 or later**, in the README, `CLAUDE.md`, `AGENTS.md`, the Cursor rule, `docs/llms.txt`, the docs site and the integration guide's install snippet. Pro 2.4.0 adds 4 iPhone Duo layouts and the next release adds `DFDocumentsDuoLayout` and `DFAIChatDuoLayout`, 6 in total (`DFNewsDuoLayout`, `DFCRMDuoLayout`, `DFEcommerceOrdersDuoLayout`, `DFPMDuoLayout`, `DFDocumentsDuoLayout`, `DFAIChatDuoLayout`) on a public `DFDuoMasterDetail` container, built on this package's `DFArrangement`; the Pro page has a new iPhone Duo section and the agent docs list the layouts. Pro also builds for visionOS.
 

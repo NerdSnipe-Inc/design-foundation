@@ -18,7 +18,7 @@ A SwiftUI design system I built because every new project I started, I was rebui
 
 DesignFoundation gives you a token-based theming engine and 54 SwiftUI components that all read from the same theme. Set the theme once at the app root, every component underneath updates. That's the whole idea.
 
-5 theme presets (10 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
+8 theme presets (16 light/dark themes). A style protocol for every styleable component, including Liquid Glass styles for iOS/macOS 26+. One popup engine that powers toasts, floaters, centered cards and bottom sheets. Swift 6 strict concurrency safe.
 
 <p align="center">
   <img alt="The same card, text field, buttons and badges in the Slate, Aurora, Copper and Sage theme presets, each shown in light and dark" src="docs/images/themes-grid.png" width="100%" />
@@ -123,7 +123,7 @@ Every component reads from the nearest `DFTheme` in the environment. Change a to
 
 ### Preset themes
 
-Five presets ship in the box. Each one pairs a light and dark `DFTheme` and switches automatically based on `@Environment(\.colorScheme)`.
+Eight presets ship in the box. Each one pairs a light and dark `DFTheme` and switches automatically based on `@Environment(\.colorScheme)`.
 
 ```swift
 HomeView().dfThemePreset(.aurora)
@@ -136,6 +136,9 @@ HomeView().dfThemePreset(.aurora)
 | `.copper` | Warm copper primary, tight radii, stronger shadows | Finance, content readers |
 | `.sage` | Deep green primary, generous radii, subtle shadows | Health, wellness |
 | `.garnet` | Bold, saturated deep garnet red (#C8102E), white cards, off-white background | Bold consumer brands, retail, sports |
+| `.midnight` | Dark-mode-native teal primary, true-black (OLED-tuned) dark variant | Media, entertainment, night-first apps |
+| `.neumorph` | Soft indigo primary, low-contrast surfaces, large radii, diffuse shadows | Calming, tactile, premium feel |
+| `.ember` | Bold orange-red primary, tight radii, punchy shadows | Fitness, energy, consumer utilities |
 
 The differences read better in a preview than in a description, spin them up and see which one feels right for your app.
 

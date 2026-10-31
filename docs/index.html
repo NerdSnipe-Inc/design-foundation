@@ -278,7 +278,7 @@
         "@id": "https://nerdsnipe-inc.github.io/design-foundation/#software",
         "name": "DesignFoundation",
         "alternateName": ["DesignFoundation SwiftUI", "DF SwiftUI Design System"],
-        "description": "Production-grade SwiftUI design system and component library for iOS, macOS, and visionOS. Token-based theming engine, 54 components plus 13 presentation and layout modifiers, five preset visual identities (Slate, Aurora, Copper, Sage, Garnet), Liquid Glass support for iOS 26/macOS 26, and Swift 6 strict concurrency safety.",
+        "description": "Production-grade SwiftUI design system and component library for iOS, macOS, and visionOS. Token-based theming engine, 54 components plus 13 presentation and layout modifiers, eight preset visual identities (Slate, Aurora, Copper, Sage, Garnet, Midnight, Neumorph, Ember), Liquid Glass support for iOS 26/macOS 26, and Swift 6 strict concurrency safety.",
         "url": "https://nerdsnipe-inc.github.io/design-foundation/",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "Swift Package, iOS UI Framework, Design System",
@@ -326,7 +326,7 @@
           "DFToast with queue management, DFSkeleton shimmer, DFProgressBar",
           "DFPopup engine — .dfPopup(isPresented:) and .dfPopup(item:) with center/toast/floater/sheet kinds, nine positions, eight surface styles (standard, frosted, glass, accent, gradient, inverse, outlined, tinted), DFPopupCard, none/dim/blur backdrops, slide/scale/fade/none/asymmetric transitions, auto-dismiss, drag-to-dismiss, and DFToastQueue toasts with eight styles, titles and actions",
           "DFList with swipe-delete and reorder, DFTable with sortable columns",
-          "Five preset themes: Slate, Aurora, Copper, Sage, Garnet",
+          "Eight preset themes: Slate, Aurora, Copper, Sage, Garnet, Midnight, Neumorph, Ember",
           "Automatic light/dark switching via dfThemePreset() modifier",
           "Liquid Glass styles for iOS 26+ and macOS 26+",
           "Swift 6 strict concurrency safe",
@@ -379,7 +379,7 @@
             "name": "Does DesignFoundation support dark mode?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Every component in DesignFoundation fully supports dark mode. The five built-in preset themes (Slate, Aurora, Copper, Sage, Garnet) each ship a distinct light and dark variant. The dfThemePreset() modifier reads the system color scheme and selects the correct variant automatically."
+              "text": "Yes. Every component in DesignFoundation fully supports dark mode. The eight built-in preset themes (Slate, Aurora, Copper, Sage, Garnet, Midnight, Neumorph, Ember) each ship a distinct light and dark variant. The dfThemePreset() modifier reads the system color scheme and selects the correct variant automatically."
             }
           },
           {
@@ -959,17 +959,17 @@
       <div class="pop-hero">
         <div class="pop-hero-text">
           <p>One popup engine powers centered cards, edge-flush toasts, inset floaters and bottom sheets. It is a view modifier, <code>.dfPopup(isPresented:)</code> or <code>.dfPopup(item:)</code>, configured with a plain <code>DFPopupConfiguration</code> value: a <strong>kind</strong>, one of <strong>nine positions</strong>, a <strong>transition</strong>, a <strong>backdrop</strong> and the dismissal rules. <code>DFToastQueue</code> and <code>.dfToast()</code> run on the same engine. Every recording below was captured from the real DFPlayground Popup Lab, not mocked up. Surface styles, toast styles, cards, the sheet kind and backdrops are <strong>new in 1.7.0</strong>.</p>
-          <p>The clip beside this text is the Theme Tour: all five presets, light and dark, with popups and toasts.</p>
+          <p>The clip beside this text is the Theme Tour: all five presets, light and dark, with popups and toasts.</p> <!-- facts-ignore: describes a recorded video predating the Midnight/Neumorph/Ember presets -->
           <p class="pop-note">Recorded from the DFPlayground Popup Lab running on iOS 26 (light/dark, DesignFoundation presets).</p>
         </div>
-        <figure class="clip clip-hero" data-title="Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).">
+        <figure class="clip clip-hero" data-title="Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s)."> <!-- facts-ignore: recorded video predates Midnight/Neumorph/Ember -->
   <div class="clip-frame">
-    <video class="clip-video" muted loop playsinline preload="none" poster="assets/popups/posters/free-theme-tour-all-presets.jpg" aria-label="Screen recording: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s)." width="390" height="848">
+    <video class="clip-video" muted loop playsinline preload="none" poster="assets/popups/posters/free-theme-tour-all-presets.jpg" aria-label="Screen recording: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s)." width="390" height="848"> <!-- facts-ignore: recorded video predates Midnight/Neumorph/Ember -->
       <source data-src="videos/popups/free-theme-tour-all-presets.mp4" type="video/mp4">
     </video>
-    <button class="clip-toggle" type="button" aria-label="Play: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).">Play</button>
+    <button class="clip-toggle" type="button" aria-label="Play: Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).">Play</button> <!-- facts-ignore: recorded video predates Midnight/Neumorph/Ember -->
   </div>
-  <figcaption>Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).</figcaption>
+  <figcaption>Theme Tour: five presets in light and dark, popups and toasts across 11 scenes (about 22 s).</figcaption> <!-- facts-ignore: recorded video predates Midnight/Neumorph/Ember -->
 </figure>
       </div>
       <nav class="pop-toc" aria-label="Popups and toasts on this page"><a href="#popups-styles">Surface styles</a><a href="#popups-cards">Popup cards</a><a href="#popups-toast-styles">Toast styles</a><a href="#popups-toast-actions">Toast title, action and queue</a><a href="#popups-positions">Nine positions</a><a href="#popups-transitions">Transitions</a><a href="#popups-backdrops">Backdrops</a><a href="#popups-dismissal">Auto-dismiss, tap, outside tap and drag</a><a href="#popups-item">Item-bound popups</a><a href="#popups-sheet">Bottom sheet</a><a href="#popups-tokens">Theming and tokens</a></nav>
