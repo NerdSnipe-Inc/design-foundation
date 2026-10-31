@@ -290,7 +290,7 @@ DFText("—", style: .caption)
 
 ### Contrast
 
-`theme.colors.textPrimary` and `theme.colors.textSecondary` are designed to meet WCAG AA contrast minimums against their respective background tokens across all five presets. If you override foreground color using `.foregroundStyle()`, you are responsible for verifying contrast ratios.
+`theme.colors.textPrimary` and `theme.colors.textSecondary` are designed to meet WCAG AA contrast minimums against their respective background tokens across all eight presets. If you override foreground color using `.foregroundStyle()`, you are responsible for verifying contrast ratios.
 
 ---
 
