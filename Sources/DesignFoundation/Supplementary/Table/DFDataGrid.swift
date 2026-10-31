@@ -279,6 +279,7 @@ public struct DFDataGrid<
                             Image(systemName: sortAscending ? "chevron.up" : "chevron.down")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(theme.colors.primary)
+                                .accessibilityLabel("\(column.title), sorted \(sortAscending ? "ascending" : "descending")")
                         }
                     }
                     .padding(.horizontal, theme.spacing.md)

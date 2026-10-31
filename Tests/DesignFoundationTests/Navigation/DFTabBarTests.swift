@@ -19,6 +19,42 @@ struct DFTabItemTests {
         let item = DFTabItem(id: "inbox", icon: "tray", label: "Inbox", badgeCount: 5)
         #expect(item.badgeCount == 5)
     }
+
+    @Test("no badge or dot has no accessibility value")
+    func noBadgeAccessibilityValue() {
+        let item = DFTabItem(id: "home", icon: "house", label: "Home")
+        #expect(item.badgeAccessibilityValue == nil)
+    }
+
+    @Test("badge count of 1 is singular")
+    func singularBadgeAccessibilityValue() {
+        let item = DFTabItem(id: "inbox", icon: "tray", label: "Inbox", badgeCount: 1)
+        #expect(item.badgeAccessibilityValue == "1 notification")
+    }
+
+    @Test("badge count greater than 1 is plural")
+    func pluralBadgeAccessibilityValue() {
+        let item = DFTabItem(id: "inbox", icon: "tray", label: "Inbox", badgeCount: 5)
+        #expect(item.badgeAccessibilityValue == "5 notifications")
+    }
+
+    @Test("a zero badge count has no accessibility value")
+    func zeroBadgeAccessibilityValue() {
+        let item = DFTabItem(id: "inbox", icon: "tray", label: "Inbox", badgeCount: 0)
+        #expect(item.badgeAccessibilityValue == nil)
+    }
+
+    @Test("showDot without a count is announced as new activity")
+    func dotAccessibilityValue() {
+        let item = DFTabItem(id: "updates", icon: "bell", label: "Updates", showDot: true)
+        #expect(item.badgeAccessibilityValue == "new activity")
+    }
+
+    @Test("a badge count takes precedence over showDot")
+    func countTakesPrecedenceOverDot() {
+        let item = DFTabItem(id: "inbox", icon: "tray", label: "Inbox", badgeCount: 2, showDot: true)
+        #expect(item.badgeAccessibilityValue == "2 notifications")
+    }
 }
 
 @Suite("DFTabBarStyleConfiguration")

@@ -47,6 +47,9 @@ public struct DFRadioPickerView: View {
                     .padding(theme.spacing.md)
                 }
                 .buttonStyle(.plain)
+                // Explicit label replaces the default auto-combination, which would otherwise
+                // append the radio-circle SF Symbol's own description after the option's label.
+                .accessibilityLabel(option.label)
                 .accessibilityAddTraits(selection.wrappedValue == option.id ? [.isSelected] : [])
             }
         }
