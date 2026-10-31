@@ -26,6 +26,12 @@ public struct DFThemePreset: Sendable {
     public static let sage   = DFThemePreset(light: .sageLight,   dark: .sageDark)
     /// A bold, saturated red preset — deep garnet red (#C8102E), white cards, off-white background.
     public static let garnet = DFThemePreset(light: .garnetLight, dark: .garnetDark)
+    /// A dark-mode-native teal preset with a true-black (OLED-tuned) dark variant.
+    public static let midnight = DFThemePreset(light: .midnightLight, dark: .midnightDark)
+    /// A soft neumorphic indigo preset — low-contrast surfaces, large radii, diffuse shadows.
+    public static let neumorph = DFThemePreset(light: .neumorphLight, dark: .neumorphDark)
+    /// A bold, energetic orange-red preset with tight radii and punchy shadows.
+    public static let ember = DFThemePreset(light: .emberLight, dark: .emberDark)
 }
 
 public extension View {

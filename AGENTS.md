@@ -57,10 +57,10 @@ Apply a preset at the scene root:
 ```swift
 ContentView()
     .dfThemePreset(.slate)
-// Presets: .slate  .aurora  .copper  .sage  .garnet
+// Presets: .slate  .aurora  .copper  .sage  .garnet  .midnight  .neumorph  .ember
 ```
 
-`.dfThemePreset(_:)` picks light/dark from `@Environment(\.colorScheme)`; `.dfTheme(_:)` sets an explicit `DFTheme`. Each preset also exists as an explicit pair (`.slateLight/.slateDark`, `.auroraLight/.auroraDark`, `.copperLight/.copperDark`, `.sageLight/.sageDark`, `.garnetLight/.garnetDark`); `DFTheme.default` is the un-themed baseline.
+`.dfThemePreset(_:)` picks light/dark from `@Environment(\.colorScheme)`; `.dfTheme(_:)` sets an explicit `DFTheme`. Each preset also exists as an explicit pair (`.slateLight/.slateDark`, `.auroraLight/.auroraDark`, `.copperLight/.copperDark`, `.sageLight/.sageDark`, `.garnetLight/.garnetDark`, `.midnightLight/.midnightDark`, `.neumorphLight/.neumorphDark`, `.emberLight/.emberDark`); `DFTheme.default` is the un-themed baseline. `.midnight` is dark-mode-native (true-black/OLED dark variant), `.neumorph` is soft neumorphic (low-contrast surfaces, large radii, diffuse shadows), `.ember` is bold/energetic (tight radii, punchy shadows).
 ```swift
 ContentView().dfTheme(.slateLight)
 let brand = DFThemePreset(light: .sageLight, dark: .auroraDark)   // any two themes; resolve(for:) picks one

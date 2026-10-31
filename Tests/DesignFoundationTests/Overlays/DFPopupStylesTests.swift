@@ -73,6 +73,9 @@ struct DFOnFillContrastTests {
         ("copperLight", .copperLight), ("copperDark", .copperDark),
         ("sageLight", .sageLight), ("sageDark", .sageDark),
         ("garnetLight", .garnetLight), ("garnetDark", .garnetDark),
+        ("midnightLight", .midnightLight), ("midnightDark", .midnightDark),
+        ("neumorphLight", .neumorphLight), ("neumorphDark", .neumorphDark),
+        ("emberLight", .emberLight), ("emberDark", .emberDark),
     ]
 
     private func check(_ stops: [Color], theme: DFTheme, _ name: String) {

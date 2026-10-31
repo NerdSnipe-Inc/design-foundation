@@ -2,7 +2,27 @@
 
 > **Canonical source.** This file is the verified source of truth for DesignFoundation's public API (written for **DesignFoundation 1.8.0**; requires iOS 18+ / macOS 15+ / visionOS 2+, Swift 6 tools). `AGENTS.md` and `.cursor/rules/design-foundation.mdc` must describe the same API surface as this file — if you change a signature here, update those two as well. All three are compile-checked in CI (see `.github/workflows/doc-snippets.yml`); a snippet that doesn't compile fails the build.
 
-## The Rule
+## Project management: use the GitHub Projects roadmap board
+
+**Until further notice, this project's work is tracked on the public GitHub Projects board, not ad hoc.** Both DesignFoundation and DesignFoundationPro share one board: `https://github.com/orgs/NerdSnipe-Inc/projects/1` ("DesignFoundation Roadmap," project number `1`, org `NerdSnipe-Inc`). Linked repos: `NerdSnipe-Inc/design-foundation` (this repo) and `NerdSnipe-Inc/DesignFoundationPro`.
+
+When working on this project in a session:
+
+- **Before starting new work**, check the board for an existing item covering it (`gh project item-list 1 --owner NerdSnipe-Inc`). If the work matches an existing Todo item, use that item instead of creating a duplicate.
+- **If the work isn't tracked yet**, create a real GitHub issue in the correct repo (`gh issue create --repo NerdSnipe-Inc/design-foundation ...` or `...DesignFoundationPro...`) and add it to the board with `gh project item-add 1 --owner NerdSnipe-Inc --url <issue-url>`. Don't do untracked work on this project without an item on the board, except for trivial fixes with no planning value.
+- **Move the item's Status as work progresses**: `Todo` → `In Progress` when you start, `Done` when it ships/merges. Use `gh project item-edit` with the `Status` single-select field (fields: `gh project field-list 1 --owner NerdSnipe-Inc`).
+- **Close the linked issue** when the item reaches `Done` so the repo's issue list and the board stay in sync.
+- The board's default view is Board layout (grouped by Status) — use it for a quick visual check of what's in flight before starting something new.
+
+This rule stands until the user says otherwise — don't quietly drop back to untracked, issue-less work on this project.
+
+## Marketing/content angle: AI-build speed, not "design system features"
+
+**When writing articles, README copy, or roadmap items meant to drive traffic/installs, lead with how much faster and cheaper an AI coding agent builds an app using this package — not with a generic "here's a nice design system" pitch.** Anyone can get an AI to scaffold SwiftUI today; that's no longer a differentiator. The actual differentiator is that this repo ships `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/` as a **compile-verified, CI-checked API reference written for AI agents to consume directly** — an agent calls real, existing components on the first try instead of hallucinating SwiftUI APIs or hand-rolling 25+ lines of custom UI per screen. That means fewer correction loops, fewer tokens burned re-deriving boilerplate, and a working themed app in far less time — for professional developers, vibe-coders, and non-coders alike who are directing an AI rather than hand-writing Swift themselves.
+
+Concrete proof points to use in content: the five example apps (ClientLens, BudgetLens, ScanLens, BookLens, AICompleteChat) were built by directing an AI agent against these instruction files rather than hand-written line-by-line, and the project-management workflow above (GitHub Projects board) is itself part of the story — real, trackable product velocity, not vaporware screenshots.
+
+Do not reuse the old generic "stop rebuilding auth screens" framing — that's a dev-to-dev pitch for an era before AI-assisted building was the default. The next article (and any future one) must center the AI-build time/token-savings angle.
 
 **Never build UI components that DesignFoundation already provides.**
 
@@ -57,10 +77,10 @@ Apply a preset at the scene root:
 ```swift
 ContentView()
     .dfThemePreset(.slate)
-// Presets: .slate  .aurora  .copper  .sage  .garnet
+// Presets: .slate  .aurora  .copper  .sage  .garnet  .midnight  .neumorph  .ember
 ```
 
-`.dfThemePreset(_:)` resolves the light/dark variant automatically from `@Environment(\.colorScheme)`. To set an explicit `DFTheme` value directly instead of a light/dark pair, use `.dfTheme(_:)`. Every preset ships as an explicit pair (`.slateLight/.slateDark`, `.auroraLight/.auroraDark`, `.copperLight/.copperDark`, `.sageLight/.sageDark`, `.garnetLight/.garnetDark`), and `DFTheme.default` is the un-themed baseline:
+`.dfThemePreset(_:)` resolves the light/dark variant automatically from `@Environment(\.colorScheme)`. To set an explicit `DFTheme` value directly instead of a light/dark pair, use `.dfTheme(_:)`. Every preset ships as an explicit pair (`.slateLight/.slateDark`, `.auroraLight/.auroraDark`, `.copperLight/.copperDark`, `.sageLight/.sageDark`, `.garnetLight/.garnetDark`, `.midnightLight/.midnightDark`, `.neumorphLight/.neumorphDark`, `.emberLight/.emberDark`), and `DFTheme.default` is the un-themed baseline. `.midnight` is a dark-mode-native teal preset (true-black/OLED-tuned dark variant), `.neumorph` is a soft neumorphic indigo preset (low-contrast surfaces, large radii, diffuse shadows), and `.ember` is a bold energetic orange-red preset (tight radii, punchy shadows):
 ```swift
 ContentView().dfTheme(.slateLight)
 

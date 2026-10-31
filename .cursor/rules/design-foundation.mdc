@@ -39,7 +39,7 @@ theme.radius.md
 Preset at scene root:
 ```swift
 ContentView().dfThemePreset(.slate)
-// Presets: .slate  .aurora  .copper  .sage  .garnet  (explicit pairs: .slateLight/.slateDark, .auroraLight/…, .copperLight/…, .sageLight/…, .garnetLight/…)
+// Presets: .slate  .aurora  .copper  .sage  .garnet  .midnight  .neumorph  .ember  (explicit pairs: .slateLight/.slateDark, .auroraLight/…, .copperLight/…, .sageLight/…, .garnetLight/…, .midnightLight/… (dark-mode-native, true-black), .neumorphLight/… (soft neumorphic), .emberLight/… (bold/energetic))
 ContentView().dfTheme(.slateLight)                                  // explicit theme; DFTheme.default = baseline
 let brand = DFThemePreset(light: .sageLight, dark: .auroraDark)     // any two themes; resolve(for:) picks one
 var custom = DFTheme(spacing: DFSpacingTokens(md: 20), radius: DFRadiusTokens(md: 12))
