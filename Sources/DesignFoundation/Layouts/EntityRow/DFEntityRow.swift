@@ -94,6 +94,7 @@ public struct DFEntityRow: View {
             DFBadge(text: text)
         case .chevron:
             Image(systemName: "chevron.right")
+                .flipsForRightToLeftLayoutDirection(true)
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(theme.colors.textSecondary)
         }

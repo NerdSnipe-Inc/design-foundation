@@ -206,6 +206,7 @@ struct DFTimelineLayout: View {
             DFBadge(text: text)
         case .chevron:
             Image(systemName: "chevron.right")
+                .flipsForRightToLeftLayoutDirection(true)
                 .font(theme.typography.caption.font.weight(.medium))
                 .foregroundStyle(theme.colors.textSecondary)
         }

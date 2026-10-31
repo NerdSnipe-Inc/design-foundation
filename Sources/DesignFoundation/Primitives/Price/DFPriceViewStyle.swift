@@ -7,12 +7,14 @@ public struct DFPriceStyleConfiguration: Sendable {
     public let currencyCode: String
     public let compareAtAmount: Decimal?
     public let theme: DFTheme
+    public let locale: Locale
 
-    public init(amount: Decimal, currencyCode: String, compareAtAmount: Decimal?, theme: DFTheme) {
+    public init(amount: Decimal, currencyCode: String, compareAtAmount: Decimal?, theme: DFTheme, locale: Locale = .autoupdatingCurrent) {
         self.amount = amount
         self.currencyCode = currencyCode
         self.compareAtAmount = compareAtAmount
         self.theme = theme
+        self.locale = locale
     }
 }
 
@@ -73,12 +75,12 @@ public struct DFStandardPriceViewStyle: DFPriceViewStyle, Sendable {
     public func makeBody(configuration: DFPriceStyleConfiguration) -> some View {
         let theme = configuration.theme
         HStack(spacing: theme.components.price.spacing ?? theme.spacing.xs) {
-            Text(DFPriceView.formattedAmount(configuration.amount, currencyCode: configuration.currencyCode))
+            Text(DFPriceView.formattedAmount(configuration.amount, currencyCode: configuration.currencyCode, locale: configuration.locale))
                 .font(theme.typography.body.font)
                 .foregroundStyle(theme.colors.textPrimary)
 
             if let compareAtAmount = configuration.compareAtAmount {
-                Text(DFPriceView.formattedAmount(compareAtAmount, currencyCode: configuration.currencyCode))
+                Text(DFPriceView.formattedAmount(compareAtAmount, currencyCode: configuration.currencyCode, locale: configuration.locale))
                     .font(theme.typography.caption.font)
                     .foregroundStyle(theme.colors.textSecondary)
                     .strikethrough()
@@ -95,12 +97,12 @@ public struct DFCompactPriceViewStyle: DFPriceViewStyle, Sendable {
     public func makeBody(configuration: DFPriceStyleConfiguration) -> some View {
         let theme = configuration.theme
         HStack(spacing: theme.components.price.spacing ?? theme.spacing.xs) {
-            Text(DFPriceView.formattedAmount(configuration.amount, currencyCode: configuration.currencyCode))
+            Text(DFPriceView.formattedAmount(configuration.amount, currencyCode: configuration.currencyCode, locale: configuration.locale))
                 .font(theme.typography.caption.font)
                 .foregroundStyle(theme.colors.textPrimary)
 
             if let compareAtAmount = configuration.compareAtAmount {
-                Text(DFPriceView.formattedAmount(compareAtAmount, currencyCode: configuration.currencyCode))
+                Text(DFPriceView.formattedAmount(compareAtAmount, currencyCode: configuration.currencyCode, locale: configuration.locale))
                     .font(theme.typography.caption.font)
                     .foregroundStyle(theme.colors.textSecondary)
                     .strikethrough()
