@@ -22,6 +22,19 @@ public struct DFTabItem: Identifiable, Sendable {
         self.badgeCount = badgeCount
         self.showDot = showDot
     }
+
+    /// VoiceOver announcement for the badge, e.g. "3 notifications" or "new activity" — `nil` when
+    /// there's no badge. A sighted user sees the red dot or count; without this, a VoiceOver user
+    /// hears only the tab's label with no indication anything is unread.
+    var badgeAccessibilityValue: String? {
+        if let badgeCount, badgeCount > 0 {
+            return badgeCount == 1 ? "1 notification" : "\(badgeCount) notifications"
+        }
+        if showDot {
+            return "new activity"
+        }
+        return nil
+    }
 }
 
 // MARK: - Configuration
@@ -99,6 +112,8 @@ private struct DFTabBadgeOverlay: View {
     let item: DFTabItem
     let destructiveColor: Color
 
+    @Environment(\.dfTheme) private var theme
+
     var body: some View {
         if item.showDot {
             Circle()
@@ -106,8 +121,10 @@ private struct DFTabBadgeOverlay: View {
                 .frame(width: 8, height: 8)
                 .offset(x: 4, y: -4)
         } else if let count = item.badgeCount, count > 0 {
+            // Scales with Dynamic Type, unlike a fixed point size — a badge count is real,
+            // readable text, not a decorative glyph.
             Text(count > 99 ? "99+" : "\(count)")
-                .font(.system(size: 10, weight: .bold))
+                .font(theme.typography.caption.font.bold())
                 .foregroundStyle(Color.white)
                 .padding(.horizontal, 4)
                 .padding(.vertical, 2)
@@ -149,6 +166,7 @@ private struct DFTabBadgeOverlay: View {
     }
     .buttonStyle(PlainButtonStyle())
     .accessibilityLabel(item.label)
+    .accessibilityValue(item.badgeAccessibilityValue ?? "")
     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
 }
 
@@ -175,6 +193,7 @@ private struct DFTabBadgeOverlay: View {
     }
     .buttonStyle(PlainButtonStyle())
     .accessibilityLabel(item.label)
+    .accessibilityValue(item.badgeAccessibilityValue ?? "")
     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
 }
 
@@ -291,6 +310,7 @@ public struct DFGlassTabBarStyle: DFTabBarStyle, Sendable {
                     }
                     .buttonStyle(PlainButtonStyle())
                     .accessibilityLabel(item.label)
+                    .accessibilityValue(item.badgeAccessibilityValue ?? "")
                     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                 }
             }
