@@ -291,6 +291,10 @@ DFCard(action: { }) { content }   // optional tap action makes the card interact
 DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevron)
 DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
 
+// Don't pass trailing: .chevron to a DFEntityRow used as a NavigationLink's label in a List on iOS —
+// the List row already draws its own disclosure chevron there. Pass trailing: nil (or .text/.badge)
+// instead and let the system draw the one chevron; reserve .chevron for non-NavigationLink rows.
+
 // DFGrid — themed LazyVGrid wrapper. columns: .fixed(Int) (default 2) or .adaptive(minWidth:); spacing: CGFloat? (nil = theme)
 DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }
 
