@@ -465,6 +465,16 @@ DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", subtitle: "jordan
 DFEntityRow(media: .systemImage("shippingbox.fill"), title: "Order #1042", trailing: .badge("Shipped"), onTap: { })
 DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
 
+// Do NOT pass trailing: .chevron to a DFEntityRow used as a NavigationLink's label inside a List on iOS —
+// the List row already draws its own disclosure chevron there, so you'd get two. Reserve .chevron for rows
+// that signal tappability on their own (via onTap, outside a List/NavigationLink); inside a NavigationLink's
+// List row, pass trailing: nil (or .text/.badge) and let the system draw the one chevron.
+List {
+    NavigationLink { Text("Order detail") } label: {
+        DFEntityRow(media: .systemImage("shippingbox.fill"), title: "Order #1042")   // no trailing: .chevron here
+    }
+}
+
 // DFGrid — themed LazyVGrid wrapper. columns: .fixed(Int) (default 2) or .adaptive(minWidth:); spacing: CGFloat? (nil = theme)
 DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }
 DFGrid(columns: .adaptive(minWidth: 120)) { DFEntityCard(title: "Item") }

@@ -195,6 +195,8 @@ DFPriceSummaryView(lineItems: [DFPriceLineItem(label: "Total", amount: 94.96, em
 DFCard { content }                 // no padding: param; DFCard(action: { }) { } makes it interactive
 DFEntityRow(media: .avatarInitials("JL"), title: "Jordan Lee", trailing: .chevron)   // vs DFListRow: fixed media/trailing vocabulary, not arbitrary views
 DFEntityCard(media: .systemImage("laptopcomputer"), title: "Laptop Stand", subtitle: "$49.99")
+// Don't use trailing: .chevron on a DFEntityRow that's a NavigationLink's label in a List on iOS — the List
+// row already draws its own disclosure chevron there, so you'd get two. Pass trailing: nil (or .text/.badge).
 DFGrid(columns: .fixed(2)) { DFEntityCard(title: "Item") }   // or .adaptive(minWidth:)
 DFCarousel { DFEntityCard(title: "Slide").frame(width: 140) }   // no built-in paging
 
